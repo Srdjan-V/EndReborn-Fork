@@ -100,14 +100,12 @@ public class ItemDeather extends ItemSword implements IHasModel {
     public String getModeName(ItemStack itemStack) {
         int mode = getMode(itemStack);
 
-        switch (mode) {
-            case 0:
-                return I18n.format("tile.deather_mode.off");
-            case 1:
-                return I18n.format("tile.deather_mode.on");
-        }
+        return switch (mode) {
+            case 0 -> I18n.format("tile.deather_mode.off");
+            case 1 -> I18n.format("tile.deather_mode.on");
+            default -> null;
+        };
 
-        return null;
     }
 
     public void toggleMode(ItemStack itemStack) {

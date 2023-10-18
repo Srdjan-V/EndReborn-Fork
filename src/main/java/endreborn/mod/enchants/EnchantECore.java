@@ -28,8 +28,7 @@ public class EnchantECore extends Enchantment {
         double x = user.posX + (r.nextDouble() - 0.5D) * 64.0D;
         double y = user.posY + (double) (r.nextInt(64) - 32);
         double z = user.posZ + (r.nextDouble() - 0.5D) * 64.0D;
-        if (user instanceof EntityPlayer) {
-            EntityPlayer wearer = (EntityPlayer) user;
+        if (user instanceof EntityPlayer wearer) {
             InventoryPlayer inventory = wearer.inventory;
             if (inventory.hasItemStack(new ItemStack(Items.ENDER_PEARL))) {
                 inventory.clearMatchingItems(Items.ENDER_PEARL, 0, 1, null);

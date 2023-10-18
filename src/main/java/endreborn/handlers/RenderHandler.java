@@ -11,34 +11,9 @@ import endreborn.mod.entity.render.*;
 public class RenderHandler {
 
     public static void registerEntityRenders() {
-        RenderingRegistry.registerEntityRenderingHandler(EntityEGuard.class, new IRenderFactory<EntityEGuard>() {
-
-            @Override
-            public Render<? super EntityEGuard> createRenderFor(RenderManager manager) {
-                return new RenderEGuard(manager);
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityWatcher.class, new IRenderFactory<EntityWatcher>() {
-
-            @Override
-            public Render<? super EntityWatcher> createRenderFor(RenderManager manager) {
-                return new RenderWatcher(manager);
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityLord.class, new IRenderFactory<EntityLord>() {
-
-            @Override
-            public Render<? super EntityLord> createRenderFor(RenderManager manager) {
-                return new RenderLord(manager);
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityChronologist.class,
-                new IRenderFactory<EntityChronologist>() {
-
-                    @Override
-                    public Render<? super EntityChronologist> createRenderFor(RenderManager manager) {
-                        return new RenderChronologist(manager);
-                    }
-                });
+        RenderingRegistry.registerEntityRenderingHandler(EntityEGuard.class, RenderEGuard::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityWatcher.class, RenderWatcher::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityLord.class, RenderLord::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityChronologist.class, RenderChronologist::new);
     }
 }
