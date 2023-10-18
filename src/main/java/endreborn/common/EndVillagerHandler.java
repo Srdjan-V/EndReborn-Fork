@@ -52,7 +52,7 @@ public class EndVillagerHandler {
                 Reference.MODID + ".overworld_explorer");
         overworld_explorer.addTrade(1,
                 new ItemstackForEmerald(new ItemStack(ModItems.HAMMER_IRON, 1, 0), new EntityVillager.PriceInfo(1, 1)),
-                new ItemstackForEmerald(new ItemStack(ModItems.INGOT_WOLFRAMIUM, 1, 0),
+                new ItemstackForEmerald(new ItemStack(ModItems.TUNGSTEN_INGOT, 1, 0),
                         new EntityVillager.PriceInfo(-4, -1)),
                 new EmeraldForItemstack(new ItemStack(Blocks.IRON_ORE, 1, 0), new EntityVillager.PriceInfo(1, 3)));
         VillagerRegistry.VillagerCareer nether_explorer = new VillagerRegistry.VillagerCareer(PROF_EXPLORER,

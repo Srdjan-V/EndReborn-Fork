@@ -26,8 +26,8 @@ public final class ModBlocks {
     public static final Block ENTROPY_END_STONE = new BlockEndBase("block_entropy_end_stone", Material.ROCK);
     public static final Block LORMYTE_CRYSTAL = new BlockEndBase("block_lormyte_crystal", Material.ROCK);
     public static final Block DECORATIVE_LORMYTE = new BlockEndBase("block_decorative_lormyte", Material.ROCK);
-    public static final Block BLOCK_WOLFRAMIUM = new BlockEndBase("block_wolframium", Material.IRON);
-    public static final Block ORE_WOLFRAMIUM = new BlockWolframiumOre("block_wolframium_ore", Material.ROCK);
+    public static final Block TUNGSTEN_BLOCK = new BlockEndBase("tungsten_block", Material.IRON);
+    public static final Block TUNGSTEN_ORE = new BlockWolframiumOre("tungsten_ore", Material.ROCK);
     public static final Block BLOCK_RUNE = new BlockRune("block_rune", Material.ROCK);
     public static final Block BLOCK_END_MAGMA = new BlockEndMagma("block_end_magma");
     public static final Block BLOCK_END_FORGE = new BlockEndForge("block_end_forge");

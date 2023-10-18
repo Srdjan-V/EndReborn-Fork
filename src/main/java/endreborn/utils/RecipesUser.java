@@ -33,8 +33,8 @@ public class RecipesUser {
                     new ItemStack(Items.REDSTONE));
             addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.GLOWSTONE_DUST),
                     new ItemStack(Items.GLOWSTONE_DUST));
-            addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(ModItems.INGOT_WOLFRAMIUM),
-                    new ItemStack(ModItems.INGOT_WOLFRAMIUM));
+            addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(ModItems.TUNGSTEN_INGOT),
+                    new ItemStack(ModItems.TUNGSTEN_INGOT));
             addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(ModItems.INGOT_ENDORIUM),
                     new ItemStack(ModItems.INGOT_ENDORIUM));
         }

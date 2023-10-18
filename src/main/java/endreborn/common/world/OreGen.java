@@ -24,7 +24,7 @@ public class OreGen implements IWorldGenerator {
                 BlockMatcher.forBlock(Blocks.OBSIDIAN));
         ore_over_essence = new WorldGenMinable(ModBlocks.ESSENCE_ORE.getDefaultState(), 9,
                 BlockMatcher.forBlock(Blocks.OBSIDIAN));
-        ore_wolframium = new WorldGenMinable(ModBlocks.ORE_WOLFRAMIUM.getDefaultState(), 4,
+        ore_wolframium = new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.getDefaultState(), 4,
                 BlockMatcher.forBlock(Blocks.STONE));
         lormyte = new WorldGenLormyte();
         end_magma = new WorldGenMinable(ModBlocks.BLOCK_END_MAGMA.getDefaultState(), 30,

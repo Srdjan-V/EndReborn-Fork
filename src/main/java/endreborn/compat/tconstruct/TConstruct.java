@@ -38,10 +38,10 @@ public class TConstruct implements CompatManger.ModCompat {
                 .setCraftable(true).setCastable(false)
                 .setRepresentativeItem(ModItems.INGOT_ENDORIUM);
 
-        Wolframium.material.addItem(ModItems.INGOT_WOLFRAMIUM, 1, Material.VALUE_Ingot);
+        Wolframium.material.addItem(ModItems.TUNGSTEN_INGOT, 1, Material.VALUE_Ingot);
         Wolframium.material
                 .addTrait(Wolframium.trait)
                 .setCraftable(true).setCastable(false)
-                .setRepresentativeItem(ModItems.INGOT_WOLFRAMIUM);
+                .setRepresentativeItem(ModItems.TUNGSTEN_INGOT);
     }
 }

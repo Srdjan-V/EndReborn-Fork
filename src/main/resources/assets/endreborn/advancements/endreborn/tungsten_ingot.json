@@ -1,13 +1,13 @@
 {
     "display": {
         "icon": {
-            "item": "endreborn:item_ingot_wolframium"
+            "item": "endreborn:tungsten_ingot"
         },
         "title": {
-            "translate": "advancements.endreborn.item_ingot_wolframium.title"
+            "translate": "advancements.endreborn.tungsten_ingot.title"
         },
         "description": {
-            "translate": "advancements.endreborn.item_ingot_wolframium.description"
+            "translate": "advancements.endreborn.tungsten_ingot.description"
         }
     },
     "parent": "endreborn:endreborn/root",
@@ -17,7 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "endreborn:item_ingot_wolframium"
+                        "item": "endreborn:tungsten_ingot"
                     }
                 ]
             }

@@ -3,7 +3,7 @@ itemGroup.endertab=End: Reborn
 
 # Items -
 item.item_ingot_endorium.name=末影锭
-item.item_ingot_wolframium.name=钨锭
+item.tungsten_ingot.name=钨锭
 item.item_shard_obsidian.name=黑曜石碎片
 item.item_raw_endorium.name=生末影锭
 item.item_dragonite_seeds.name=龙梅种子
@@ -26,7 +26,8 @@ item.end_record.name=末影唱片
 
 # Blocks -
 tile.block_endorium.name=末影块
-tile.block_wolframium.name=钨块
+tile.tungsten_block.name=钨块
+tile.tungsten_ore.name=钨矿
 tile.block_end_stone_pillar.name=末地石柱
 tile.block_end_stone_smooth.name=平滑末地石
 tile.block_purpur_lamp.name=紫珀灯
@@ -37,7 +38,6 @@ tile.block_phantom.name=幽灵方块
 tile.block_lormyte_crystal.name=洛米特块
 tile.block_decorative_lormyte.name=洛米特块（装饰用）
 tile.block_entropy_end_stone.name=熵之末地石
-tile.block_wolframium_ore.name=钨矿
 tile.block_rune.name=符文块
 tile.e_end_bricks_stairs.name=末地石台阶
 tile.smooth_end_stone_stairs.name=平滑末地石台阶

@@ -54,7 +54,7 @@ public final class ModItems {
     public static final Item END_SHARD = new ItemBase("item_end_shard");
     public static final Item END_RUNE = new ItemLegendary("item_end_rune");
     public static final Item LORMYTE_CRYSTAL = new ItemBase("item_lormyte_crystal");
-    public static final Item INGOT_WOLFRAMIUM = new ItemBase("item_ingot_wolframium");
+    public static final Item TUNGSTEN_INGOT = new ItemBase("tungsten_ingot");
     public static final Item ENDER_STRING = new ItemLegendary("item_ender_string");
     public static final Item WORLD_MIRROR = new ItemWorldMirror("item_world_mirror");
     public static final Item DRAGONITE_TEA = new ItemDragoniteTea("item_dragonite_tea");
@@ -65,7 +65,7 @@ public final class ModItems {
     public static final Item SWORD_SHARD = new ItemBase("sword_shard");
     public static final Item CATALYST = new ItemCatalyst("catalyst");
     public static final Item RECORD = new ItemEndRecord("end_record", ModSounds.THE_VOID);
-    public static final Item NUGGET_WOLFRAMIUM = new ItemBase("wolframium_nugget");
+    public static final Item TUNGSTEN_NUGGET = new ItemBase("tungsten_nugget");
 
     // Tools
     public static final Item PICKAXE_ENDORIUM = new ToolPickaxe("tool_pickaxe_endorium", TOOL_ENDORIUM);

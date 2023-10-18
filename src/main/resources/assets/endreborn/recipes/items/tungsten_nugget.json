@@ -2,12 +2,12 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "endreborn:item_ingot_wolframium"
+      "item": "endreborn:tungsten_ingot"
     }
   ],
   "result": 
     {
-        "item": "endreborn:wolframium_nugget",
+        "item": "endreborn:tungsten_nugget",
         "count": 9
     }
 }

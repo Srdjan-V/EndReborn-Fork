@@ -3,7 +3,8 @@ itemGroup.endertab=End: Reborn
 
 # Items -
 item.item_ingot_endorium.name=Endorium Ingot
-item.item_ingot_wolframium.name=Tungsten Ingot
+item.tungsten_ingot.name=Tungsten Ingot
+item.tungsten_nugget.name=Tungsten Nugget
 item.item_shard_obsidian.name=Obsidian Shard
 item.item_raw_endorium.name=Endorium Nugget
 item.item_dragonite_seeds.name=Dragonite Seeds
@@ -19,18 +20,18 @@ item.item_world_mirror.name=World Mirror
 item.item_dragonite_tea.name=Dragonite Tea
 item.item_angel_feather.name=Angel Feather
 item.dragon_scales.name=Dragon Scales
-item.death_essence.name=Xorcite Shard 
+item.death_essence.name=Xorcite Shard
 item.catalyst.name=Obsidian Dust
 item.end_record.name=Music Disc
 item.sword_shard.name=Broken Sword Part
 item.ingot_infused.name=Infused Endorium
-item.wolframium_nugget.name=Tungsten Nugget
 
 # Blocks -
 tile.block_endorium.name=Endorium Block
-tile.block_wolframium.name=Tungsten Block
+tile.tungsten_block.name=Tungsten Block
+tile.tungsten_ore.name=Tungsten Ore
 tile.block_end_stone_pillar.name=End Stone Pillar
-tile.block_end_stone_smooth.name=Smooth End Stone 
+tile.block_end_stone_smooth.name=Smooth End Stone
 tile.block_purpur_lamp.name=Purpur Lamp
 tile.crop_dragonite.name=Dragonite
 tile.crop_ender_flower.name=Enderemus
@@ -39,7 +40,6 @@ tile.block_phantom.name=Phantom Block
 tile.block_lormyte_crystal.name=Lormyte Stone
 tile.block_decorative_lormyte.name=Decorative Lormyte Stone
 tile.block_entropy_end_stone.name=Entropy End Stone
-tile.block_wolframium_ore.name=Tungsten Ore
 tile.block_rune.name=Runic Purpur Block
 tile.e_end_bricks_stairs.name=End Stone Stairs
 tile.smooth_end_stone_stairs.name=Smooth End Stone Stairs
@@ -95,9 +95,9 @@ entity.Villager.endreborn.overworld_explorer.name=World Explorer
 
 #Compat
 modifier.endorium.name=Rage
-modifier.endorium.desc=§oWhere is physics!?§r\nCritical strike increases attack speed.
+modifier.endorium.desc=ï¿½oWhere is physics!?ï¿½r\nCritical strike increases attack speed.
 modifier.wolframium.name=Moon Voice
-modifier.wolframium.desc=§oThe loneliness echo...§r\nGives strength on a full moon.
+modifier.wolframium.desc=ï¿½oThe loneliness echo...ï¿½r\nGives strength on a full moon.
 material.endorium.name=Endorium
 material.wolframium.name=Tungsten
 
@@ -137,7 +137,7 @@ tile.ender_lord.rage_4=Lord: To rise you need to fall!
 tile.ender_lord.wither=You can not compare the creation and creator!
 tile.ender_lord.lord=Lord: This is not fair now!
 tile.ender_lord.name=Lord
-tile.catalyst.tooltip=Materializer recipes ñatalyst
+tile.catalyst.tooltip=Materializer recipes ï¿½atalyst
 container.entropy_user=Materializer
 item.endreborn.record.end.desc=Yozhh - The Void
 
@@ -231,8 +231,8 @@ advancements.endreborn.lormyte_crystal.description=Obtain: Lormyte Crystal
 advancements.endreborn.tool_magnifier.title=Duet of Metals
 advancements.endreborn.tool_magnifier.description=Collect: Magnetor
 
-advancements.endreborn.item_ingot_wolframium.title=He melted!
-advancements.endreborn.item_ingot_wolframium.description=Collect: Tungsten Ingot
+advancements.endreborn.tungsten_ingot.title=He melted!
+advancements.endreborn.tungsten_ingot.description=Collect: Tungsten Ingot
 
 advancements.endreborn.lord.title=Last of them
 advancements.endreborn.lord.description=Collect: String of Life

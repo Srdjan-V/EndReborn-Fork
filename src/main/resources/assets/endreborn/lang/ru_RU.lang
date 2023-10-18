@@ -3,7 +3,8 @@ itemGroup.endertab=Энд: Возрождение
 
 # Items -
 item.item_ingot_endorium.name=Эндориумовый слиток
-item.item_ingot_wolframium.name=Вольфрамовый слиток
+item.tungsten_ingot.name=Вольфрамовый слиток
+item.tungsten_nugget.name=Tungsten Nugget
 item.item_shard_obsidian.name=Обсидиановый осколок
 item.item_raw_endorium.name=Сырой эндориум
 item.item_dragonite_seeds.name=Семена драгонита
@@ -27,9 +28,10 @@ item.ingot_infused.name=Заряженный эндориум
 
 # Blocks -
 tile.block_endorium.name=Блок эндориума
-tile.block_wolframium.name=Вольфрамовый блок
+tile.tungsten_block.name=Вольфрамовый блок
+tile.tungsten_ore.name=Вольфрамовая руда
 tile.block_end_stone_pillar.name=Эндерняковый пилон
-tile.block_end_stone_smooth.name=Полированный эндерняк 
+tile.block_end_stone_smooth.name=Полированный эндерняк
 tile.block_purpur_lamp.name=Пурпурная лампа
 tile.crop_ender_flower.name=Цветок эндера
 tile.crop_dragonite.name=Драгонит
@@ -38,7 +40,6 @@ tile.block_phantom.name=Фантомный блок
 tile.block_lormyte_crystal.name=Блок лормита
 tile.block_decorative_lormyte.name=Декоративный лормит
 tile.block_entropy_end_stone.name=Энтропийный эндерняк
-tile.block_wolframium_ore.name=Вольфрамовая руда
 tile.block_rune.name=Рунический блок
 tile.e_end_bricks_stairs.name=Эндерняковые ступеньки
 tile.smooth_end_stone_stairs.name=Полированные эндерняковые ступеньки

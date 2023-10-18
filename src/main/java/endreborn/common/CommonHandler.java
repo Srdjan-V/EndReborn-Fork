@@ -24,6 +24,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import endreborn.EndReborn;
 import endreborn.Reference;
+import endreborn.common.datafixers.Fixer;
 import endreborn.common.entity.*;
 import endreborn.common.gui.GuiHandler;
 import endreborn.common.tiles.TileEntropyUser;
@@ -57,6 +58,7 @@ public final class CommonHandler {
     }
 
     public static void preInit() {
+        Fixer.init();
         {
             int id = 1;
             EntityRegistry.registerModEntity(new ResourceLocation(Reference.MODID, "endguard"), EntityEGuard.class,
@@ -80,7 +82,7 @@ public final class CommonHandler {
     }
 
     public static void init() {
-        GameRegistry.addSmelting(ModBlocks.ORE_WOLFRAMIUM, new ItemStack(ModItems.INGOT_WOLFRAMIUM, 1), 1.5f);
+        GameRegistry.addSmelting(ModBlocks.TUNGSTEN_ORE, new ItemStack(ModItems.TUNGSTEN_INGOT, 1), 1.5f);
 
         if (Configs.GENERAL.chestLoot) {
             for (String s : CHEST_TABLES) {
@@ -98,10 +100,10 @@ public final class CommonHandler {
         NetworkRegistry.INSTANCE.registerGuiHandler(EndReborn.instance, new GuiHandler());
 
         OreDictionary.registerOre("ingotEndorium", ModItems.INGOT_ENDORIUM);
-        OreDictionary.registerOre("ingotTungsten", ModItems.INGOT_WOLFRAMIUM);
-        OreDictionary.registerOre("nuggetTungsten", ModItems.NUGGET_WOLFRAMIUM);
-        OreDictionary.registerOre("oreTungsten", ModBlocks.ORE_WOLFRAMIUM);
-        OreDictionary.registerOre("tungstenIngot", ModItems.INGOT_WOLFRAMIUM);
+        OreDictionary.registerOre("ingotTungsten", ModItems.TUNGSTEN_INGOT);
+        OreDictionary.registerOre("nuggetTungsten", ModItems.TUNGSTEN_NUGGET);
+        OreDictionary.registerOre("oreTungsten", ModBlocks.TUNGSTEN_ORE);
+        OreDictionary.registerOre("tungstenIngot", ModItems.TUNGSTEN_INGOT);
         OreDictionary.registerOre("dustObsidian", ModItems.CATALYST);
         OreDictionary.registerOre("shardObsidian", ModItems.SHARD_OBSIDIAN);
         OreDictionary.registerOre("hammerIron", ModItems.HAMMER_IRON);
