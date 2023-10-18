@@ -4,9 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import endreborn.init.ItemInit;
-import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityEnderPearl;
@@ -24,33 +21,35 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemEnderSword extends ItemSword implements IHasModel
-{
+import endreborn.EndReborn;
+import endreborn.init.ItemInit;
+import endreborn.utils.IHasModel;
 
-	public ItemEnderSword(String name, ToolMaterial material) {
-		super(material);
-		setTranslationKey(name);
-    	setRegistryName(name);
-    	setCreativeTab(EndReborn.endertab);
-    	
-    	ItemInit.ITEMS.add(this);
-	}
-	
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-    {
-		ItemStack itemstack = playerIn.getHeldItem(handIn);
+public class ItemEnderSword extends ItemSword implements IHasModel {
 
-        if (!playerIn.capabilities.isCreativeMode)
-        {
+    public ItemEnderSword(String name, ToolMaterial material) {
+        super(material);
+        setTranslationKey(name);
+        setRegistryName(name);
+        setCreativeTab(EndReborn.endertab);
+
+        ItemInit.ITEMS.add(this);
+    }
+
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+
+        if (!playerIn.capabilities.isCreativeMode) {
             itemstack.shrink(0);
             itemstack.damageItem(4, playerIn);
         }
-       
-        worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+        worldIn.playSound((EntityPlayer) null, playerIn.posX, playerIn.posY, playerIn.posZ,
+                SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.NEUTRAL, 0.5F,
+                0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         playerIn.getCooldownTracker().setCooldown(this, 20);
 
-        if (!worldIn.isRemote)
-        {
+        if (!worldIn.isRemote) {
             EntityEnderPearl entityenderpearl = new EntityEnderPearl(worldIn, playerIn);
             entityenderpearl.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
             worldIn.spawnEntity(entityenderpearl);
@@ -59,21 +58,20 @@ public class ItemEnderSword extends ItemSword implements IHasModel
         playerIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
     }
-	@Override
-	public void registerModels() 
-	{
-		EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {            
-	    tooltip.add(I18n.format("tile.ender_sword.tooltip"));   
-	}
-	
-	@Override
-	public EnumRarity getRarity(ItemStack stack)
-	{
-	    return EnumRarity.RARE;
-	}
+
+    @Override
+    public void registerModels() {
+        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
+        tooltip.add(I18n.format("tile.ender_sword.tooltip"));
+    }
+
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
+        return EnumRarity.RARE;
+    }
 }

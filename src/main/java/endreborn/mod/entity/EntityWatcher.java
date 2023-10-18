@@ -2,7 +2,6 @@ package endreborn.mod.entity;
 
 import javax.annotation.Nullable;
 
-import endreborn.handlers.LootTableHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,38 +15,35 @@ import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EntityWatcher extends EntityWatcherBase
-{
-    public EntityWatcher(World worldIn)
-    {
+import endreborn.handlers.LootTableHandler;
+
+public class EntityWatcher extends EntityWatcherBase {
+
+    public EntityWatcher(World worldIn) {
         super(worldIn);
     }
 
-    public static void registerFixesWatcher(DataFixer fixer)
-    {
+    public static void registerFixesWatcher(DataFixer fixer) {
         EntityLiving.registerFixesMob(fixer, EntityWatcher.class);
     }
-    public boolean getCanSpawnHere()
-    {
+
+    public boolean getCanSpawnHere() {
         return super.getCanSpawnHere() && this.world.canSeeSky(new BlockPos(this));
     }
-    
-    @Override
-	protected void applyEntityAttributes() 
-	{
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.34D);
-        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.0D);
-	}
 
-    protected boolean shouldBurnInDay()
-    {
+    @Override
+    protected void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.34D);
+        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.0D);
+    }
+
+    protected boolean shouldBurnInDay() {
         return false;
     }
 
-    protected SoundEvent getAmbientSound()
-    {
+    protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_ENDERMEN_AMBIENT;
     }
 
@@ -57,14 +53,12 @@ public class EntityWatcher extends EntityWatcherBase
         return LootTableHandler.WATCHER;
     }
 
-    public boolean attackEntityAsMob(Entity entityIn)
-    {
+    public boolean attackEntityAsMob(Entity entityIn) {
         boolean flag = super.attackEntityAsMob(entityIn);
 
-        if (flag && this.getHeldItemMainhand().isEmpty() && entityIn instanceof EntityLivingBase)
-        {
+        if (flag && this.getHeldItemMainhand().isEmpty() && entityIn instanceof EntityLivingBase) {
             float f = this.world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty();
-            ((EntityLivingBase)entityIn).addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 140 * (int)f));
+            ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 140 * (int) f));
         }
 
         return flag;

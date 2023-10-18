@@ -1,6 +1,5 @@
 package endreborn.mod.entity;
 
-import endreborn.init.BlockInit;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -12,7 +11,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
+import endreborn.init.BlockInit;
+
 public class EntityColdFireball extends EntityFireball {
+
     public EntityColdFireball(World worldIn) {
         super(worldIn);
         this.setSize(0.3125F, 0.3125F);
@@ -23,7 +25,8 @@ public class EntityColdFireball extends EntityFireball {
         this.setSize(0.3125F, 0.3125F);
     }
 
-    public EntityColdFireball(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
+    public EntityColdFireball(World worldIn, double x, double y, double z, double accelX, double accelY,
+                              double accelZ) {
         super(worldIn, x, y, z, accelX, accelY, accelZ);
         this.setSize(0.3125F, 0.3125F);
     }
@@ -37,7 +40,8 @@ public class EntityColdFireball extends EntityFireball {
             boolean flag;
             if (result.entityHit != null) {
                 if (!result.entityHit.isImmuneToFire()) {
-                    flag = result.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 5.0F);
+                    flag = result.entityHit
+                            .attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 5.0F);
                     if (flag) {
                         this.applyEnchantments(this.shootingEntity, result.entityHit);
                         result.entityHit.setFire(2);
@@ -59,7 +63,6 @@ public class EntityColdFireball extends EntityFireball {
 
             this.setDead();
         }
-
     }
 
     public boolean canBeCollidedWith() {
@@ -69,6 +72,7 @@ public class EntityColdFireball extends EntityFireball {
     public boolean attackEntityFrom(DamageSource source, float amount) {
         return false;
     }
+
     protected EnumParticleTypes getParticleType() {
         return EnumParticleTypes.PORTAL;
     }

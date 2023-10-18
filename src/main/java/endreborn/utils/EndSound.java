@@ -1,11 +1,13 @@
 package endreborn.utils;
 
-import endreborn.Reference;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 
+import endreborn.Reference;
+
 public class EndSound extends SoundEvent {
+
     public final String name;
 
     public final SoundCategory category;

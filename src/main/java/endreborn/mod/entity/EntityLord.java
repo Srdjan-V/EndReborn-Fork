@@ -1,7 +1,5 @@
 package endreborn.mod.entity;
 
-import endreborn.handlers.LootTableHandler;
-import endreborn.utils.EndHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,7 +13,6 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
@@ -25,8 +22,13 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
+import endreborn.handlers.LootTableHandler;
+import endreborn.utils.EndHelper;
+
 public class EntityLord extends EntityLordBase {
-    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE,
+
+    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(),
+            BossInfo.Color.PURPLE,
             BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
     @Override
@@ -98,6 +100,7 @@ public class EntityLord extends EntityLordBase {
         super.initEntityAI();
         this.tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 8.0F));
     }
+
     @Override
     protected void onDeathUpdate() {
         this.experienceValue = 100;
@@ -115,12 +118,14 @@ public class EntityLord extends EntityLordBase {
         return LootTableHandler.LORD;
     }
 
-
     protected boolean teleportToEntity(Entity p_70816_1_) {
-        Vec3d vec3d = new Vec3d(this.posX - p_70816_1_.posX, this.getEntityBoundingBox().minY + (double) (this.height / 2.0F) - p_70816_1_.posY + (double) p_70816_1_.getEyeHeight(), this.posZ - p_70816_1_.posZ);
+        Vec3d vec3d = new Vec3d(this.posX - p_70816_1_.posX, this.getEntityBoundingBox().minY +
+                (double) (this.height / 2.0F) - p_70816_1_.posY + (double) p_70816_1_.getEyeHeight(),
+                this.posZ - p_70816_1_.posZ);
         vec3d = vec3d.normalize();
         double d0 = 16.0D;
-        this.world.playSound(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, SoundEvents.ENTITY_ENDERMEN_TELEPORT, this.getSoundCategory(), 1.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
+        this.world.playSound(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, SoundEvents.ENTITY_ENDERMEN_TELEPORT,
+                this.getSoundCategory(), 1.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
         double d1 = this.posX + (this.rand.nextDouble() - 0.5D) * 8.0D - vec3d.x * 16.0D;
         double d2 = this.posY + (double) (this.rand.nextInt(16) - 8) - vec3d.y * 16.0D;
         double d3 = this.posZ + (this.rand.nextDouble() - 0.5D) * 8.0D - vec3d.z * 16.0D;
@@ -169,8 +174,8 @@ public class EntityLord extends EntityLordBase {
                 }
             }
         }
-        for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(64.0D, 64.0D, 64.0D)))
-        {
+        for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(this,
+                getEntityBoundingBox().grow(64.0D, 64.0D, 64.0D))) {
             if (entity instanceof EntityWither) {
                 if (!world.isRemote) {
                     world.removeEntity(entity);
@@ -179,42 +184,39 @@ public class EntityLord extends EntityLordBase {
                 }
             }
         }
-        for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(64.0D, 64.0D, 64.0D)))
-        {  
-        	if (entity instanceof EntityLord) {
+        for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(this,
+                getEntityBoundingBox().grow(64.0D, 64.0D, 64.0D))) {
+            if (entity instanceof EntityLord) {
                 if (!world.isRemote) {
                     world.removeEntity(entity);
                     if (entity.isDead)
                         EndHelper.LordGroup(world, "Lord: This is not fair now!");
                 }
-        	}
-		this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+            }
+            this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
         }
     }
-    private boolean teleportTo(double x, double y, double z)
-    {
-        net.minecraftforge.event.entity.living.EnderTeleportEvent event = new net.minecraftforge.event.entity.living.EnderTeleportEvent(this, x, y, z, 0);
+
+    private boolean teleportTo(double x, double y, double z) {
+        net.minecraftforge.event.entity.living.EnderTeleportEvent event = new net.minecraftforge.event.entity.living.EnderTeleportEvent(
+                this, x, y, z, 0);
         if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return false;
         boolean flag = this.attemptTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ());
 
-        if (flag)
-        {
+        if (flag) {
             this.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
         }
 
         return flag;
     }
 
-
-    public boolean attackEntityAsMob(Entity entityIn)
-    {
+    public boolean attackEntityAsMob(Entity entityIn) {
         boolean flag = super.attackEntityAsMob(entityIn);
         EntityEndermite entityshulkerbullet = new EntityEndermite(world);
-        if (flag && this.getHeldItemMainhand().isEmpty() && entityIn instanceof EntityLivingBase)
-        {
-        	EntityLord.this.world.spawnEntity(entityshulkerbullet);
+        if (flag && this.getHeldItemMainhand().isEmpty() && entityIn instanceof EntityLivingBase) {
+            EntityLord.this.world.spawnEntity(entityshulkerbullet);
             float f = this.world.getDifficultyForLocation(new BlockPos(this)).getAdditionalDifficulty();
-            ((EntityLivingBase)entityIn).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 140 * (int)f));
+            ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 140 * (int) f));
         }
 
         return flag;

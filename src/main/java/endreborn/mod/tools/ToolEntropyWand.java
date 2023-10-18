@@ -1,9 +1,7 @@
 package endreborn.mod.tools;
 
-import endreborn.EndReborn;
-import endreborn.init.BlockInit;
-import endreborn.init.ItemInit;
-import endreborn.utils.IHasModel;
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -19,10 +17,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
+import endreborn.EndReborn;
+import endreborn.init.BlockInit;
+import endreborn.init.ItemInit;
+import endreborn.utils.IHasModel;
 
-public class ToolEntropyWand extends ItemSword implements IHasModel
-{
+public class ToolEntropyWand extends ItemSword implements IHasModel {
 
     public ToolEntropyWand(String name, ToolMaterial material) {
         super(material);
@@ -33,24 +33,27 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
 
         ItemInit.ITEMS.add(this);
     }
+
     @Override
-    public void registerModels()
-    {
+    public void registerModels() {
         EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
+
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-    {
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(I18n.format("tile.wand.tooltip"));
     }
+
     @Override
-    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity)
-    {
-        player.world.playSound((EntityPlayer)null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_WITHER_SHOOT, SoundCategory.PLAYERS, 0.5F, player.world.rand.nextFloat() * 0.1F + 0.9F);
+    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+        player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ,
+                SoundEvents.ENTITY_WITHER_SHOOT, SoundCategory.PLAYERS, 0.5F,
+                player.world.rand.nextFloat() * 0.1F + 0.9F);
         entity.attackEntityFrom(DamageSource.WITHER, 7);
         return true;
     }
+
     public static boolean convert(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         if (state.getBlock() == Blocks.END_STONE) {
@@ -61,6 +64,7 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
         }
         return false;
     }
+
     public static boolean convert2(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         if (state.getBlock() == Blocks.STONE) {
@@ -71,6 +75,7 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
         }
         return false;
     }
+
     public static boolean convert3(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         if (state.getBlock() == Blocks.COBBLESTONE) {
@@ -81,6 +86,7 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
         }
         return false;
     }
+
     public static boolean convert4(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         if (state.getBlock() == Blocks.GRAVEL) {
@@ -91,6 +97,7 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
         }
         return false;
     }
+
     public static boolean convert5(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         if (state.getBlock() == Blocks.LOG || state.getBlock() == Blocks.LOG2) {
@@ -101,6 +108,7 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
         }
         return false;
     }
+
     public static boolean convert6(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         if (state.getBlock() == Blocks.SANDSTONE) {
@@ -111,9 +119,11 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
         }
         return false;
     }
+
     public static boolean convert7(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
-        if (state.getBlock() == Blocks.TALLGRASS || state.getBlock() == Blocks.RED_FLOWER || state.getBlock() == Blocks.YELLOW_FLOWER) {
+        if (state.getBlock() == Blocks.TALLGRASS || state.getBlock() == Blocks.RED_FLOWER ||
+                state.getBlock() == Blocks.YELLOW_FLOWER) {
             if (!world.isRemote) {
                 world.setBlockState(pos, Blocks.DEADBUSH.getDefaultState());
             }
@@ -123,55 +133,50 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+                                      EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack stack = player.getHeldItem(hand);
-        worldIn.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+        worldIn.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
+                itemRand.nextFloat() * 0.4F + 0.8F);
         if (this.convert(worldIn, pos)) {
-            if (!player.capabilities.isCreativeMode)
-            {
+            if (!player.capabilities.isCreativeMode) {
                 stack.damageItem(2, player);
             }
             worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, 0, 1, 0, 0.0D, 0.0D, 0.0D);
             return EnumActionResult.SUCCESS;
         }
         if (this.convert2(worldIn, pos)) {
-            if (!player.capabilities.isCreativeMode)
-            {
+            if (!player.capabilities.isCreativeMode) {
                 stack.damageItem(2, player);
             }
             return EnumActionResult.SUCCESS;
         }
         if (this.convert3(worldIn, pos)) {
-            if (!player.capabilities.isCreativeMode)
-            {
+            if (!player.capabilities.isCreativeMode) {
                 stack.damageItem(2, player);
             }
             return EnumActionResult.SUCCESS;
         }
         if (this.convert4(worldIn, pos)) {
-            if (!player.capabilities.isCreativeMode)
-            {
+            if (!player.capabilities.isCreativeMode) {
                 stack.damageItem(2, player);
             }
             return EnumActionResult.SUCCESS;
         }
         if (this.convert5(worldIn, pos)) {
-            if (!player.capabilities.isCreativeMode)
-            {
+            if (!player.capabilities.isCreativeMode) {
                 stack.damageItem(2, player);
             }
             return EnumActionResult.SUCCESS;
         }
         if (this.convert6(worldIn, pos)) {
-            if (!player.capabilities.isCreativeMode)
-            {
+            if (!player.capabilities.isCreativeMode) {
                 stack.damageItem(2, player);
             }
             return EnumActionResult.SUCCESS;
         }
         if (this.convert7(worldIn, pos)) {
-            if (!player.capabilities.isCreativeMode)
-            {
+            if (!player.capabilities.isCreativeMode) {
                 stack.damageItem(2, player);
             }
             return EnumActionResult.SUCCESS;
@@ -180,4 +185,3 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
         return EnumActionResult.PASS;
     }
 }
-

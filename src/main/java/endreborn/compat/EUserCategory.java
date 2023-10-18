@@ -1,59 +1,53 @@
 package endreborn.compat;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
+
 import endreborn.Reference;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 
-public class EUserCategory extends EUserAbstract<EUserRecipe>
-{
+public class EUserCategory extends EUserAbstract<EUserRecipe> {
+
     private final IDrawable background;
     private final String name;
 
-    public EUserCategory(IGuiHelper helper)
-    {
+    public EUserCategory(IGuiHelper helper) {
         super(helper);
         background = helper.createDrawable(TEXTURES, 4, 4, 169, 78);
         name = I18n.format("tile.entropy_user.name");
     }
 
     @Override
-    public IDrawable getBackground()
-    {
+    public IDrawable getBackground() {
         return background;
     }
 
     @Override
-    public void drawExtras(Minecraft minecraft)
-    {
+    public void drawExtras(Minecraft minecraft) {
         animatedFlame.draw(minecraft, 64, 13);
         animatedArrow.draw(minecraft, 106, 39);
     }
 
     @Override
-    public String getTitle()
-    {
+    public String getTitle() {
         return name;
     }
 
     @Override
-    public String getModName()
-    {
+    public String getModName() {
         return Reference.NAME;
     }
 
     @Override
-    public String getUid()
-    {
+    public String getUid() {
         return JEICategories.USER;
     }
 
-    public void setRecipe(IRecipeLayout recipeLayout, EUserRecipe recipeWrapper, IIngredients ingredients)
-    {
+    public void setRecipe(IRecipeLayout recipeLayout, EUserRecipe recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
         stacks.init(input1, true, 64, 38);
         stacks.init(input2, true, 86, 38);

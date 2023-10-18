@@ -1,8 +1,5 @@
 package endreborn.mod.enchants;
 
-import endreborn.Reference;
-import endreborn.mod.entity.EntityChronologist;
-import endreborn.mod.entity.EntityWatcher;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -13,6 +10,10 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.potion.PotionEffect;
 
+import endreborn.Reference;
+import endreborn.mod.entity.EntityChronologist;
+import endreborn.mod.entity.EntityWatcher;
+
 public class EnchantEnder extends Enchantment {
 
     public EnchantEnder() {
@@ -21,15 +22,15 @@ public class EnchantEnder extends Enchantment {
         setName("ender_killer");
     }
 
-
     public void onEntityDamaged(EntityLivingBase user, Entity target, int level) {
-        if ((target instanceof EntityEnderman) || (target instanceof EntityWatcher) || (target instanceof EntityChronologist) || (target instanceof EntityEndermite)) {
+        if ((target instanceof EntityEnderman) || (target instanceof EntityWatcher) ||
+                (target instanceof EntityChronologist) || (target instanceof EntityEndermite)) {
             ((EntityLivingBase) target).addPotionEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE, 5, level));
         }
     }
+
     @Override
     public int getMaxLevel() {
         return 2;
     }
 }
-

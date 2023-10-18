@@ -1,9 +1,5 @@
 package endreborn.mod.items;
 
-import endreborn.init.BlockInit;
-import endreborn.init.ItemInit;
-import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,48 +13,50 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 
-public class ItemDragonSeeds extends Item implements IHasModel, IPlantable
-{
-	public ItemDragonSeeds(String name, int amount, boolean isWolfFood) 
-	{
-		super();
-		setTranslationKey(name);
-		setRegistryName(name);
-		setCreativeTab(EndReborn.endertab);
-		
-		ItemInit.ITEMS.add(this);
-	}
-	
-	@Override
-	public void registerModels() 
-	{
-		EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
-	}
+import endreborn.EndReborn;
+import endreborn.init.BlockInit;
+import endreborn.init.ItemInit;
+import endreborn.utils.IHasModel;
 
-	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) 
-	{
-		ItemStack stack = player.getHeldItem(hand);
-		IBlockState state = worldIn.getBlockState(pos);
-		if(facing == EnumFacing.UP && player.canPlayerEdit(pos.offset(facing), facing, stack) && state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this) && worldIn.isAirBlock(pos.up()))
-		{
-			worldIn.setBlockState(pos.up(), BlockInit.DRAGON_BUSH.getDefaultState());
-			stack.shrink(1);
-			return EnumActionResult.SUCCESS;
-		}
-		
-		else return EnumActionResult.FAIL;
-	}
-	
-	@Override
-	public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) 
-	{
-		return EnumPlantType.Crop;
-	}
+public class ItemDragonSeeds extends Item implements IHasModel, IPlantable {
 
-	@Override
-	public IBlockState getPlant(IBlockAccess world, BlockPos pos)
-	{
-		return BlockInit.DRAGON_BUSH.getDefaultState();
-	}
+    public ItemDragonSeeds(String name, int amount, boolean isWolfFood) {
+        super();
+        setTranslationKey(name);
+        setRegistryName(name);
+        setCreativeTab(EndReborn.endertab);
+
+        ItemInit.ITEMS.add(this);
+    }
+
+    @Override
+    public void registerModels() {
+        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
+    }
+
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+                                      EnumFacing facing, float hitX, float hitY, float hitZ) {
+        ItemStack stack = player.getHeldItem(hand);
+        IBlockState state = worldIn.getBlockState(pos);
+        if (facing == EnumFacing.UP && player.canPlayerEdit(pos.offset(facing), facing, stack) &&
+                state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this) &&
+                worldIn.isAirBlock(pos.up())) {
+            worldIn.setBlockState(pos.up(), BlockInit.DRAGON_BUSH.getDefaultState());
+            stack.shrink(1);
+            return EnumActionResult.SUCCESS;
+        }
+
+        else return EnumActionResult.FAIL;
+    }
+
+    @Override
+    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
+        return EnumPlantType.Crop;
+    }
+
+    @Override
+    public IBlockState getPlant(IBlockAccess world, BlockPos pos) {
+        return BlockInit.DRAGON_BUSH.getDefaultState();
+    }
 }

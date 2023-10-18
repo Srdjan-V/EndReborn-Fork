@@ -1,9 +1,5 @@
 package endreborn.mod.items;
 
-import endreborn.init.ItemInit;
-import endreborn.EndReborn;
-import endreborn.utils.EndSound;
-import endreborn.utils.IHasModel;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,11 +16,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemEndRecord extends ItemRecord implements IHasModel
-{
+import endreborn.EndReborn;
+import endreborn.init.ItemInit;
+import endreborn.utils.EndSound;
+import endreborn.utils.IHasModel;
+
+public class ItemEndRecord extends ItemRecord implements IHasModel {
+
     private String name;
-    public ItemEndRecord(String name, EndSound soundIn)
-    {
+
+    public ItemEndRecord(String name, EndSound soundIn) {
         super(soundIn.name, soundIn);
         setTranslationKey(name);
         setRegistryName(name);
@@ -32,8 +33,10 @@ public class ItemEndRecord extends ItemRecord implements IHasModel
 
         ItemInit.ITEMS.add(this);
     }
+
     @Override
-    public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand,
+                                      EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack stack = playerIn.getHeldItem(hand);
         IBlockState iblockstate = worldIn.getBlockState(pos);
 
@@ -58,8 +61,7 @@ public class ItemEndRecord extends ItemRecord implements IHasModel
     }
 
     @Override
-    public void registerModels()
-    {
+    public void registerModels() {
         EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 }

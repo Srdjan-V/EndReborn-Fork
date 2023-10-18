@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelEArmor extends ModelBiped {
+
     public ModelRenderer H1;
     public ModelRenderer H2;
     public ModelRenderer H3;
@@ -19,8 +20,7 @@ public class ModelEArmor extends ModelBiped {
     public ModelRenderer H12;
 
     public ModelEArmor() {
-    	
-    	this.textureWidth = 128;
+        this.textureWidth = 128;
         this.textureHeight = 128;
         this.H6 = new ModelRenderer(this, 67, 50);
         this.H6.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -62,7 +62,7 @@ public class ModelEArmor extends ModelBiped {
         this.H3.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.H3.addBox(4.5F, -7.8F, -4.5F, 1, 8, 9, 0.0F);
         this.setRotateAngle(H3, 0.0F, 0.0F, -0.08726646259971647F);
-        
+
         this.bipedHead.addChild(H1);
         this.bipedHead.addChild(H2);
         this.bipedHead.addChild(H3);
@@ -78,11 +78,9 @@ public class ModelEArmor extends ModelBiped {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
-    	super.render(entity, f, f1, f2, f3, f4, f5);
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        super.render(entity, f, f1, f2, f3, f4, f5);
     }
-   
 
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;

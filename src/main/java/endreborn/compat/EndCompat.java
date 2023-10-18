@@ -1,15 +1,18 @@
 package endreborn.compat;
 
-import endreborn.EndReborn;
-import endreborn.Reference;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
+
+import endreborn.EndReborn;
+import endreborn.Reference;
+
 public enum EndCompat {
-   
+
     @SuppressWarnings("WeakerAccess")
     TCONSTRUCT("Tinkers' Construct") {
+
         @Override
         protected boolean preInit() {
             TConstruct.preInit();
@@ -27,10 +30,13 @@ public enum EndCompat {
         }
     };
 
-    protected boolean preInit() { return true; }
-    protected void init() {}
-    protected void postInit() {}
+    protected boolean preInit() {
+        return true;
+    }
 
+    protected void init() {}
+
+    protected void postInit() {}
 
     final private String modName;
 
@@ -39,6 +45,7 @@ public enum EndCompat {
     public boolean isActivated() {
         return isActivated;
     }
+
     public static void preInitCompat() {
         for (EndCompat compat : EndCompat.values()) {
             if (Loader.isModLoaded(compat.name().toLowerCase())) {
@@ -46,13 +53,16 @@ public enum EndCompat {
                     compat.isActivated = compat.preInit();
 
                     if (compat.isActivated()) {
-                        EndReborn.LOGGER.info(Reference.MODID + " has loaded compatibility for mod " + compat.modName + ".");
+                        EndReborn.LOGGER
+                                .info(Reference.MODID + " has loaded compatibility for mod " + compat.modName + ".");
                     } else {
-                        EndReborn.LOGGER.info(Reference.MODID + " couldn't activate compatibility for mod " + compat.modName + "!");
+                        EndReborn.LOGGER.info(
+                                Reference.MODID + " couldn't activate compatibility for mod " + compat.modName + "!");
                     }
                 } catch (Exception e) {
                     compat.isActivated = false;
-                    EndReborn.LOGGER.info(Reference.MODID + " had a " + e.getLocalizedMessage() + " error loading " + compat.modName + " compatibility!");
+                    EndReborn.LOGGER.info(Reference.MODID + " had a " + e.getLocalizedMessage() + " error loading " +
+                            compat.modName + " compatibility!");
                     EndReborn.LOGGER.catching(e.fillInStackTrace());
                 }
             } else {
@@ -69,7 +79,8 @@ public enum EndCompat {
                     compat.init();
                 } catch (Exception e) {
                     compat.isActivated = false;
-                    EndReborn.LOGGER.info(Reference.MODID + " had a " + e.getLocalizedMessage() + " error loading " + compat.modName + " compatibility in init!");
+                    EndReborn.LOGGER.info(Reference.MODID + " had a " + e.getLocalizedMessage() + " error loading " +
+                            compat.modName + " compatibility in init!");
                     EndReborn.LOGGER.catching(e.fillInStackTrace());
                 }
             }
@@ -83,12 +94,14 @@ public enum EndCompat {
                     compat.postInit();
                 } catch (Exception e) {
                     compat.isActivated = false;
-                    EndReborn.LOGGER.info(Reference.MODID + " had a " + e.getLocalizedMessage() + " error loading " + compat.modName + " compatibility in postInit!");
+                    EndReborn.LOGGER.info(Reference.MODID + " had a " + e.getLocalizedMessage() + " error loading " +
+                            compat.modName + " compatibility in postInit!");
                     EndReborn.LOGGER.catching(e.fillInStackTrace());
                 }
             }
         }
     }
+
     EndCompat(String modName) {
         this.modName = modName;
     }

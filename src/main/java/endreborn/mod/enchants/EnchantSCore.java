@@ -1,7 +1,5 @@
 package endreborn.mod.enchants;
 
-
-import endreborn.Reference;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
@@ -9,6 +7,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.potion.PotionEffect;
+
+import endreborn.Reference;
 
 public class EnchantSCore extends Enchantment {
 
@@ -18,15 +18,14 @@ public class EnchantSCore extends Enchantment {
         setName("shulker_core");
     }
 
-
     public void onEntityDamaged(EntityLivingBase user, Entity target, int level) {
-        if(target instanceof EntityLivingBase) {
+        if (target instanceof EntityLivingBase) {
             ((EntityLivingBase) target).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 50, level + 2));
         }
     }
+
     @Override
-    public int getMaxLevel()
-    {
+    public int getMaxLevel() {
         return 3;
     }
 }
