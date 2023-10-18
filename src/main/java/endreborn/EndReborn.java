@@ -1,9 +1,11 @@
 package endreborn;
 
-import endreborn.compat.CompatManger;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -11,18 +13,14 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import endreborn.handlers.ConfigsHandler;
-import endreborn.handlers.EndVillagerHandler;
-import endreborn.handlers.RegistryHandler;
-import endreborn.init.RecipesInit;
-import endreborn.proxy.CommonProxy;
-import endreborn.utils.GuiMainMenuEnd;
 import org.jetbrains.annotations.NotNull;
+
+import endreborn.compat.CompatManger;
+import endreborn.proxy.CommonProxy;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EndReborn {
@@ -39,37 +37,33 @@ public class EndReborn {
     @Instance
     public static EndReborn instance;
 
-    public static EndReborn getInstance() {
-        return instance;
-    }
-
     @SidedProxy(clientSide = Reference.CLIENTPROXY, serverSide = Reference.COMMONPROXY)
     public static CommonProxy proxy;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        RegistryHandler.preInitRegistries(event);
+        proxy.registerEventBus();
         CompatManger.getInstance().preInit();
+        proxy.preInit(event);
     }
 
     @EventHandler
     public static void init(FMLInitializationEvent event) {
         CompatManger.getInstance().init();
-        RegistryHandler.initRegistries(event);
-        if (event.getSide() == Side.CLIENT && ConfigsHandler.GENERAL.spawnNewVillagers) {
-            EndVillagerHandler.initIEVillagerTrades();
-            EndVillagerHandler.initIEVillagerHouse();
-        }
-        RecipesInit.init();
-
-        if (event.getSide() == Side.CLIENT && ConfigsHandler.GENERAL.panorama) {
-            GuiMainMenuEnd.endMainMenu();
-        }
+        proxy.init(event);
     }
 
     @EventHandler
     public static void postInit(FMLPostInitializationEvent event) {
         CompatManger.getInstance().postInit();
+        proxy.postInit(event);
         CompatManger.invalidate();
+    }
+
+    @SubscribeEvent
+    public static void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equals(Reference.MODID)) {
+            ConfigManager.sync(Reference.MODID, Config.Type.INSTANCE);
+        }
     }
 }

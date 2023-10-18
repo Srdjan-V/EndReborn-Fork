@@ -3,15 +3,17 @@ package endreborn.compat.jei;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 
+import org.jetbrains.annotations.NotNull;
+
 import endreborn.Reference;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import org.jetbrains.annotations.NotNull;
 
 public class EUserCategory extends EUserAbstract<EUserRecipe> {
+
     public static final String USER = Reference.MODID + ".user";
     private final IDrawable background;
     private final String name;
@@ -48,7 +50,8 @@ public class EUserCategory extends EUserAbstract<EUserRecipe> {
         return USER;
     }
 
-    public void setRecipe(IRecipeLayout recipeLayout, @NotNull EUserRecipe recipeWrapper, @NotNull IIngredients ingredients) {
+    public void setRecipe(IRecipeLayout recipeLayout, @NotNull EUserRecipe recipeWrapper,
+                          @NotNull IIngredients ingredients) {
         IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
         stacks.init(input1, true, 64, 38);
         stacks.init(input2, true, 86, 38);

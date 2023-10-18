@@ -4,20 +4,19 @@ import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Table;
-import endreborn.utils.RecipesUser;
-import mezz.jei.api.recipe.IStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
-import endreborn.mod.blocks.ContainerEntropyUser;
-import endreborn.mod.gui.GuiEUser;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Table;
+
+import endreborn.client.gui.GuiEUser;
+import endreborn.common.blocks.ContainerEntropyUser;
+import endreborn.utils.RecipesUser;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
-import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 
@@ -62,10 +61,12 @@ public class JEIPlugin implements IModPlugin {
         return jeiRecipes;
     }
 
-    @SuppressWarnings("deprecation") public static String translateToLocal(String key) {
+    @SuppressWarnings("deprecation")
+    public static String translateToLocal(String key) {
         if (I18n.canTranslate(key)) {
             return I18n.translateToLocal(key);
-        } return I18n.translateToFallback(key);
+        }
+        return I18n.translateToFallback(key);
     }
 
     public static String translateToLocalFormatted(String key, Object... format) {

@@ -2,14 +2,11 @@ package endreborn.compat.jei;
 
 import java.util.List;
 
-import mezz.jei.api.ingredients.VanillaTypes;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
-import endreborn.utils.RecipesUser;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import org.jetbrains.annotations.NotNull;
 
 public class EUserRecipe implements IRecipeWrapper {
 

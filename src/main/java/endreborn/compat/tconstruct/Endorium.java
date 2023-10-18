@@ -10,9 +10,11 @@ import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.library.traits.AbstractTrait;
 
 public final class Endorium {
+
     public static final Material material = new Material("endorium", 0x1b_7b_6b);
 
-    public static final AbstractTrait trait = new  AbstractTrait("endorium", TextFormatting.GRAY) {
+    public static final AbstractTrait trait = new AbstractTrait("endorium", TextFormatting.GRAY) {
+
         @Override
         public void onHit(ItemStack tool, EntityLivingBase player, EntityLivingBase target, float damage,
                           boolean isCritical) {
@@ -21,6 +23,5 @@ public final class Endorium {
         }
     };
 
-    private Endorium() {
-    }
+    private Endorium() {}
 }

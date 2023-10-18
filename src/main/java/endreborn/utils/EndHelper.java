@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+import endreborn.EndReborn;
+
 public class EndHelper {
 
     public static final String[] GUIMAINMENU_TITLEPANORAMAPATHS = new String[] { "TITLE_PANORAMA_PATHS",
@@ -31,14 +33,8 @@ public class EndHelper {
 
             field.setAccessible(true);
             field.set(null, titlePanoramaPaths);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
+            EndReborn.LOGGER.error(e);
         }
     }
 

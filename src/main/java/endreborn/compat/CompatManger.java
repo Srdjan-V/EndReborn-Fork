@@ -1,13 +1,15 @@
 package endreborn.compat;
 
-import endreborn.compat.tconstruct.TConstruct;
-import net.minecraftforge.fml.common.Loader;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.minecraftforge.fml.common.Loader;
+
+import endreborn.compat.tconstruct.TConstruct;
+
 public class CompatManger {
+
     private static CompatManger instance;
 
     public static CompatManger getInstance() {
@@ -22,7 +24,7 @@ public class CompatManger {
 
     private CompatManger() {
         this.mods = Stream.of(new TConstruct())
-                .filter(mod-> Loader.isModLoaded(mod.modID())).collect(Collectors.toList());
+                .filter(mod -> Loader.isModLoaded(mod.modID())).collect(Collectors.toList());
     }
 
     public void preInit() {

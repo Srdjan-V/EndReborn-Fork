@@ -1,14 +1,15 @@
 package endreborn.compat.tconstruct;
 
+import endreborn.common.ModItems;
 import endreborn.compat.CompatManger;
-import endreborn.init.ItemInit;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.*;
 import slimeknights.tconstruct.library.utils.HarvestLevels;
 
 public class TConstruct implements CompatManger.ModCompat {
 
-    @Override public String modID() {
+    @Override
+    public String modID() {
         return "tconstruct";
     }
 
@@ -31,17 +32,16 @@ public class TConstruct implements CompatManger.ModCompat {
 
     @Override
     public void init() {
-        Endorium.material.addItem(ItemInit.INGOT_ENDORIUM, 1, Material.VALUE_Ingot);
+        Endorium.material.addItem(ModItems.INGOT_ENDORIUM, 1, Material.VALUE_Ingot);
         Endorium.material
                 .addTrait(Endorium.trait)
                 .setCraftable(true).setCastable(false)
-                .setRepresentativeItem(ItemInit.INGOT_ENDORIUM);
+                .setRepresentativeItem(ModItems.INGOT_ENDORIUM);
 
-        Wolframium.material.addItem(ItemInit.INGOT_WOLFRAMIUM, 1, Material.VALUE_Ingot);
+        Wolframium.material.addItem(ModItems.INGOT_WOLFRAMIUM, 1, Material.VALUE_Ingot);
         Wolframium.material
                 .addTrait(Wolframium.trait)
                 .setCraftable(true).setCastable(false)
-                .setRepresentativeItem(ItemInit.INGOT_WOLFRAMIUM);
+                .setRepresentativeItem(ModItems.INGOT_WOLFRAMIUM);
     }
-
 }

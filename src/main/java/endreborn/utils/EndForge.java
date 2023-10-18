@@ -14,17 +14,17 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import endreborn.init.BlockInit;
-import endreborn.init.ItemInit;
+import endreborn.common.ModBlocks;
+import endreborn.common.ModItems;
 
 @ParametersAreNonnullByDefault
 public final class EndForge {
 
     public static boolean hasAction(World world, BlockPos pos, ItemStack stack, @Nullable EnumFacing face) {
         IBlockState state = world.getBlockState(pos);
-        if (stack.getItem() == ItemInit.INGOT_ENDORIUM || stack.getItem() == Items.SLIME_BALL ||
-                stack.getItem() == ItemInit.END_ESSENCE) {
-            return state.getMaterial() == BlockInit.END_FORGE;
+        if (stack.getItem() == ModItems.INGOT_ENDORIUM || stack.getItem() == Items.SLIME_BALL ||
+                stack.getItem() == ModItems.END_ESSENCE) {
+            return state.getMaterial() == ModBlocks.END_FORGE;
         }
 
         return false;
@@ -32,16 +32,16 @@ public final class EndForge {
 
     public static boolean performAction(World world, BlockPos pos, EntityPlayer player, ItemStack stack,
                                         @Nullable EnumFacing face, EnumHand hand) {
-        if (stack.getItem() == ItemInit.INGOT_ENDORIUM) {
+        if (stack.getItem() == ModItems.INGOT_ENDORIUM) {
             return handleForgerI(world, pos, player, stack, hand);
         }
         if (stack.getItem() == Items.SLIME_BALL) {
             return handleForgerS(world, pos, player, stack, hand);
         }
-        if (stack.getItem() == ItemInit.END_ESSENCE) {
+        if (stack.getItem() == ModItems.END_ESSENCE) {
             return handleForgerB(world, pos, player, stack, hand);
         }
-        if (stack.getItem() == ItemInit.END_ESSENCE) {
+        if (stack.getItem() == ModItems.END_ESSENCE) {
             return handleForgerB(world, pos, player, stack, hand);
         }
 
@@ -52,7 +52,7 @@ public final class EndForge {
                                          EnumHand hand) {
         if (!world.isRemote) {
             EndHelper.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5,
-                    new ItemStack(ItemInit.INFUSED_METALL, 1));
+                    new ItemStack(ModItems.INFUSED_METALL, 1));
             player.setHeldItem(hand, EndHelper.consumeItem(player, stack));
             world.playSound(null, pos, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
@@ -85,7 +85,7 @@ public final class EndForge {
                                          EnumHand hand) {
         if (!world.isRemote) {
             EndHelper.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5,
-                    new ItemStack(BlockInit.BLOCK_END_MAGMA, 1));
+                    new ItemStack(ModBlocks.BLOCK_END_MAGMA, 1));
             player.setHeldItem(hand, EndHelper.consumeItem(player, stack));
             world.playSound(null, pos, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
