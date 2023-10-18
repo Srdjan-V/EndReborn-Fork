@@ -14,7 +14,7 @@ public class LampBase extends Block implements IHasModel
     public LampBase(String name, Material material)
     {
         super(material);
-        setUnlocalizedName(name);
+        setTranslationKey(name);
 		setRegistryName(name);
 		setCreativeTab(EndReborn.endertab);
 		setLightLevel(1.0F);

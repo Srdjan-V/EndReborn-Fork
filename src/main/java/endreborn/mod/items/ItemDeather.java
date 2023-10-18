@@ -25,7 +25,7 @@ import java.util.List;
 public class ItemDeather extends ItemSword implements IHasModel {
 	public ItemDeather(String name, ToolMaterial material) {
 		super(material);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setRegistryName(name);
 		setCreativeTab(EndReborn.endertab);
 

@@ -15,7 +15,7 @@ public class BlockColdFire extends BlockFire implements IHasModel
     public BlockColdFire(String name)
     {
         super();
-        setUnlocalizedName(name);
+        setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
 

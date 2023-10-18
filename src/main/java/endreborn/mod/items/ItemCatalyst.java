@@ -18,7 +18,7 @@ public class ItemCatalyst extends Item implements IHasModel
 {
     public ItemCatalyst(String name)
     {
-        setUnlocalizedName(name);
+        setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
 

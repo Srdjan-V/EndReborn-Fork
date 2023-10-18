@@ -21,7 +21,7 @@ public class DragonBush extends BlockCrops implements IHasModel
 
     public DragonBush(String name) 
     {
-        this.setUnlocalizedName(name);
+        this.setTranslationKey(name);
         this.setRegistryName(name);
 
 		BlockInit.BLOCKS.add(this);

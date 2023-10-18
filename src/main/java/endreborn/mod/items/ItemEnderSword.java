@@ -29,7 +29,7 @@ public class ItemEnderSword extends ItemSword implements IHasModel
 
 	public ItemEnderSword(String name, ToolMaterial material) {
 		super(material);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
     	setCreativeTab(EndReborn.endertab);
     	

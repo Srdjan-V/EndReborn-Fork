@@ -22,7 +22,7 @@ public class FoodEnderFlesh extends ItemFood implements IHasModel
 	public FoodEnderFlesh(String name) 
 	{
 		super(4, 0.4F, false);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
     	setCreativeTab(EndReborn.endertab);
     	setPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 100, 1), 0.6F);

@@ -11,7 +11,7 @@ public class ArmourBase extends ItemArmor implements IHasModel
 	public ArmourBase(String name, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) 
 	{
 		super(materialIn, renderIndexIn, equipmentSlotIn);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setRegistryName(name);
 		setCreativeTab(EndReborn.endertab);
 		

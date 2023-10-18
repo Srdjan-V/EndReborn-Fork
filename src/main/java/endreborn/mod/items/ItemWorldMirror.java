@@ -24,7 +24,7 @@ public class ItemWorldMirror extends Item implements IHasModel
 {
     public ItemWorldMirror(String name)
     {
-    	setUnlocalizedName(name);
+        setTranslationKey(name);
     	setRegistryName(name);
     	this.maxStackSize = 1;
     	setCreativeTab(EndReborn.endertab);

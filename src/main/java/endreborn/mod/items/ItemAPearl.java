@@ -26,7 +26,7 @@ public class ItemAPearl extends Item implements IHasModel
 {
     public ItemAPearl(String name)
     {
-    	setUnlocalizedName(name);
+        setTranslationKey(name);
     	setRegistryName(name);
         this.maxStackSize = 32;
     	setCreativeTab(EndReborn.endertab);

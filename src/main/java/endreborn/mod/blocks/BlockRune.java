@@ -44,7 +44,7 @@ public class BlockRune extends Block implements IHasModel
 	public BlockRune(String name, Material material) 
 	{
 		super(material);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setRegistryName(name);
 		setHardness(5.0F);
 

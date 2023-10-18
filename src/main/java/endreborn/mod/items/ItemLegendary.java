@@ -11,7 +11,7 @@ public class ItemLegendary extends Item implements IHasModel
 {
     public ItemLegendary(String name)
     {
-    	setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
     	setCreativeTab(EndReborn.endertab);
     	

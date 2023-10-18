@@ -22,7 +22,7 @@ public class ItemDragonSeeds extends Item implements IHasModel, IPlantable
 	public ItemDragonSeeds(String name, int amount, boolean isWolfFood) 
 	{
 		super();
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setRegistryName(name);
 		setCreativeTab(EndReborn.endertab);
 		

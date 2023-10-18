@@ -23,7 +23,7 @@ public class BlockPhantom extends BlockBreakable implements IHasModel
 	public BlockPhantom(String name, Material material, boolean ignoreSimilarity)
 	{
 		super(material, ignoreSimilarity);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setRegistryName(name);
 		setCreativeTab(EndReborn.endertab);
 		

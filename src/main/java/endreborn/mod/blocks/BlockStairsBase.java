@@ -15,7 +15,7 @@ public class BlockStairsBase extends BlockStairs implements IHasModel
 	public BlockStairsBase(String name, Block block)
 	{
 		super(block.getDefaultState());
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setHardness(block.getBlockHardness(block.getDefaultState(), null, null));
 		setSoundType(block.getSoundType());
 		setRegistryName(name);

@@ -47,7 +47,7 @@ public class BlockWallBase extends Block implements IHasModel {
 	    this.setHardness(main.getBlockHardness(main.getDefaultState(), null, null));
 	    this.setSoundType(main.getSoundType());
 		setRegistryName(name);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setCreativeTab(EndReborn.endertab);
 	    
 		BlockInit.BLOCKS.add(this);

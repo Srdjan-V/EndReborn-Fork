@@ -27,7 +27,7 @@ public class EnderCropBase extends BlockCrops implements IHasModel
 
 	public EnderCropBase(String name) 
 	{
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setRegistryName(name);
 		setCreativeTab(EndReborn.endertab);
 

@@ -29,7 +29,7 @@ public class CutoutBlock extends Block implements IHasModel
 	public CutoutBlock(String name, Material material)
 	{
 		super(material);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
 		setRegistryName(name);
 
 		BlockInit.BLOCKS.add(this);

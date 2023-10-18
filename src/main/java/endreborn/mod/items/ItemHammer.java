@@ -12,7 +12,7 @@ public class ItemHammer extends Item implements IHasModel
 {
     public ItemHammer(String name)
     {
-    	setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
     	setMaxDamage(64);
     	setCreativeTab(EndReborn.endertab);

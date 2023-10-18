@@ -14,7 +14,7 @@ public class BlockPillar extends BlockRotatedPillar implements IHasModel {
 
     public BlockPillar(String name, Material material) {
         super(material);
-        setUnlocalizedName(name);
+        setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
         setSoundType(SoundType.STONE);

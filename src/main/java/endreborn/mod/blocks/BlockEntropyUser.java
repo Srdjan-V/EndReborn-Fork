@@ -49,7 +49,7 @@ public class BlockEntropyUser extends BlockBase
     }
 	@Override
 	@SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
+    public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT;
     }
@@ -186,7 +186,7 @@ public class BlockEntropyUser extends BlockBase
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        EnumFacing facing = EnumFacing.getFront(meta);
+        EnumFacing facing = EnumFacing.byHorizontalIndex(meta);// TODO: 18/10/2023 test?
         if(facing.getAxis() == EnumFacing.Axis.Y) facing = EnumFacing.NORTH;
         return this.getDefaultState().withProperty(FACING, facing);
     }

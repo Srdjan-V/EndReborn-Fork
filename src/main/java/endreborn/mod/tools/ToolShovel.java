@@ -10,7 +10,7 @@ public class ToolShovel extends ItemSpade implements IHasModel
 
 	public ToolShovel(String name, ToolMaterial material) {
 		super(material);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
     	setCreativeTab(EndReborn.endertab);
     	

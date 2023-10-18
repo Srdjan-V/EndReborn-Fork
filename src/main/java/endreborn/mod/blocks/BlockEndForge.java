@@ -39,7 +39,7 @@ public class BlockEndForge extends Block implements IHasModel
     public BlockEndForge(String name)
     {
         super(BlockInit.END_FORGE);
-    	setUnlocalizedName(name);
+    	setTranslationKey(name);
 		setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
         this.setTickRandomly(true);
@@ -66,7 +66,7 @@ public class BlockEndForge extends Block implements IHasModel
     }
 	@Override
 	@SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
+    public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT;
     }

@@ -11,9 +11,8 @@ public class EndRebornTab extends CreativeTabs
 	{
 		super("endertab");
 	}
-	@Override
-	public ItemStack getTabIconItem() 
-	{
+
+	@Override public ItemStack createIcon() {
 		return new ItemStack(Items.ENDER_PEARL);
 	}
 

@@ -23,7 +23,7 @@ public class ItemEnderBow extends ItemBow implements IHasModel{
 	public int anim_2;
 	public ItemEnderBow(String name, float chargeTime, int anim_0, int anim_1, int anim_2) {
 		maxStackSize = 1;
-		setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
         this.setMaxStackSize(1);
     	setCreativeTab(EndReborn.endertab);

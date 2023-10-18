@@ -10,7 +10,7 @@ public class EndoriumAxe extends ItemAxe implements IHasModel
 
 	public EndoriumAxe(String name, ToolMaterial material) {
 		super(material, 9f, -3.1f);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
     	setCreativeTab(EndReborn.endertab);
     	

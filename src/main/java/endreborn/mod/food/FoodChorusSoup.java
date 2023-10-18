@@ -24,7 +24,7 @@ public class FoodChorusSoup extends ItemFood implements IHasModel
     public FoodChorusSoup(int healAmount, String name)
     {
         super(healAmount, false);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
         this.setMaxStackSize(1);
     	setCreativeTab(EndReborn.endertab);

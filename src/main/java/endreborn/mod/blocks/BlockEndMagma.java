@@ -37,7 +37,7 @@ public class BlockEndMagma extends Block implements IHasModel
     public BlockEndMagma(String name)
     {
         super(Material.ROCK);
-    	setUnlocalizedName(name);
+    	setTranslationKey(name);
 		setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
         this.setTickRandomly(true);

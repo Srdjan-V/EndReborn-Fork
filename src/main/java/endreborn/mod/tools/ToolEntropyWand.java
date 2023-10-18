@@ -26,7 +26,7 @@ public class ToolEntropyWand extends ItemSword implements IHasModel
 
     public ToolEntropyWand(String name, ToolMaterial material) {
         super(material);
-        setUnlocalizedName(name);
+        setTranslationKey(name);
         setRegistryName(name);
         setMaxDamage(128);
         setCreativeTab(EndReborn.endertab);

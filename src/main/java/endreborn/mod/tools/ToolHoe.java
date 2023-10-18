@@ -10,7 +10,7 @@ public class ToolHoe extends ItemHoe implements IHasModel
 
 	public ToolHoe(String name, ToolMaterial material) {
 		super(material);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
     	setCreativeTab(EndReborn.endertab);
     	

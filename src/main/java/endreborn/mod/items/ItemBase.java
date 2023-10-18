@@ -9,7 +9,7 @@ public class ItemBase extends Item implements IHasModel
 {
     public ItemBase(String name)
     {
-    	setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
     	setCreativeTab(EndReborn.endertab);
 

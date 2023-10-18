@@ -45,7 +45,7 @@ public class BlockDragonEssence extends BlockCrops implements IHasModel
 
     public BlockDragonEssence(String name)
     {
-        setUnlocalizedName(name);
+        setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
         setSoundType(SoundType.STONE);
@@ -81,7 +81,7 @@ public class BlockDragonEssence extends BlockCrops implements IHasModel
     }
 
     @Override
-    public BlockRenderLayer getBlockLayer()
+    public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT_MIPPED;
     }

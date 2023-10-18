@@ -26,7 +26,7 @@ public class ItemEndRecord extends ItemRecord implements IHasModel
     public ItemEndRecord(String name, EndSound soundIn)
     {
         super(soundIn.name, soundIn);
-        setUnlocalizedName(name);
+        setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
 

@@ -12,11 +12,9 @@ public class ItemBlockVariants extends ItemBlock
 		setHasSubtypes(true);
 		setMaxDamage(0);
 	}
-	
-	@Override
-	public String getUnlocalizedName(ItemStack stack)
-	{
-		return super.getUnlocalizedName() + "_" + ((IMetaName)this.block).getSpecialName(stack);
+
+	@Override public String getTranslationKey(ItemStack stack) {
+		return super.getTranslationKey()+ "_" + ((IMetaName)this.block).getSpecialName(stack);
 	}
 	
 	@Override

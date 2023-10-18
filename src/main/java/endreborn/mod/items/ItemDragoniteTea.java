@@ -32,7 +32,7 @@ public class ItemDragoniteTea extends Item implements IHasModel
 {
     public ItemDragoniteTea(String name)
     {
-    	setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
         this.setMaxStackSize(1);
     	setCreativeTab(EndReborn.endertab);

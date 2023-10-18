@@ -12,7 +12,7 @@ public class FoodDragonBerries extends ItemFood implements IHasModel
 	public FoodDragonBerries(String name) 
 	{
 		super(1, 0.1F, false);
-		setUnlocalizedName(name);
+		setTranslationKey(name);
     	setRegistryName(name);
     	setCreativeTab(EndReborn.endertab);
     	
