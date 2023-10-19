@@ -5,12 +5,10 @@ import java.util.Map.Entry;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
-import endreborn.common.Configs;
 import endreborn.common.ModItems;
 
 public class RecipesUser {
@@ -24,92 +22,18 @@ public class RecipesUser {
     }
 
     private RecipesUser() {
-        if (!Configs.GENERAL.experimentalMaterializer) {
-            addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.IRON_INGOT),
-                    new ItemStack(Items.IRON_INGOT));
-            addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.GOLD_INGOT),
-                    new ItemStack(Items.GOLD_INGOT));
-            addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.REDSTONE),
-                    new ItemStack(Items.REDSTONE));
-            addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.GLOWSTONE_DUST),
-                    new ItemStack(Items.GLOWSTONE_DUST));
-            addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(ModItems.TUNGSTEN_INGOT),
-                    new ItemStack(ModItems.TUNGSTEN_INGOT));
-            addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(ModItems.INGOT_ENDORIUM),
-                    new ItemStack(ModItems.INGOT_ENDORIUM));
-        }
-        if (Configs.GENERAL.experimentalMaterializer) {
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem0)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem0).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem0).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem1)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem1).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem1).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem2)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem2).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem2).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem3)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem3).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem3).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem4)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem4).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem4).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem5)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem5).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem5).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem6)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem6).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem6).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem7)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem7).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem7).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem8)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem8).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem8).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem9)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem9).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem9).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem10)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem10).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem10).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem11)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem11).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem11).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem12)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem12).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem12).get(0));
-            }
-            if (OreDictionary.doesOreNameExist(Configs.RECIPES.materializerItem13)) {
-                addAltarRecipe(new ItemStack(ModItems.CATALYST),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem13).get(0),
-                        OreDictionary.getOres(Configs.RECIPES.materializerItem13).get(0));
-            }
-        }
+        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.IRON_INGOT),
+                new ItemStack(Items.IRON_INGOT));
+        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.GOLD_INGOT),
+                new ItemStack(Items.GOLD_INGOT));
+        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.REDSTONE),
+                new ItemStack(Items.REDSTONE));
+        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.GLOWSTONE_DUST),
+                new ItemStack(Items.GLOWSTONE_DUST));
+        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(ModItems.TUNGSTEN_INGOT),
+                new ItemStack(ModItems.TUNGSTEN_INGOT));
+        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(ModItems.INGOT_ENDORIUM),
+                new ItemStack(ModItems.INGOT_ENDORIUM));
     }
 
     public void addAltarRecipe(ItemStack input1, ItemStack input2, ItemStack result) {
