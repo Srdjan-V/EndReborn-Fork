@@ -8,12 +8,12 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 
-public class EUserRecipe implements IRecipeWrapper {
+public class MaterializerRecipe implements IRecipeWrapper {
 
     private final List<ItemStack> inputs;
     private final ItemStack output;
 
-    public EUserRecipe(List<ItemStack> inputs, ItemStack output) {
+    public MaterializerRecipe(List<ItemStack> inputs, ItemStack output) {
         this.inputs = inputs;
         this.output = output;
     }

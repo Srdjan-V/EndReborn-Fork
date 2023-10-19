@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 
 import endreborn.client.gui.GuiEUser;
+import endreborn.common.ModBlocks;
 import endreborn.common.blocks.ContainerEntropyUser;
 import endreborn.utils.RecipesUser;
 import mezz.jei.api.IGuiHelper;
@@ -28,22 +29,23 @@ public class JEIPlugin implements IModPlugin {
         final IJeiHelpers helpers = registry.getJeiHelpers();
         final IGuiHelper gui = helpers.getGuiHelper();
 
-        registry.addRecipeCategories(new EUserCategory(gui));
+        registry.addRecipeCategories(new MaterializerCategory(gui));
     }
 
     @Override
     public void register(IModRegistry registry) {
         IRecipeTransferRegistry recipeTransfer = registry.getRecipeTransferRegistry();
 
-        registry.addRecipes(getRecipes(), EUserCategory.USER);
-        registry.addRecipeClickArea(GuiEUser.class, 109, 43, 24, 17, EUserCategory.USER);
-        recipeTransfer.addRecipeTransferHandler(ContainerEntropyUser.class, EUserCategory.USER, 0, 1, 3, 36);
+        registry.addRecipes(getRecipes(), MaterializerCategory.UID);
+        registry.addRecipeClickArea(GuiEUser.class, 109, 43, 24, 17, MaterializerCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.BLOCK_E_USER), MaterializerCategory.UID);
+        recipeTransfer.addRecipeTransferHandler(ContainerEntropyUser.class, MaterializerCategory.UID, 0, 1, 3, 36);
     }
 
-    public static List<EUserRecipe> getRecipes() {
+    public static List<MaterializerRecipe> getRecipes() {
         RecipesUser instance = RecipesUser.getInstance();
         Table<ItemStack, ItemStack, ItemStack> recipes = instance.getDualSmeltingList();
-        List<EUserRecipe> jeiRecipes = Lists.newArrayList();
+        List<MaterializerRecipe> jeiRecipes = Lists.newArrayList();
 
         for (Map.Entry<ItemStack, Map<ItemStack, ItemStack>> entry : recipes.columnMap().entrySet()) {
             for (Map.Entry<ItemStack, ItemStack> ent : entry.getValue().entrySet()) {
@@ -53,7 +55,7 @@ public class JEIPlugin implements IModPlugin {
                 ItemStack output = ent.getValue();
 
                 List<ItemStack> inputs = Lists.newArrayList(input1, input2, input0);
-                EUserRecipe recipe = new EUserRecipe(inputs, output);
+                MaterializerRecipe recipe = new MaterializerRecipe(inputs, output);
                 jeiRecipes.add(recipe);
             }
         }
