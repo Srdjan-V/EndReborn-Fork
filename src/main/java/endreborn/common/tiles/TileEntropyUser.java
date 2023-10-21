@@ -67,7 +67,7 @@ public class TileEntropyUser extends TileEntity implements IInventory, ITickable
         else {
             Item item = fuel.getItem();
 
-            if (item == ModItems.DEATH_ESSENCE) return 50;
+            if (item == ModItems.XORCITE_INGOT) return 50;
 
             return GameRegistry.getFuelValue(fuel);
         }

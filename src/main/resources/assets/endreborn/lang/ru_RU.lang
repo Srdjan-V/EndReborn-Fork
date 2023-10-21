@@ -20,7 +20,7 @@ item.item_world_mirror.name=Зеркало мира
 item.item_dragonite_tea.name=Драгонитовый чай
 item.item_angel_feather.name=Ангельское перо
 item.dragon_scales.name=Драконья чешуя
-item.death_essence.name=Ксорцит
+item.xorcite_ingot.name=Ксорцит
 item.catalyst.name=Пыль обсидиана
 item.end_record.name=Пластинка края
 item.sword_shard.name=Часть сломанного меча
@@ -48,7 +48,7 @@ tile.smooth_end_stone_wall.name=Полированная эндернякова�
 tile.e_purpur_wall.name=Пурпурная ограда
 tile.block_end_magma.name=Эндер-магма
 tile.block_end_forge.name=Кузня пустоты
-tile.dragon_essence.name=Кластер ксорцита
+tile.xorcite_block.name=Кластер ксорцита
 tile.entropy_user.name=Материализер
 tile.broken_ender_flower.name=Сломанный цветок эндера
 

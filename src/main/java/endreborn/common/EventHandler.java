@@ -41,7 +41,7 @@ public final class EventHandler {
                 continue;
             if (dragon.world.getBlockState(pos.down()).getBlock() != Blocks.END_STONE)
                 continue;
-            dragon.world.setBlockState(pos, ModBlocks.DRAGON_ESSENCE.getDefaultState());
+            dragon.world.setBlockState(pos, ModBlocks.XORCITE_BLOCK.getDefaultState());
         }
     }
 

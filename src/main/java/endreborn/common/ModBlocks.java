@@ -31,7 +31,7 @@ public final class ModBlocks {
     public static final Block BLOCK_RUNE = new BlockRune("block_rune", Material.ROCK);
     public static final Block BLOCK_END_MAGMA = new BlockEndMagma("block_end_magma");
     public static final Block BLOCK_END_FORGE = new BlockEndForge("block_end_forge");
-    public static final Block DRAGON_ESSENCE = new BlockDragonEssence("dragon_essence");
+    public static final Block XORCITE_BLOCK = new XorcitePlantBlock("xorcite_block");
     public static final Block BLOCK_E_USER = new BlockEntropyUser("entropy_user");
     public static final Block BROKEN_FLOWER = new CutoutBlock("broken_ender_flower", Material.PLANTS);
     public static final Block END_STONE_CHISELED = new BlockEndBase("chiseled_end_bricks", Material.ROCK);

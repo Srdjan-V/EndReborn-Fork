@@ -1,4 +1,4 @@
-package endreborn.common.datafixers.items;
+package endreborn.common.datafixers.fixers;
 
 import java.util.HashMap;
 import java.util.Map;

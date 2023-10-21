@@ -60,12 +60,14 @@ public final class ModItems {
     public static final Item DRAGONITE_TEA = new ItemDragoniteTea("item_dragonite_tea");
     public static final Item ANGEL_FEATHER = new ItemBase("item_angel_feather");
     public static final Item DRAGON_SCALES = new ItemBase("dragon_scales");
-    public static final Item DEATH_ESSENCE = new ItemBase("death_essence");
+    public static final Item XORCITE_INGOT = new ItemBase("xorcite_ingot");
     public static final Item INFUSED_METALL = new ItemBase("ingot_infused");
     public static final Item SWORD_SHARD = new ItemBase("sword_shard");
     public static final Item CATALYST = new ItemCatalyst("catalyst");
     public static final Item RECORD = new ItemEndRecord("end_record", ModSounds.THE_VOID);
     public static final Item TUNGSTEN_NUGGET = new ItemBase("tungsten_nugget");
+
+    // public static final XorcitePlantBlockItem plantItem = new XorcitePlantBlockItem(ModBlocks.DRAGON_ESSENCE);
 
     // Tools
     public static final Item PICKAXE_ENDORIUM = new ToolPickaxe("tool_pickaxe_endorium", TOOL_ENDORIUM);
