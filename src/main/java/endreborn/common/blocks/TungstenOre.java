@@ -3,9 +3,9 @@ package endreborn.common.blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 
-public class BlockWolframiumOre extends BlockBase {
+public class TungstenOre extends BlockBase {
 
-    public BlockWolframiumOre(String name, Material material) {
+    public TungstenOre(String name, Material material) {
         super(name, material);
 
         setSoundType(SoundType.STONE);

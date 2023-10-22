@@ -19,7 +19,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class ToolEntropyWand extends ItemSword implements IHasModel {
@@ -30,8 +29,6 @@ public class ToolEntropyWand extends ItemSword implements IHasModel {
         setRegistryName(name);
         setMaxDamage(128);
         setCreativeTab(EndReborn.endertab);
-
-        ModItems.ITEMS.add(this);
     }
 
     @Override
@@ -58,7 +55,7 @@ public class ToolEntropyWand extends ItemSword implements IHasModel {
         IBlockState state = world.getBlockState(pos);
         if (state.getBlock() == Blocks.END_STONE) {
             if (!world.isRemote) {
-                world.setBlockState(pos, ModBlocks.ENTROPY_END_STONE.getDefaultState());
+                world.setBlockState(pos, ModBlocks.ENTROPY_END_STONE.get().getDefaultState());
             }
             return true;
         }

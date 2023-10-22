@@ -19,7 +19,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class ItemWorldMirror extends Item implements IHasModel {
@@ -29,8 +28,6 @@ public class ItemWorldMirror extends Item implements IHasModel {
         setRegistryName(name);
         this.maxStackSize = 1;
         setCreativeTab(EndReborn.endertab);
-
-        ModItems.ITEMS.add(this);
     }
 
     @Override

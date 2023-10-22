@@ -15,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -27,8 +26,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.common.ModBlocks;
-import endreborn.common.ModItems;
 import endreborn.common.entity.EntityChronologist;
 import endreborn.common.entity.EntityWatcher;
 import endreborn.utils.IHasModel;
@@ -44,9 +41,6 @@ public class BlockEndMagma extends Block implements IHasModel {
         setSoundType(SoundType.STONE);
         setHardness(3.0F);
         setHarvestLevel("pickaxe", 2);
-
-        ModBlocks.BLOCKS.add(this);
-        ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {

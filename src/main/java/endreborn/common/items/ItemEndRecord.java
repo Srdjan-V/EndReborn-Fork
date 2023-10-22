@@ -17,7 +17,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.common.ModItems;
 import endreborn.common.sounds.EndSound;
 import endreborn.utils.IHasModel;
 
@@ -30,8 +29,6 @@ public class ItemEndRecord extends ItemRecord implements IHasModel {
         setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
-
-        ModItems.ITEMS.add(this);
     }
 
     @Override

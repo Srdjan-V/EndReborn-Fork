@@ -12,7 +12,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class ItemCatalyst extends Item implements IHasModel {
@@ -21,8 +20,6 @@ public class ItemCatalyst extends Item implements IHasModel {
         setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
-
-        ModItems.ITEMS.add(this);
     }
 
     @SideOnly(Side.CLIENT)

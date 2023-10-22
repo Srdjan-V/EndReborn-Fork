@@ -9,7 +9,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -19,8 +18,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.common.ModBlocks;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class CutoutBlock extends Block implements IHasModel {
@@ -32,9 +29,6 @@ public class CutoutBlock extends Block implements IHasModel {
         super(material);
         setTranslationKey(name);
         setRegistryName(name);
-
-        ModBlocks.BLOCKS.add(this);
-        ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
     @SideOnly(Side.CLIENT)

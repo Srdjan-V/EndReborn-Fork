@@ -1,4 +1,4 @@
-package endreborn.proxy;
+package endreborn.common;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -6,19 +6,20 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import endreborn.common.CommonHandler;
-import endreborn.common.EventHandler;
-import endreborn.common.LootTableHandler;
+import endreborn.common.datafixers.Fixer;
 
 public class CommonProxy {
 
     public void registerEventBus() {
+        MinecraftForge.EVENT_BUS.register(ModBlocks.class);
+        MinecraftForge.EVENT_BUS.register(ModItems.class);
         MinecraftForge.EVENT_BUS.register(CommonHandler.class);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         MinecraftForge.EVENT_BUS.register(LootTableHandler.class);
     }
 
     public void preInit(FMLPreInitializationEvent event) {
+        Fixer.init();
         CommonHandler.preInit();
     }
 

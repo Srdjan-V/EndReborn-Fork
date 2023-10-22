@@ -19,8 +19,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import endreborn.common.CommonProxy;
 import endreborn.compat.CompatManger;
-import endreborn.proxy.CommonProxy;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EndReborn {

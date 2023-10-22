@@ -15,7 +15,6 @@ import net.minecraftforge.common.IPlantable;
 
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class ItemDragonSeeds extends Item implements IHasModel, IPlantable {
@@ -25,8 +24,6 @@ public class ItemDragonSeeds extends Item implements IHasModel, IPlantable {
         setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
-
-        ModItems.ITEMS.add(this);
     }
 
     @Override
@@ -42,7 +39,7 @@ public class ItemDragonSeeds extends Item implements IHasModel, IPlantable {
         if (facing == EnumFacing.UP && player.canPlayerEdit(pos.offset(facing), facing, stack) &&
                 state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this) &&
                 worldIn.isAirBlock(pos.up())) {
-            worldIn.setBlockState(pos.up(), ModBlocks.DRAGON_BUSH.getDefaultState());
+            worldIn.setBlockState(pos.up(), ModBlocks.DRAGON_BUSH.get().getDefaultState());
             stack.shrink(1);
             return EnumActionResult.SUCCESS;
         }
@@ -57,6 +54,6 @@ public class ItemDragonSeeds extends Item implements IHasModel, IPlantable {
 
     @Override
     public IBlockState getPlant(IBlockAccess world, BlockPos pos) {
-        return ModBlocks.DRAGON_BUSH.getDefaultState();
+        return ModBlocks.DRAGON_BUSH.get().getDefaultState();
     }
 }

@@ -41,7 +41,7 @@ public final class EventHandler {
                 continue;
             if (dragon.world.getBlockState(pos.down()).getBlock() != Blocks.END_STONE)
                 continue;
-            dragon.world.setBlockState(pos, ModBlocks.XORCITE_BLOCK.getDefaultState());
+            dragon.world.setBlockState(pos, ModBlocks.XORCITE_BLOCK.get().getDefaultState());
         }
     }
 
@@ -71,19 +71,19 @@ public final class EventHandler {
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public static void onEventDrop(LivingDropsEvent event) {
         if (event.getEntity() instanceof EntityDragon) {
-            ItemStack itemStackToDrop = new ItemStack(ModItems.DRAGON_SCALES, 2);
+            ItemStack itemStackToDrop = new ItemStack(ModItems.DRAGON_SCALES.get(), 2);
             event.getDrops().add(new EntityItem(event.getEntity().getEntityWorld(), event.getEntity().posX,
                     event.getEntity().posY, event.getEntity().posZ, itemStackToDrop));
 
         }
         if (event.getEntity() instanceof EntityEnderman) {
-            ItemStack itemStackToDrop = new ItemStack(ModItems.ENDER_FLESH, 1);
+            ItemStack itemStackToDrop = new ItemStack(ModItems.ENDER_FLESH.get(), 1);
             event.getDrops().add(new EntityItem(event.getEntity().getEntityWorld(), event.getEntity().posX,
                     event.getEntity().posY, event.getEntity().posZ, itemStackToDrop));
         }
 
         if (event.getEntity() instanceof EntityWatcher) {
-            ItemStack itemStackToDrop = new ItemStack(ModItems.ENDER_FLESH, 1);
+            ItemStack itemStackToDrop = new ItemStack(ModItems.ENDER_FLESH.get(), 1);
             event.getDrops().add(new EntityItem(event.getEntity().getEntityWorld(), event.getEntity().posX,
                     event.getEntity().posY, event.getEntity().posZ, itemStackToDrop));
         }

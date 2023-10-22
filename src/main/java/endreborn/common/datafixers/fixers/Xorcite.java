@@ -25,7 +25,7 @@ public class Xorcite implements IFixableData {
         RESOURCE_LOCATION.put(new ResourceLocation(Reference.MODID, "dragon_essence"),
                 new ResourceLocation(Reference.MODID, "xorcite_block"));
         RESOURCE_LOCATION.put(new ResourceLocation(Reference.MODID, "death_essence"),
-                new ResourceLocation(Reference.MODID, "xorcite_ingot"));
+                new ResourceLocation(Reference.MODID, "xorcite_ingot"));// TODO: 22/10/2023 rename to shard
     }
 
     public Xorcite() {

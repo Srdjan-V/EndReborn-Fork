@@ -4,8 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-import endreborn.common.ModItems;
-
 public class XorcitePlantItemBlock extends ItemBlock {
 
     protected Block block;
@@ -16,8 +14,6 @@ public class XorcitePlantItemBlock extends ItemBlock {
         this.setMaxDamage(0);
         this.setNoRepair();
         this.block = block;
-
-        ModItems.ITEMS.add(this);
     }
 
     public int getMetadata(int i) {

@@ -22,18 +22,18 @@ public class RecipesUser {
     }
 
     private RecipesUser() {
-        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.IRON_INGOT),
+        addAltarRecipe(new ItemStack(ModItems.CATALYST.get()), new ItemStack(Items.IRON_INGOT),
                 new ItemStack(Items.IRON_INGOT));
-        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.GOLD_INGOT),
+        addAltarRecipe(new ItemStack(ModItems.CATALYST.get()), new ItemStack(Items.GOLD_INGOT),
                 new ItemStack(Items.GOLD_INGOT));
-        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.REDSTONE),
+        addAltarRecipe(new ItemStack(ModItems.CATALYST.get()), new ItemStack(Items.REDSTONE),
                 new ItemStack(Items.REDSTONE));
-        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(Items.GLOWSTONE_DUST),
+        addAltarRecipe(new ItemStack(ModItems.CATALYST.get()), new ItemStack(Items.GLOWSTONE_DUST),
                 new ItemStack(Items.GLOWSTONE_DUST));
-        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(ModItems.TUNGSTEN_INGOT),
-                new ItemStack(ModItems.TUNGSTEN_INGOT));
-        addAltarRecipe(new ItemStack(ModItems.CATALYST), new ItemStack(ModItems.INGOT_ENDORIUM),
-                new ItemStack(ModItems.INGOT_ENDORIUM));
+        addAltarRecipe(new ItemStack(ModItems.CATALYST.get()), new ItemStack(ModItems.TUNGSTEN_INGOT.get()),
+                new ItemStack(ModItems.TUNGSTEN_INGOT.get()));
+        addAltarRecipe(new ItemStack(ModItems.CATALYST.get()), new ItemStack(ModItems.INGOT_ENDORIUM.get()),
+                new ItemStack(ModItems.INGOT_ENDORIUM.get()));
     }
 
     public void addAltarRecipe(ItemStack input1, ItemStack input2, ItemStack result) {

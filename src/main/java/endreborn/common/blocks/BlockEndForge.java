@@ -17,7 +17,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
@@ -31,14 +30,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.common.ModBlocks;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class BlockEndForge extends Block implements IHasModel {
 
     public BlockEndForge(String name) {
-        super(ModBlocks.END_FORGE);
+        super(Material.ROCK);
         setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
@@ -46,9 +43,6 @@ public class BlockEndForge extends Block implements IHasModel {
         setSoundType(SoundType.STONE);
         setHardness(3.0F);
         setHarvestLevel("pickaxe", 2);
-
-        ModBlocks.BLOCKS.add(this);
-        ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {

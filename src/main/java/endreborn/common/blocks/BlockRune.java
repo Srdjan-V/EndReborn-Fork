@@ -19,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -31,7 +30,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
-import endreborn.common.ModItems;
 import endreborn.common.entity.EntityLord;
 import endreborn.utils.IHasModel;
 
@@ -49,9 +47,6 @@ public class BlockRune extends Block implements IHasModel
         setRegistryName(name);
         setHardness(5.0F);
         setCreativeTab(EndReborn.endertab);
-
-        ModBlocks.BLOCKS.add(this);
-        ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
     @Override
@@ -110,7 +105,7 @@ public class BlockRune extends Block implements IHasModel
     protected BlockPattern getPattern() {
         if (this.pattern == null) {
             this.pattern = FactoryBlockPattern.start().aisle("###", "#^#", "###")
-                    .where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(ModBlocks.BLOCK_RUNE)))
+                    .where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(ModBlocks.BLOCK_RUNE.get())))
                     .where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.PURPUR_BLOCK)))
                     .where('~', BlockWorldState.hasState(BlockMaterialMatcher.forMaterial(Material.AIR))).build();
         }

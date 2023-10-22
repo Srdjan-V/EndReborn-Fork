@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -19,7 +18,6 @@ import net.minecraft.world.World;
 
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class EnderCropBase extends BlockCrops implements IHasModel {
@@ -30,9 +28,6 @@ public class EnderCropBase extends BlockCrops implements IHasModel {
         setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
-
-        ModBlocks.BLOCKS.add(this);
-        ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
     @Override
@@ -42,7 +37,7 @@ public class EnderCropBase extends BlockCrops implements IHasModel {
             if (this.isMaxAge(state)) {
                 worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(),
                         new ItemStack(Items.ENDER_PEARL, 1)));
-                worldIn.setBlockState(pos, ModBlocks.BROKEN_FLOWER.getDefaultState());
+                worldIn.setBlockState(pos, ModBlocks.BROKEN_FLOWER.get().getDefaultState());
                 return true;
             }
         }

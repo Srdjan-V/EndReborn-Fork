@@ -35,6 +35,6 @@ public class BlockCrystal extends BlockBase {
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return ModItems.LORMYTE_CRYSTAL;
+        return ModItems.LORMYTE_CRYSTAL.get();
     }
 }

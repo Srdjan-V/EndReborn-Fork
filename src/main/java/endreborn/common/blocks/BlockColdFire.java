@@ -7,7 +7,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import endreborn.EndReborn;
-import endreborn.common.ModBlocks;
 import endreborn.utils.IHasModel;
 
 public class BlockColdFire extends BlockFire implements IHasModel {
@@ -17,8 +16,6 @@ public class BlockColdFire extends BlockFire implements IHasModel {
         setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
-
-        ModBlocks.BLOCKS.add(this);
     }
 
     @Override

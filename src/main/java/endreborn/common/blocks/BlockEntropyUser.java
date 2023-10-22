@@ -30,6 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import endreborn.EndReborn;
 import endreborn.Reference;
 import endreborn.common.ModBlocks;
+import endreborn.common.ModItems;
 import endreborn.common.tiles.TileEntropyUser;
 
 public class BlockEntropyUser extends BlockBase {
@@ -45,7 +46,7 @@ public class BlockEntropyUser extends BlockBase {
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return Item.getItemFromBlock(ModBlocks.BLOCK_E_USER);
+        return ModItems.BLOCK_E_USER.get();
     }
 
     @Override
@@ -65,7 +66,7 @@ public class BlockEntropyUser extends BlockBase {
 
     @Override
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-        return new ItemStack(ModBlocks.BLOCK_E_USER);
+        return new ItemStack(ModBlocks.BLOCK_E_USER.get());
     }
 
     @Override
@@ -105,10 +106,10 @@ public class BlockEntropyUser extends BlockBase {
 
             worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.BLOCKS, 0.5F,
                     2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
-            worldIn.setBlockState(pos, ModBlocks.BLOCK_E_USER.getDefaultState()
+            worldIn.setBlockState(pos, ModBlocks.BLOCK_E_USER.get().getDefaultState()
                     .withProperty(FACING, state.getValue(FACING)).withProperty(BURNING, true), 3);
 
-        } else worldIn.setBlockState(pos, ModBlocks.BLOCK_E_USER.getDefaultState()
+        } else worldIn.setBlockState(pos, ModBlocks.BLOCK_E_USER.get().getDefaultState()
                 .withProperty(FACING, state.getValue(FACING)).withProperty(BURNING, false), 3);;
         if (tileentity != null) {
             tileentity.validate();

@@ -30,8 +30,6 @@ public class ItemEnderBow extends ItemBow implements IHasModel {
         this.setMaxStackSize(1);
         setCreativeTab(EndReborn.endertab);
 
-        ModItems.ITEMS.add(this);
-
         charge = chargeTime;
 
         this.anim_0 = anim_0;

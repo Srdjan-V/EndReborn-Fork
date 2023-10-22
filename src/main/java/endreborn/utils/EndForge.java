@@ -24,7 +24,7 @@ public final class EndForge {
         IBlockState state = world.getBlockState(pos);
         if (stack.getItem() == ModItems.INGOT_ENDORIUM || stack.getItem() == Items.SLIME_BALL ||
                 stack.getItem() == ModItems.END_ESSENCE) {
-            return state.getMaterial() == ModBlocks.END_FORGE;
+            return state.getBlock() == ModBlocks.BLOCK_END_FORGE.get();
         }
 
         return false;
@@ -52,7 +52,7 @@ public final class EndForge {
                                          EnumHand hand) {
         if (!world.isRemote) {
             EndHelper.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5,
-                    new ItemStack(ModItems.INFUSED_METALL, 1));
+                    new ItemStack(ModItems.INFUSED_METALL.get(), 1));
             player.setHeldItem(hand, EndHelper.consumeItem(player, stack));
             world.playSound(null, pos, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
@@ -85,7 +85,7 @@ public final class EndForge {
                                          EnumHand hand) {
         if (!world.isRemote) {
             EndHelper.dropItemInWorldExact(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5,
-                    new ItemStack(ModBlocks.BLOCK_END_MAGMA, 1));
+                    new ItemStack(ModBlocks.BLOCK_END_MAGMA.get(), 1));
             player.setHeldItem(hand, EndHelper.consumeItem(player, stack));
             world.playSound(null, pos, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }

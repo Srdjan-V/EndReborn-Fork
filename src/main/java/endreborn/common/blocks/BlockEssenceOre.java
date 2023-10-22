@@ -38,6 +38,6 @@ public class BlockEssenceOre extends BlockBase {
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return ModItems.END_ESSENCE;
+        return ModItems.END_ESSENCE.get();
     }
 }

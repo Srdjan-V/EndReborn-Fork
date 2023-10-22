@@ -3,7 +3,6 @@ package endreborn.common.items.tools;
 import net.minecraft.item.ItemSword;
 
 import endreborn.EndReborn;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class ToolSword extends ItemSword implements IHasModel {
@@ -13,8 +12,6 @@ public class ToolSword extends ItemSword implements IHasModel {
         setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
-
-        ModItems.ITEMS.add(this);
     }
 
     @Override

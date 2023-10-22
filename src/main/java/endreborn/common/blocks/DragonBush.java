@@ -5,7 +5,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -13,7 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import endreborn.EndReborn;
-import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
@@ -22,9 +20,6 @@ public class DragonBush extends BlockCrops implements IHasModel {
     public DragonBush(String name) {
         this.setTranslationKey(name);
         this.setRegistryName(name);
-
-        ModBlocks.BLOCKS.add(this);
-        ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
     @Override
@@ -33,7 +28,7 @@ public class DragonBush extends BlockCrops implements IHasModel {
         if (!worldIn.isRemote) {
             if (this.isMaxAge(state)) {
                 worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(),
-                        new ItemStack(ModItems.DRAGONITE_BERRIES, 2)));
+                        new ItemStack(ModItems.DRAGONITE_BERRIES.get(), 2)));
                 worldIn.setBlockState(pos, this.withAge(3));
                 return true;
             }
@@ -44,12 +39,12 @@ public class DragonBush extends BlockCrops implements IHasModel {
 
     @Override
     protected Item getSeed() {
-        return ModItems.DRAGONITE_SEEDS;
+        return ModItems.DRAGONITE_SEEDS.get();
     }
 
     @Override
     protected Item getCrop() {
-        return ModItems.DRAGONITE_BERRIES;
+        return ModItems.DRAGONITE_BERRIES.get();
     }
 
     @Override

@@ -38,7 +38,6 @@ import com.google.common.collect.Lists;
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
-import endreborn.common.items.XorcitePlantItemBlock;
 import endreborn.utils.IHasModel;
 
 public class XorcitePlantBlock extends BlockCrops implements IHasModel {
@@ -54,9 +53,6 @@ public class XorcitePlantBlock extends BlockCrops implements IHasModel {
         setSoundType(SoundType.STONE);
         setHardness(3.0F);
         setHarvestLevel("pickaxe", 2);
-
-        ModBlocks.BLOCKS.add(this);
-        ModItems.ITEMS.add(new XorcitePlantItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
     @Override
@@ -83,7 +79,7 @@ public class XorcitePlantBlock extends BlockCrops implements IHasModel {
 
     @Override
     protected Item getCrop() {
-        return ModItems.XORCITE_INGOT;
+        return ModItems.XORCITE_INGOT.get();
     }
 
     @Override
@@ -191,8 +187,8 @@ public class XorcitePlantBlock extends BlockCrops implements IHasModel {
 
     protected List<ItemStack> addAdditionalDrops(IBlockAccess world, BlockPos pos, int fortune, List<ItemStack> drops,
                                                  Random random) {
-        drops.add(new ItemStack(ModItems.XORCITE_INGOT, 1));
-        if (random.nextInt(20) <= (1 + fortune)) drops.add(new ItemStack(ModItems.XORCITE_INGOT, 1));
+        drops.add(new ItemStack(ModItems.XORCITE_INGOT.get(), 1));
+        if (random.nextInt(20) <= (1 + fortune)) drops.add(new ItemStack(ModItems.XORCITE_INGOT.get(), 1));
         return drops;
     }
 

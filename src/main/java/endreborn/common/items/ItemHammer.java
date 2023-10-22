@@ -6,7 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import endreborn.EndReborn;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class ItemHammer extends Item implements IHasModel {
@@ -17,8 +16,6 @@ public class ItemHammer extends Item implements IHasModel {
         setMaxDamage(64);
         setCreativeTab(EndReborn.endertab);
         setMaxStackSize(1);
-
-        ModItems.ITEMS.add(this);
     }
 
     @Override

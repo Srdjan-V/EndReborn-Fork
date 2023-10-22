@@ -38,7 +38,7 @@ public class JEIPlugin implements IModPlugin {
 
         registry.addRecipes(getRecipes(), MaterializerCategory.UID);
         registry.addRecipeClickArea(GuiEUser.class, 109, 43, 24, 17, MaterializerCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.BLOCK_E_USER), MaterializerCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.BLOCK_E_USER.get()), MaterializerCategory.UID);
         recipeTransfer.addRecipeTransferHandler(ContainerEntropyUser.class, MaterializerCategory.UID, 0, 1, 3, 36);
     }
 

@@ -56,7 +56,7 @@ public class EntityColdFireball extends EntityFireball {
                 if (flag) {
                     BlockPos blockpos = result.getBlockPos().offset(result.sideHit);
                     if (this.world.isAirBlock(blockpos)) {
-                        this.world.setBlockState(blockpos, ModBlocks.COLD_FIRE.getDefaultState());
+                        this.world.setBlockState(blockpos, ModBlocks.COLD_FIRE.get().getDefaultState());
                     }
                 }
             }

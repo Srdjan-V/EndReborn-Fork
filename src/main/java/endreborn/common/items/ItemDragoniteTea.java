@@ -25,7 +25,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class ItemDragoniteTea extends Item implements IHasModel {
@@ -35,8 +34,6 @@ public class ItemDragoniteTea extends Item implements IHasModel {
         setRegistryName(name);
         this.setMaxStackSize(1);
         setCreativeTab(EndReborn.endertab);
-
-        ModItems.ITEMS.add(this);
     }
 
     @Override

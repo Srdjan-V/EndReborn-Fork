@@ -32,16 +32,16 @@ public class TConstruct implements CompatManger.ModCompat {
 
     @Override
     public void init() {
-        Endorium.material.addItem(ModItems.INGOT_ENDORIUM, 1, Material.VALUE_Ingot);
+        Endorium.material.addItem(ModItems.INGOT_ENDORIUM.get(), 1, Material.VALUE_Ingot);
         Endorium.material
                 .addTrait(Endorium.trait)
                 .setCraftable(true).setCastable(false)
-                .setRepresentativeItem(ModItems.INGOT_ENDORIUM);
+                .setRepresentativeItem(ModItems.INGOT_ENDORIUM.get());
 
-        Wolframium.material.addItem(ModItems.TUNGSTEN_INGOT, 1, Material.VALUE_Ingot);
+        Wolframium.material.addItem(ModItems.TUNGSTEN_INGOT.get(), 1, Material.VALUE_Ingot);
         Wolframium.material
                 .addTrait(Wolframium.trait)
                 .setCraftable(true).setCastable(false)
-                .setRepresentativeItem(ModItems.TUNGSTEN_INGOT);
+                .setRepresentativeItem(ModItems.TUNGSTEN_INGOT.get());
     }
 }

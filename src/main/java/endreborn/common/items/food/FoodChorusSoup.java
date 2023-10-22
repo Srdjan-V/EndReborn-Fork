@@ -17,7 +17,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class FoodChorusSoup extends ItemFood implements IHasModel {
@@ -29,8 +28,6 @@ public class FoodChorusSoup extends ItemFood implements IHasModel {
         this.setMaxStackSize(1);
         setCreativeTab(EndReborn.endertab);
         setPotionEffect(new PotionEffect(MobEffects.GLOWING, 100, 0), 0.6F);
-
-        ModItems.ITEMS.add(this);
     }
 
     @Override

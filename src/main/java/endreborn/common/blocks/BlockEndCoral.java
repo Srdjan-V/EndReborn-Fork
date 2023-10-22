@@ -9,7 +9,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +19,6 @@ import net.minecraft.world.World;
 
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class BlockEndCoral extends BlockBush implements net.minecraftforge.common.IShearable, IHasModel {
@@ -33,9 +31,6 @@ public class BlockEndCoral extends BlockBush implements net.minecraftforge.commo
         setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
-
-        ModBlocks.BLOCKS.add(this);
-        ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
@@ -78,7 +73,7 @@ public class BlockEndCoral extends BlockBush implements net.minecraftforge.commo
                              @Nullable TileEntity te, ItemStack stack) {
         if (!worldIn.isRemote && stack.getItem() == Items.SHEARS) {
             player.addStat(StatList.getBlockStats(this));
-            spawnAsEntity(worldIn, pos, new ItemStack(ModBlocks.BLOCK_END_MAGMA, 1, 0));
+            spawnAsEntity(worldIn, pos, new ItemStack(ModBlocks.BLOCK_END_MAGMA.get(), 1, 0));
         } else {
             super.harvestBlock(worldIn, player, pos, state, te, stack);
         }
@@ -92,6 +87,6 @@ public class BlockEndCoral extends BlockBush implements net.minecraftforge.commo
     @Override
     public java.util.List<ItemStack> onSheared(ItemStack item, net.minecraft.world.IBlockAccess world, BlockPos pos,
                                                int fortune) {
-        return java.util.Arrays.asList(new ItemStack(ModBlocks.BLOCK_END_MAGMA));
+        return java.util.Arrays.asList(new ItemStack(ModBlocks.BLOCK_END_MAGMA.get()));
     }
 }

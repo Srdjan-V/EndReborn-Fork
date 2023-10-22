@@ -51,8 +51,9 @@ public class EndVillagerHandler {
         VillagerRegistry.VillagerCareer overworld_explorer = new VillagerRegistry.VillagerCareer(PROF_EXPLORER,
                 Reference.MODID + ".overworld_explorer");
         overworld_explorer.addTrade(1,
-                new ItemstackForEmerald(new ItemStack(ModItems.HAMMER_IRON, 1, 0), new EntityVillager.PriceInfo(1, 1)),
-                new ItemstackForEmerald(new ItemStack(ModItems.TUNGSTEN_INGOT, 1, 0),
+                new ItemstackForEmerald(new ItemStack(ModItems.HAMMER_IRON.get(), 1, 0),
+                        new EntityVillager.PriceInfo(1, 1)),
+                new ItemstackForEmerald(new ItemStack(ModItems.TUNGSTEN_INGOT.get(), 1, 0),
                         new EntityVillager.PriceInfo(-4, -1)),
                 new EmeraldForItemstack(new ItemStack(Blocks.IRON_ORE, 1, 0), new EntityVillager.PriceInfo(1, 3)));
         VillagerRegistry.VillagerCareer nether_explorer = new VillagerRegistry.VillagerCareer(PROF_EXPLORER,
@@ -68,10 +69,10 @@ public class EndVillagerHandler {
                 Reference.MODID + ".end_explorer");
         end_explorer.addTrade(1,
                 new EmeraldForItemstack(new ItemStack(Items.ENDER_PEARL, 3, 0), new EntityVillager.PriceInfo(6, 8)),
-                new ItemstackForEmerald(new ItemStack(ModItems.END_ESSENCE, 3, 0),
+                new ItemstackForEmerald(new ItemStack(ModItems.END_ESSENCE.get(), 3, 0),
                         new EntityVillager.PriceInfo(-2, -1)),
                 new ItemstackForEmerald(new ItemStack(Blocks.END_STONE, 3, 0), new EntityVillager.PriceInfo(-4, -2)),
-                new ItemstackForEmerald(new ItemStack(ModItems.CHORUS_SOUP, 3, 0),
+                new ItemstackForEmerald(new ItemStack(ModItems.CHORUS_SOUP.get(), 3, 0),
                         new EntityVillager.PriceInfo(-2, -1)));
     }
 

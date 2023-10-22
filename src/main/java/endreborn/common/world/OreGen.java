@@ -20,16 +20,16 @@ public class OreGen implements IWorldGenerator {
     private final WorldGenerator ore_end_essence, lormyte, ore_over_essence, ore_wolframium, end_magma, end_entropy;
 
     public OreGen() {
-        ore_end_essence = new WorldGenMinable(ModBlocks.ESSENCE_ORE.getDefaultState(), 9,
+        ore_end_essence = new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(), 9,
                 BlockMatcher.forBlock(Blocks.OBSIDIAN));
-        ore_over_essence = new WorldGenMinable(ModBlocks.ESSENCE_ORE.getDefaultState(), 9,
+        ore_over_essence = new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(), 9,
                 BlockMatcher.forBlock(Blocks.OBSIDIAN));
-        ore_wolframium = new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.getDefaultState(), 4,
+        ore_wolframium = new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(), 4,
                 BlockMatcher.forBlock(Blocks.STONE));
         lormyte = new WorldGenLormyte();
-        end_magma = new WorldGenMinable(ModBlocks.BLOCK_END_MAGMA.getDefaultState(), 30,
+        end_magma = new WorldGenMinable(ModBlocks.BLOCK_END_MAGMA.get().getDefaultState(), 30,
                 BlockMatcher.forBlock(Blocks.END_STONE));
-        end_entropy = new WorldGenMinable(ModBlocks.ENTROPY_END_STONE.getDefaultState(), 10,
+        end_entropy = new WorldGenMinable(ModBlocks.ENTROPY_END_STONE.get().getDefaultState(), 10,
                 BlockMatcher.forBlock(Blocks.END_STONE));
     }
 

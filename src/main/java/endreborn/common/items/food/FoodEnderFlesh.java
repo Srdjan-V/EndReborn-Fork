@@ -15,7 +15,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.common.ModItems;
 import endreborn.utils.IHasModel;
 
 public class FoodEnderFlesh extends ItemFood implements IHasModel {
@@ -26,7 +25,6 @@ public class FoodEnderFlesh extends ItemFood implements IHasModel {
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
         setPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 100, 1), 0.6F);
-        ModItems.ITEMS.add(this);
     }
 
     @Override
