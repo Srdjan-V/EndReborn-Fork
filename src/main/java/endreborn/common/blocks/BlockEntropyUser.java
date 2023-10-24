@@ -17,7 +17,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -31,7 +30,7 @@ import endreborn.EndReborn;
 import endreborn.Reference;
 import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
-import endreborn.common.tiles.TileEntropyUser;
+import endreborn.common.tiles.MaterializerTile;
 
 public class BlockEntropyUser extends BlockBase {
 
@@ -129,7 +128,7 @@ public class BlockEntropyUser extends BlockBase {
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileEntropyUser();
+        return new MaterializerTile();
     }
 
     @Override
@@ -147,8 +146,8 @@ public class BlockEntropyUser extends BlockBase {
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntropyUser tileEntity = (TileEntropyUser) world.getTileEntity(pos);
-        InventoryHelper.dropInventoryItems(world, pos, tileEntity);
+        MaterializerTile tileEntity = (MaterializerTile) world.getTileEntity(pos);
+        // InventoryHelper.dropInventoryItems(world, pos, );
         super.breakBlock(world, pos, state);
     }
 

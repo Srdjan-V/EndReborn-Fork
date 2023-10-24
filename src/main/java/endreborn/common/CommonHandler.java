@@ -24,7 +24,7 @@ import endreborn.EndReborn;
 import endreborn.Reference;
 import endreborn.common.entity.*;
 import endreborn.common.gui.GuiHandler;
-import endreborn.common.tiles.TileEntropyUser;
+import endreborn.common.tiles.MaterializerTile;
 import endreborn.common.world.OreGen;
 import endreborn.common.world.WorldGenCustomStructures;
 
@@ -61,7 +61,8 @@ public final class CommonHandler {
                     true);
         }
 
-        GameRegistry.registerTileEntity(TileEntropyUser.class, new ResourceLocation(Reference.MODID + ":entropy_user"));
+        GameRegistry.registerTileEntity(MaterializerTile.class,
+                new ResourceLocation(Reference.MODID + ":entropy_user"));
 
         GameRegistry.registerWorldGenerator(new OreGen(), 0);
         GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 0);

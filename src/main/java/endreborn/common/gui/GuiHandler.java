@@ -6,16 +6,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 import endreborn.Reference;
-import endreborn.client.gui.GuiEUser;
-import endreborn.common.blocks.ContainerEntropyUser;
-import endreborn.common.tiles.TileEntropyUser;
+import endreborn.client.gui.MaterializerContainer;
+import endreborn.client.gui.MaterializerGui;
+import endreborn.common.tiles.MaterializerTile;
 
 public class GuiHandler implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        if (ID == Reference.GUI_E_USER) return new ContainerEntropyUser(player.inventory,
-                (TileEntropyUser) world.getTileEntity(new BlockPos(x, y, z)));
+        if (ID == Reference.GUI_E_USER)
+            return new MaterializerContainer(player.inventory,
+                    (MaterializerTile) world.getTileEntity(new BlockPos(x, y, z)));
 
         return null;
     }
@@ -23,7 +24,7 @@ public class GuiHandler implements IGuiHandler {
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         if (ID == Reference.GUI_E_USER)
-            return new GuiEUser(player.inventory, (TileEntropyUser) world.getTileEntity(new BlockPos(x, y, z)));
+            return new MaterializerGui(player.inventory, (MaterializerTile) world.getTileEntity(new BlockPos(x, y, z)));
 
         return null;
     }

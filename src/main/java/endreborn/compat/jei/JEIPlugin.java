@@ -2,18 +2,16 @@ package endreborn.compat.jei;
 
 import java.util.IllegalFormatException;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Table;
 
-import endreborn.client.gui.GuiEUser;
+import endreborn.api.materializer.MaterializerHandler;
+import endreborn.client.gui.MaterializerContainer;
+import endreborn.client.gui.MaterializerGui;
 import endreborn.common.ModBlocks;
-import endreborn.common.blocks.ContainerEntropyUser;
-import endreborn.utils.RecipesUser;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModPlugin;
@@ -37,27 +35,19 @@ public class JEIPlugin implements IModPlugin {
         IRecipeTransferRegistry recipeTransfer = registry.getRecipeTransferRegistry();
 
         registry.addRecipes(getRecipes(), MaterializerCategory.UID);
-        registry.addRecipeClickArea(GuiEUser.class, 109, 43, 24, 17, MaterializerCategory.UID);
+        registry.addRecipeClickArea(MaterializerGui.class, 109, 43, 24, 17, MaterializerCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(ModBlocks.BLOCK_E_USER.get()), MaterializerCategory.UID);
-        recipeTransfer.addRecipeTransferHandler(ContainerEntropyUser.class, MaterializerCategory.UID, 0, 1, 3, 36);
+        recipeTransfer.addRecipeTransferHandler(MaterializerContainer.class, MaterializerCategory.UID, 0, 1, 3, 36);
     }
 
     public static List<MaterializerRecipe> getRecipes() {
-        RecipesUser instance = RecipesUser.getInstance();
-        Table<ItemStack, ItemStack, ItemStack> recipes = instance.getDualSmeltingList();
         List<MaterializerRecipe> jeiRecipes = Lists.newArrayList();
-
-        for (Map.Entry<ItemStack, Map<ItemStack, ItemStack>> entry : recipes.columnMap().entrySet()) {
-            for (Map.Entry<ItemStack, ItemStack> ent : entry.getValue().entrySet()) {
-                ItemStack input0 = entry.getKey();
-                ItemStack input1 = entry.getKey();
-                ItemStack input2 = ent.getKey();
-                ItemStack output = ent.getValue();
-
-                List<ItemStack> inputs = Lists.newArrayList(input1, input2, input0);
-                MaterializerRecipe recipe = new MaterializerRecipe(inputs, output);
-                jeiRecipes.add(recipe);
-            }
+        for (endreborn.api.materializer.MaterializerRecipe value : MaterializerHandler.getRecipes()) {
+            List<ItemStack> inputs = Lists.newArrayList(value.input);
+            // TODO: 23/10/2023 improve
+            MaterializerRecipe recipe = new MaterializerRecipe(inputs,
+                    value.output.apply(value.input, MaterializerHandler.getCatalysts().stream().findFirst().get()));
+            jeiRecipes.add(recipe);
         }
 
         return jeiRecipes;
