@@ -84,7 +84,7 @@ public final class CommonHandler {
             addPattern(clazz, "pearl", "prl", new ItemStack(Items.ENDER_PEARL));
         }
 
-        NetworkRegistry.INSTANCE.registerGuiHandler(EndReborn.instance, new GuiHandler());
+       // NetworkRegistry.INSTANCE.registerGuiHandler(EndReborn.instance, new GuiHandler());
 
         OreDictionary.registerOre("ingotEndorium", ModItems.INGOT_ENDORIUM.get());
         OreDictionary.registerOre("ingotTungsten", ModItems.TUNGSTEN_INGOT.get());

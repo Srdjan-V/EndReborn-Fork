@@ -21,9 +21,15 @@
  *
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
+configurations {
+    source
+}
+
 dependencies {
     implementation rfg.deobf("curse.maven:tinkersconstruct-74072:2902483")
     implementation rfg.deobf("curse.maven:mantle-74924:2713386")
+    implementation "CleanroomMC:ModularUI:2.2.3:dev@jar"
+    source "CleanroomMC:ModularUI:2.2.3:sources@jar"
 
     runtimeOnly rfg.deobf('curse.maven:configanytime-870276:4576653')
     runtimeOnly rfg.deobf('curse.maven:universal_tweaks-705000:4704976')

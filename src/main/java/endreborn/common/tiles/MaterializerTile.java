@@ -1,9 +1,34 @@
 package endreborn.common.tiles;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+import com.cleanroommc.modularui.api.IGuiHolder;
+import com.cleanroommc.modularui.api.drawable.IDrawable;
+import com.cleanroommc.modularui.drawable.GuiTextures;
+import com.cleanroommc.modularui.drawable.ItemDrawable;
+import com.cleanroommc.modularui.drawable.UITexture;
+import com.cleanroommc.modularui.drawable.keys.StringKey;
+import com.cleanroommc.modularui.manager.GuiCreationContext;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.ModularScreen;
+import com.cleanroommc.modularui.screen.Tooltip;
+import com.cleanroommc.modularui.screen.viewport.GuiContext;
+import com.cleanroommc.modularui.utils.ScrollDirection;
+import com.cleanroommc.modularui.value.sync.DoubleSyncValue;
+import com.cleanroommc.modularui.value.sync.GuiSyncManager;
+import com.cleanroommc.modularui.widget.ScrollWidget;
+import com.cleanroommc.modularui.widgets.Dialog;
+import com.cleanroommc.modularui.widgets.ItemSlot;
+import com.cleanroommc.modularui.widgets.ProgressWidget;
+import com.cleanroommc.modularui.widgets.layout.Grid;
+import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -26,8 +51,9 @@ import endreborn.api.materializer.CriticalityEvent;
 import endreborn.api.materializer.MaterializerHandler;
 import endreborn.api.materializer.MaterializerRecipe;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import scala.actors.threadpool.Arrays;
 
-public class MaterializerTile extends TileEntity implements ITickable {
+public class MaterializerTile extends TileEntity implements ITickable, IGuiHolder {
 
     private final ItemStackHandler inventory = new ItemStackHandler(3) {
 
@@ -39,6 +65,8 @@ public class MaterializerTile extends TileEntity implements ITickable {
             reset(slot == 3);
         }
     };
+
+    private final ItemStackHandler processingInventory = new ItemStackHandler(2);
 
     private final List<String> operationErrors = new ObjectArrayList<>();
     private Catalyst rawCatalyst;
@@ -58,12 +86,58 @@ public class MaterializerTile extends TileEntity implements ITickable {
         if (compound.hasKey("inventory")) {
             inventory.deserializeNBT(compound.getCompoundTag("inventory"));
         }
+        if (compound.hasKey("processingInventory")) {
+            processingInventory.deserializeNBT(compound.getCompoundTag("processingInventory"));
+        }
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setTag("inventory", inventory.serializeNBT());
+        compound.setTag("processingInventory", inventory.serializeNBT());
         return super.writeToNBT(compound);
+    }
+
+    @Override public ModularPanel buildUI(GuiCreationContext creationContext, GuiSyncManager syncManager, boolean isClient) {
+        ModularPanel panel = ModularPanel.defaultPanel("materializer_gui").bindPlayerInventory();
+        try {
+
+            if (isClient) {
+                var infoW = UITexture.builder().fullImage().location("modularui:textures/gui/widgets/information.png").build()
+                        .asWidget().left(4).top(4).size(13, 13);
+                infoW.tooltip().setAutoUpdate(true).tooltipBuilder(tooltip -> {
+                    var rec = MaterializerHandler.findRecipe(inventory.getStackInSlot(0));
+                    if (rec != null) {
+                        tooltip.addLine("Criticality Events:");
+                        for (CriticalityEvent value : rec.criticalityEvents.values()) {
+                            var pair = value.getCriticalityItems();
+                            tooltip.addLine((context, x, y, width, height) -> {
+                                // TODO: 25/10/2023 Fix draw pos
+                                new StringKey(String.valueOf(value.getChance())).draw(context, x, y, width, height);
+                                new ItemDrawable(new ItemStack(pair.getLeft())).asIcon().size(6).draw(context, x, y, width, height);
+                                new ItemDrawable(new ItemStack((Block) pair.getRight())).asIcon().size(6).draw(context, x, y, width, height);
+                            });
+                        }
+                    }
+                });
+                panel.child(infoW);
+            }
+
+            panel.child(new ItemSlot().slot(new ModularSlot(inventory, 0)).left(50).top(45));
+            panel.child(new ItemSlot().slot(new ModularSlot(inventory, 1)).left(70).top(45));
+            panel.child(new ItemSlot().slot(new ModularSlot(inventory, 2)).left(120).top(45));
+
+            panel.child(new ProgressWidget()
+                    .size(18)
+                    .left(95).top(45)
+                    .texture(GuiTextures.PROGRESS_ARROW, 25)
+                    .value(new DoubleSyncValue(() -> this.ticksRun / 100.0, val -> this.ticksRun = (int) (val * 100))));
+
+        } catch (RuntimeException ignore) {
+            ignore.printStackTrace();
+        }
+
+        return panel;
     }
 
     @Override
@@ -148,7 +222,7 @@ public class MaterializerTile extends TileEntity implements ITickable {
         if (chance < event.getChance()) return true;
 
         int range = rawCatalyst.getWorldCoruptionRange();
-        var targetBlock = Block.getBlockFromItem(event.getCriticalityItems().getKey());
+        var targetBlock = event.getCriticalityItems().getKey();
         for (BlockPos pos : BlockPos.getAllInBox(this.getPos().add(range, range, range),
                 this.getPos().add(-range, -range, -range))) {
             if (!world.isBlockLoaded(pos)) continue;
@@ -156,6 +230,8 @@ public class MaterializerTile extends TileEntity implements ITickable {
                 var obj = event.getCriticalityItems().getValue();
                 if (obj instanceof ItemBlock itemBlock) {
                     world.setBlockState(pos, itemBlock.getBlock().getDefaultState());
+                } else if (obj instanceof Block block) {
+                    world.setBlockState(pos, block.getDefaultState());
                 } else {
                     final ItemStack stack;
                     if (obj instanceof ItemStack) {
