@@ -47,7 +47,7 @@ public final class ModBlocks {
     public static final Supplier<Block> BLOCK_END_MAGMA = register(() -> new BlockEndMagma("block_end_magma"));
     public static final Supplier<Block> BLOCK_END_FORGE = register(() -> new BlockEndForge("block_end_forge"));
     public static final Supplier<Block> XORCITE_BLOCK = register(() -> new XorcitePlantBlock("xorcite_block"));
-    public static final Supplier<Block> BLOCK_E_USER = register(() -> new BlockEntropyUser("entropy_user"));
+    public static final Supplier<Block> MATERIALIZER = register(() -> new BlockMaterializer("materializer"));
     public static final Supplier<Block> BROKEN_FLOWER = register(
             () -> new CutoutBlock("broken_ender_flower", Material.PLANTS));
     public static final Supplier<Block> END_STONE_CHISELED = register(

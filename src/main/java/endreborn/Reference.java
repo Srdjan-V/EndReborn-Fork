@@ -10,5 +10,4 @@ public class Reference {
     public static final String CLIENTPROXY = "endreborn.proxy.ClientProxy";
     public static final String COMMONPROXY = "endreborn.common.CommonProxy";
     public static final String TEXTURE_PATH_GUIBACKGROUNDS = "textures/gui/title/background/";
-    public static final int GUI_E_USER = 1;
 }

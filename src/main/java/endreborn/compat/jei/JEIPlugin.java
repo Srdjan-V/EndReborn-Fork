@@ -1,23 +1,13 @@
 package endreborn.compat.jei;
 
 import java.util.IllegalFormatException;
-import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
-import com.google.common.collect.Lists;
-
-import endreborn.api.materializer.MaterializerHandler;
-import endreborn.client.gui.MaterializerContainer;
-import endreborn.client.gui.MaterializerGui;
 import endreborn.common.ModBlocks;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.IModRegistry;
+import mezz.jei.api.*;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
-import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
 
 @mezz.jei.api.JEIPlugin
 public class JEIPlugin implements IModPlugin {
@@ -32,25 +22,8 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void register(IModRegistry registry) {
-        IRecipeTransferRegistry recipeTransfer = registry.getRecipeTransferRegistry();
-
-        registry.addRecipes(getRecipes(), MaterializerCategory.UID);
-        registry.addRecipeClickArea(MaterializerGui.class, 109, 43, 24, 17, MaterializerCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.BLOCK_E_USER.get()), MaterializerCategory.UID);
-        recipeTransfer.addRecipeTransferHandler(MaterializerContainer.class, MaterializerCategory.UID, 0, 1, 3, 36);
-    }
-
-    public static List<MaterializerRecipe> getRecipes() {
-        List<MaterializerRecipe> jeiRecipes = Lists.newArrayList();
-        for (endreborn.api.materializer.MaterializerRecipe value : MaterializerHandler.getRecipes()) {
-            List<ItemStack> inputs = Lists.newArrayList(value.input);
-            // TODO: 23/10/2023 improve
-            MaterializerRecipe recipe = new MaterializerRecipe(inputs,
-                    value.output.apply(value.input, MaterializerHandler.getCatalysts().stream().findFirst().get()));
-            jeiRecipes.add(recipe);
-        }
-
-        return jeiRecipes;
+        registry.addRecipes(MaterializerCategory.getRecipes(), MaterializerCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.MATERIALIZER.get()), MaterializerCategory.UID);
     }
 
     @SuppressWarnings("deprecation")

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import endreborn.common.datafixers.providers.BlockMappingProvider;
 import endreborn.common.datafixers.providers.ItemMappingProvider;
 
-public class Tungsten implements IFixableData, ItemMappingProvider, BlockMappingProvider {
+public class Materializer implements IFixableData, BlockMappingProvider, ItemMappingProvider {
 
     public static final FixTypes TYPE = FixTypes.ITEM_INSTANCE;
 
@@ -23,31 +23,17 @@ public class Tungsten implements IFixableData, ItemMappingProvider, BlockMapping
     }
 
     @Override
-    public @NotNull NBTTagCompound fixTagCompound(NBTTagCompound compound) {
+    public NBTTagCompound fixTagCompound(NBTTagCompound compound) {
         return compound;
     }
 
     @Override
     public @NotNull Map<ResourceLocation, ResourceLocation> getCommonMappings() {
         Map<ResourceLocation, ResourceLocation> mappings = new HashMap<>();
-        mappings.put(
-                resLoc("block_wolframium"),
-                resLoc("tungsten_block"));
-        mappings.put(
-                resLoc("block_wolframium_ore"),
-                resLoc("tungsten_ore"));
-        return mappings;
-    }
 
-    @Override
-    public @NotNull Map<ResourceLocation, ResourceLocation> getItemMappings() {
-        Map<ResourceLocation, ResourceLocation> mappings = new HashMap<>();
         mappings.put(
-                resLoc("item_ingot_wolframium"),
-                resLoc("tungsten_ingot"));
-        mappings.put(
-                resLoc("wolframium_nugget"),
-                resLoc("tungsten_nugget"));
+                resLoc("entropy_user"),
+                resLoc("materializer"));
 
         return mappings;
     }

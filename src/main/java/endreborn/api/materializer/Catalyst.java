@@ -1,28 +1,29 @@
 package endreborn.api.materializer;
 
+import java.util.Map;
+
 import net.minecraft.item.ItemStack;
+
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 public final class Catalyst {
 
     private final ItemStack catalyst;
-    private final int criticality;
-    private final int worldCoruptionRange;
+    private final Map<IdentityItemStack, MaterializerRecipe> recipes = new Object2ObjectOpenHashMap<>();
 
-    public Catalyst(ItemStack catalyst, int criticality, int worldCoruptionRange) {
+    public Catalyst(ItemStack catalyst) {
         this.catalyst = catalyst;
-        this.criticality = criticality;
-        this.worldCoruptionRange = worldCoruptionRange;
+    }
+
+    public void registerRecipe(IdentityItemStack itemStack, MaterializerRecipe recipe) {
+        recipes.put(itemStack, recipe);
     }
 
     public ItemStack getCatalyst() {
         return catalyst;
     }
 
-    public int getCriticality() {
-        return criticality;
-    }
-
-    public int getWorldCoruptionRange() {
-        return worldCoruptionRange;
+    public Map<IdentityItemStack, MaterializerRecipe> getRecipes() {
+        return recipes;
     }
 }

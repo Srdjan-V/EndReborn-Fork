@@ -1,36 +1,21 @@
 package endreborn.common.datafixers.fixers;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.IFixableData;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import org.jetbrains.annotations.NotNull;
 
-import endreborn.Reference;
+import endreborn.common.datafixers.providers.BlockMappingProvider;
+import endreborn.common.datafixers.providers.ItemMappingProvider;
 
-public class Xorcite implements IFixableData {
+public class Xorcite implements IFixableData, ItemMappingProvider, BlockMappingProvider {
 
-    private static final Map<ResourceLocation, ResourceLocation> RESOURCE_LOCATION = new HashMap<>();
-
-    static {
-        RESOURCE_LOCATION.put(new ResourceLocation(Reference.MODID, "dragon_essence"),
-                new ResourceLocation(Reference.MODID, "xorcite_block"));
-        RESOURCE_LOCATION.put(new ResourceLocation(Reference.MODID, "death_essence"),
-                new ResourceLocation(Reference.MODID, "xorcite_ingot"));// TODO: 22/10/2023 rename to shard
-    }
-
-    public Xorcite() {
-        MinecraftForge.EVENT_BUS.register(this);
-    }
+    public static final FixTypes TYPE = FixTypes.ITEM_INSTANCE;
 
     @Override
     public int getFixVersion() {
@@ -42,27 +27,17 @@ public class Xorcite implements IFixableData {
         return compound;
     }
 
-    @SubscribeEvent
-    public void missingItemMapping(RegistryEvent.MissingMappings<Item> event) {
-        for (RegistryEvent.MissingMappings.Mapping<Item> entry : event.getAllMappings()) {
-            ResourceLocation oldName = entry.key;
-            ResourceLocation newName = RESOURCE_LOCATION.get(oldName);
-            if (newName != null) {
-                Item newItem = ForgeRegistries.ITEMS.getValue(newName);
-                if (newItem != null) entry.remap(newItem);
-            }
-        }
+    @Override
+    public @NotNull Map<ResourceLocation, ResourceLocation> getBlockMappings() {
+        return Collections.singletonMap(
+                resLoc("dragon_essence"),
+                resLoc("xorcite_block"));
     }
 
-    @SubscribeEvent
-    public void missingBlockMapping(RegistryEvent.MissingMappings<Block> event) {
-        for (RegistryEvent.MissingMappings.Mapping<Block> entry : event.getAllMappings()) {
-            ResourceLocation oldName = entry.key;
-            ResourceLocation newName = RESOURCE_LOCATION.get(oldName);
-            if (newName != null) {
-                var newBlock = ForgeRegistries.BLOCKS.getValue(newName);
-                if (newBlock != null) entry.remap(newBlock);
-            }
-        }
+    @Override
+    public @NotNull Map<ResourceLocation, ResourceLocation> getItemMappings() {
+        return Collections.singletonMap(
+                resLoc("death_essence"),
+                resLoc("xorcite_shard"));
     }
 }

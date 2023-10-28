@@ -75,7 +75,7 @@ public final class ModItems {
     public static final Supplier<Item> DRAGONITE_TEA = register(() -> new ItemDragoniteTea("item_dragonite_tea"));
     public static final Supplier<Item> ANGEL_FEATHER = register(() -> new ItemBase("item_angel_feather"));
     public static final Supplier<Item> DRAGON_SCALES = register(() -> new ItemBase("dragon_scales"));
-    public static final Supplier<Item> XORCITE_INGOT = register(() -> new ItemBase("xorcite_ingot"));
+    public static final Supplier<Item> XORCITE_SHARD = register(() -> new ItemBase("xorcite_shard"));
     public static final Supplier<Item> INFUSED_METALL = register(() -> new ItemBase("ingot_infused"));
     public static final Supplier<Item> SWORD_SHARD = register(() -> new ItemBase("sword_shard"));
     public static final Supplier<Item> CATALYST = register(() -> new ItemCatalyst("catalyst"));
@@ -163,7 +163,7 @@ public final class ModItems {
     public static final Supplier<ItemBlock> BLOCK_END_MAGMA = registerItemBlock(ModBlocks.BLOCK_END_MAGMA);
     public static final Supplier<ItemBlock> BLOCK_END_FORGE = registerItemBlock(ModBlocks.BLOCK_END_FORGE);
     public static final Supplier<ItemBlock> XORCITE_BLOCK = registerItemBlock(ModBlocks.XORCITE_BLOCK);
-    public static final Supplier<ItemBlock> BLOCK_E_USER = registerItemBlock(ModBlocks.BLOCK_E_USER);
+    public static final Supplier<ItemBlock> BLOCK_E_USER = registerItemBlock(ModBlocks.MATERIALIZER);
     public static final Supplier<ItemBlock> BROKEN_FLOWER = registerItemBlock(ModBlocks.BROKEN_FLOWER);
     public static final Supplier<ItemBlock> END_STONE_CHISELED = registerItemBlock(ModBlocks.END_STONE_CHISELED);
     public static final Supplier<ItemBlock> COLD_FIRE = registerItemBlock(ModBlocks.COLD_FIRE);

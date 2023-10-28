@@ -2,7 +2,7 @@
         "parent": "block/cube_all",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "endreborn:blocks/materializer_lit",
+		"2": "endreborn:blocks/materializer_working",
 		"particle": "endreborn:blocks/materializer"
 	},
 	"elements": [

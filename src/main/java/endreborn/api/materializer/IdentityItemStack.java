@@ -8,17 +8,17 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import org.jetbrains.annotations.Nullable;
 
-public final class HashableItemStack {
+public final class IdentityItemStack {
 
     private final Item item;
     private final NBTTagCompound nbtTagCompound;
 
-    public HashableItemStack(ItemStack itemStack) {
+    public IdentityItemStack(ItemStack itemStack) {
         this.item = itemStack.getItem();
         this.nbtTagCompound = itemStack.getTagCompound();
     }
 
-    public HashableItemStack(Item item) {
+    public IdentityItemStack(Item item) {
         this.item = item;
         this.nbtTagCompound = null;
     }
@@ -36,7 +36,7 @@ public final class HashableItemStack {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HashableItemStack that = (HashableItemStack) o;
+        IdentityItemStack that = (IdentityItemStack) o;
         return (item == that.item) && Objects.equals(nbtTagCompound, that.nbtTagCompound);
     }
 

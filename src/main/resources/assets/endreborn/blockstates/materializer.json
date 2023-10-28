@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=north,working=false": { "model": "endreborn:materializer" },
+        "facing=east,working=false": { "model": "endreborn:materializer", "y": 90 },
+        "facing=south,working=false": { "model": "endreborn:materializer", "y": 180 },
+        "facing=west,working=false": { "model": "endreborn:materializer", "y": 270 },
+        "facing=north,working=true": { "model": "endreborn:materializer_working" },
+        "facing=east,working=true": { "model": "endreborn:materializer_working", "y": 90 },
+        "facing=south,working=true": { "model": "endreborn:materializer_working", "y": 180 },
+        "facing=west,working=true": { "model": "endreborn:materializer_working", "y":270  }
+    }
+}

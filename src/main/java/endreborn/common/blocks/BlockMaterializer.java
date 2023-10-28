@@ -5,10 +5,8 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.cleanroommc.modularui.manager.GuiInfos;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -17,7 +15,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -27,21 +24,26 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.EndReborn;
-import endreborn.Reference;
+import com.cleanroommc.modularui.manager.GuiInfos;
+
 import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
 import endreborn.common.tiles.MaterializerTile;
 
-public class BlockEntropyUser extends BlockBase {
+public class BlockMaterializer extends BlockBase {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    public static final PropertyBool BURNING = PropertyBool.create("burning");
+    public static final PropertyBool WORKING = PropertyBool.create("working");
 
-    public BlockEntropyUser(String name) {
+    public BlockMaterializer(String name) {
         super(name, Material.IRON);
         this.setDefaultState(
-                this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(BURNING, false));
+                this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING, false));
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, WORKING, FACING);
     }
 
     @Override
@@ -66,7 +68,7 @@ public class BlockEntropyUser extends BlockBase {
 
     @Override
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-        return new ItemStack(ModBlocks.BLOCK_E_USER.get());
+        return new ItemStack(ModBlocks.MATERIALIZER.get());
     }
 
     @Override
@@ -86,32 +88,13 @@ public class BlockEntropyUser extends BlockBase {
             IBlockState south = worldIn.getBlockState(pos.south());
             IBlockState west = worldIn.getBlockState(pos.west());
             IBlockState east = worldIn.getBlockState(pos.east());
-            EnumFacing face = (EnumFacing) state.getValue(FACING);
+            EnumFacing face = state.getValue(FACING);
 
             if (face == EnumFacing.NORTH && north.isFullBlock() && !south.isFullBlock()) face = EnumFacing.SOUTH;
             else if (face == EnumFacing.SOUTH && south.isFullBlock() && !north.isFullBlock()) face = EnumFacing.NORTH;
             else if (face == EnumFacing.WEST && west.isFullBlock() && !east.isFullBlock()) face = EnumFacing.EAST;
             else if (face == EnumFacing.EAST && east.isFullBlock() && !west.isFullBlock()) face = EnumFacing.WEST;
             worldIn.setBlockState(pos, state.withProperty(FACING, face), 2);
-        }
-    }
-
-    public static void setState(boolean active, World worldIn, BlockPos pos) {
-        IBlockState state = worldIn.getBlockState(pos);
-        TileEntity tileentity = worldIn.getTileEntity(pos);
-
-        if (active) {
-
-            worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.BLOCKS, 0.5F,
-                    2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
-            worldIn.setBlockState(pos, ModBlocks.BLOCK_E_USER.get().getDefaultState()
-                    .withProperty(FACING, state.getValue(FACING)).withProperty(BURNING, true), 3);
-
-        } else worldIn.setBlockState(pos, ModBlocks.BLOCK_E_USER.get().getDefaultState()
-                .withProperty(FACING, state.getValue(FACING)).withProperty(BURNING, false), 3);;
-        if (tileentity != null) {
-            tileentity.validate();
-            worldIn.setTileEntity(pos, tileentity);
         }
     }
 
@@ -145,8 +128,9 @@ public class BlockEntropyUser extends BlockBase {
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        MaterializerTile tileEntity = (MaterializerTile) world.getTileEntity(pos);
-        // InventoryHelper.dropInventoryItems(world, pos, );
+        if (world.getTileEntity(pos) instanceof MaterializerTile tile) {
+            tile.dopItems();
+        }
         super.breakBlock(world, pos, state);
     }
 
@@ -157,17 +141,12 @@ public class BlockEntropyUser extends BlockBase {
 
     @Override
     public IBlockState withRotation(IBlockState state, Rotation rot) {
-        return state.withProperty(FACING, rot.rotate((EnumFacing) state.getValue(FACING)));
+        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
     public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation((EnumFacing) state.getValue(FACING)));
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] { BURNING, FACING });
+        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
     }
 
     @Override
@@ -185,13 +164,6 @@ public class BlockEntropyUser extends BlockBase {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return ((EnumFacing) state.getValue(FACING)).getIndex();
-    }
-
-    public void updateTick(boolean active, World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if (active) {
-            worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_PORTAL_AMBIENT, SoundCategory.BLOCKS, 0.5F,
-                    2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
-        }
+        return state.getValue(FACING).getIndex();
     }
 }

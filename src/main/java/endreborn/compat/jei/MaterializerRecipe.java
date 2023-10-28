@@ -1,8 +1,8 @@
 package endreborn.compat.jei;
 
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
+
+import com.google.common.collect.Lists;
 
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
@@ -10,17 +10,18 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 
 public class MaterializerRecipe implements IRecipeWrapper {
 
-    private final List<ItemStack> inputs;
+    private final ItemStack input, catalyst;
     private final ItemStack output;
 
-    public MaterializerRecipe(List<ItemStack> inputs, ItemStack output) {
-        this.inputs = inputs;
+    public MaterializerRecipe(ItemStack input, ItemStack catalyst, ItemStack output) {
+        this.input = input;
+        this.catalyst = catalyst;
         this.output = output;
     }
 
     @Override
     public void getIngredients(IIngredients ingredients) {
-        ingredients.setInputs(VanillaTypes.ITEM, inputs);
+        ingredients.setInputs(VanillaTypes.ITEM, Lists.newArrayList(input, catalyst));
         ingredients.setOutput(VanillaTypes.ITEM, output);
     }
 }

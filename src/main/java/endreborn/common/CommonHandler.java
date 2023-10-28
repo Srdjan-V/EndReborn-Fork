@@ -14,7 +14,6 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -23,7 +22,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import endreborn.EndReborn;
 import endreborn.Reference;
 import endreborn.common.entity.*;
-import endreborn.common.gui.GuiHandler;
 import endreborn.common.tiles.MaterializerTile;
 import endreborn.common.world.OreGen;
 import endreborn.common.world.WorldGenCustomStructures;
@@ -83,8 +81,6 @@ public final class CommonHandler {
             addPattern(clazz, "end", "end", new ItemStack(Items.CHORUS_FRUIT_POPPED));
             addPattern(clazz, "pearl", "prl", new ItemStack(Items.ENDER_PEARL));
         }
-
-       // NetworkRegistry.INSTANCE.registerGuiHandler(EndReborn.instance, new GuiHandler());
 
         OreDictionary.registerOre("ingotEndorium", ModItems.INGOT_ENDORIUM.get());
         OreDictionary.registerOre("ingotTungsten", ModItems.TUNGSTEN_INGOT.get());

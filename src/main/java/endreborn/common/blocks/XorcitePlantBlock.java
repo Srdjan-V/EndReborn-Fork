@@ -79,7 +79,7 @@ public class XorcitePlantBlock extends BlockCrops implements IHasModel {
 
     @Override
     protected Item getCrop() {
-        return ModItems.XORCITE_INGOT.get();
+        return ModItems.XORCITE_SHARD.get();
     }
 
     @Override
@@ -187,8 +187,8 @@ public class XorcitePlantBlock extends BlockCrops implements IHasModel {
 
     protected List<ItemStack> addAdditionalDrops(IBlockAccess world, BlockPos pos, int fortune, List<ItemStack> drops,
                                                  Random random) {
-        drops.add(new ItemStack(ModItems.XORCITE_INGOT.get(), 1));
-        if (random.nextInt(20) <= (1 + fortune)) drops.add(new ItemStack(ModItems.XORCITE_INGOT.get(), 1));
+        drops.add(new ItemStack(ModItems.XORCITE_SHARD.get(), 1));
+        if (random.nextInt(20) <= (1 + fortune)) drops.add(new ItemStack(ModItems.XORCITE_SHARD.get(), 1));
         return drops;
     }
 
