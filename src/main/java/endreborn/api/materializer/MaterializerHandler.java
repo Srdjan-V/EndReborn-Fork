@@ -1,6 +1,7 @@
 package endreborn.api.materializer;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -83,7 +84,7 @@ public final class MaterializerHandler {
         registerRecipe(catalyst1, new MaterializerRecipe(
                 new ItemStack(Items.IRON_INGOT),
                 (stack, catalyst) -> new ItemStack(Items.IRON_INGOT, 2),
-                120, tmp));
+                120, tmp, Collections.singletonList("Test")));
 
         /*
          * var tmp2 = new Int2ObjectLinkedOpenHashMap<CriticalityEvent>();
@@ -95,8 +96,8 @@ public final class MaterializerHandler {
          * tmp2.put(60, CriticalityEvent.createBlock2BlockEvent(100, Blocks.PUMPKIN, Blocks.GLASS));
          * tmp2.put(70, CriticalityEvent.createBlock2BlockEvent(100, Blocks.GLASS, Blocks.OBSIDIAN));
          * tmp2.put(80, CriticalityEvent.createBlock2BlockEvent(100, Blocks.OBSIDIAN, Blocks.STONE));
-         * 
-         * 
+         *
+         *
          * registerRecipe(new MaterializerRecipe(
          * 30,
          * new ItemStack(Items.GOLDEN_APPLE),

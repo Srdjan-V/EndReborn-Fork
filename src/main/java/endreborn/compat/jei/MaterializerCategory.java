@@ -4,10 +4,10 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.google.common.collect.Lists;
 
 import endreborn.Reference;
@@ -21,23 +21,16 @@ import mezz.jei.api.recipe.IRecipeCategory;
 public class MaterializerCategory implements IRecipeCategory<MaterializerRecipe> {
 
     public static final String UID = Reference.MODID + ".materializer";
-    public static final ResourceLocation TEXTURES = new ResourceLocation(
-            Reference.MODID + ":textures/gui/entropy_user.png");
-
-    protected static final int input1 = 0;
-    protected static final int input2 = 1;
+    protected static final int input = 0;
+    protected static final int catalyst = 1;
     protected static final int output = 3;
 
-    protected final IDrawableAnimated animatedArrow;
     private final IDrawable background;
-    private final String name;
+    private final IDrawable slot;
 
     public MaterializerCategory(IGuiHelper helper) {
-        IDrawableStatic staticArrow = helper.createDrawable(TEXTURES, 176, 13, 24, 17);
-        animatedArrow = helper.createAnimatedDrawable(staticArrow, 20, IDrawableAnimated.StartDirection.LEFT, false);
-
-        background = helper.createDrawable(TEXTURES, 4, 4, 169, 78);
-        name = I18n.format("tile.materializer");
+        background = helper.createBlankDrawable(160, 60);
+        slot = helper.getSlotDrawable();
     }
 
     @Override
@@ -47,12 +40,18 @@ public class MaterializerCategory implements IRecipeCategory<MaterializerRecipe>
 
     @Override
     public void drawExtras(@NotNull Minecraft minecraft) {
-        animatedArrow.draw(minecraft, 106, 39);
+        GuiTextures.PROGRESS_ARROW.getSubArea(0f, 0f, 1f, 0.5f).draw(78, 20, 20, 20);
+        float progress = Minecraft.getSystemTime() % 2000 / 2000f; // 2 seconds
+        GuiTextures.PROGRESS_ARROW.getSubArea(0f, 0.5f, progress, 1f).draw(78, 20, progress * 20, 20);
+        slot.draw(minecraft, 105, 20);
+        slot.draw(minecraft, 55, 20);
+        slot.draw(minecraft, 35, 20);
+        GuiTextures.HELP.draw(142, 42, 16, 16);
     }
 
     @Override
     public @NotNull String getTitle() {
-        return name;
+        return I18n.format("tile.materializer");
     }
 
     @Override
@@ -68,20 +67,21 @@ public class MaterializerCategory implements IRecipeCategory<MaterializerRecipe>
     public void setRecipe(IRecipeLayout recipeLayout, @NotNull MaterializerRecipe recipeWrapper,
                           @NotNull IIngredients ingredients) {
         IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
-        stacks.init(input1, true, 64, 38);
-        stacks.init(input2, true, 86, 38);
-        stacks.init(output, false, 136, 38);
+        stacks.init(input, true, 35, 20);
+        stacks.init(catalyst, true, 55, 20);
+        stacks.init(output, false, 105, 20);
         stacks.set(ingredients);
     }
 
     public static List<MaterializerRecipe> getRecipes() {
         List<MaterializerRecipe> jeiRecipes = Lists.newArrayList();
         for (Catalyst catalyst : MaterializerHandler.getCatalysts()) {
-            for (var recipeEntry : catalyst.getRecipes().entrySet()) {
+            for (var rec : catalyst.getRecipes().values()) {
                 jeiRecipes.add(new MaterializerRecipe(
-                        recipeEntry.getValue().getInput(),
+                        rec.getInput(),
                         catalyst.getCatalyst(),
-                        recipeEntry.getValue().getOutput().apply(recipeEntry.getValue().getInput(), catalyst)));
+                        rec.getOutput().apply(rec.getInput(), catalyst),
+                        rec.getCraftDescription()));
             }
         }
 

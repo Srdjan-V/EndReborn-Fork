@@ -143,11 +143,11 @@ item.endreborn.record.end.desc=Yozhh - The Void
 
 #Materializer
 tile.materializer=Materializer
-tile.gui.output_full=Output is full
-tile.gui.idle=Idle
-tile.gui.running=Running
-tile.gui.invalid_recipe=Invalid recipe
-tile.gui.failed=Failed to craft recipe
+tile.materializer.gui.output_full=Output is full
+tile.materializer.gui.idle=Idle
+tile.materializer.gui.running=Running
+tile.materializer.gui.invalid_recipe=Invalid recipe
+tile.materializer.gui.failed=Failed to craft recipe
 
 #Banners
 item.banner.endreborn_rune.white=White Rune 

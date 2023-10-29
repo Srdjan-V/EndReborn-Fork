@@ -62,19 +62,18 @@ public class XorcitePlantBlock extends BlockCrops implements IHasModel {
 
     @Override
     protected ItemStack getSilkTouchDrop(IBlockState state) {
-        Item item = Item.getItemFromBlock(this);
-        return new ItemStack(item, 1, 0);
+        return new ItemStack(ModItems.XORCITE_BLOCK.get(), 1, 0);
     }
 
     @Override
     public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-        items.add(new ItemStack(this, 1, 0));
-        items.add(new ItemStack(this, 1, 3));
+        items.add(new ItemStack(ModItems.XORCITE_BLOCK.get(), 1, 0));
+        items.add(new ItemStack(ModItems.XORCITE_BLOCK.get(), 1, 3));
     }
 
     @Override
     protected Item getSeed() {
-        return Item.getItemFromBlock(this);
+        return ModItems.XORCITE_BLOCK.get();
     }
 
     @Override

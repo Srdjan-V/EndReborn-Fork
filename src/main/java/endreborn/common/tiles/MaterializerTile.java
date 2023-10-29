@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -34,6 +35,7 @@ import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.api.value.IValue;
 import com.cleanroommc.modularui.drawable.GuiTextures;
+import com.cleanroommc.modularui.drawable.keys.LangKey;
 import com.cleanroommc.modularui.manager.GuiCreationContext;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.viewport.GuiContext;
@@ -183,8 +185,37 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
         var textBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.BACKGROUND);
         textBox.setValue(new StringSyncValue(() -> status.name(), null));
-
         panel.child(textBox);
+
+        class BasicTextSyncingWidget extends Widget<BasicTextSyncingWidget> {
+
+            @Override
+            public void setValue(IValue<?> value) {
+                super.setValue(value);
+            }
+        }
+
+        final var mask = "[{}]";
+        var help = new BasicTextSyncingWidget()
+                .background(GuiTextures.BACKGROUND)
+                .overlay(GuiTextures.HELP)
+                .right(26).bottom(75);
+        help.setValue(new StringSyncValue(() -> {
+            if (Objects.isNull(recipe)) return null;
+            return recipe.getCraftDescription().stream()
+                    .collect(Collectors.joining(mask, "", ""));
+        }, null));
+
+        help.tooltip().tooltipBuilder(tooltip -> {
+            if (Objects.isNull(help.getValue())) return;
+            var text = (String) help.getValue().getValue();
+            var langKeys = text.split(mask);
+            Arrays.stream(langKeys)
+                    .map(LangKey::new)
+                    .forEach(tooltip::addLine);
+        }).setAutoUpdate(true);
+        panel.child(help);
+
         // TODO: 28/10/2023 center
         panel.child(new ItemSlot().slot(new ModularSlot(inputInventory, 0)).left(50).top(45));
         panel.child(new ItemSlot().slot(new ModularSlot(inputInventory, 1)).left(70).top(45));
@@ -416,12 +447,12 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
     enum Status {
 
-        Idle("tile.gui.idle"),
-        OutFull("tile.gui.output_full"),
-        Failed("tile.gui.failed"),
-        Invalid("tile.gui.invalid_recipe"),
+        Idle("tile.materializer.gui.idle"),
+        OutFull("tile.materializer.gui.output_full"),
+        Failed("tile.materializer.gui.failed"),
+        Invalid("tile.materializer.gui.invalid_recipe"),
 
-        Running("tile.gui.running");
+        Running("tile.materializer.gui.running");
 
         private final String langKey;
 
