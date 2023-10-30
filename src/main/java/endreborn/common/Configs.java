@@ -3,7 +3,10 @@ package endreborn.common;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import endreborn.Reference;
 
@@ -73,16 +76,14 @@ public final class Configs {
                     "Key: biome name (minecraft:river), value: [0]: spawn probability, [1]: minimum spawn group, [2]: maximum spawn group" })
             public Map<String, int[]> biomeSpawnConfig = new HashMap<>(1);
 
-            /*
-             * public Biome[] getBiomesForMob() {
-             * List<Biome> ret = new ArrayList<>();
-             * for (String biomeKey : biomes) {
-             * var biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biomeKey));
-             * if (biome != null) ret.add(biome);
-             * }
-             * return ret.toArray(new Biome[0]);
-             * }
-             */
+            public Map<Biome, int[]> getBiomesForMob() {
+                Map<Biome, int[]> ret = new HashMap<>();
+                for (var entityConfig : biomeSpawnConfig.entrySet()) {
+                    var biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(entityConfig.getKey()));
+                    if (biome != null) ret.put(biome, entityConfig.getValue());
+                }
+                return ret;
+            }
         }
     }
 

@@ -93,46 +93,6 @@ public final class EventHandler {
     }
 
     @SubscribeEvent
-    public static void onLivingSpawn(LivingSpawnEvent event) {
-        /*
-         * EntityLivingBase entity = event.getEntityLiving();
-         * if (entity instanceof EntityEnderman && Configs.GENERAL.spawnWatcher) {
-         * if (entity.world.provider.getDimension() == 1 && entity.world.getDifficulty() != EnumDifficulty.PEACEFUL &&
-         * !entity.world.isRemote) {
-         * if (entity.getRNG().nextInt(Configs.BALANCE.watcherRare) == 1) {
-         * EntityWatcher watch = new EntityWatcher(entity.world);
-         * watch.copyLocationAndAnglesFrom(entity);
-         * entity.world.spawnEntity(watch);
-         * entity.setDead();
-         * }
-         * }
-         * }
-         * if (entity instanceof EntityEnderman && Configs.GENERAL.spawnChronologist) {
-         * if (entity.world.provider.getDimension() == 0 && entity.world.getDifficulty() != EnumDifficulty.PEACEFUL &&
-         * !entity.world.isRemote) {
-         * if (entity.getRNG().nextInt(Configs.BALANCE.chronRare) == 1) {
-         * EntityChronologist chron = new EntityChronologist(entity.world);
-         * chron.copyLocationAndAnglesFrom(entity);
-         * entity.world.spawnEntity(chron);
-         * entity.setDead();
-         * }
-         * }
-         * }
-         * if (entity instanceof EntityEnderman && Configs.GENERAL.spawnEndGuard) {
-         * if (entity.world.provider.getDimension() == 1 && entity.world.getDifficulty() != EnumDifficulty.PEACEFUL &&
-         * !entity.world.isRemote) {
-         * if (entity.getRNG().nextInt(Configs.BALANCE.guardRare) == 1) {
-         * EntityEGuard guard = new EntityEGuard(entity.world);
-         * guard.copyLocationAndAnglesFrom(entity);
-         * entity.world.spawnEntity(guard);
-         * entity.setDead();
-         * }
-         * }
-         * }
-         */
-    }
-
-    @SubscribeEvent
     public static void onPlayerPosition(LivingHurtEvent event) {
         if (event.getEntityLiving() instanceof EntityPlayerMP player && event.getEntityLiving().dimension == 1 &&
                 Configs.GENERAL.teleporterEnd && event.getEntityLiving().getPosition().getY() <= -6) {

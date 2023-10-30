@@ -2,12 +2,16 @@ package endreborn.common;
 
 import static endreborn.common.LootTableHandler.CHEST_TABLES;
 
+import java.util.Map;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -109,13 +113,15 @@ public final class CommonHandler {
 
     private static void registerSpawn(Configs.MobsConfig.RootMobConfig config,
                                       Class<? extends EntityLiving> entityClass) {
-        /*
-         * if (config.registerSpawn) {
-         * EntityRegistry.addSpawn(entityClass,
-         * config.weightedProb,
-         * config.min, config.max, EnumCreatureType.MONSTER,
-         * config.getBiomesForMob());// might be too early to que biomes
-         * }
-         */
+        if (config.registerSpawn) {
+            for (Map.Entry<Biome, int[]> biomeEntry : config.getBiomesForMob().entrySet()) {
+                EntityRegistry.addSpawn(entityClass,
+                        biomeEntry.getValue()[0],
+                        biomeEntry.getValue()[1],
+                        biomeEntry.getValue()[2],
+                        EnumCreatureType.MONSTER,
+                        biomeEntry.getKey());// might be too early to que biomes
+            }
+        }
     }
 }
