@@ -19,10 +19,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import endreborn.common.entity.EntityChronologist;
-import endreborn.common.entity.EntityEGuard;
 import endreborn.common.entity.EntityWatcher;
-import endreborn.common.world.TeleporterEnd;
 import endreborn.utils.EndForge;
 
 public final class EventHandler {
@@ -97,40 +94,42 @@ public final class EventHandler {
 
     @SubscribeEvent
     public static void onLivingSpawn(LivingSpawnEvent event) {
-        EntityLivingBase entity = event.getEntityLiving();
-        if (entity instanceof EntityEnderman && Configs.GENERAL.spawnWatcher) {
-            if (entity.world.provider.getDimension() == 1 && entity.world.getDifficulty() != EnumDifficulty.PEACEFUL &&
-                    !entity.world.isRemote) {
-                if (entity.getRNG().nextInt(Configs.BALANCE.watcherRare) == 1) {
-                    EntityWatcher watch = new EntityWatcher(entity.world);
-                    watch.copyLocationAndAnglesFrom(entity);
-                    entity.world.spawnEntity(watch);
-                    entity.setDead();
-                }
-            }
-        }
-        if (entity instanceof EntityEnderman && Configs.GENERAL.spawnChronologist) {
-            if (entity.world.provider.getDimension() == 0 && entity.world.getDifficulty() != EnumDifficulty.PEACEFUL &&
-                    !entity.world.isRemote) {
-                if (entity.getRNG().nextInt(Configs.BALANCE.chronRare) == 1) {
-                    EntityChronologist chron = new EntityChronologist(entity.world);
-                    chron.copyLocationAndAnglesFrom(entity);
-                    entity.world.spawnEntity(chron);
-                    entity.setDead();
-                }
-            }
-        }
-        if (entity instanceof EntityEnderman && Configs.GENERAL.spawnEndGuard) {
-            if (entity.world.provider.getDimension() == 1 && entity.world.getDifficulty() != EnumDifficulty.PEACEFUL &&
-                    !entity.world.isRemote) {
-                if (entity.getRNG().nextInt(Configs.BALANCE.guardRare) == 1) {
-                    EntityEGuard guard = new EntityEGuard(entity.world);
-                    guard.copyLocationAndAnglesFrom(entity);
-                    entity.world.spawnEntity(guard);
-                    entity.setDead();
-                }
-            }
-        }
+        /*
+         * EntityLivingBase entity = event.getEntityLiving();
+         * if (entity instanceof EntityEnderman && Configs.GENERAL.spawnWatcher) {
+         * if (entity.world.provider.getDimension() == 1 && entity.world.getDifficulty() != EnumDifficulty.PEACEFUL &&
+         * !entity.world.isRemote) {
+         * if (entity.getRNG().nextInt(Configs.BALANCE.watcherRare) == 1) {
+         * EntityWatcher watch = new EntityWatcher(entity.world);
+         * watch.copyLocationAndAnglesFrom(entity);
+         * entity.world.spawnEntity(watch);
+         * entity.setDead();
+         * }
+         * }
+         * }
+         * if (entity instanceof EntityEnderman && Configs.GENERAL.spawnChronologist) {
+         * if (entity.world.provider.getDimension() == 0 && entity.world.getDifficulty() != EnumDifficulty.PEACEFUL &&
+         * !entity.world.isRemote) {
+         * if (entity.getRNG().nextInt(Configs.BALANCE.chronRare) == 1) {
+         * EntityChronologist chron = new EntityChronologist(entity.world);
+         * chron.copyLocationAndAnglesFrom(entity);
+         * entity.world.spawnEntity(chron);
+         * entity.setDead();
+         * }
+         * }
+         * }
+         * if (entity instanceof EntityEnderman && Configs.GENERAL.spawnEndGuard) {
+         * if (entity.world.provider.getDimension() == 1 && entity.world.getDifficulty() != EnumDifficulty.PEACEFUL &&
+         * !entity.world.isRemote) {
+         * if (entity.getRNG().nextInt(Configs.BALANCE.guardRare) == 1) {
+         * EntityEGuard guard = new EntityEGuard(entity.world);
+         * guard.copyLocationAndAnglesFrom(entity);
+         * entity.world.spawnEntity(guard);
+         * entity.setDead();
+         * }
+         * }
+         * }
+         */
     }
 
     @SubscribeEvent
@@ -140,9 +139,7 @@ public final class EventHandler {
             PlayerList playerList = player.getEntityWorld().getMinecraftServer().getPlayerList();
 
             event.setCanceled(true);
-            playerList.transferPlayerToDimension(player, 0,
-                    new TeleporterEnd((WorldServer) player.getEntityWorld(),
-                            player.getPosition().getX(), 250, player.getPosition().getZ()));
+            playerList.changePlayerDimension(player, 0);
         }
     }
 

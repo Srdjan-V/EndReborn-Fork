@@ -1,11 +1,90 @@
 package endreborn.common;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraftforge.common.config.Config;
 
 import endreborn.Reference;
 
 @Config(modid = Reference.MODID, category = "")
 public final class Configs {
+
+    public static final MobsConfig MOBS_CONFIG = new MobsConfig();
+
+    public static class MobsConfig {
+
+        @Config.Name("End Guard Mob")
+        public final RootMobConfig endGuard = new EndGuard();
+
+        @Config.Name("Watcher Mob")
+        public final RootMobConfig watcher = new Watcher();
+
+        @Config.Name("Chronologist Mob")
+        public final RootMobConfig chronologist = new Chronologist();
+
+        @Config.Name("EndLord Mob")
+        public final RootMobConfig endlord = new EndLord();
+
+        public static class EndGuard extends RootMobConfig {
+
+            {
+                biomeSpawnConfig.put("sky", new int[] { 4, 1, 3 });
+            }
+        }
+
+        public static class Watcher extends RootMobConfig {
+
+            {
+                biomeSpawnConfig.put("sky", new int[] { 10, 1, 3 });
+                biomeSpawnConfig.put("plains", new int[] { 4, 1, 1 });
+            }
+        }
+
+        public static class Chronologist extends RootMobConfig {
+
+            {
+                biomeSpawnConfig.put("sky", new int[] { 4, 1, 3 });
+            }
+        }
+
+        public static class EndLord extends RootMobConfig {
+
+            {
+                registerSpawn = false;
+            }
+        }
+
+        public static class RootMobConfig {
+
+            @Config.Name("Register")
+            @Config.RequiresMcRestart
+            @Config.Comment({ "Register the mob" })
+            public boolean register = true;
+
+            @Config.Name("Register Spawn")
+            @Config.RequiresMcRestart
+            @Config.Comment({ "Register the mob to the spawn biome list" })
+            public boolean registerSpawn = true;
+
+            @Config.Name("Biome spawn config")
+            @Config.RequiresMcRestart
+            @Config.Comment({
+                    "Key: biome name (minecraft:river), value: [0]: spawn probability, [1]: minimum spawn group, [2]: maximum spawn group" })
+            public Map<String, int[]> biomeSpawnConfig = new HashMap<>(1);
+
+            /*
+             * public Biome[] getBiomesForMob() {
+             * List<Biome> ret = new ArrayList<>();
+             * for (String biomeKey : biomes) {
+             * var biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biomeKey));
+             * if (biome != null) ret.add(biome);
+             * }
+             * return ret.toArray(new Biome[0]);
+             * }
+             */
+        }
+    }
 
     public static final GeneralConfig GENERAL = new GeneralConfig();
     public static final BalanceConfig BALANCE = new BalanceConfig();
@@ -26,11 +105,6 @@ public final class Configs {
         @Config.RequiresMcRestart
         @Config.Comment({ "Allows to spawn." })
         public boolean spawnNewVillagers = true;
-
-        @Config.Name("End Guard Mob")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean spawnEndGuard = true;
 
         @Config.Name("Wolframium Ore")
         @Config.RequiresMcRestart

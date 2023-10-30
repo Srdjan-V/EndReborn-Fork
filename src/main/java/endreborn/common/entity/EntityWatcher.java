@@ -3,7 +3,6 @@ package endreborn.common.entity;
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.MobEffects;
@@ -11,7 +10,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,10 +19,6 @@ public class EntityWatcher extends EntityWatcherBase {
 
     public EntityWatcher(World worldIn) {
         super(worldIn);
-    }
-
-    public static void registerFixesWatcher(DataFixer fixer) {
-        EntityLiving.registerFixesMob(fixer, EntityWatcher.class);
     }
 
     public boolean getCanSpawnHere() {

@@ -2,6 +2,7 @@ package endreborn.api.materializer;
 
 import java.util.Map;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -13,6 +14,14 @@ public final class Catalyst {
 
     public Catalyst(ItemStack catalyst) {
         this.catalyst = catalyst;
+    }
+
+    public void registerRecipe(ItemStack itemStack, MaterializerRecipe recipe) {
+        recipes.put(new IdentityItemStack(itemStack), recipe);
+    }
+
+    public void registerRecipe(Item item, MaterializerRecipe recipe) {
+        recipes.put(new IdentityItemStack(item), recipe);
     }
 
     public void registerRecipe(IdentityItemStack itemStack, MaterializerRecipe recipe) {

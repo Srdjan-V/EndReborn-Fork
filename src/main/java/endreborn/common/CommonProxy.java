@@ -13,7 +13,8 @@ public class CommonProxy {
     public void registerEventBus() {
         MinecraftForge.EVENT_BUS.register(ModBlocks.class);
         MinecraftForge.EVENT_BUS.register(ModItems.class);
-        MinecraftForge.EVENT_BUS.register(CommonHandler.class);
+        MinecraftForge.EVENT_BUS.register(ModEnchants.class);
+        MinecraftForge.EVENT_BUS.register(ModSounds.class);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         MinecraftForge.EVENT_BUS.register(LootTableHandler.class);
     }
@@ -32,6 +33,4 @@ public class CommonProxy {
     }
 
     public void registerItemRenderer(Item item, int meta, String id) {}
-
-    public void registerVariantRenderer(Item item, int meta, String filename, String id) {}
 }

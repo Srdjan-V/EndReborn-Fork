@@ -4,7 +4,6 @@ import static net.minecraft.util.EnumParticleTypes.CRIT;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -49,7 +48,7 @@ public final class CriticalityEvent implements Comparable<CriticalityEvent> {
     }
 
     public static BlockChecker equalsToBlock(Block block) {
-        return (worldServer, state, pos) -> state.getBlock() == Blocks.STONE;
+        return (worldServer, state, pos) -> state.getBlock() == block;
     }
 
     public static BlockChecker equalsToItemStack(ItemStack item) {
@@ -70,10 +69,6 @@ public final class CriticalityEvent implements Comparable<CriticalityEvent> {
     public interface BlockChecker {
 
         boolean test(WorldServer worldServer, IBlockState state, BlockPos pos);
-
-        default boolean blocksEqual(IBlockState state, Block block) {
-            return state.getBlock() == block;
-        }
     }
 
     public static BlockAction replaceWithBlockState(IBlockState block) {
@@ -113,23 +108,6 @@ public final class CriticalityEvent implements Comparable<CriticalityEvent> {
             transformBlockParticles(worldServer, CRIT, state, pos);
         }
 
-        default void transformBlock(WorldServer worldServer, BlockPos pos, IBlockState newState) {
-            worldServer.setBlockState(pos, newState);
-        }
-
-        default void transformBlock(WorldServer worldServer, BlockPos pos, Block newBlock) {
-            worldServer.setBlockState(pos, newBlock.getDefaultState());
-        }
-
-        default void transformToItemStack(WorldServer worldServer, BlockPos pos, ItemStack stack) {
-            worldServer.setBlockToAir(pos);
-            spawnItemStack(worldServer, pos, stack);
-        }
-
-        default void spawnItemStack(WorldServer worldServer, BlockPos pos, ItemStack stack) {
-            Block.spawnAsEntity(worldServer, pos, stack);
-        }
-
         // TODO: 26/10/2023 test
         default void transformBlockParticles(WorldServer world, EnumParticleTypes type, IBlockState state,
                                              BlockPos pos) {
@@ -149,8 +127,8 @@ public final class CriticalityEvent implements Comparable<CriticalityEvent> {
             }
         }
 
-        default void iterateBlockFace(WorldServer world, EnumParticleTypes type, double fromX, double toX, double fromY,
-                                      double toY, double fromZ, double toZ) {
+        default void iterateBlockFace(WorldServer world, EnumParticleTypes type, double fromX, double toX,
+                                      double fromY, double toY, double fromZ, double toZ) {
             for (double x = fromX; x < toX; x += 0.3)
                 for (double y = fromY; y < toY; y += 0.3)
                     for (double z = fromZ; z < toZ; z += 0.3)

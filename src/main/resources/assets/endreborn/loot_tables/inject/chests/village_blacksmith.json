@@ -21,8 +21,8 @@
                 },
                 {
                     "type": "item",
-                    "entryName": "endreborn:item_ingot_wolframium",
-                    "name": "endreborn:item_ingot_wolframium",
+                    "entryName": "endreborn:tungsten_ingot",
+                    "name": "endreborn:tungsten_ingot",
                     "weight": 10,
                     "functions": [
                         {
