@@ -1,5 +1,6 @@
 package endreborn.common.world;
 
+import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.block.state.pattern.BlockMatcher;
@@ -17,56 +18,46 @@ import endreborn.common.ModBlocks;
 
 public class OreGen implements IWorldGenerator {
 
-    private final WorldGenerator ore_end_essence, lormyte, ore_over_essence, tungstenOre, end_magma, end_entropy;
+    private final WorldGenerator oreEndEssence, lormyte, tungstenOre, endMagma, endEntropy;
 
     public OreGen() {
-        ore_end_essence = new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(), 9,
-                BlockMatcher.forBlock(Blocks.OBSIDIAN));
-        ore_over_essence = new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(), 9,
+        oreEndEssence = new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(), 9,
                 BlockMatcher.forBlock(Blocks.OBSIDIAN));
         tungstenOre = new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(), 4,
                 BlockMatcher.forBlock(Blocks.STONE));
         lormyte = new WorldGenLormyte();
-        end_magma = new WorldGenMinable(ModBlocks.BLOCK_END_MAGMA.get().getDefaultState(), 30,
+        endMagma = new WorldGenMinable(ModBlocks.BLOCK_END_MAGMA.get().getDefaultState(), 30,
                 BlockMatcher.forBlock(Blocks.END_STONE));
-        end_entropy = new WorldGenMinable(ModBlocks.ENTROPY_END_STONE.get().getDefaultState(), 10,
+        endEntropy = new WorldGenMinable(ModBlocks.ENTROPY_END_STONE.get().getDefaultState(), 10,
                 BlockMatcher.forBlock(Blocks.END_STONE));
     }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
                          IChunkProvider chunkProvider) {
-        switch (world.provider.getDimension()) {
-            case -1:
+        var generators = Configs.WORLD_GEN_CONFIG.getOreGensForDim(world.provider.getDimension());
+        for (Configs.WorldGenConfig.OreGen generator : generators) {
+            final WorldGenerator gen;
 
-                break;
+            if (generator instanceof Configs.WorldGenConfig.EssenceOre) {
+                gen = oreEndEssence;
+            } else if (generator instanceof Configs.WorldGenConfig.TungstenOre) {
+                gen = tungstenOre;
+            } else if (generator instanceof Configs.WorldGenConfig.Lormyte) {
+                gen = lormyte;
+            } else if (generator instanceof Configs.WorldGenConfig.EndMagma) {
+                gen = endMagma;
+            } else if (generator instanceof Configs.WorldGenConfig.EntropyEndStone) {
+                gen = endEntropy;
+            } else throw new IllegalStateException("Non existent generator");
 
-            case 0, 7, 6:
-                if (Configs.GENERAL.spawnEssenceOre) {
-                    runGenerator(ore_over_essence, world, random, chunkX, chunkZ,
-                            Configs.BALANCE.essenceRareOver, 0, 256);
-                }
-                if (Configs.GENERAL.spawnWolframiumOre) {
-                    runGenerator(tungstenOre, world, random, chunkX, chunkZ, Configs.BALANCE.wolframiumRare,
-                            0, 48);
-                }
+            for (Map.Entry<String, int[]> dimConfig : generator.oreSpawnConfig.entrySet()) {
+                if (world.provider.getDimension() != Integer.parseInt(dimConfig.getKey())) continue;
+                int[] config = dimConfig.getValue();
 
-                break;
-
-            case 1:
-                if (Configs.GENERAL.spawnEssenceOre) {
-                    runGenerator(ore_end_essence, world, random, chunkX, chunkZ, Configs.BALANCE.essenceRareEnd,
-                            0, 256);
-                }
-
-                if (Configs.GENERAL.decoratorEnd) {
-                    runGenerator(end_entropy, world, random, chunkX, chunkZ, 2, 0, 22);
-                }
-                if (Configs.GENERAL.spawnLormyte) {
-                    runLormyteGenerator(lormyte, world, random, chunkX, chunkZ, 1, 35, 52);
-
-                }
-
+                runGenerator(gen, world, random, chunkX, chunkZ,
+                        config[0], config[1], config[2]);
+            }
         }
     }
 
@@ -85,6 +76,7 @@ public class OreGen implements IWorldGenerator {
         }
     }
 
+    // TODO: 31/10/2023 remove
     private void runLormyteGenerator(WorldGenerator gen, World world, Random rand, int chunkX, int chunkZ, int chance,
                                      int minHeight, int maxHeight) {
         if (minHeight > maxHeight || minHeight < 0 || maxHeight > 256)

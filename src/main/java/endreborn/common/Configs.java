@@ -1,7 +1,10 @@
 package endreborn.common;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
@@ -73,7 +76,11 @@ public final class Configs {
             @Config.Name("Biome spawn config")
             @Config.RequiresMcRestart
             @Config.Comment({
-                    "Key: biome name (minecraft:river), value: [0]: spawn probability, [1]: minimum spawn group, [2]: maximum spawn group" })
+                    "Key: biome id (minecraft:river, minecraft:sky)",
+                    "Value: ",
+                    "   [0]: spawn probability",
+                    "   [1]: minimum spawn group",
+                    "   [2]: maximum spawn group" })
             public Map<String, int[]> biomeSpawnConfig = new HashMap<>(1);
 
             public Map<Biome, int[]> getBiomesForMob() {
@@ -87,15 +94,83 @@ public final class Configs {
         }
     }
 
+    public static final WorldGenConfig WORLD_GEN_CONFIG = new WorldGenConfig();
+
+    public static class WorldGenConfig {
+
+        public final OreGen essenceOre = new EssenceOre();
+
+        public final OreGen tungstenOre = new TungstenOre();
+
+        public final OreGen lormyte = new Lormyte();
+        public final OreGen endMagma = new EndMagma();
+        public final OreGen entropyEndStone = new EntropyEndStone();
+
+        public static class EssenceOre extends OreGen {
+
+            {
+                oreSpawnConfig.put("0", new int[] { 80, 0, 256 });
+                oreSpawnConfig.put("1", new int[] { 60, 0, 256 });
+            }
+        }
+
+        public static class TungstenOre extends OreGen {
+
+            {
+                oreSpawnConfig.put("0", new int[] { 80, 0, 48 });
+            }
+        }
+
+        public static class Lormyte extends OreGen {
+
+            {
+                oreSpawnConfig.put("1", new int[] { 1, 35, 52 });
+            }
+        }
+
+        public static class EndMagma extends OreGen {
+
+            {
+                oreSpawnConfig.put("1", new int[] { 2, 0, 22 });
+            }
+        }
+
+        public static class EntropyEndStone extends OreGen {
+
+            {
+                oreSpawnConfig.put("1", new int[] { 2, 0, 22 });
+            }
+        }
+
+        public static class OreGen {
+
+            @Config.Name("Enable ore spawn")
+            @Config.RequiresMcRestart
+            public boolean enableSpawning = true;
+
+            @Config.Name("Dims to spawn ores")
+            @Config.RequiresMcRestart
+            @Config.Comment({
+                    "Key: dim id",
+                    "Value:",
+                    "   [0]: spawn rarity(The lower the value, the higher the spawn chance)",
+                    "   [1]: min height",
+                    "   [2]: max height" })
+            public Map<String, int[]> oreSpawnConfig = new HashMap<>(1);
+        }
+
+        public List<OreGen> getOreGensForDim(int dim) {
+            return Stream.of(essenceOre, tungstenOre, lormyte, endMagma, entropyEndStone)
+                    .filter(oreGen -> oreGen.enableSpawning)
+                    .filter(oreGen -> oreGen.oreSpawnConfig.containsKey(String.valueOf(dim)))
+                    .collect(Collectors.toList());
+        }
+    }
+
     public static final GeneralConfig GENERAL = new GeneralConfig();
     public static final BalanceConfig BALANCE = new BalanceConfig();
 
     public static class GeneralConfig {
-
-        @Config.Name("Essence Ore")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean spawnEssenceOre = true;
 
         @Config.Name("End Ruines")
         @Config.RequiresMcRestart
@@ -107,21 +182,6 @@ public final class Configs {
         @Config.Comment({ "Allows to spawn." })
         public boolean spawnNewVillagers = true;
 
-        @Config.Name("Wolframium Ore")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean spawnWolframiumOre = true;
-
-        @Config.Name("Watcher Mob")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean spawnWatcher = true;
-
-        @Config.Name("Chronologist Mob")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean spawnChronologist = false;
-
         @Config.Name("End Islands")
         @Config.RequiresMcRestart
         @Config.Comment({ "Allows to spawn." })
@@ -131,16 +191,6 @@ public final class Configs {
         @Config.RequiresMcRestart
         @Config.Comment({ "Allows to spawn." })
         public boolean spawnObservatory = true;
-
-        @Config.Name("Lormyte")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean spawnLormyte = true;
-
-        @Config.Name("End Magma, Enropy End Stone")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean decoratorEnd = true;
 
         @Config.Name("Chest Loot")
         @Config.RequiresMcRestart
@@ -176,21 +226,6 @@ public final class Configs {
         @Config.RangeInt(min = 1, max = 1000)
         @Config.Comment({ "The higher the value, the higher the rarity. To disable check the general config" })
         public int ruinesRare = 300;
-
-        @Config.Name("Essence Rarity In The End")
-        @Config.RangeInt(min = 1, max = 1000)
-        @Config.Comment({ "The lower the value, the higher the rarity. To disable check the general config" })
-        public int essenceRareEnd = 200;
-
-        @Config.Name("Essence Rarity In Overworld")
-        @Config.RangeInt(min = 1, max = 1000)
-        @Config.Comment({ "The lower the value, the higher the rarity. To disable check the general config" })
-        public int essenceRareOver = 80;
-
-        @Config.Name("Wolframium Rarity")
-        @Config.RangeInt(min = 1, max = 1000)
-        @Config.Comment({ "The lower the value, the higher the rarity. To disable check the general config" })
-        public int wolframiumRare = 25;
 
         @Config.Name("End Guard Spawn Rarity")
         @Config.RangeInt(min = 1, max = 1000)
