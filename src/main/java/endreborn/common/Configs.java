@@ -3,6 +3,7 @@ package endreborn.common;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -11,7 +12,12 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import endreborn.EndReborn;
 import endreborn.Reference;
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
 @Config(modid = Reference.MODID, category = "")
 public final class Configs {
@@ -94,9 +100,9 @@ public final class Configs {
         }
     }
 
-    public static final WorldGenConfig WORLD_GEN_CONFIG = new WorldGenConfig();
+    public static final WorldOreGenConfig WORLD_ORE_GEN_CONFIG = new WorldOreGenConfig();
 
-    public static class WorldGenConfig {
+    public static class WorldOreGenConfig {
 
         public final OreGen essenceOre = new EssenceOre();
 
@@ -167,30 +173,94 @@ public final class Configs {
         }
     }
 
+    public static final WorldGenStructureConfig WORLD_GEN_STRUCTURE_CONFIG = new WorldGenStructureConfig();
+
+    public static class WorldGenStructureConfig {
+
+        public final StructGen endRuins = new EndRuins();
+
+        public final StructGen endIslands = new EndIslands();
+
+        public final StructGen observatory = new Observatory();
+
+        public static class EndRuins extends StructGen {
+
+            {
+                structureSpawnConfig.put("sky", 300);
+            }
+        }
+
+        public static class EndIslands extends StructGen {
+
+            {
+                structureSpawnConfig.put("sky", 200);
+                structureSpawnConfig.put("plains", 200);
+                structureSpawnConfig.put("desert", 200);
+                structureSpawnConfig.put("ocean", 200);
+                structureSpawnConfig.put("deep_ocean", 200);
+                structureSpawnConfig.put("savanna", 200);
+            }
+        }
+
+        public static class Observatory extends StructGen {
+
+            {
+                structureSpawnConfig.put("desert", 600);
+                structureSpawnConfig.put("ocean", 600);
+                structureSpawnConfig.put("deep_ocean", 600);
+                structureSpawnConfig.put("forest", 600);
+                structureSpawnConfig.put("birch_forest", 600);
+                structureSpawnConfig.put("swampland", 600);
+            }
+        }
+
+        public static class StructGen {
+
+            @Config.Name("Enable structure gen")
+            @Config.RequiresMcRestart
+            public boolean enableGeneration = true;
+
+            @Config.Name("Dims to spawn structures")
+            @Config.RequiresMcRestart
+            @Config.Comment({
+                    "Key: biome id (minecraft:river, minecraft:sky)",
+                    "Value: spawn rarity(The lower the value, the higher the spawn chance)" })
+            public Map<String, Integer> structureSpawnConfig = new HashMap<>(1);
+        }
+
+        public List<Pair<StructGen, Object2IntMap<Biome>>> getStructGensForBiome(Biome biome) {
+            return Stream.of(endRuins, endIslands, observatory)
+                    .filter(structGen -> structGen.enableGeneration)
+                    .map(structGen -> {
+                        Object2IntMap<Biome> biomeIntegerMap = null;
+                        for (var spawnEntry : structGen.structureSpawnConfig.entrySet()) {
+                            var resBiome = Biome.REGISTRY.getObject(new ResourceLocation(spawnEntry.getKey()));
+                            if (Objects.isNull(resBiome)) {
+                                EndReborn.LOGGER.warn("Unable to find biome `{}` for structure gen",
+                                        spawnEntry.getKey());
+                                continue;
+                            }
+                            if (resBiome.equals(biome)) {
+                                if (biomeIntegerMap == null) biomeIntegerMap = new Object2IntArrayMap<>();
+                                biomeIntegerMap.put(resBiome, spawnEntry.getValue());
+                            }
+                        }
+                        if (biomeIntegerMap == null) return null;
+                        return Pair.of(structGen, biomeIntegerMap);
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+        }
+    }
+
     public static final GeneralConfig GENERAL = new GeneralConfig();
-    public static final BalanceConfig BALANCE = new BalanceConfig();
 
     public static class GeneralConfig {
-
-        @Config.Name("End Ruines")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean spawnEndRuines = true;
 
         @Config.Name("New Villagers")
         @Config.RequiresMcRestart
         @Config.Comment({ "Allows to spawn." })
         public boolean spawnNewVillagers = true;
-
-        @Config.Name("End Islands")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean spawnEndIsland = true;
-
-        @Config.Name("Observatory")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
-        public boolean spawnObservatory = true;
 
         @Config.Name("Chest Loot")
         @Config.RequiresMcRestart
@@ -208,40 +278,5 @@ public final class Configs {
         public boolean teleporterEnd = true;
 
         private GeneralConfig() {}
-    }
-
-    public static class BalanceConfig {
-
-        @Config.Name("Observatory Rarity")
-        @Config.RangeInt(min = 1, max = 1000)
-        @Config.Comment({ "The higher the value, the higher the rarity. To disable check the general config" })
-        public int obsRare = 600;
-
-        @Config.Name("Island Rarity")
-        @Config.RangeInt(min = 1, max = 1000)
-        @Config.Comment({ "The higher the value, the higher the rarity. To disable check the general config" })
-        public int islandRare = 200;
-
-        @Config.Name("End Ruines Rarity")
-        @Config.RangeInt(min = 1, max = 1000)
-        @Config.Comment({ "The higher the value, the higher the rarity. To disable check the general config" })
-        public int ruinesRare = 300;
-
-        @Config.Name("End Guard Spawn Rarity")
-        @Config.RangeInt(min = 1, max = 1000)
-        @Config.Comment({ "Chance to spawn = 1/(this number). To disable check the general config" })
-        public int guardRare = 50;
-
-        @Config.Name("Chronologist Spawn Rarity")
-        @Config.RangeInt(min = 1, max = 1000)
-        @Config.Comment({ "Chance to spawn = 1/(this number). To disable check the general config" })
-        public int chronRare = 200;
-
-        @Config.Name("Watcher Spawn Rarity")
-        @Config.RangeInt(min = 1, max = 1000)
-        @Config.Comment({ "Chance to spawn = 1/(this number). To disable check the general config" })
-        public int watcherRare = 50;
-
-        private BalanceConfig() {}
     }
 }

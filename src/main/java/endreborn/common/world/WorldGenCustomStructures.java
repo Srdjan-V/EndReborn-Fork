@@ -1,14 +1,10 @@
 package endreborn.common.world;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
+import java.util.function.ToIntFunction;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
@@ -17,103 +13,45 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 import endreborn.common.Configs;
 
-public class WorldGenCustomStructures implements IWorldGenerator
-
-{
+public class WorldGenCustomStructures implements IWorldGenerator {
 
     @Override
     public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator generator,
                          IChunkProvider provider) {
-        switch (world.provider.getDimension()) {
-            case 1:
-                if (Configs.GENERAL.spawnEndRuines) {
-                    generateStructure2(new WorldGenStructure("end_deco"), world, rand, chunkX, chunkZ,
-                            Configs.BALANCE.ruinesRare, Blocks.END_STONE, BiomeEnd.class);
-                }
-                break;
+        final var chunkBiome = world.provider.getBiomeForCoords(
+                new BlockPos(chunkX, world.provider.getAverageGroundLevel(), chunkX));
+        final var generators = Configs.WORLD_GEN_STRUCTURE_CONFIG
+                .getStructGensForBiome(chunkBiome);
+        for (var confGenerator : generators) {
+            final WorldGenerator gen;
+            final ToIntFunction<Random> yCordFunction;
 
-            case 0:
-                if (Configs.GENERAL.spawnEndIsland) {
-                    generateStructure(new WorldGenStructure("end_island"), world, rand, chunkX, chunkZ,
-                            Configs.BALANCE.islandRare, Blocks.AIR, BiomePlains.class);
-                    generateStructure(new WorldGenStructure("end_island"), world, rand, chunkX, chunkZ,
-                            Configs.BALANCE.islandRare, Blocks.AIR, BiomeDesert.class);
-                    generateStructure(new WorldGenStructure("end_island"), world, rand, chunkX, chunkZ,
-                            Configs.BALANCE.islandRare, Blocks.AIR, BiomeOcean.class);
-                    generateStructure(new WorldGenStructure("end_island"), world, rand, chunkX, chunkZ,
-                            Configs.BALANCE.islandRare, Blocks.AIR, BiomeSavanna.class);
-                }
-                if (Configs.GENERAL.spawnObservatory) {
-                    generateStructure3(new WorldGenStructure("observ"), world, rand, chunkX, chunkZ,
-                            Configs.BALANCE.obsRare, Blocks.STONE, BiomeSwamp.class);
-                    generateStructure3(new WorldGenStructure("observ"), world, rand, chunkX, chunkZ,
-                            Configs.BALANCE.obsRare, Blocks.STONE, BiomeForest.class);
-                    generateStructure3(new WorldGenStructure("observ"), world, rand, chunkX, chunkZ,
-                            Configs.BALANCE.obsRare, Blocks.STONE, BiomeDesert.class);
-                    generateStructure3(new WorldGenStructure("observ"), world, rand, chunkX, chunkZ,
-                            Configs.BALANCE.obsRare, Blocks.STONE, BiomeOcean.class);
-                }
+            if (confGenerator.getKey() instanceof Configs.WorldGenStructureConfig.EndRuins) {
+                gen = new WorldGenStructure("end_ruins");
+                yCordFunction = yRand -> 50 + rand.nextInt(15);
+            } else if (confGenerator.getKey() instanceof Configs.WorldGenStructureConfig.EndIslands) {
+                gen = new WorldGenStructure("end_island");
+                yCordFunction = yRand -> 90 + rand.nextInt(15);
+            } else if (confGenerator.getKey() instanceof Configs.WorldGenStructureConfig.Observatory) {
+                gen = new WorldGenStructure("observ");
+                yCordFunction = yRand -> 3;
+            } else throw new IllegalStateException("Non existent generator");
 
-                break;
+            for (var config : confGenerator.getValue().entrySet()) {
+                if (!config.getKey().equals(chunkBiome)) continue;
 
-            case -1:
-
-                break;
-
-            case -64:
-
-        }
-    }
-
-    private void generateStructure(WorldGenerator generator, World world, Random rand, int chunkX, int chunkZ,
-                                   int chance, Block topBlock, Class<?>... classes) {
-        List<Class<?>> classesList = Arrays.asList(classes);
-        int x = (chunkX * 16) + rand.nextInt(15);
-        int z = (chunkZ * 16) + rand.nextInt(15);
-        int y = 90 + rand.nextInt(15);
-        BlockPos pos = new BlockPos(x, y, z);
-        Class<?> biome = world.provider.getBiomeForCoords(pos).getClass();
-        if (world.getWorldType() != WorldType.FLAT) {
-            if (classesList.contains(biome)) {
-                if (rand.nextInt(chance) == 0) {
-                    generator.generate(world, rand, pos);
-                }
+                generateStruct(gen, world, rand, chunkX, yCordFunction, chunkZ, config.getValue());
             }
         }
     }
 
-    private void generateStructure2(WorldGenerator generator, World world, Random rand, int chunkX, int chunkZ,
-                                    int chance, Block topBlock, Class<?>... classes) {
-        List<Class<?>> classesList = Arrays.asList(classes);
+    private void generateStruct(WorldGenerator generator, World world, Random rand,
+                                int chunkX, ToIntFunction<Random> yCordFunction, int chunkZ,
+                                int chance) {
         int x = (chunkX * 16) + rand.nextInt(15);
         int z = (chunkZ * 16) + rand.nextInt(15);
-        int y = 50 + rand.nextInt(15);
-        BlockPos pos = new BlockPos(x, y, z);
-        Class<?> biome = world.provider.getBiomeForCoords(pos).getClass();
-        if (world.getWorldType() != WorldType.FLAT && world.isBlockFullCube(pos.down())) {
-            if (classesList.contains(biome)) {
-                if (rand.nextInt(chance) == 0) {
-                    generator.generate(world, rand, pos);
-                }
-            }
-        }
-    }
-
-    private void generateStructure3(WorldGenerator generator, World world, Random rand, int chunkX, int chunkZ,
-                                    int chance, Block topBlock, Class<?>... classes) {
-        List<Class<?>> classesList = Arrays.asList(classes);
-        int x = (chunkX * 16) + rand.nextInt(15);
-        int z = (chunkZ * 16) + rand.nextInt(15);
-        int y = 3;
-        BlockPos pos = new BlockPos(x, y, z);
-        Class<?> biome = world.provider.getBiomeForCoords(pos).getClass();
-
-        if (world.getWorldType() != WorldType.FLAT) {
-            if (classesList.contains(biome)) {
-                if (rand.nextInt(chance) == 0) {
-                    generator.generate(world, rand, pos);
-                }
-            }
-        }
+        int y = yCordFunction.applyAsInt(rand);
+        if (rand.nextInt(chance) == 0)
+            generator.generate(world, rand, new BlockPos(x, y, z));
     }
 }

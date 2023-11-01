@@ -35,19 +35,19 @@ public class OreGen implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
                          IChunkProvider chunkProvider) {
-        var generators = Configs.WORLD_GEN_CONFIG.getOreGensForDim(world.provider.getDimension());
-        for (Configs.WorldGenConfig.OreGen generator : generators) {
+        var generators = Configs.WORLD_ORE_GEN_CONFIG.getOreGensForDim(world.provider.getDimension());
+        for (Configs.WorldOreGenConfig.OreGen generator : generators) {
             final WorldGenerator gen;
 
-            if (generator instanceof Configs.WorldGenConfig.EssenceOre) {
+            if (generator instanceof Configs.WorldOreGenConfig.EssenceOre) {
                 gen = oreEndEssence;
-            } else if (generator instanceof Configs.WorldGenConfig.TungstenOre) {
+            } else if (generator instanceof Configs.WorldOreGenConfig.TungstenOre) {
                 gen = tungstenOre;
-            } else if (generator instanceof Configs.WorldGenConfig.Lormyte) {
+            } else if (generator instanceof Configs.WorldOreGenConfig.Lormyte) {
                 gen = lormyte;
-            } else if (generator instanceof Configs.WorldGenConfig.EndMagma) {
+            } else if (generator instanceof Configs.WorldOreGenConfig.EndMagma) {
                 gen = endMagma;
-            } else if (generator instanceof Configs.WorldGenConfig.EntropyEndStone) {
+            } else if (generator instanceof Configs.WorldOreGenConfig.EntropyEndStone) {
                 gen = endEntropy;
             } else throw new IllegalStateException("Non existent generator");
 
