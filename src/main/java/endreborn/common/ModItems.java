@@ -140,7 +140,9 @@ public final class ModItems {
                     EntityEquipmentSlot.HEAD));
 
     // Food
-    public static final Supplier<Item> ENDER_FLESH = register(() -> new FoodEnderFlesh("food_ender_flesh"));
+    public static final Supplier<Item> ENDER_FLESH = register(() -> new FoodEnderFlesh("ender_flesh"));// TODO:
+                                                                                                       // 04/11/2023 add
+                                                                                                       // fixer
     public static final Supplier<Item> DRAGONITE_BERRIES = register(
             () -> new FoodDragonBerries("food_dragonite_berries"));
     public static final Supplier<Item> CHORUS_SOUP = register(() -> new FoodChorusSoup(5, "food_chorus_soup"));

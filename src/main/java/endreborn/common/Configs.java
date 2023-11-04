@@ -267,6 +267,10 @@ public final class Configs {
         @Config.Comment({ "Allows to fill." })
         public boolean chestLoot = true;
 
+        @Config.Name("Entity Loot")
+        @Config.RequiresMcRestart
+        public boolean entityLoot = true;
+
         @Config.Name("Panorama")
         @Config.RequiresMcRestart
         @Config.Comment({ "Main menu panorama" })

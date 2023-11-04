@@ -180,7 +180,7 @@ public class EntityEGuard extends EntityMob {
     }
 
     /**
-     * Checks to make sure the light is not too bright where the mob is spawning
+     * Checks to make sure the light is not too bright where the endguard.json is spawning
      */
     protected boolean isValidLightLevel() {
         return true;

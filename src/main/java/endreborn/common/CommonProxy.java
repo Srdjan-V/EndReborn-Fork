@@ -22,6 +22,7 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         Fixer.init();
         CommonHandler.preInit();
+        LootTableHandler.preInit();
     }
 
     public void init(FMLInitializationEvent event) {

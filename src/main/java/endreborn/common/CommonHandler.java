@@ -1,7 +1,5 @@
 package endreborn.common;
 
-import static endreborn.common.LootTableHandler.CHEST_TABLES;
-
 import java.util.Map;
 
 import net.minecraft.entity.Entity;
@@ -12,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -60,12 +57,6 @@ public final class CommonHandler {
     }
 
     public static void init() {
-        if (Configs.GENERAL.chestLoot) {
-            for (String s : CHEST_TABLES) {
-                LootTableList.register(new ResourceLocation(Reference.MODID, "inject/chests/" + s));
-            }
-        }
-
         {// Banner pattern
             Class<? extends Enum<?>> clazz = BannerPattern.class;
             addPattern(clazz, "rune", "run", new ItemStack(ModItems.END_RUNE.get()));

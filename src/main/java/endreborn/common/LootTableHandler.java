@@ -9,29 +9,56 @@ import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import endreborn.Reference;
 
 public final class LootTableHandler {
 
-    public static final ResourceLocation END_GUARD = LootTableList
-            .register(new ResourceLocation(Reference.MODID, "endguard"));
-    public static final ResourceLocation WATCHER = LootTableList
-            .register(new ResourceLocation(Reference.MODID, "watcher"));
-    public static final ResourceLocation LORD = LootTableList.register(new ResourceLocation(Reference.MODID, "lord"));
+    public static final ResourceLocation END_GUARD = new ResourceLocation(Reference.MODID, "entities/endguard");
+    public static final ResourceLocation WATCHER = new ResourceLocation(Reference.MODID, "entities/watcher");
+    public static final ResourceLocation LORD = new ResourceLocation(Reference.MODID, "entities/lord");
 
-    public static final List<String> CHEST_TABLES = ImmutableList.of("abandoned_mineshaft", "desert_pyramid",
-            "end_city_treasure", "jungle_temple", "nether_bridge", "village_blacksmith");
+    public static final List<String> INJECTED_CHEST_TABLES = ImmutableList.of(
+            "abandoned_mineshaft",
+            "desert_pyramid",
+            "end_city_treasure",
+            "jungle_temple",
+            "nether_bridge",
+            "village_blacksmith");
+
+    public static final List<String> INJECTED_ENTITIES_TABLES = ImmutableList.of("ender_dragon");
+
+    public static void preInit() {
+        for (ResourceLocation table : Lists.newArrayList(END_GUARD, WATCHER, LORD))
+            LootTableList.register(table);
+
+        // TODO: 04/11/2023 check if needed
+        /*
+         * if (Configs.GENERAL.chestLoot)
+         * for (String s : INJECTED_CHEST_TABLES)
+         * LootTableList.register(new ResourceLocation(Reference.MODID, "inject/chests/" + s));
+         * 
+         * if (Configs.GENERAL.entityLoot) {
+         * LootTableList.register(new ResourceLocation(Reference.MODID, "inject/entities/ender_dragon"));
+         * }
+         */
+    }
 
     @SubscribeEvent
     public static void lootLoad(LootTableLoadEvent evt) {
-        String chests_prefix = "minecraft:chests/";
-        String name = evt.getName().toString();
+        if (Configs.GENERAL.chestLoot)
+            inject(evt, "minecraft:chests/", INJECTED_CHEST_TABLES);
+        if (Configs.GENERAL.entityLoot)
+            inject(evt, "minecraft:entities/", INJECTED_ENTITIES_TABLES);
+    }
 
-        if ((Configs.GENERAL.chestLoot && name.startsWith(chests_prefix) &&
-                CHEST_TABLES.contains(name.substring(chests_prefix.length())))) {
+    private static void inject(LootTableLoadEvent event, String lootTableCategory, List<String> lootTablesInjectors) {
+        final String name = event.getName().toString();
+        if (name.startsWith(lootTableCategory) &&
+                lootTablesInjectors.contains(name.substring(lootTableCategory.length()))) {
             String file = name.substring("minecraft:".length());
-            evt.getTable().addPool(getInjectPool(file));
+            event.getTable().addPool(getInjectPool(file));
         }
     }
 
