@@ -7,7 +7,6 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.block.BlockCrops;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
@@ -38,18 +37,17 @@ import com.google.common.collect.Lists;
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
+import endreborn.common.blocks.base.BaseBlockCrops;
 import endreborn.utils.IHasModel;
 
-public class XorcitePlantBlock extends BlockCrops implements IHasModel {
+public class BlockXorcitePlant extends BaseBlockCrops implements IHasModel {
 
     public static final EnumPlantType XORCITE = EnumPlantType.getPlantType("xorcite");
     public static final PropertyInteger Age = PropertyInteger.create("age", 0, 3);
     protected static final AxisAlignedBB ESSENCE_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
 
-    public XorcitePlantBlock(String name) {
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(EndReborn.endertab);
+    public BlockXorcitePlant(String name) {
+        super(name);
         setSoundType(SoundType.STONE);
         setHardness(3.0F);
         setHarvestLevel("pickaxe", 2);

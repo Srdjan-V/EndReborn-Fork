@@ -19,7 +19,7 @@ import endreborn.utils.IHasModel;
 
 public class ItemDragonSeeds extends Item implements IHasModel, IPlantable {
 
-    public ItemDragonSeeds(String name, int amount, boolean isWolfFood) {
+    public ItemDragonSeeds(String name) {
         super();
         setTranslationKey(name);
         setRegistryName(name);
@@ -42,9 +42,7 @@ public class ItemDragonSeeds extends Item implements IHasModel, IPlantable {
             worldIn.setBlockState(pos.up(), ModBlocks.DRAGON_BUSH.get().getDefaultState());
             stack.shrink(1);
             return EnumActionResult.SUCCESS;
-        }
-
-        else return EnumActionResult.FAIL;
+        } else return EnumActionResult.FAIL;
     }
 
     @Override

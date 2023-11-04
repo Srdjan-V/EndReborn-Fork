@@ -38,13 +38,13 @@ public class ItemWorldMirror extends Item implements IHasModel {
             mainhand.damageItem(1, playerIn);
             playerIn.getCooldownTracker().setCooldown(this, 1000);
             BlockPos blockpos = worldIn.provider.getRandomizedSpawnPoint();
-            worldIn.playSound((EntityPlayer) null, playerIn.posX, playerIn.posY, playerIn.posZ,
+            worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ,
                     SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 0.5F,
                     worldIn.rand.nextFloat() * 0.1F + 0.9F);
             playerIn.setPositionAndUpdate(blockpos.getX(), blockpos.getY(),
                     blockpos.getZ());
         }
-        return new ActionResult<ItemStack>(EnumActionResult.PASS,
+        return new ActionResult<>(EnumActionResult.PASS,
                 playerIn.getHeldItem(handIn));
     }
 

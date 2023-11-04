@@ -2,8 +2,6 @@ package endreborn.common.blocks;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,16 +16,13 @@ import net.minecraft.world.World;
 
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
+import endreborn.common.blocks.base.BaseBlockCrops;
 import endreborn.utils.IHasModel;
 
-public class EnderCropBase extends BlockCrops implements IHasModel {
+public class BlockEnderCrop extends BaseBlockCrops implements IHasModel {
 
-    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 7);
-
-    public EnderCropBase(String name) {
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(EndReborn.endertab);
+    public BlockEnderCrop(String name) {
+        super(name);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class ItemDragoniteTea extends Item implements IHasModel {
     }
 
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
-        ItemStack itemstack = super.onItemUseFinish(stack, worldIn, entityLiving);
+        // ItemStack itemstack = super.onItemUseFinish(stack, worldIn, entityLiving);
 
         if (!worldIn.isRemote) {
             double d0 = entityLiving.posX;
@@ -52,7 +52,7 @@ public class ItemDragoniteTea extends Item implements IHasModel {
             for (int i = 0; i < 16; ++i) {
                 double d3 = entityLiving.posX + (entityLiving.getRNG().nextDouble() - 0.5D) * 16.0D;
                 double d4 = MathHelper.clamp(entityLiving.posY + (double) (entityLiving.getRNG().nextInt(16) - 8), 0.0D,
-                        (double) (worldIn.getActualHeight() - 1));
+                        worldIn.getActualHeight() - 1);
                 double d5 = entityLiving.posZ + (entityLiving.getRNG().nextDouble() - 0.5D) * 16.0D;
 
                 if (entityLiving.isRiding()) {
@@ -77,7 +77,6 @@ public class ItemDragoniteTea extends Item implements IHasModel {
 
             if (entityLiving instanceof EntityPlayer && !((EntityPlayer) entityLiving).capabilities.isCreativeMode) {
                 stack.shrink(1);
-
             }
 
         }
@@ -111,6 +110,6 @@ public class ItemDragoniteTea extends Item implements IHasModel {
 
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         playerIn.setActiveHand(handIn);
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+        return new ActionResult<>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
 }

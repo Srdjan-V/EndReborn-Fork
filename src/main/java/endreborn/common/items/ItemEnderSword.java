@@ -41,7 +41,7 @@ public class ItemEnderSword extends ItemSword implements IHasModel {
             itemstack.damageItem(4, playerIn);
         }
 
-        worldIn.playSound((EntityPlayer) null, playerIn.posX, playerIn.posY, playerIn.posZ,
+        worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ,
                 SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.NEUTRAL, 0.5F,
                 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         playerIn.getCooldownTracker().setCooldown(this, 20);
@@ -53,7 +53,7 @@ public class ItemEnderSword extends ItemSword implements IHasModel {
         }
 
         playerIn.addStat(StatList.getObjectUseStats(this));
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+        return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
     }
 
     @Override

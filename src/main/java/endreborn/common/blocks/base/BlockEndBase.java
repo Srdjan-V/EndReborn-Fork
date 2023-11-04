@@ -1,4 +1,4 @@
-package endreborn.common.blocks;
+package endreborn.common.blocks.base;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;

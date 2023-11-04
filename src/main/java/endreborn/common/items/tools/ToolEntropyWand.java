@@ -44,7 +44,7 @@ public class ToolEntropyWand extends ItemSword implements IHasModel {
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-        player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ,
+        player.world.playSound(null, player.posX, player.posY, player.posZ,
                 SoundEvents.ENTITY_WITHER_SHOOT, SoundCategory.PLAYERS, 0.5F,
                 player.world.rand.nextFloat() * 0.1F + 0.9F);
         entity.attackEntityFrom(DamageSource.WITHER, 7);

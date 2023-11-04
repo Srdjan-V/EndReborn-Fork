@@ -28,6 +28,7 @@ import com.cleanroommc.modularui.manager.GuiInfos;
 
 import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
+import endreborn.common.blocks.base.BlockBase;
 import endreborn.common.tiles.MaterializerTile;
 
 public class BlockMaterializer extends BlockBase {

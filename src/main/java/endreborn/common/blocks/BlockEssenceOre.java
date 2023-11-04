@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.common.ModItems;
+import endreborn.common.blocks.base.BlockBase;
 
 public class BlockEssenceOre extends BlockBase {
 

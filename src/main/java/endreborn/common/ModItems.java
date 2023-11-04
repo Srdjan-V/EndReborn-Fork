@@ -63,7 +63,7 @@ public final class ModItems {
     public static final Supplier<Item> SHARD_OBSIDIAN = register(() -> new ItemBase("item_shard_obsidian"));
     public static final Supplier<Item> RAW_ENDORIUM = register(() -> new ItemBase("item_raw_endorium"));
     public static final Supplier<Item> DRAGONITE_SEEDS = register(
-            () -> new ItemDragonSeeds("item_dragonite_seeds", 0, false));
+            () -> new ItemDragonSeeds("item_dragonite_seeds"));
     public static final Supplier<Item> ADVANCED_PEARL = register(() -> new ItemAPearl("item_advanced_ender_pearl"));
     public static final Supplier<Item> END_ESSENCE = register(() -> new ItemBase("item_end_essence"));
     public static final Supplier<Item> END_SHARD = register(() -> new ItemBase("item_end_shard"));

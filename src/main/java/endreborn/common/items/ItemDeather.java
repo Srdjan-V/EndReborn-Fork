@@ -72,7 +72,7 @@ public class ItemDeather extends ItemSword implements IHasModel {
         if (entityplayer.isSneaking()) {
             if (!world.isRemote) {
                 toggleMode(itemstack);
-                world.playSound((EntityPlayer) null, entityplayer.posX, entityplayer.posY, entityplayer.posZ,
+                world.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ,
                         SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.PLAYERS, 0.5F,
                         world.rand.nextFloat() * 0.1F + 0.9F);
             }

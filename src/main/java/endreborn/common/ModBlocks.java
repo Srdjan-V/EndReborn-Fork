@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import com.google.common.base.Suppliers;
 
 import endreborn.common.blocks.*;
+import endreborn.common.blocks.base.BlockEndBase;
 import endreborn.utils.IHasModel;
 
 @SuppressWarnings("unused")
@@ -27,8 +28,8 @@ public final class ModBlocks {
             () -> new BlockEndBase("block_end_stone_smooth", Material.ROCK));
     public static final Supplier<Block> END_STONE_PILLAR = register(
             () -> new BlockPillar("block_end_stone_pillar", Material.ROCK));
-    public static final Supplier<Block> PURPUR_LAMP = register(() -> new LampBase("block_purpur_lamp", Material.ROCK));
-    public static final Supplier<Block> ENDER_FLOWER = register(() -> new EnderCropBase("crop_ender_flower"));
+    public static final Supplier<Block> PURPUR_LAMP = register(() -> new BlockPurpurLamp("block_purpur_lamp"));
+    public static final Supplier<Block> ENDER_FLOWER = register(() -> new BlockEnderCrop("crop_ender_flower"));
     public static final Supplier<Block> DRAGON_BUSH = register(() -> new DragonBush("crop_dragonite"));
     public static final Supplier<Block> ESSENCE_ORE = register(
             () -> new BlockEssenceOre("block_essence_ore", Material.ROCK));
@@ -46,7 +47,7 @@ public final class ModBlocks {
     public static final Supplier<Block> BLOCK_RUNE = register(() -> new BlockRune("block_rune", Material.ROCK));
     public static final Supplier<Block> BLOCK_END_MAGMA = register(() -> new BlockEndMagma("block_end_magma"));
     public static final Supplier<Block> BLOCK_END_FORGE = register(() -> new BlockEndForge("block_end_forge"));
-    public static final Supplier<Block> XORCITE_BLOCK = register(() -> new XorcitePlantBlock("xorcite_block"));
+    public static final Supplier<Block> XORCITE_BLOCK = register(() -> new BlockXorcitePlant("xorcite_block"));
     public static final Supplier<Block> MATERIALIZER = register(() -> new BlockMaterializer("materializer"));
     public static final Supplier<Block> BROKEN_FLOWER = register(
             () -> new CutoutBlock("broken_ender_flower", Material.PLANTS));
