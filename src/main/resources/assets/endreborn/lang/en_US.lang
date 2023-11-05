@@ -108,8 +108,13 @@ info.endreborn.book.subtitle=Your discoveries
 
 #Enchants
 enchantment.shulker_core=Shulker Core
+enchantment.endreborn.shulker_core.desc=Levitate hit entities
+
 enchantment.ender_core=Ender Core
+enchantment.endreborn.ender_core.desc=Teleport away while getting hit at low hp
+
 enchantment.ender_killer=Ender Killer
+enchantment.endreborn.ender_killer.desc=Higher damage while in the End
 
 #Other
 tile.ender_sword.tooltip=Right click to teleport
@@ -154,7 +159,7 @@ item.banner.endreborn_rune.white=White Rune
 item.banner.endreborn_rune.black=Black Rune 
 item.banner.endreborn_rune.blue=Blue Rune 
 item.banner.endreborn_rune.red=Red Rune 
-item.banner.endreborn_rune.gray=Brown Rune 
+item.banner.endreborn_rune.brown=Brown Rune
 item.banner.endreborn_rune.yellow=Yellow Rune 
 item.banner.endreborn_rune.gray=Gray Rune 
 item.banner.endreborn_rune.silver=Light Gray Rune 
@@ -170,7 +175,7 @@ item.banner.endreborn_end.white=White Symbol
 item.banner.endreborn_end.black=Black Symbol
 item.banner.endreborn_end.blue=Blue Symbol
 item.banner.endreborn_end.red=Red Symbol
-item.banner.endreborn_end.gray=Brown Symbol
+item.banner.endreborn_end.brown=Brown Symbol
 item.banner.endreborn_end.yellow=Yellow Symbol
 item.banner.endreborn_end.gray=Gray Symbol
 item.banner.endreborn_end.silver=Light Gray Symbol
@@ -186,7 +191,7 @@ item.banner.endreborn_pearl.white=White Pearl
 item.banner.endreborn_pearl.black=Black Pearl
 item.banner.endreborn_pearl.blue=Blue Pearl
 item.banner.endreborn_pearl.red=Red Pearl
-item.banner.endreborn_pearl.gray=Brown Pearl
+item.banner.endreborn_pearl.brown=Brown Pearl
 item.banner.endreborn_pearl.yellow=Yellow Pearl
 item.banner.endreborn_pearl.gray=Gray Pearl
 item.banner.endreborn_pearl.silver=Light Gray Pearl

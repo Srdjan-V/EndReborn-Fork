@@ -34,6 +34,9 @@ dependencies {
     implementation 'curse.maven:just_enough_resources-240630:2728586-sources-2728587'
     //source 'curse.maven:just_enough_resources_source-240630:2728587'
 
+    runtimeOnly rfg.deobf('curse.maven:enchantment_descriptions-250419:2689502-sources-2689503')
+    //source 'curse.maven:just_enough_resources_source-240630:2728587'
+
     runtimeOnly rfg.deobf('curse.maven:configanytime-870276:4576653')
     runtimeOnly rfg.deobf('curse.maven:universal_tweaks-705000:4704976')
 

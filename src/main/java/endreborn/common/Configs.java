@@ -257,6 +257,11 @@ public final class Configs {
 
     public static class GeneralConfig {
 
+        @Config.Name("ender")
+        @Config.RequiresMcRestart
+        @Config.Comment({ "EnchantBoost" })
+        public int[] enchantBoost = { 1 };
+
         @Config.Name("New Villagers")
         @Config.RequiresMcRestart
         @Config.Comment({ "Allows to spawn." })

@@ -10,9 +10,9 @@ import net.minecraft.potion.PotionEffect;
 
 import endreborn.Reference;
 
-public class EnchantSCore extends Enchantment {
+public class EnchantShulkerCore extends Enchantment {
 
-    public EnchantSCore() {
+    public EnchantShulkerCore() {
         super(Rarity.RARE, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
         setRegistryName(Reference.MODID, "shulker_core");
         setName("shulker_core");
