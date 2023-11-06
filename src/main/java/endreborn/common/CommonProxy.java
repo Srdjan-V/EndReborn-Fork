@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import com.google.common.collect.Lists;
 
 import endreborn.common.datafixers.Fixer;
+import endreborn.compat.CompatManger;
 import endreborn.utils.Initializer;
 
 public class CommonProxy {
@@ -18,6 +19,7 @@ public class CommonProxy {
     protected final List<Initializer> components = Lists.newArrayList();
 
     public CommonProxy() {
+        components.add(CompatManger.getInstance());
         components.add(new Fixer());
         components.add(new Registration());
         components.add(new LootTableHandler());

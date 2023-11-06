@@ -31,6 +31,7 @@ final class Registration implements Initializer {
         RenderingRegistry.registerEntityRenderingHandler(EntityChronologist.class, RenderChronologist::new);
     }
 
+    @Override
     public void init() {
         if (Configs.GENERAL.spawnNewVillagers) {
             EndVillagerHandler.initIEVillagerTrades();

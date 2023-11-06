@@ -6,6 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
 import endreborn.common.ModBlocks;
+import endreborn.common.ModItems;
+import endreborn.compat.jei.entropywand.EntropyWandCategory;
+import endreborn.compat.jei.materializer.MaterializerCategory;
 import mezz.jei.api.*;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 
@@ -18,12 +21,16 @@ public class JEIPlugin implements IModPlugin {
         final IGuiHelper gui = helpers.getGuiHelper();
 
         registry.addRecipeCategories(new MaterializerCategory(gui));
+        registry.addRecipeCategories(new EntropyWandCategory(gui));
     }
 
     @Override
     public void register(IModRegistry registry) {
         registry.addRecipes(MaterializerCategory.getRecipes(), MaterializerCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(ModBlocks.MATERIALIZER.get()), MaterializerCategory.UID);
+
+        registry.addRecipes(EntropyWandCategory.getRecipes(), EntropyWandCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(ModItems.ENTROPY_WAND.get()), EntropyWandCategory.UID);
     }
 
     @SuppressWarnings("deprecation")

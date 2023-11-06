@@ -262,6 +262,16 @@ public final class Configs {
         @Config.Comment({ "EnchantBoost" })
         public int[] enchantBoost = { 1 };
 
+        @Config.Name("EntropyWand tool damage per conversion")
+        @Config.RequiresMcRestart
+        @Config.Comment({ "EnchantBoost" })
+        public int entropyWandUseDamage = 2;
+
+        @Config.Name("Show broken textures in jei for the EntropyWand")
+        @Config.RequiresMcRestart
+        @Config.Comment({ "EnchantBoost" })
+        public boolean entropyWandRenderBrokenTextures = false;
+
         @Config.Name("New Villagers")
         @Config.RequiresMcRestart
         @Config.Comment({ "Allows to spawn." })

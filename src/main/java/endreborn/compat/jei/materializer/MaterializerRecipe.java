@@ -1,4 +1,4 @@
-package endreborn.compat.jei;
+package endreborn.compat.jei.materializer;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 
 import com.google.common.collect.Lists;
 
+import endreborn.compat.jei.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;

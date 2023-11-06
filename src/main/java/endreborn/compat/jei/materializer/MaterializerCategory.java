@@ -1,9 +1,8 @@
-package endreborn.compat.jei;
+package endreborn.compat.jei.materializer;
 
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -13,6 +12,7 @@ import com.google.common.collect.Lists;
 import endreborn.Reference;
 import endreborn.api.materializer.Catalyst;
 import endreborn.api.materializer.MaterializerHandler;
+import endreborn.compat.jei.JEIPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
@@ -51,7 +51,7 @@ public class MaterializerCategory implements IRecipeCategory<MaterializerRecipe>
 
     @Override
     public @NotNull String getTitle() {
-        return I18n.format("tile.materializer");
+        return JEIPlugin.translateToLocal("tile.materializer");
     }
 
     @Override

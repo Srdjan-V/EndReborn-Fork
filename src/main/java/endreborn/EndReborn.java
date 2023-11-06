@@ -3,6 +3,7 @@ package endreborn;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -40,22 +41,23 @@ public class EndReborn {
     @SidedProxy(clientSide = Reference.CLIENTPROXY, serverSide = Reference.COMMONPROXY)
     public static CommonProxy proxy;
 
+    public EndReborn() {
+        MinecraftForge.EVENT_BUS.register(EndReborn.class);
+        proxy.registerEventBus();
+    }
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        proxy.registerEventBus();
-        CompatManger.getInstance().preInit();
         proxy.preInit(event);
     }
 
     @EventHandler
     public static void init(FMLInitializationEvent event) {
-        CompatManger.getInstance().init();
         proxy.init(event);
     }
 
     @EventHandler
     public static void postInit(FMLPostInitializationEvent event) {
-        CompatManger.getInstance().postInit();
         proxy.postInit(event);
         CompatManger.invalidate();
     }

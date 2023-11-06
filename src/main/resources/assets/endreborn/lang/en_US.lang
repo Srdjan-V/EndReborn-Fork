@@ -101,6 +101,10 @@ modifier.wolframium.desc=�oThe loneliness echo...�r\nGives strength on a ful
 material.endorium.name=Endorium
 material.wolframium.name=Tungsten
 
+#JEI
+endreborn.jei.entropy_wand.item_cost=Damage to item to conve
+
+
 #Book
 item.endreborn.book.name=Book of The End
 info.endreborn.book.landing=Much time has passed since the time when I found The End. I begin to wonder if I saw everything, discovered and studied everything, I think it's time to set off to a new journey!
