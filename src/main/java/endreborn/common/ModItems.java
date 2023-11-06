@@ -25,11 +25,12 @@ import endreborn.client.armor.ArmourBase;
 import endreborn.client.armor.ArmourDModel;
 import endreborn.client.armor.ArmourModel;
 import endreborn.common.items.*;
+import endreborn.common.items.base.ItemLegendary;
 import endreborn.common.items.food.FoodChorusSoup;
 import endreborn.common.items.food.FoodDragonBerries;
 import endreborn.common.items.food.FoodEnderFlesh;
 import endreborn.common.items.tools.*;
-import endreborn.common.items.tools.axes.EndoriumAxe;
+import endreborn.common.items.tools.ToolAxe;
 import endreborn.utils.IHasModel;
 
 public final class ModItems {
@@ -92,7 +93,7 @@ public final class ModItems {
     public static final Supplier<Item> HOE_ENDORIUM = register(
             () -> new ToolHoe("tool_hoe_endorium", TOOL_ENDORIUM.get()));
     public static final Supplier<Item> AXE_ENDORIUM = register(
-            () -> new EndoriumAxe("tool_axe_endorium", TOOL_ENDORIUM.get()));
+            () -> new ToolAxe("tool_axe_endorium", TOOL_ENDORIUM.get()));
     public static final Supplier<Item> SHOVEL_ENDORIUM = register(
             () -> new ToolShovel("tool_shovel_endorium", TOOL_ENDORIUM.get()));
     public static final Supplier<Item> HAMMER_IRON = register(() -> new ItemHammer("tool_hammer_iron"));
@@ -107,7 +108,7 @@ public final class ModItems {
     public static final Supplier<Item> HOE_WOLFRAMIUM = register(
             () -> new ToolHoe("tool_hoe_wolframium", TUNGSTEN.get()));
     public static final Supplier<Item> AXE_WOLFRAMIUM = register(
-            () -> new EndoriumAxe("tool_axe_wolframium", TUNGSTEN.get()));
+            () -> new ToolAxe("tool_axe_wolframium", TUNGSTEN.get()));
     public static final Supplier<Item> SHOVEL_WOLFRAMIUM = register(
             () -> new ToolShovel("tool_shovel_wolframium", TUNGSTEN.get()));
     public static final Supplier<Item> ENTROPY_WAND = register(

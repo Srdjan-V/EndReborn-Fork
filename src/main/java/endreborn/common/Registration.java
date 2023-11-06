@@ -21,10 +21,11 @@ import endreborn.common.entity.*;
 import endreborn.common.tiles.MaterializerTile;
 import endreborn.common.world.OreGen;
 import endreborn.common.world.WorldGenCustomStructures;
+import endreborn.utils.Initializer;
 
-public final class CommonHandler {
+final class Registration implements Initializer {
 
-    public static void preInit() {
+    public void preInit() {
         {
             if (Configs.MOBS_CONFIG.endGuard.register) {
                 registerMobEntity("endguard", EntityEGuard.class, 0, 64, 3, false, 9654933, 11237052);
@@ -56,7 +57,7 @@ public final class CommonHandler {
         GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 0);
     }
 
-    public static void init() {
+    public void init() {
         {// Banner pattern
             Class<? extends Enum<?>> clazz = BannerPattern.class;
             addPattern(clazz, "rune", "run", new ItemStack(ModItems.END_RUNE.get()));
@@ -77,10 +78,6 @@ public final class CommonHandler {
         OreDictionary.registerOre("shardLormyte", ModItems.LORMYTE_CRYSTAL.get());
         OreDictionary.registerOre("essence", ModItems.END_ESSENCE.get());
     }
-
-    public static void postInit() {}
-
-    private CommonHandler() {}
 
     public static void addPattern(Class<? extends Enum<?>> clazz, String name, String id, ItemStack craftingItem) {
         name = "endreborn_" + name;

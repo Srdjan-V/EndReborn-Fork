@@ -12,8 +12,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import endreborn.Reference;
+import endreborn.utils.Initializer;
 
-public final class LootTableHandler {
+public final class LootTableHandler implements Initializer {
 
     public static final ResourceLocation END_GUARD = new ResourceLocation(Reference.MODID, "entities/endguard");
     public static final ResourceLocation WATCHER = new ResourceLocation(Reference.MODID, "entities/watcher");
@@ -29,7 +30,12 @@ public final class LootTableHandler {
 
     public static final List<String> INJECTED_ENTITIES_TABLES = ImmutableList.of("ender_dragon");
 
-    public static void preInit() {
+    @Override
+    public void registerEventBus() {
+        registerThisToEventBus();
+    }
+
+    public void preInit() {
         for (ResourceLocation table : Lists.newArrayList(END_GUARD, WATCHER, LORD))
             LootTableList.register(table);
 
@@ -46,7 +52,7 @@ public final class LootTableHandler {
     }
 
     @SubscribeEvent
-    public static void lootLoad(LootTableLoadEvent evt) {
+    public void lootLoad(LootTableLoadEvent evt) {
         if (Configs.GENERAL.chestLoot)
             inject(evt, "minecraft:chests/", INJECTED_CHEST_TABLES);
         if (Configs.GENERAL.entityLoot)

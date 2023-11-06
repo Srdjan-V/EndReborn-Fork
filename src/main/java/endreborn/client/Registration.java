@@ -9,11 +9,17 @@ import endreborn.common.Configs;
 import endreborn.common.EndVillagerHandler;
 import endreborn.common.entity.*;
 import endreborn.utils.GuiMainMenuEnd;
+import endreborn.utils.Initializer;
 
-public final class ClientHandler {
+final class Registration implements Initializer {
+
+    @Override
+    public void registerEventBus() {
+        registerThisToEventBus();
+    }
 
     @SubscribeEvent
-    public static void registerModels(ModelRegistryEvent event) {
+    public void registerModels(ModelRegistryEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(EntityEGuard.class, RenderEGuard.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityWatcher.class, RenderWatcher.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityLord.class, RenderLord.FACTORY);
@@ -25,9 +31,7 @@ public final class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityChronologist.class, RenderChronologist::new);
     }
 
-    public static void preInit() {}
-
-    public static void init() {
+    public void init() {
         if (Configs.GENERAL.spawnNewVillagers) {
             EndVillagerHandler.initIEVillagerTrades();
             EndVillagerHandler.initIEVillagerHouse();
@@ -36,6 +40,4 @@ public final class ClientHandler {
             GuiMainMenuEnd.endMainMenu();
         }
     }
-
-    public static void postInit() {}
 }

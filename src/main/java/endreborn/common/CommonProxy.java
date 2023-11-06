@@ -1,36 +1,47 @@
 package endreborn.common;
 
+import java.util.List;
+
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import com.google.common.collect.Lists;
+
 import endreborn.common.datafixers.Fixer;
+import endreborn.utils.Initializer;
 
 public class CommonProxy {
 
+    protected final List<Initializer> components = Lists.newArrayList();
+
+    public CommonProxy() {
+        components.add(new Fixer());
+        components.add(new Registration());
+        components.add(new LootTableHandler());
+    }
+
     public void registerEventBus() {
+        for (Initializer component : components) component.registerEventBus();
         MinecraftForge.EVENT_BUS.register(ModBlocks.class);
         MinecraftForge.EVENT_BUS.register(ModItems.class);
         MinecraftForge.EVENT_BUS.register(ModEnchants.class);
         MinecraftForge.EVENT_BUS.register(ModSounds.class);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
-        MinecraftForge.EVENT_BUS.register(LootTableHandler.class);
     }
 
     public void preInit(FMLPreInitializationEvent event) {
-        Fixer.init();
-        CommonHandler.preInit();
-        LootTableHandler.preInit();
+        for (Initializer component : components) component.preInit();
     }
 
     public void init(FMLInitializationEvent event) {
-        CommonHandler.init();
+        for (Initializer component : components) component.init();
     }
 
     public void postInit(FMLPostInitializationEvent event) {
-        CommonHandler.postInit();
+        for (Initializer component : components) component.postInit();
     }
 
     public void registerItemRenderer(Item item, int meta, String id) {}

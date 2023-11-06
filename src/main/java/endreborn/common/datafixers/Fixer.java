@@ -1,13 +1,13 @@
 package endreborn.common.datafixers;
 
 import java.util.Map;
+import java.util.Objects;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.IFixableData;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -23,12 +23,20 @@ import endreborn.common.datafixers.fixers.Xorcite;
 import endreborn.common.datafixers.providers.BlockMappingProvider;
 import endreborn.common.datafixers.providers.CommonMappingProvider;
 import endreborn.common.datafixers.providers.ItemMappingProvider;
+import endreborn.utils.Initializer;
 
-public final class Fixer {
+public final class Fixer implements Initializer {
 
-    public static final ModFixs modFixer;
+    private static Fixer instance;
 
-    static {
+    public static Fixer getInstance() {
+        return Objects.requireNonNull(instance);
+    }
+
+    public final ModFixs modFixer;
+
+    public Fixer() {
+        instance = this;
         modFixer = FMLCommonHandler.instance().getDataFixer().init(Reference.MODID,
                 Reference.DATAFIXER_VERSION);
         modFixer.registerFix(Tungsten.TYPE, new Tungsten());
@@ -36,11 +44,12 @@ public final class Fixer {
         modFixer.registerFix(Materializer.TYPE, new Materializer());
     }
 
-    public static void init() {
-        MinecraftForge.EVENT_BUS.register(Fixer.class);
+    @Override
+    public void registerEventBus() {
+        registerThisToEventBus();
     }
 
-    private static Map<ResourceLocation, ResourceLocation> getBlockMappings() {
+    private Map<ResourceLocation, ResourceLocation> getBlockMappings() {
         Map<ResourceLocation, ResourceLocation> mappingProviders = Maps.newHashMap();
         for (IFixableData fix : modFixer.getFixes(FixTypes.ITEM_INSTANCE)) {
             if (fix instanceof CommonMappingProvider provider)
@@ -64,7 +73,7 @@ public final class Fixer {
         }
     }
 
-    private static Map<ResourceLocation, ResourceLocation> getItemMappings() {
+    private Map<ResourceLocation, ResourceLocation> getItemMappings() {
         Map<ResourceLocation, ResourceLocation> mappingProviders = Maps.newHashMap();
         for (IFixableData fix : modFixer.getFixes(FixTypes.ITEM_INSTANCE)) {
             if (fix instanceof CommonMappingProvider provider)

@@ -7,8 +7,9 @@ import java.util.stream.Stream;
 import net.minecraftforge.fml.common.Loader;
 
 import endreborn.compat.tconstruct.TConstruct;
+import endreborn.utils.Initializer;
 
-public class CompatManger {
+public class CompatManger implements Initializer {
 
     private static CompatManger instance;
 
@@ -27,26 +28,23 @@ public class CompatManger {
                 .filter(mod -> Loader.isModLoaded(mod.modID())).collect(Collectors.toList());
     }
 
+    @Override
     public void preInit() {
         for (ModCompat mod : mods) mod.preInit();
     }
 
+    @Override
     public void init() {
         for (ModCompat mod : mods) mod.init();
     }
 
+    @Override
     public void postInit() {
         for (ModCompat mod : mods) mod.postInit();
     }
 
-    public interface ModCompat {
+    public interface ModCompat extends Initializer {
 
         String modID();
-
-        default void preInit() {}
-
-        default void init() {}
-
-        default void postInit() {}
     }
 }

@@ -1,4 +1,4 @@
-package endreborn.common.items;
+package endreborn.common.items.base;
 
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;

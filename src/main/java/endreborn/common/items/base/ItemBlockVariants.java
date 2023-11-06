@@ -1,4 +1,4 @@
-package endreborn.common.items;
+package endreborn.common.items.base;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
