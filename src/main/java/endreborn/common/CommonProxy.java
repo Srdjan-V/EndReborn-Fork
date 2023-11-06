@@ -22,7 +22,7 @@ public class CommonProxy {
         components.add(CompatManger.getInstance());
         components.add(new Fixer());
         components.add(new Registration());
-        components.add(new LootTableHandler());
+        components.add(new LootHandler());
     }
 
     public void registerEventBus() {

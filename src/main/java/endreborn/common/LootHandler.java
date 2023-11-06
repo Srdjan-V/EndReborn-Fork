@@ -14,7 +14,7 @@ import com.google.common.collect.Lists;
 import endreborn.Reference;
 import endreborn.utils.Initializer;
 
-public final class LootTableHandler implements Initializer {
+public final class LootHandler implements Initializer {
 
     public static final ResourceLocation END_GUARD = new ResourceLocation(Reference.MODID, "entities/endguard");
     public static final ResourceLocation WATCHER = new ResourceLocation(Reference.MODID, "entities/watcher");

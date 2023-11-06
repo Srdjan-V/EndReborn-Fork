@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.common.LootTableHandler;
+import endreborn.common.LootHandler;
 
 public class EntityEGuard extends EntityMob {
 
@@ -160,7 +160,7 @@ public class EntityEGuard extends EntityMob {
 
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableHandler.END_GUARD;
+        return LootHandler.END_GUARD;
     }
 
     public boolean isCharged() {

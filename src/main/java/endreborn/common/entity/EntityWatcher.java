@@ -13,7 +13,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import endreborn.common.LootTableHandler;
+import endreborn.common.LootHandler;
 
 public class EntityWatcher extends EntityWatcherBase {
 
@@ -44,7 +44,7 @@ public class EntityWatcher extends EntityWatcherBase {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableHandler.WATCHER;
+        return LootHandler.WATCHER;
     }
 
     public boolean attackEntityAsMob(Entity entityIn) {

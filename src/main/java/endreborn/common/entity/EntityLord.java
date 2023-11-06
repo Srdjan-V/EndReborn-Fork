@@ -22,7 +22,7 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 
-import endreborn.common.LootTableHandler;
+import endreborn.common.LootHandler;
 import endreborn.utils.EndHelper;
 
 public class EntityLord extends EntityLordBase {
@@ -115,7 +115,7 @@ public class EntityLord extends EntityLordBase {
 
     @Override
     protected ResourceLocation getLootTable() {
-        return LootTableHandler.LORD;
+        return LootHandler.LORD;
     }
 
     protected boolean teleportToEntity(Entity p_70816_1_) {

@@ -14,9 +14,7 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
-import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 
 import endreborn.Reference;
 import endreborn.common.world.EndVillagerHouse;
@@ -30,16 +28,13 @@ public class EndVillagerHandler {
     private static final VillagerRegistry VILLAGER_REGISTRY = VillagerRegistry.instance();
     public static VillagerRegistry.VillagerProfession PROF_EXPLORER;
 
-    @ObjectHolder("minecraft:librarian")
-    public static final VillagerProfession LIBRARIAN = null;
-
     public static void initIEVillagerHouse() {
         VILLAGER_REGISTRY.registerVillageCreationHandler(new EndVillagerHouse.VillageManager());
-        MapGenStructureIO.registerStructureComponent(EndVillagerHouse.class, Reference.MODID + ":ExplorerHouse");
+        MapGenStructureIO.registerStructureComponent(EndVillagerHouse.class, Reference.MOD_PREFIX + "ExplorerHouse");
     }
 
     public static void initIEVillagerTrades() {
-        PROF_EXPLORER = new VillagerRegistry.VillagerProfession(Reference.MODID + ":explorer",
+        PROF_EXPLORER = new VillagerRegistry.VillagerProfession(Reference.MOD_PREFIX + "explorer",
                 "endreborn:textures/models/villager_explorer.png",
                 "endreborn:textures/models/villager_explorer_zombie.png");
         ForgeRegistries.VILLAGER_PROFESSIONS.register(PROF_EXPLORER);

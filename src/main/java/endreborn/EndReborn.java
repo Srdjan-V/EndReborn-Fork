@@ -43,11 +43,11 @@ public class EndReborn {
 
     public EndReborn() {
         MinecraftForge.EVENT_BUS.register(EndReborn.class);
-        proxy.registerEventBus();
     }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        proxy.registerEventBus();
         proxy.preInit(event);
     }
 
