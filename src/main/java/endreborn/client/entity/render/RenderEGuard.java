@@ -8,9 +8,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 import endreborn.Reference;
-import endreborn.common.entity.EntityEGuard;
+import endreborn.common.entity.EntityEndGuard;
 
-public class RenderEGuard extends RenderLiving<EntityEGuard> {
+public class RenderEGuard extends RenderLiving<EntityEndGuard> {
 
     public static final ResourceLocation TEXTURES = new ResourceLocation(
             Reference.MODID + ":textures/entity/endguard.png");
@@ -22,19 +22,20 @@ public class RenderEGuard extends RenderLiving<EntityEGuard> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityEGuard entity) {
+    protected ResourceLocation getEntityTexture(EntityEndGuard entity) {
         return TEXTURES;
     }
 
     @Override
-    protected void applyRotations(EntityEGuard entityLiving, float p_77043_2_, float rotationYaw, float partialTicks) {
+    protected void applyRotations(EntityEndGuard entityLiving, float p_77043_2_, float rotationYaw,
+                                  float partialTicks) {
         super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
     }
 
-    public static class Factory implements IRenderFactory<EntityEGuard> {
+    public static class Factory implements IRenderFactory<EntityEndGuard> {
 
         @Override
-        public Render<? super EntityEGuard> createRenderFor(RenderManager manager) {
+        public Render<? super EntityEndGuard> createRenderFor(RenderManager manager) {
             return new RenderEGuard(manager);
         }
     }

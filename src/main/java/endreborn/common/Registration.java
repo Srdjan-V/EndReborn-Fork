@@ -108,9 +108,9 @@ final class Registration implements Initializer {
 
     private static void registerMobs() {
         if (Configs.MOBS_CONFIG.endGuard.register) {
-            registerMobEntity("endguard", EntityEGuard.class, 0, 64, 3, false, 9654933, 11237052);
+            registerMobEntity("endguard", EntityEndGuard.class, 0, 64, 3, false, 9654933, 11237052);
             registerEntity("end_fireball", EntityColdFireball.class, 4, 30, 1, true);
-            registerSpawn(Configs.MOBS_CONFIG.endGuard, EntityEGuard.class);
+            registerSpawn(Configs.MOBS_CONFIG.endGuard, EntityEndGuard.class);
         }
 
         if (Configs.MOBS_CONFIG.watcher.register) {

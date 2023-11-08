@@ -6,7 +6,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.common.entity.EntityLordBase;
+import endreborn.common.entity.EntityLord;
 
 @SideOnly(Side.CLIENT)
 public class ModelLord extends ModelBiped {
@@ -27,7 +27,7 @@ public class ModelLord extends ModelBiped {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
                                   float headPitch, float scaleFactor, Entity entityIn) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        boolean flag = entityIn instanceof EntityLordBase && ((EntityLordBase) entityIn).isArmsRaised();
+        boolean flag = entityIn instanceof EntityLord && ((EntityLord) entityIn).isArmsRaised();
         float f = MathHelper.sin(this.swingProgress * (float) Math.PI);
         float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float) Math.PI);
         this.bipedRightArm.rotateAngleZ = 0.0F;

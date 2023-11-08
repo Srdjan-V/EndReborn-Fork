@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -31,10 +30,7 @@ public class EntityColdFireball extends EntityFireball {
         this.setSize(0.3125F, 0.3125F);
     }
 
-    public static void registerFixesSmallFireball(DataFixer fixer) {
-        EntityFireball.registerFixesFireball(fixer, "ColdFireball");
-    }
-
+    @Override
     protected void onImpact(RayTraceResult result) {
         if (!this.world.isRemote) {
             boolean flag;
@@ -65,18 +61,22 @@ public class EntityColdFireball extends EntityFireball {
         }
     }
 
+    @Override
     public boolean canBeCollidedWith() {
         return false;
     }
 
+    @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         return false;
     }
 
+    @Override
     protected EnumParticleTypes getParticleType() {
         return EnumParticleTypes.PORTAL;
     }
 
+    @Override
     protected boolean isFireballFiery() {
         return false;
     }

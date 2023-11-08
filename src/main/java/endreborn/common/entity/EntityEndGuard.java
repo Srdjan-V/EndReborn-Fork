@@ -1,6 +1,7 @@
 package endreborn.common.entity;
 
-import net.minecraft.entity.EntityLiving;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -8,116 +9,132 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityLordBase extends EntityMob {
+import endreborn.common.LootHandler;
+
+public class EntityEndGuard extends EntityMob {
 
     private float heightOffset = 0.5F;
     private int heightOffsetUpdateTime;
-    private static final DataParameter<Boolean> ARMS_RAISED = EntityDataManager.<Boolean>createKey(EntityLordBase.class,
-            DataSerializers.BOOLEAN);
-    private static final DataParameter<Byte> ON_FIRE = EntityDataManager.<Byte>createKey(EntityLordBase.class,
+    private static final DataParameter<Byte> ON_FIRE = EntityDataManager.createKey(EntityEndGuard.class,
             DataSerializers.BYTE);
-    private static final DataParameter<Integer> TARGET_ENTITY = EntityDataManager
-            .<Integer>createKey(EntityLordBase.class, DataSerializers.VARINT);
 
-    public EntityLordBase(World worldIn) {
+    public EntityEndGuard(World worldIn) {
         super(worldIn);
+        this.setPathPriority(PathNodeType.WATER, -1.0F);
+        this.setPathPriority(PathNodeType.LAVA, 8.0F);
+        this.setPathPriority(PathNodeType.DANGER_FIRE, 0.0F);
+        this.setPathPriority(PathNodeType.DAMAGE_FIRE, 0.0F);
         this.isImmuneToFire = true;
         this.experienceValue = 10;
     }
 
-    public static void registerFixesBlaze(DataFixer fixer) {
-        EntityLiving.registerFixesMob(fixer, EntityLordBase.class);
-    }
-
+    @Override
     protected void initEntityAI() {
-        this.tasks.addTask(4, new EntityLordBase.AIFireballAttack(this));
+        this.tasks.addTask(4, new EntityEndGuard.AIFireballAttack(this));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
+        this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D, 0.0F));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
     }
 
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2313D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(48.0D);
     }
 
+    @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataManager.register(ON_FIRE, Byte.valueOf((byte) 0));
-        this.dataManager.register(TARGET_ENTITY, Integer.valueOf(0));
-        this.getDataManager().register(ARMS_RAISED, Boolean.valueOf(false));
+        this.dataManager.register(ON_FIRE, (byte) 0);
     }
 
-    public void setArmsRaised(boolean armsRaised) {
-        this.getDataManager().set(ARMS_RAISED, Boolean.valueOf(armsRaised));
-    }
-
-    @SideOnly(Side.CLIENT)
-    public boolean isArmsRaised() {
-        return ((Boolean) this.getDataManager().get(ARMS_RAISED)).booleanValue();
-    }
-
+    @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_BLAZE_AMBIENT;
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_BLAZE_HURT;
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_BLAZE_DEATH;
     }
 
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getBrightnessForRender() {
+        return 15728880;
+    }
+
+    /**
+     * Gets how bright this entity is.
+     */
+    @Override
+    public float getBrightness() {
+        return 1.0F;
+    }
+
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
+    @Override
     public void onLivingUpdate() {
         if (!this.onGround && this.motionY < 0.0D) {
-            this.motionY *= 0.4D;
+            this.motionY *= 0.6D;
         }
-        if (!this.onGround) {
-            this.setArmsRaised(true);
-        }
-        if (this.onGround) {
-            this.setArmsRaised(false);
-        }
+
         if (this.world.isRemote) {
             if (this.rand.nextInt(24) == 0 && !this.isSilent()) {
                 this.world.playSound(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D,
-                        SoundEvents.ENTITY_ENDERMEN_HURT, this.getSoundCategory(), 1.0F + this.rand.nextFloat(),
+                        SoundEvents.ENTITY_BLAZE_BURN, this.getSoundCategory(), 1.0F + this.rand.nextFloat(),
                         this.rand.nextFloat() * 0.7F + 0.3F, false);
             }
 
-            for (int i = 0; i < 2; ++i) {
-
-            }
+            this.world.spawnParticle(EnumParticleTypes.END_ROD,
+                    this.posX + (this.rand.nextDouble() - 0.5D) * (double) this.width,
+                    this.posY + this.rand.nextDouble() * (double) this.height,
+                    this.posZ + (this.rand.nextDouble() - 0.5D) * (double) this.width, 0.0D, 0.0D, 0.0D);
 
         }
 
         super.onLivingUpdate();
     }
 
+    @Override
     protected void updateAITasks() {
+        if (this.isWet()) {
+            this.attackEntityFrom(DamageSource.DROWN, 1.0F);
+        }
+
         --this.heightOffsetUpdateTime;
 
         if (this.heightOffsetUpdateTime <= 0) {
@@ -129,25 +146,36 @@ public class EntityLordBase extends EntityMob {
 
         if (entitylivingbase != null && entitylivingbase.posY + (double) entitylivingbase.getEyeHeight() >
                 this.posY + (double) this.getEyeHeight() + (double) this.heightOffset) {
-            this.motionY += (0.3D - this.motionY) * 0.3D;
+            this.motionY += (0.30000001192092896D - this.motionY) * 0.30000001192092896D;
             this.isAirBorne = true;
         }
 
         super.updateAITasks();
     }
 
+    @Override
     public void fall(float distance, float damageMultiplier) {}
 
+    /**
+     * Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
+     */
+    @Override
     public boolean isBurning() {
         return this.isCharged();
     }
 
+    @Nullable
+    @Override
+    protected ResourceLocation getLootTable() {
+        return LootHandler.END_GUARD;
+    }
+
     public boolean isCharged() {
-        return (((Byte) this.dataManager.get(ON_FIRE)).byteValue() & 1) != 0;
+        return (this.dataManager.get(ON_FIRE) & 1) != 0;
     }
 
     public void setOnFire(boolean onFire) {
-        byte b0 = ((Byte) this.dataManager.get(ON_FIRE)).byteValue();
+        byte b0 = this.dataManager.get(ON_FIRE);
 
         if (onFire) {
             b0 = (byte) (b0 | 1);
@@ -155,16 +183,24 @@ public class EntityLordBase extends EntityMob {
             b0 = (byte) (b0 & -2);
         }
 
-        this.dataManager.set(ON_FIRE, Byte.valueOf(b0));
+        this.dataManager.set(ON_FIRE, b0);
+    }
+
+    /**
+     * Checks to make sure the light is not too bright where the endguard.json is spawning
+     */
+    @Override
+    protected boolean isValidLightLevel() {
+        return true;
     }
 
     static class AIFireballAttack extends EntityAIBase {
 
-        private final EntityLordBase blaze;
+        private final EntityEndGuard blaze;
         private int attackStep;
         private int attackTime;
 
-        public AIFireballAttack(EntityLordBase blazeIn) {
+        public AIFireballAttack(EntityEndGuard blazeIn) {
             this.blaze = blazeIn;
             this.setMutexBits(6);
         }
@@ -172,6 +208,7 @@ public class EntityLordBase extends EntityMob {
         /**
          * Returns whether the EntityAIBase should begin execution.
          */
+        @Override
         public boolean shouldExecute() {
             EntityLivingBase entitylivingbase = this.blaze.getAttackTarget();
             return entitylivingbase != null && entitylivingbase.isEntityAlive();
@@ -180,6 +217,7 @@ public class EntityLordBase extends EntityMob {
         /**
          * Execute a one shot task or start executing a continuous task
          */
+        @Override
         public void startExecuting() {
             this.attackStep = 0;
         }
@@ -187,6 +225,7 @@ public class EntityLordBase extends EntityMob {
         /**
          * Reset the task's internal state. Called when this task is interrupted by another one
          */
+        @Override
         public void resetTask() {
             this.blaze.setOnFire(false);
         }
@@ -194,6 +233,7 @@ public class EntityLordBase extends EntityMob {
         /**
          * Keep ticking a continuous task that has already been started
          */
+        @Override
         public void updateTask() {
             --this.attackTime;
             EntityLivingBase entitylivingbase = this.blaze.getAttackTarget();
@@ -217,12 +257,12 @@ public class EntityLordBase extends EntityMob {
                     ++this.attackStep;
 
                     if (this.attackStep == 1) {
-                        this.attackTime = 20;
+                        this.attackTime = 60;
                         this.blaze.setOnFire(false);
                     } else if (this.attackStep <= 4) {
                         this.attackTime = 8;
                     } else {
-                        this.attackTime = 20;
+                        this.attackTime = 100;
                         this.attackStep = 0;
                         this.blaze.setOnFire(false);
                     }
@@ -233,8 +273,8 @@ public class EntityLordBase extends EntityMob {
                                 new BlockPos((int) this.blaze.posX, (int) this.blaze.posY, (int) this.blaze.posZ), 0);
 
                         for (int i = 0; i < 1; ++i) {
-                            EntityWitherSkull entitysmallfireball = new EntityWitherSkull(this.blaze.world, this.blaze,
-                                    d1 + this.blaze.getRNG().nextGaussian() * (double) f, d2,
+                            EntityColdFireball entitysmallfireball = new EntityColdFireball(this.blaze.world,
+                                    this.blaze, d1 + this.blaze.getRNG().nextGaussian() * (double) f, d2,
                                     d3 + this.blaze.getRNG().nextGaussian() * (double) f);
                             entitysmallfireball.posY = this.blaze.posY + (double) (this.blaze.height / 2.0F) + 0.5D;
                             this.blaze.world.spawnEntity(entitysmallfireball);
@@ -254,7 +294,7 @@ public class EntityLordBase extends EntityMob {
 
         private double getFollowDistance() {
             IAttributeInstance iattributeinstance = this.blaze.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
-            return iattributeinstance == null ? 64.0D : iattributeinstance.getAttributeValue();
+            return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
         }
     }
 }

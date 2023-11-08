@@ -20,12 +20,12 @@ final class Registration implements Initializer {
 
     @SubscribeEvent
     public void registerModels(ModelRegistryEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(EntityEGuard.class, RenderEGuard.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityEndGuard.class, RenderEGuard.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityWatcher.class, RenderWatcher.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityLord.class, RenderLord.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityChronologist.class, RenderChronologist.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityColdFireball.class, RenderColdFireball::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityEGuard.class, RenderEGuard::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityEndGuard.class, RenderEGuard::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityWatcher.class, RenderWatcher::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityLord.class, RenderLord::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityChronologist.class, RenderChronologist::new);
