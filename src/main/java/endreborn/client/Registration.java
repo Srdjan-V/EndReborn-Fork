@@ -6,7 +6,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import endreborn.client.entity.render.*;
 import endreborn.common.Configs;
-import endreborn.common.EndVillagerHandler;
 import endreborn.common.entity.*;
 import endreborn.utils.GuiMainMenuEnd;
 import endreborn.utils.Initializer;
@@ -33,10 +32,6 @@ final class Registration implements Initializer {
 
     @Override
     public void init() {
-        if (Configs.GENERAL.spawnNewVillagers) {
-            EndVillagerHandler.initIEVillagerTrades();
-            EndVillagerHandler.initIEVillagerHouse();
-        }
         if (Configs.GENERAL.panorama) {
             GuiMainMenuEnd.endMainMenu();
         }

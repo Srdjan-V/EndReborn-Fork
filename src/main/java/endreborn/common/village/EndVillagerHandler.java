@@ -1,4 +1,4 @@
-package endreborn.common;
+package endreborn.common.village;
 
 import java.util.Random;
 
@@ -17,8 +17,8 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
 import endreborn.Reference;
-import endreborn.common.world.EndVillagerHouse;
-import endreborn.utils.EndUtils;
+import endreborn.common.ModItems;
+import endreborn.utils.ItemStackUtils;
 
 /**
  * @author BluSunrize - 23.07.2016
@@ -28,55 +28,66 @@ public class EndVillagerHandler {
     private static final VillagerRegistry VILLAGER_REGISTRY = VillagerRegistry.instance();
     public static VillagerRegistry.VillagerProfession PROF_EXPLORER;
 
-    public static void initIEVillagerHouse() {
+    public static void initVillagerHouse() {
         VILLAGER_REGISTRY.registerVillageCreationHandler(new EndVillagerHouse.VillageManager());
         MapGenStructureIO.registerStructureComponent(EndVillagerHouse.class, Reference.MOD_PREFIX + "ExplorerHouse");
     }
 
-    public static void initIEVillagerTrades() {
+    public static void initVillagerTrades() {
         PROF_EXPLORER = new VillagerRegistry.VillagerProfession(Reference.MOD_PREFIX + "explorer",
                 "endreborn:textures/models/villager_explorer.png",
                 "endreborn:textures/models/villager_explorer_zombie.png");
         ForgeRegistries.VILLAGER_PROFESSIONS.register(PROF_EXPLORER);
 
-        /*
-         * Engineer
-         * Deals in treated wood, later metal rods, scaffold and concrete
-         */
         VillagerRegistry.VillagerCareer overworld_explorer = new VillagerRegistry.VillagerCareer(PROF_EXPLORER,
                 Reference.MODID + ".overworld_explorer");
         overworld_explorer.addTrade(1,
-                new ItemstackForEmerald(new ItemStack(ModItems.HAMMER_IRON.get(), 1, 0),
+                new ItemStackForEmerald(
+                        new ItemStack(ModItems.HAMMER_IRON.get(), 1, 0),
                         new EntityVillager.PriceInfo(1, 1)),
-                new ItemstackForEmerald(new ItemStack(ModItems.TUNGSTEN_INGOT.get(), 1, 0),
+                new ItemStackForEmerald(
+                        new ItemStack(ModItems.TUNGSTEN_INGOT.get(), 1, 0),
                         new EntityVillager.PriceInfo(-4, -1)),
-                new EmeraldForItemstack(new ItemStack(Blocks.IRON_ORE, 1, 0), new EntityVillager.PriceInfo(1, 3)));
+                new EmeraldForItemStack(
+                        new ItemStack(Blocks.IRON_ORE, 1, 0),
+                        new EntityVillager.PriceInfo(1, 3)));
+
         VillagerRegistry.VillagerCareer nether_explorer = new VillagerRegistry.VillagerCareer(PROF_EXPLORER,
                 Reference.MODID + ".nether_explorer");
         nether_explorer.addTrade(1,
-                new EmeraldForItemstack(new ItemStack(Items.GOLD_NUGGET, 1, 0), new EntityVillager.PriceInfo(8, 16)),
-                new ItemstackForEmerald(new ItemStack(Blocks.NETHERRACK, 1, 0), new EntityVillager.PriceInfo(-4, -2)),
-                new ItemstackForEmerald(new ItemStack(Items.NETHER_WART, 1, 0), new EntityVillager.PriceInfo(-1, -1))
-
-        );
+                new EmeraldForItemStack(
+                        new ItemStack(Items.GOLD_NUGGET, 1, 0),
+                        new EntityVillager.PriceInfo(8, 16)),
+                new ItemStackForEmerald(
+                        new ItemStack(Blocks.NETHERRACK, 1, 0),
+                        new EntityVillager.PriceInfo(-4, -2)),
+                new ItemStackForEmerald(
+                        new ItemStack(Items.NETHER_WART, 1, 0),
+                        new EntityVillager.PriceInfo(-1, -1)));
 
         VillagerRegistry.VillagerCareer end_explorer = new VillagerRegistry.VillagerCareer(PROF_EXPLORER,
                 Reference.MODID + ".end_explorer");
         end_explorer.addTrade(1,
-                new EmeraldForItemstack(new ItemStack(Items.ENDER_PEARL, 3, 0), new EntityVillager.PriceInfo(6, 8)),
-                new ItemstackForEmerald(new ItemStack(ModItems.END_ESSENCE.get(), 3, 0),
+                new EmeraldForItemStack(
+                        new ItemStack(Items.ENDER_PEARL, 3, 0),
+                        new EntityVillager.PriceInfo(6, 8)),
+                new ItemStackForEmerald(
+                        new ItemStack(ModItems.END_ESSENCE.get(), 3, 0),
                         new EntityVillager.PriceInfo(-2, -1)),
-                new ItemstackForEmerald(new ItemStack(Blocks.END_STONE, 3, 0), new EntityVillager.PriceInfo(-4, -2)),
-                new ItemstackForEmerald(new ItemStack(ModItems.CHORUS_SOUP.get(), 3, 0),
+                new ItemStackForEmerald(
+                        new ItemStack(Blocks.END_STONE, 3, 0),
+                        new EntityVillager.PriceInfo(-4, -2)),
+                new ItemStackForEmerald(
+                        new ItemStack(ModItems.CHORUS_SOUP.get(), 3, 0),
                         new EntityVillager.PriceInfo(-2, -1)));
     }
 
-    private static class EmeraldForItemstack implements EntityVillager.ITradeList {
+    private static class EmeraldForItemStack implements EntityVillager.ITradeList {
 
         public ItemStack buyingItem;
         public EntityVillager.PriceInfo buyAmounts;
 
-        public EmeraldForItemstack(@Nonnull ItemStack item, @Nonnull EntityVillager.PriceInfo buyAmounts) {
+        public EmeraldForItemStack(@Nonnull ItemStack item, @Nonnull EntityVillager.PriceInfo buyAmounts) {
             this.buyingItem = item;
             this.buyAmounts = buyAmounts;
         }
@@ -84,22 +95,23 @@ public class EndVillagerHandler {
         @Override
         public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random) {
             recipeList.add(new MerchantRecipe(
-                    EndUtils.copyStackWithAmount(this.buyingItem, this.buyAmounts.getPrice(random)), Items.EMERALD));
+                    ItemStackUtils.copyStackWithAmount(this.buyingItem, this.buyAmounts.getPrice(random)),
+                    Items.EMERALD));
         }
     }
 
-    private static class ItemstackForEmerald implements EntityVillager.ITradeList {
+    private static class ItemStackForEmerald implements EntityVillager.ITradeList {
 
         public ItemStack sellingItem;
         public EntityVillager.PriceInfo priceInfo;
 
         @SuppressWarnings("unused")
-        public ItemstackForEmerald(Item par1Item, EntityVillager.PriceInfo priceInfo) {
+        public ItemStackForEmerald(Item par1Item, EntityVillager.PriceInfo priceInfo) {
             this.sellingItem = new ItemStack(par1Item);
             this.priceInfo = priceInfo;
         }
 
-        public ItemstackForEmerald(ItemStack stack, EntityVillager.PriceInfo priceInfo) {
+        public ItemStackForEmerald(ItemStack stack, EntityVillager.PriceInfo priceInfo) {
             this.sellingItem = stack;
             this.priceInfo = priceInfo;
         }
@@ -113,10 +125,10 @@ public class EndVillagerHandler {
             ItemStack itemstack1;
             if (i < 0) {
                 itemstack = new ItemStack(Items.EMERALD);
-                itemstack1 = EndUtils.copyStackWithAmount(sellingItem, -i);
+                itemstack1 = ItemStackUtils.copyStackWithAmount(sellingItem, -i);
             } else {
                 itemstack = new ItemStack(Items.EMERALD, i, 0);
-                itemstack1 = EndUtils.copyStackWithAmount(sellingItem, 1);
+                itemstack1 = ItemStackUtils.copyStackWithAmount(sellingItem, 1);
             }
             recipeList.add(new MerchantRecipe(itemstack, itemstack1));
         }

@@ -24,6 +24,7 @@ import endreborn.api.entropywand.Conversion;
 import endreborn.api.entropywand.EntropyWandHandler;
 import endreborn.common.entity.*;
 import endreborn.common.tiles.MaterializerTile;
+import endreborn.common.village.EndVillagerHandler;
 import endreborn.common.world.OreGen;
 import endreborn.common.world.WorldGenCustomStructures;
 import endreborn.utils.Initializer;
@@ -43,6 +44,11 @@ final class Registration implements Initializer {
     public void init() {
         registerEntropyWandRecipes();
         registerBannerPatterns();
+
+        if (Configs.GENERAL.spawnNewVillagers) {
+            EndVillagerHandler.initVillagerTrades();
+            EndVillagerHandler.initVillagerHouse();
+        }
 
         GameRegistry.addSmelting(ModBlocks.TUNGSTEN_ORE.get(), new ItemStack(ModItems.TUNGSTEN_INGOT.get(), 1), 1.5f);
         handleOreDictionary();

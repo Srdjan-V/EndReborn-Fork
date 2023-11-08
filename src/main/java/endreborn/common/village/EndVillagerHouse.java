@@ -1,4 +1,4 @@
-package endreborn.common.world;
+package endreborn.common.village;
 
 import java.util.List;
 import java.util.Random;
@@ -19,8 +19,6 @@ import net.minecraft.world.gen.structure.StructureVillagePieces.Start;
 import net.minecraft.world.gen.structure.StructureVillagePieces.Village;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.IVillageCreationHandler;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
-
-import endreborn.common.EndVillagerHandler;
 
 public class EndVillagerHouse extends Village {
 
@@ -194,15 +192,17 @@ public class EndVillagerHouse extends Village {
         @Override
         public Village buildComponent(PieceWeight villagePiece, Start startPiece, List<StructureComponent> pieces,
                                       Random random, int p1, int p2, int p3, EnumFacing facing, int p5) {
-            StructureBoundingBox box = StructureBoundingBox.getComponentToAddBoundingBox(p1, p2, p3, 0, 0, 0, 11, 10, 9,
-                    facing);
+            StructureBoundingBox box = StructureBoundingBox.getComponentToAddBoundingBox(
+                    p1, p2, p3,
+                    0, 0, 0,
+                    11, 10, 9, facing);
             return (!canVillageGoDeeper(box)) || (StructureComponent.findIntersecting(pieces, box) != null) ? null :
                     new EndVillagerHouse(startPiece, p5, random, box, facing);
         }
 
         @Override
         public PieceWeight getVillagePieceWeight(Random random, int i) {
-            return new PieceWeight(EndVillagerHouse.class, 15, MathHelper.getInt(random, 0 + i, 1 + i));
+            return new PieceWeight(EndVillagerHouse.class, 15, MathHelper.getInt(random, i, 1 + i));
         }
 
         @Override
