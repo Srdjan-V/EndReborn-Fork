@@ -12,9 +12,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ItemCatalyst extends Item implements IHasModel {
+public class ItemCatalyst extends Item implements InventoryItemModel {
 
     public ItemCatalyst(String name) {
         setTranslationKey(name);
@@ -25,11 +25,6 @@ public class ItemCatalyst extends Item implements IHasModel {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(I18n.format("tile.catalyst.tooltip"));
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
     @Override

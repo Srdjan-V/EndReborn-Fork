@@ -18,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -31,11 +30,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
 import endreborn.common.entity.EntityLord;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockRune extends Block implements IHasModel
-
-{
+public class BlockRune extends Block implements InventoryBlockModel {
 
     public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.<EnumFacing.Axis>create("axis",
             EnumFacing.Axis.class, EnumFacing.Axis.X, EnumFacing.Axis.Z);
@@ -61,11 +58,6 @@ public class BlockRune extends Block implements IHasModel
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(I18n.format("tile.block_rune.tooltip"));
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
     }
 
     private void trySpawnBoss(World world, BlockPos pos) {

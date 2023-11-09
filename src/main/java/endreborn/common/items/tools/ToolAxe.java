@@ -4,9 +4,9 @@ import net.minecraft.item.ItemAxe;
 
 import endreborn.EndReborn;
 import endreborn.common.ModItems;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ToolAxe extends ItemAxe implements IHasModel {
+public class ToolAxe extends ItemAxe implements InventoryItemModel {
 
     public ToolAxe(String name, ToolMaterial material) {
         super(material, 0, 0);
@@ -21,10 +21,5 @@ public class ToolAxe extends ItemAxe implements IHasModel {
         setTranslationKey(name);
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 }

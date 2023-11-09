@@ -1,4 +1,4 @@
-package endreborn.utils;
+package endreborn.utils.models;
 
 public interface IHasModel {
 

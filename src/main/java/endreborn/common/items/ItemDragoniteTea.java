@@ -2,7 +2,6 @@ package endreborn.common.items;
 
 import java.util.List;
 
-import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,11 +17,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
 import org.jetbrains.annotations.Nullable;
 
-public class ItemDragoniteTea extends ItemFood implements IHasModel {
+import endreborn.EndReborn;
+import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
+import endreborn.utils.models.InventoryItemModel;
+
+public class ItemDragoniteTea extends ItemFood implements InventoryItemModel {
 
     public ItemDragoniteTea(String name) {
         super(2, 1, false);
@@ -31,11 +32,6 @@ public class ItemDragoniteTea extends ItemFood implements IHasModel {
         setAlwaysEdible();
         setMaxStackSize(16);
         setCreativeTab(EndReborn.endertab);
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {

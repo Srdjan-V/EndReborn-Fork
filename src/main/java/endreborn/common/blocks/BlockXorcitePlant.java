@@ -38,9 +38,9 @@ import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
 import endreborn.common.blocks.base.BaseBlockCrops;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockXorcitePlant extends BaseBlockCrops implements IHasModel {
+public class BlockXorcitePlant extends BaseBlockCrops implements InventoryBlockModel {
 
     public static final EnumPlantType XORCITE = EnumPlantType.getPlantType("xorcite");
     public static final PropertyInteger Age = PropertyInteger.create("age", 0, 3);
@@ -274,8 +274,9 @@ public class BlockXorcitePlant extends BaseBlockCrops implements IHasModel {
 
     @Override
     public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
-        EndReborn.proxy.registerItemRenderer(Item.getItemFromBlock(this), 3, "inventory");
+        var item = Item.getItemFromBlock(this);
+        EndReborn.proxy.registerItemRenderer(item, 0, "inventory");
+        EndReborn.proxy.registerItemRenderer(item, 3, "inventory");
     }
 
     @Override

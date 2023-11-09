@@ -17,9 +17,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class FoodChorusSoup extends ItemFood implements IHasModel {
+public class FoodChorusSoup extends ItemFood implements InventoryItemModel {
 
     public FoodChorusSoup(int healAmount, String name) {
         super(healAmount, false);
@@ -28,11 +28,6 @@ public class FoodChorusSoup extends ItemFood implements IHasModel {
         this.setMaxStackSize(1);
         setCreativeTab(EndReborn.endertab);
         setPotionEffect(new PotionEffect(MobEffects.GLOWING, 100, 0), 0.6F);
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {

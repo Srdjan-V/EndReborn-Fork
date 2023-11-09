@@ -14,12 +14,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
 import endreborn.common.blocks.base.BaseBlockCrops;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockEnderCrop extends BaseBlockCrops implements IHasModel {
+public class BlockEnderCrop extends BaseBlockCrops implements InventoryBlockModel {
 
     public BlockEnderCrop(String name) {
         super(name);
@@ -87,10 +86,5 @@ public class BlockEnderCrop extends BaseBlockCrops implements IHasModel {
                 }
             }
         }
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
     }
 }

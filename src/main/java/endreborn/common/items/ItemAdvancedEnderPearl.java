@@ -21,9 +21,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ItemAdvancedEnderPearl extends Item implements IHasModel {
+public class ItemAdvancedEnderPearl extends Item implements InventoryItemModel {
 
     public ItemAdvancedEnderPearl(String name) {
         setTranslationKey(name);
@@ -49,11 +49,6 @@ public class ItemAdvancedEnderPearl extends Item implements IHasModel {
 
         playerIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
     @Override

@@ -7,9 +7,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
 import endreborn.common.sounds.EndSound;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ItemEndRecord extends ItemRecord implements IHasModel {
+public class ItemEndRecord extends ItemRecord implements InventoryItemModel {
 
     public ItemEndRecord(String name, EndSound soundIn) {
         super(soundIn.name, soundIn);
@@ -22,10 +22,5 @@ public class ItemEndRecord extends ItemRecord implements IHasModel {
     @Override
     public String getRecordNameLocal() {
         return I18n.translateToLocal("item.endreborn.record.end.desc");
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 }

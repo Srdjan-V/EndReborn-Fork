@@ -1,10 +1,10 @@
 package endreborn.common.capabilities.timedflight;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.world.World;
 
 public class TimedFlight {
+
     private boolean modifyFlight;
     private int flightDuration;
 
@@ -15,7 +15,6 @@ public class TimedFlight {
     public int getFlightDuration() {
         return flightDuration;
     }
-
 
     public void setModifyFlight(boolean modifyFlight) {
         this.modifyFlight = modifyFlight;

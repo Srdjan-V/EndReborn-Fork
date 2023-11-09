@@ -2,7 +2,6 @@ package endreborn.common;
 
 import java.util.Map;
 
-import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
@@ -23,6 +22,7 @@ import endreborn.EndReborn;
 import endreborn.Reference;
 import endreborn.api.entropywand.Conversion;
 import endreborn.api.entropywand.EntropyWandHandler;
+import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import endreborn.common.entity.*;
 import endreborn.common.tiles.MaterializerTile;
 import endreborn.common.village.EndVillagerHandler;

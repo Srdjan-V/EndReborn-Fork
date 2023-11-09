@@ -15,9 +15,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class FoodEnderFlesh extends ItemFood implements IHasModel {
+public class FoodEnderFlesh extends ItemFood implements InventoryItemModel {
 
     public FoodEnderFlesh(String name) {
         super(4, 0.4F, false);
@@ -25,11 +25,6 @@ public class FoodEnderFlesh extends ItemFood implements IHasModel {
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
         setPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 100, 1), 0.6F);
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
     @Override

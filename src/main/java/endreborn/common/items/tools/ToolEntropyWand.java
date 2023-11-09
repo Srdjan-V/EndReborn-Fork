@@ -19,9 +19,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import endreborn.EndReborn;
 import endreborn.api.entropywand.Conversion;
 import endreborn.api.entropywand.EntropyWandHandler;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ToolEntropyWand extends ItemSword implements IHasModel {
+public class ToolEntropyWand extends ItemSword implements InventoryItemModel {
 
     public ToolEntropyWand(String name, ToolMaterial material) {
         super(material);
@@ -29,11 +29,6 @@ public class ToolEntropyWand extends ItemSword implements IHasModel {
         setRegistryName(name);
         setMaxDamage(128);
         setCreativeTab(EndReborn.endertab);
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
     @Override

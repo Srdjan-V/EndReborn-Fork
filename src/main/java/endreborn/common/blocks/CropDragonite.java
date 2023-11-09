@@ -1,6 +1,5 @@
 package endreborn.common.blocks;
 
-import endreborn.common.blocks.base.BaseBlockCrops;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -10,11 +9,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import endreborn.EndReborn;
 import endreborn.common.ModItems;
-import endreborn.utils.IHasModel;
+import endreborn.common.blocks.base.BaseBlockCrops;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class CropDragonite extends BaseBlockCrops implements IHasModel {
+public class CropDragonite extends BaseBlockCrops implements InventoryBlockModel {
 
     public CropDragonite(String name) {
         super(name);
@@ -34,10 +33,5 @@ public class CropDragonite extends BaseBlockCrops implements IHasModel {
     @Override
     protected Item getCrop() {
         return ModItems.DRAGONITE_BERRIES.get();
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
     }
 }

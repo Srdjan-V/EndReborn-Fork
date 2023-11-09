@@ -22,9 +22,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ItemEnderSword extends ItemSword implements IHasModel {
+public class ItemEnderSword extends ItemSword implements InventoryItemModel {
 
     public ItemEnderSword(String name, ToolMaterial material) {
         super(material);
@@ -54,11 +54,6 @@ public class ItemEnderSword extends ItemSword implements IHasModel {
 
         playerIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
     @Override

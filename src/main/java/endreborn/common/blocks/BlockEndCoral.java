@@ -8,7 +8,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
@@ -19,9 +18,9 @@ import net.minecraft.world.World;
 
 import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockEndCoral extends BlockBush implements net.minecraftforge.common.IShearable, IHasModel {
+public class BlockEndCoral extends BlockBush implements net.minecraftforge.common.IShearable, InventoryBlockModel {
 
     protected static final AxisAlignedBB END_BUSH_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D,
             0.09999999403953552D, 0.8999999761581421D, 0.400000011920929D, 0.8999999761581421D);
@@ -35,11 +34,6 @@ public class BlockEndCoral extends BlockBush implements net.minecraftforge.commo
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return END_BUSH_AABB;
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
     }
 
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {

@@ -17,10 +17,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class CutoutBlock extends Block implements IHasModel {
+public class CutoutBlock extends Block implements InventoryBlockModel {
 
     protected static final AxisAlignedBB BUSH_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D,
             0.699999988079071D, 0.6000000238418579D, 0.699999988079071D);
@@ -67,10 +66,5 @@ public class CutoutBlock extends Block implements IHasModel {
 
     public boolean isFullCube(IBlockState state) {
         return false;
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
     }
 }

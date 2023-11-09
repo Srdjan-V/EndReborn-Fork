@@ -15,7 +15,7 @@ import com.google.common.base.Suppliers;
 
 import endreborn.common.blocks.*;
 import endreborn.common.blocks.base.BlockEndBase;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.IHasModel;
 
 @SuppressWarnings("unused")
 public final class ModBlocks {

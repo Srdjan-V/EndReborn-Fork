@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import endreborn.common.items.base.ItemBase;
 import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -26,13 +25,14 @@ import endreborn.client.armor.ArmourBase;
 import endreborn.client.armor.ArmourDModel;
 import endreborn.client.armor.ArmourModel;
 import endreborn.common.items.*;
+import endreborn.common.items.base.ItemBase;
 import endreborn.common.items.base.ItemLegendary;
-import endreborn.common.items.food.FoodChorusSoup;
 import endreborn.common.items.food.DragoniteBerries;
+import endreborn.common.items.food.FoodChorusSoup;
 import endreborn.common.items.food.FoodEnderFlesh;
 import endreborn.common.items.tools.*;
 import endreborn.common.items.tools.ToolAxe;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.IHasModel;
 
 public final class ModItems {
 
@@ -66,7 +66,8 @@ public final class ModItems {
     public static final Supplier<Item> RAW_ENDORIUM = register(() -> new ItemBase("item_raw_endorium"));
     // TODO: 08/11/2023 implement fixer old:item_dragonite_seeds
     public static final Supplier<Item> DRAGONITE_SEEDS = register(() -> new ItemDragoniteSeeds("dragonite_seeds"));
-    public static final Supplier<Item> ADVANCED_PEARL = register(() -> new ItemAdvancedEnderPearl("item_advanced_ender_pearl"));
+    public static final Supplier<Item> ADVANCED_PEARL = register(
+            () -> new ItemAdvancedEnderPearl("item_advanced_ender_pearl"));
     public static final Supplier<Item> END_ESSENCE = register(() -> new ItemBase("item_end_essence"));
     public static final Supplier<Item> END_SHARD = register(() -> new ItemBase("item_end_shard"));
     public static final Supplier<Item> END_RUNE = register(() -> new ItemLegendary("item_end_rune"));
@@ -145,7 +146,7 @@ public final class ModItems {
     public static final Supplier<Item> ENDER_FLESH = register(() -> new FoodEnderFlesh("ender_flesh"));// TODO:
                                                                                                        // 04/11/2023 add
                                                                                                        // fixer
-    //TODO: 08/11/2023 implement fixer old:food_dragonite_berries
+    // TODO: 08/11/2023 implement fixer old:food_dragonite_berries
     public static final Supplier<Item> DRAGONITE_BERRIES = register(() -> new DragoniteBerries("dragonite_berries"));
     public static final Supplier<Item> CHORUS_SOUP = register(() -> new FoodChorusSoup(5, "food_chorus_soup"));
 

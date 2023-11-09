@@ -18,10 +18,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
 import endreborn.utils.ItemData;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ItemDeather extends ItemSword implements IHasModel {
+public class ItemDeather extends ItemSword implements InventoryItemModel {
 
     public ItemDeather(String name, ToolMaterial material) {
         super(material);
@@ -89,10 +89,5 @@ public class ItemDeather extends ItemSword implements IHasModel {
 
     public void toggleMode(ItemStack itemStack) {
         ItemData.setInt(itemStack, "mode", getMode(itemStack) < 1 ? getMode(itemStack) + 1 : 0);
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 }

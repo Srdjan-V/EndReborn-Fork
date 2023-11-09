@@ -2,12 +2,11 @@ package endreborn.common.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.item.Item;
 
 import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockStairsBase extends BlockStairs implements IHasModel {
+public class BlockStairsBase extends BlockStairs implements InventoryBlockModel {
 
     public BlockStairsBase(String name, Block block) {
         super(block.getDefaultState());
@@ -17,10 +16,5 @@ public class BlockStairsBase extends BlockStairs implements IHasModel {
         setRegistryName(name);
         setCreativeTab(EndReborn.endertab);
         useNeighborBrightness = true;
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
     }
 }

@@ -19,9 +19,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ItemWorldMirror extends Item implements IHasModel {
+public class ItemWorldMirror extends Item implements InventoryItemModel {
 
     public ItemWorldMirror(String name) {
         setTranslationKey(name);
@@ -50,11 +50,6 @@ public class ItemWorldMirror extends Item implements IHasModel {
 
     public int getMaxItemUseDuration(ItemStack stack) {
         return 72000;
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
     @Override

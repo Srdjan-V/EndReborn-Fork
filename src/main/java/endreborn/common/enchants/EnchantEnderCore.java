@@ -43,10 +43,10 @@ public class EnchantEnderCore extends Enchantment {
 
         if (chestPeace == null) return;
         for (int i = 0; i < 16; ++i) {
-            double x = wearer.posX + (wearer.getRNG().nextDouble() - 0.5D) * 16.0D;
+            double x = wearer.posX + boundRand(wearer) * 16.0D;
             double y = MathHelper.clamp(wearer.posY + (double) (wearer.getRNG().nextInt(16) - 8), 0.0D,
                     wearer.world.getActualHeight() - 1);
-            double z = wearer.posZ + (wearer.getRNG().nextDouble() - 0.5D) * 16.0D;
+            double z = wearer.posZ + boundRand(wearer) * 16.0D;
             if (wearer.isRiding()) wearer.dismountRidingEntity();
 
             if (wearer.attemptTeleport(x, y, z)) {
@@ -54,6 +54,15 @@ public class EnchantEnderCore extends Enchantment {
                 wearer.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 250));
                 wearer.playSound(SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, 1.0F, 1.0F);
                 break;
+            }
+        }
+    }
+
+    public static double boundRand(EntityPlayer wearer) {
+        while (true) {
+            var rand = wearer.getRNG().nextDouble();
+            if (rand > 0.6 || rand < 0.4) {
+                return rand;
             }
         }
     }

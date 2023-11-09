@@ -14,7 +14,6 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -28,9 +27,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import endreborn.EndReborn;
 import endreborn.common.entity.EntityChronologist;
 import endreborn.common.entity.EntityWatcher;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockEndMagma extends Block implements IHasModel {
+public class BlockEndMagma extends Block implements InventoryBlockModel {
 
     public BlockEndMagma(String name) {
         super(Material.ROCK);
@@ -82,10 +81,5 @@ public class BlockEndMagma extends Block implements IHasModel {
 
     public boolean canEntitySpawn(IBlockState state, Entity entityIn) {
         return entityIn.isImmuneToFire();
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
     }
 }

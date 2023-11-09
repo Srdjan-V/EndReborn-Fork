@@ -13,9 +13,9 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 import endreborn.EndReborn;
 import endreborn.common.ModItems;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ItemEnderBow extends ItemBow implements IHasModel {
+public class ItemEnderBow extends ItemBow implements InventoryItemModel {
 
     public float charge;
 
@@ -93,10 +93,5 @@ public class ItemEnderBow extends ItemBow implements IHasModel {
     public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
         return ModItems.INGOT_ENDORIUM == par2ItemStack.getItem() ? true :
                 super.getIsRepairable(par1ItemStack, par2ItemStack);
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 }

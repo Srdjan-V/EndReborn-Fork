@@ -2,7 +2,6 @@ package endreborn.common;
 
 import java.util.List;
 
-import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -11,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import com.google.common.collect.Lists;
 
+import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import endreborn.common.datafixers.Fixer;
 import endreborn.compat.CompatManger;
 import endreborn.utils.Initializer;

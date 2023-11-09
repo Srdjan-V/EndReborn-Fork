@@ -6,9 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import endreborn.EndReborn;
-import endreborn.utils.IHasModel;
+import endreborn.utils.models.InventoryItemModel;
 
-public class ItemHammer extends Item implements IHasModel {
+public class ItemHammer extends Item implements InventoryItemModel {
 
     public ItemHammer(String name) {
         setTranslationKey(name);
@@ -33,10 +33,5 @@ public class ItemHammer extends Item implements IHasModel {
     @Override
     public boolean isRepairable() {
         return false;
-    }
-
-    @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 }
