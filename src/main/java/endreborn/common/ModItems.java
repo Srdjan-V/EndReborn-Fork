@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import endreborn.common.items.base.ItemBase;
 import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -27,7 +28,7 @@ import endreborn.client.armor.ArmourModel;
 import endreborn.common.items.*;
 import endreborn.common.items.base.ItemLegendary;
 import endreborn.common.items.food.FoodChorusSoup;
-import endreborn.common.items.food.FoodDragonBerries;
+import endreborn.common.items.food.DragoniteBerries;
 import endreborn.common.items.food.FoodEnderFlesh;
 import endreborn.common.items.tools.*;
 import endreborn.common.items.tools.ToolAxe;
@@ -63,9 +64,9 @@ public final class ModItems {
     public static final Supplier<Item> INGOT_ENDORIUM = register(() -> new ItemBase("item_ingot_endorium"));
     public static final Supplier<Item> SHARD_OBSIDIAN = register(() -> new ItemBase("item_shard_obsidian"));
     public static final Supplier<Item> RAW_ENDORIUM = register(() -> new ItemBase("item_raw_endorium"));
-    public static final Supplier<Item> DRAGONITE_SEEDS = register(
-            () -> new ItemDragonSeeds("item_dragonite_seeds"));
-    public static final Supplier<Item> ADVANCED_PEARL = register(() -> new ItemAPearl("item_advanced_ender_pearl"));
+    // TODO: 08/11/2023 implement fixer old:item_dragonite_seeds
+    public static final Supplier<Item> DRAGONITE_SEEDS = register(() -> new ItemDragoniteSeeds("dragonite_seeds"));
+    public static final Supplier<Item> ADVANCED_PEARL = register(() -> new ItemAdvancedEnderPearl("item_advanced_ender_pearl"));
     public static final Supplier<Item> END_ESSENCE = register(() -> new ItemBase("item_end_essence"));
     public static final Supplier<Item> END_SHARD = register(() -> new ItemBase("item_end_shard"));
     public static final Supplier<Item> END_RUNE = register(() -> new ItemLegendary("item_end_rune"));
@@ -144,8 +145,8 @@ public final class ModItems {
     public static final Supplier<Item> ENDER_FLESH = register(() -> new FoodEnderFlesh("ender_flesh"));// TODO:
                                                                                                        // 04/11/2023 add
                                                                                                        // fixer
-    public static final Supplier<Item> DRAGONITE_BERRIES = register(
-            () -> new FoodDragonBerries("food_dragonite_berries"));
+    //TODO: 08/11/2023 implement fixer old:food_dragonite_berries
+    public static final Supplier<Item> DRAGONITE_BERRIES = register(() -> new DragoniteBerries("dragonite_berries"));
     public static final Supplier<Item> CHORUS_SOUP = register(() -> new FoodChorusSoup(5, "food_chorus_soup"));
 
     // TODO: 22/10/2023 rename itemBlocks
@@ -154,7 +155,7 @@ public final class ModItems {
     public static final Supplier<ItemBlock> END_STONE_PILLAR = registerItemBlock(ModBlocks.END_STONE_PILLAR);
     public static final Supplier<ItemBlock> PURPUR_LAMP = registerItemBlock(ModBlocks.PURPUR_LAMP);
     public static final Supplier<ItemBlock> ENDER_FLOWER = registerItemBlock(ModBlocks.ENDER_FLOWER);
-    public static final Supplier<ItemBlock> DRAGON_BUSH = registerItemBlock(ModBlocks.DRAGON_BUSH);
+    public static final Supplier<ItemBlock> DRAGON_BUSH = registerItemBlock(ModBlocks.CROP_DRAGONITE);
     public static final Supplier<ItemBlock> ESSENCE_ORE = registerItemBlock(ModBlocks.ESSENCE_ORE);
     public static final Supplier<ItemBlock> PHANTOM_BLOCK = registerItemBlock(ModBlocks.PHANTOM_BLOCK);
     public static final Supplier<ItemBlock> ENTROPY_END_STONE = registerItemBlock(ModBlocks.ENTROPY_END_STONE);

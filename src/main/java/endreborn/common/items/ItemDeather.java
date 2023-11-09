@@ -31,11 +31,6 @@ public class ItemDeather extends ItemSword implements IHasModel {
     }
 
     @Override
-    public void registerModels() {
-        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
-    }
-
-    @Override
     public EnumRarity getRarity(ItemStack stack) {
         return EnumRarity.UNCOMMON;
     }
@@ -43,24 +38,14 @@ public class ItemDeather extends ItemSword implements IHasModel {
     @Override
     public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase target,
                                             EnumHand hand) {
-        if (player.world.isRemote) {
-
-            return false;
-        }
-        player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ,
+        if (player.world.isRemote) return false;
+        player.world.playSound(null, player.posX, player.posY, player.posZ,
                 SoundEvents.BLOCK_REDSTONE_TORCH_BURNOUT, SoundCategory.PLAYERS, 0.2F,
                 player.world.rand.nextFloat() * 0.1F + 0.9F);
         Vec3d dir = player.getPositionVector().subtract(target.getPositionVector());
-        if (getMode(stack) == 0) {
-            target.addVelocity(dir.x * 0.3, dir.y * 0.3, dir.z * 0.3);
-
-        }
-        if (getMode(stack) == 1) {
-            target.addVelocity(dir.x * -0.3, dir.y * -0.3, dir.z * -0.3);
-        }
-        if (!player.capabilities.isCreativeMode) {
-            stack.damageItem(1, player);
-        }
+        if (getMode(stack) == 0) target.addVelocity(dir.x * 0.3, dir.y * 0.3, dir.z * 0.3);
+        if (getMode(stack) == 1) target.addVelocity(dir.x * -0.3, dir.y * -0.3, dir.z * -0.3);
+        if (!player.capabilities.isCreativeMode) stack.damageItem(1, player);
         return true;
     }
 
@@ -95,9 +80,7 @@ public class ItemDeather extends ItemSword implements IHasModel {
     }
 
     public String getModeName(ItemStack itemStack) {
-        int mode = getMode(itemStack);
-
-        return switch (mode) {
+        return switch (getMode(itemStack)) {
             case 0 -> I18n.format("tile.deather_mode.off");
             case 1 -> I18n.format("tile.deather_mode.on");
             default -> null;
@@ -106,5 +89,10 @@ public class ItemDeather extends ItemSword implements IHasModel {
 
     public void toggleMode(ItemStack itemStack) {
         ItemData.setInt(itemStack, "mode", getMode(itemStack) < 1 ? getMode(itemStack) + 1 : 0);
+    }
+
+    @Override
+    public void registerModels() {
+        EndReborn.proxy.registerItemRenderer(this, 0, "inventory");
     }
 }

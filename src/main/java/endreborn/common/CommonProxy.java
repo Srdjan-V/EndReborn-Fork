@@ -2,6 +2,7 @@ package endreborn.common;
 
 import java.util.List;
 
+import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -27,6 +28,7 @@ public class CommonProxy {
 
     public void registerEventBus() {
         for (Initializer component : components) component.registerEventBus();
+        MinecraftForge.EVENT_BUS.register(CapabilityTimedFlightHandler.class);
         MinecraftForge.EVENT_BUS.register(ModBlocks.class);
         MinecraftForge.EVENT_BUS.register(ModItems.class);
         MinecraftForge.EVENT_BUS.register(ModEnchants.class);

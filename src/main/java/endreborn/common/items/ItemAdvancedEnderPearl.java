@@ -23,9 +23,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import endreborn.EndReborn;
 import endreborn.utils.IHasModel;
 
-public class ItemAPearl extends Item implements IHasModel {
+public class ItemAdvancedEnderPearl extends Item implements IHasModel {
 
-    public ItemAPearl(String name) {
+    public ItemAdvancedEnderPearl(String name) {
         setTranslationKey(name);
         setRegistryName(name);
         this.maxStackSize = 32;
@@ -34,12 +34,9 @@ public class ItemAPearl extends Item implements IHasModel {
 
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
+        if (!playerIn.capabilities.isCreativeMode) itemstack.shrink(1);
 
-        if (!playerIn.capabilities.isCreativeMode) {
-            itemstack.shrink(1);
-        }
-
-        worldIn.playSound((EntityPlayer) null, playerIn.posX, playerIn.posY, playerIn.posZ,
+        worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ,
                 SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.NEUTRAL, 0.5F,
                 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         playerIn.getCooldownTracker().setCooldown(this, 1);
@@ -51,7 +48,7 @@ public class ItemAPearl extends Item implements IHasModel {
         }
 
         playerIn.addStat(StatList.getObjectUseStats(this));
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+        return new ActionResult<>(EnumActionResult.SUCCESS, itemstack);
     }
 
     @Override

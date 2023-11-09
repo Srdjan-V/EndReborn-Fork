@@ -2,6 +2,7 @@ package endreborn.common;
 
 import java.util.Map;
 
+import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
@@ -32,6 +33,7 @@ import endreborn.utils.Initializer;
 final class Registration implements Initializer {
 
     public void preInit() {
+        CapabilityTimedFlightHandler.register();
         registerMobs();
 
         GameRegistry.registerTileEntity(MaterializerTile.class,

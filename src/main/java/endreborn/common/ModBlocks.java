@@ -30,7 +30,7 @@ public final class ModBlocks {
             () -> new BlockPillar("block_end_stone_pillar", Material.ROCK));
     public static final Supplier<Block> PURPUR_LAMP = register(() -> new BlockPurpurLamp("block_purpur_lamp"));
     public static final Supplier<Block> ENDER_FLOWER = register(() -> new BlockEnderCrop("crop_ender_flower"));
-    public static final Supplier<Block> DRAGON_BUSH = register(() -> new DragonBush("crop_dragonite"));
+    public static final Supplier<Block> CROP_DRAGONITE = register(() -> new CropDragonite("crop_dragonite"));
     public static final Supplier<Block> ESSENCE_ORE = register(
             () -> new BlockEssenceOre("block_essence_ore", Material.ROCK));
     public static final Supplier<Block> PHANTOM_BLOCK = register(
