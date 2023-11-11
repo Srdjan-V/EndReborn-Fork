@@ -33,7 +33,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.common.LootHandler;
-import endreborn.utils.EndHelper;
+import endreborn.utils.MessageHelper;
 
 public class EntityLord extends EntityMob {
 
@@ -90,23 +90,23 @@ public class EntityLord extends EntityMob {
         if (world.isRemote) return;
         if (ticksExisted % 400 == 0) {
             if (getHealth() < 150 && getHealth() > 120)
-                EndHelper.LordGroup(world, "Lord: You... Are you still fighting?");
+                MessageHelper.LordGroup(world, "Lord: You... Are you still fighting?");
             if (this.getHealth() < 120 && this.getHealth() > 90)
-                EndHelper.LordGroup(world, "Lord: Are you trying to kill everyone?");
+                MessageHelper.LordGroup(world, "Lord: Are you trying to kill everyone?");
             if (this.getHealth() < 90 && this.getHealth() > 50)
-                EndHelper.LordGroup(world, "Lord: You know nothing!");
+                MessageHelper.LordGroup(world, "Lord: You know nothing!");
             if (this.getHealth() < 30 && this.getHealth() > 10)
-                EndHelper.LordGroup(world, "Lord: To rise you need to fall!");
+                MessageHelper.LordGroup(world, "Lord: To rise you need to fall!");
         }
 
         for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(this,
                 getEntityBoundingBox().grow(64.0D, 64.0D, 64.0D))) {
             if (entity instanceof EntityWither) {
                 world.removeEntity(entity);
-                EndHelper.LordGroup(world, "Lord: You can not compare the creation and creator!");
+                MessageHelper.LordGroup(world, "Lord: You can not compare the creation and creator!");
             } else if (entity instanceof EntityLord) {
                 world.removeEntity(entity);
-                EndHelper.LordGroup(world, "Lord: This is not fair now!");
+                MessageHelper.LordGroup(world, "Lord: This is not fair now!");
             }
         }
         this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
@@ -228,7 +228,7 @@ public class EntityLord extends EntityMob {
     @Override
     protected void onDeathUpdate() {
         setDead();
-        EndHelper.LordGroup(world, "Lord: Ha-ha-ha...");
+        MessageHelper.LordGroup(world, "Lord: Ha-ha-ha...");
         if (!world.isRemote) {
             EntityEnderman ender = new EntityEnderman(world);
             ender.setLocationAndAngles(posX, posY + 1, posZ, rotationYaw, rotationPitch);

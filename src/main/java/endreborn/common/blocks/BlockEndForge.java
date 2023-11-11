@@ -3,7 +3,6 @@ package endreborn.common.blocks;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -17,10 +16,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -28,17 +25,18 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.EndReborn;
+import org.jetbrains.annotations.Nullable;
+
+import com.cleanroommc.modularui.manager.GuiInfos;
+
+import endreborn.common.blocks.base.BlockBase;
+import endreborn.common.tiles.EndForgeTile;
 import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockEndForge extends Block implements InventoryBlockModel {
+public class BlockEndForge extends BlockBase implements InventoryBlockModel {
 
     public BlockEndForge(String name) {
-        super(Material.ROCK);
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(EndReborn.endertab);
-        this.setTickRandomly(true);
+        super(name, Material.ROCK);
         setSoundType(SoundType.STONE);
         setHardness(3.0F);
         setHarvestLevel("pickaxe", 2);
@@ -72,13 +70,31 @@ public class BlockEndForge extends Block implements InventoryBlockModel {
         return false;
     }
 
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+                                    EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (!worldIn.isRemote) GuiInfos.TILE_ENTITY.open(playerIn, worldIn, pos);
+        return true;
+    }
+
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        return new EndForgeTile();
+    }
+
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         BlockPos blockpos = pos.up();
         IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
         if (iblockstate.getBlock() == Blocks.WATER || iblockstate.getBlock() == Blocks.FLOWING_WATER) {
             worldIn.setBlockToAir(blockpos);
-            worldIn.playSound((EntityPlayer) null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F,
+            worldIn.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F,
                     2.6F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.8F);
 
             if (worldIn instanceof WorldServer) {
@@ -96,9 +112,9 @@ public class BlockEndForge extends Block implements InventoryBlockModel {
 
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-        double d0 = (double) pos.getX();
-        double d1 = (double) pos.getY();
-        double d2 = (double) pos.getZ();
+        double d0 = pos.getX();
+        double d1 = pos.getY();
+        double d2 = pos.getZ();
         if (worldIn.getBlockState(pos.up()).getMaterial() == Material.AIR) {
             if (rand.nextInt(50) == 0) {
                 double d8 = d0 + (double) rand.nextFloat();

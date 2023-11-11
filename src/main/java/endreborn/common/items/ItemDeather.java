@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import endreborn.EndReborn;
-import endreborn.utils.ItemData;
+import endreborn.utils.ItemStackUtils;
 import endreborn.utils.models.InventoryItemModel;
 
 public class ItemDeather extends ItemSword implements InventoryItemModel {
@@ -76,7 +76,7 @@ public class ItemDeather extends ItemSword implements InventoryItemModel {
     }
 
     public int getMode(ItemStack itemStack) {
-        return ItemData.getInt(itemStack, "mode");
+        return ItemStackUtils.getInt(itemStack, "mode");
     }
 
     public String getModeName(ItemStack itemStack) {
@@ -88,6 +88,6 @@ public class ItemDeather extends ItemSword implements InventoryItemModel {
     }
 
     public void toggleMode(ItemStack itemStack) {
-        ItemData.setInt(itemStack, "mode", getMode(itemStack) < 1 ? getMode(itemStack) + 1 : 0);
+        ItemStackUtils.setInt(itemStack, "mode", getMode(itemStack) < 1 ? getMode(itemStack) + 1 : 0);
     }
 }

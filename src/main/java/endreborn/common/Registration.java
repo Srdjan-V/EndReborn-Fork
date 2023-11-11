@@ -12,6 +12,8 @@ import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -20,10 +22,18 @@ import com.google.common.collect.Lists;
 
 import endreborn.EndReborn;
 import endreborn.Reference;
+import endreborn.api.base.groupings.FluidToItemGrouping;
+import endreborn.api.endforge.EndForgeHandler;
+import endreborn.api.endforge.EndForgeRecipe;
 import endreborn.api.entropywand.Conversion;
 import endreborn.api.entropywand.EntropyWandHandler;
+import endreborn.api.materializer.CriticalityEvent;
+import endreborn.api.materializer.ItemCatalyst;
+import endreborn.api.materializer.MaterializerHandler;
+import endreborn.api.materializer.MaterializerRecipe;
 import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import endreborn.common.entity.*;
+import endreborn.common.tiles.EndForgeTile;
 import endreborn.common.tiles.MaterializerTile;
 import endreborn.common.village.EndVillagerHandler;
 import endreborn.common.world.OreGen;
@@ -37,13 +47,17 @@ final class Registration implements Initializer {
         registerMobs();
 
         GameRegistry.registerTileEntity(MaterializerTile.class,
-                new ResourceLocation(Reference.MODID + ":entropy_user"));
+                new ResourceLocation(Reference.MOD_PREFIX + "materializerTile"));
+        GameRegistry.registerTileEntity(EndForgeTile.class,
+                new ResourceLocation(Reference.MOD_PREFIX + "endForgeTile"));
 
         GameRegistry.registerWorldGenerator(new OreGen(), 0);
         GameRegistry.registerWorldGenerator(new WorldGenCustomStructures(), 0);
     }
 
     public void init() {
+        registerMaterializerRecipes();
+        registerEndForgeRecipes();
         registerEntropyWandRecipes();
         registerBannerPatterns();
 
@@ -77,6 +91,46 @@ final class Registration implements Initializer {
                         .addItemDamage(8)
                         .playFlintSound()
                         .build());
+    }
+
+    private static void registerEndForgeRecipes() {
+        var lavaGroup = new FluidToItemGrouping<EndForgeRecipe>(new FluidStack(FluidRegistry.LAVA, 1000));
+        EndForgeHandler.getInstance().registerRecipeGrouping(lavaGroup);
+
+        lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.INGOT_ENDORIUM.get()), 120,
+                (lava, item) -> new ItemStack(ModItems.INFUSED_METALL.get())));
+
+        lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(Items.SLIME_BALL), 200,
+                (lava, item) -> new ItemStack(Items.MAGMA_CREAM)));
+
+        lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.END_ESSENCE.get()), 200,
+                (lava, item) -> new ItemStack(Items.BLAZE_POWDER)));
+
+        lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.ENTROPY_END_STONE.get()), 200,
+                (lava, item) -> new ItemStack(ModBlocks.BLOCK_END_MAGMA.get())));
+    }
+
+    private static void registerMaterializerRecipes() {
+        var itemCatalyst = new ItemCatalyst(new ItemStack(ModItems.CATALYST.get()));
+        MaterializerHandler.getInstance().registerRecipeGrouping(itemCatalyst);
+
+        var ironToIronRecipe = new MaterializerRecipe(
+                new ItemStack(Items.IRON_INGOT), 120,
+                (stack, catalyst) -> new ItemStack(Items.IRON_INGOT, 2));
+
+        itemCatalyst.registerRecipe(ironToIronRecipe);
+
+        ironToIronRecipe.registerCriticality(15, CriticalityEvent.create(15,
+                CriticalityEvent.equalsToBlock(Blocks.STONE),
+                CriticalityEvent.replaceWithDefaultBlockState(Blocks.IRON_BLOCK)));
+
+        ironToIronRecipe.registerCriticality(20, CriticalityEvent.create(15,
+                CriticalityEvent.equalsToBlock(Blocks.IRON_BLOCK),
+                CriticalityEvent.replaceWithDefaultBlockState(Blocks.GOLD_BLOCK)));
+
+        ironToIronRecipe.registerCriticality(30, CriticalityEvent.create(15,
+                CriticalityEvent.equalsToBlock(Blocks.GOLD_BLOCK),
+                CriticalityEvent.replaceWithDefaultBlockState(Blocks.STONE)));
     }
 
     private static void registerBannerPatterns() {

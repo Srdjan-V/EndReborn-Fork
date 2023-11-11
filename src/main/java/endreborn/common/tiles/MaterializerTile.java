@@ -50,8 +50,10 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.google.common.collect.Lists;
 
 import endreborn.EndReborn;
-import endreborn.api.materializer.Catalyst;
+import endreborn.api.base.processors.ItemRecipeProcessor;
+import endreborn.api.base.processors.RecipeProcessor;
 import endreborn.api.materializer.CriticalityEvent;
+import endreborn.api.materializer.ItemCatalyst;
 import endreborn.api.materializer.MaterializerHandler;
 import endreborn.api.materializer.MaterializerRecipe;
 import endreborn.common.ModBlocks;
@@ -63,7 +65,6 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
         @Override
         protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
             markDirty();
         }
 
@@ -72,7 +73,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
         public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             return switch (slot) {
                 case 1 -> {
-                    if (Objects.nonNull(MaterializerHandler.findCatalyst(stack))) {
+                    if (recipeProcessor.validateGrouping(stack)) {
                         yield super.insertItem(slot, stack, simulate);
                     }
                     yield stack;
@@ -86,7 +87,6 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
         @Override
         protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
             markDirty();
         }
 
@@ -104,7 +104,6 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
         @Override
         protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
             markDirty();
         }
     };
@@ -112,13 +111,17 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
     // Dynamic
     ////////////////////
     private Status status = Status.Idle;
-    private Catalyst catalyst;
-    private MaterializerRecipe recipe;
+    private final RecipeProcessor<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> recipeProcessor;
+
     ////////////////////
     private int ticksRun;
     private int failTick;
     private int lastTriggeredCriticalityIndex;
     private int blockStateChangeBuffer;// no need to serialize
+
+    public MaterializerTile() {
+        recipeProcessor = new ItemRecipeProcessor<>(MaterializerHandler.getInstance());
+    }
 
     @Override
     public ITextComponent getDisplayName() {
@@ -201,8 +204,8 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
                 .overlay(GuiTextures.HELP)
                 .right(26).bottom(75);
         help.setValue(new StringSyncValue(() -> {
-            if (Objects.isNull(recipe)) return null;
-            return recipe.getCraftDescription().stream()
+            if (Objects.isNull(recipeProcessor.getRecipe())) return null;
+            return recipeProcessor.getRecipe().getCraftDescription().stream()
                     .collect(Collectors.joining(mask, "", ""));
         }, null));
 
@@ -225,7 +228,8 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
                 .size(18).left(95).top(45)
                 .texture(GuiTextures.PROGRESS_ARROW, 25)
                 .value(new DoubleSyncValue(() -> {
-                    if (recipe != null) return (double) ticksRun / recipe.getTicksToComplete();
+                    if (recipeProcessor.getRecipe() != null)
+                        return (double) ticksRun / recipeProcessor.getRecipe().getTicksToComplete();
                     return 0;
                 }, null));
         panel.child(process);
@@ -255,22 +259,16 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
         }
 
         if (validProcessingRecipe) {
-            catalyst = MaterializerHandler.findCatalyst(processingCatalyst);
-            if (Objects.isNull(catalyst)) return false;
-
-            recipe = MaterializerHandler.findRecipe(catalyst, processingItem);
-            if (Objects.isNull(recipe)) return false;
-
+            if (!recipeProcessor.validateGrouping(processingCatalyst)) return false;
+            if (!recipeProcessor.validateRecipe(processingItem)) return false;
         } else {
             boolean invalid = false;
 
             var inputCatalyst = inputInventory.getStackInSlot(1);
-            catalyst = MaterializerHandler.findCatalyst(inputCatalyst);
-            if (Objects.isNull(catalyst)) invalid = true;
+            if (!recipeProcessor.validateGrouping(inputCatalyst)) invalid = true;
 
             var inputItem = inputInventory.getStackInSlot(0);
-            recipe = MaterializerHandler.findRecipe(catalyst, inputItem);
-            if (Objects.isNull(recipe)) invalid = true;
+            if (!recipeProcessor.validateRecipe(inputItem)) invalid = true;
 
             if (invalid) {
                 if (inputCatalyst.isEmpty() && inputItem.isEmpty()) {
@@ -279,9 +277,10 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
                 return false;
             }
 
-            if (!inputInventory.extractItem(0, recipe.getInput().getCount(), true).isEmpty() &&
+            if (!inputInventory.extractItem(0, recipeProcessor.getRecipe().getInput().getCount(), true).isEmpty() &&
                     !inputInventory.extractItem(0, 1, true).isEmpty()) {
-                processingInventory.insertItem(0, inputInventory.extractItem(0, recipe.getInput().getCount(), false),
+                processingInventory.insertItem(0,
+                        inputInventory.extractItem(0, recipeProcessor.getRecipe().getInput().getCount(), false),
                         false);
                 processingInventory.insertItem(1, inputInventory.extractItem(1, 1, false), false);
             } else {
@@ -294,8 +293,10 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
     private void progress() {
         // finished
-        if (ticksRun >= recipe.getTicksToComplete()) {
-            var outputStack = recipe.getOutput().apply(processingInventory.getStackInSlot(0), catalyst);
+        if (ticksRun >= recipeProcessor.getRecipe().getTicksToComplete()) {
+            var outputStack = recipeProcessor.getRecipe().getRecipeFunction().apply(
+                    processingInventory.getStackInSlot(0),
+                    processingInventory.getStackInSlot(1));
             if (outInventory.insertItem(-1, outputStack, true).isEmpty()) {
                 outInventory.insertItem(-1, outputStack, false);
                 spawnSpawnSuccessfulCraft();
@@ -304,9 +305,9 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
             } else updateStatus(Status.OutFull);
         } else {
             updateStatus(Status.Running);
-            final double ratio = (double) ticksRun / recipe.getTicksToComplete();
+            final double ratio = (double) ticksRun / recipeProcessor.getRecipe().getTicksToComplete();
             final int percent = (int) (ratio * 100);
-            for (int i : recipe.getCriticalityEvents().keySet()) {
+            for (int i : recipeProcessor.getRecipe().getCriticalityEvents().keySet()) {
                 if (percent >= i && (lastTriggeredCriticalityIndex < i || lastTriggeredCriticalityIndex == 0)) {
                     if (!triggerCriticality(i)) {
                         updateStatus(Status.Failed);
@@ -323,7 +324,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
     private boolean triggerCriticality(int index) {
         var chance = world.rand.nextInt(100);
-        CriticalityEvent event = recipe.getCriticalityEvents().get(index);
+        CriticalityEvent event = recipeProcessor.getRecipe().getCriticalityEvents().get(index);
         if (chance > event.getChance()) return true;
 
         List<BlockPos> posList = Lists.newArrayList(BlockPos.getAllInBox(this.getPos().add(5, 5, 5),

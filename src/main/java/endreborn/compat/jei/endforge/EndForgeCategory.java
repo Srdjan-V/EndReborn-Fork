@@ -1,4 +1,4 @@
-package endreborn.compat.jei.materializer;
+package endreborn.compat.jei.endforge;
 
 import java.util.List;
 
@@ -10,25 +10,25 @@ import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.google.common.collect.Lists;
 
 import endreborn.Reference;
-import endreborn.api.materializer.ItemCatalyst;
-import endreborn.api.materializer.MaterializerHandler;
-import endreborn.compat.jei.JEIPlugin;
+import endreborn.api.endforge.EndForgeHandler;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.*;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IGuiItemStackGroup;
+import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 
-public class MaterializerCategory implements IRecipeCategory<MaterializerRecipe> {
+public class EndForgeCategory implements IRecipeCategory<EndForgeRecipe> {
 
-    public static final String UID = Reference.MODID + ".materializer";
-    protected static final int input = 0;
-    protected static final int catalyst = 1;
+    public static final String UID = Reference.MODID + ".endforge";
+    protected static final int inputFluid = 0;
+    protected static final int input = 1;
     protected static final int output = 2;
 
     private final IDrawable background;
     private final IDrawable slot;
 
-    public MaterializerCategory(IGuiHelper helper) {
+    public EndForgeCategory(IGuiHelper helper) {
         background = helper.createBlankDrawable(160, 60);
         slot = helper.getSlotDrawable();
     }
@@ -39,19 +39,23 @@ public class MaterializerCategory implements IRecipeCategory<MaterializerRecipe>
     }
 
     @Override
-    public void drawExtras(@NotNull Minecraft minecraft) {
+    public void drawExtras(Minecraft minecraft) {
         GuiTextures.PROGRESS_ARROW.getSubArea(0f, 0f, 1f, 0.5f).draw(78, 20, 20, 20);
         float progress = Minecraft.getSystemTime() % 2000 / 2000f; // 2 seconds
         GuiTextures.PROGRESS_ARROW.getSubArea(0f, 0.5f, progress, 1f).draw(78, 20, progress * 20, 20);
         slot.draw(minecraft, 105, 20);
         slot.draw(minecraft, 55, 20);
         slot.draw(minecraft, 35, 20);
-        GuiTextures.HELP.draw(142, 42, 16, 16);
     }
 
     @Override
-    public @NotNull String getTitle() {
-        return JEIPlugin.translateToLocal("tile.materializer");
+    public String getUid() {
+        return UID;
+    }
+
+    @Override
+    public String getTitle() {
+        return "endforge"; // TODO: 11/11/2023
     }
 
     @Override
@@ -60,28 +64,26 @@ public class MaterializerCategory implements IRecipeCategory<MaterializerRecipe>
     }
 
     @Override
-    public @NotNull String getUid() {
-        return UID;
-    }
-
-    public void setRecipe(IRecipeLayout recipeLayout, @NotNull MaterializerRecipe recipeWrapper,
+    public void setRecipe(IRecipeLayout recipeLayout, @NotNull EndForgeRecipe recipeWrapper,
                           @NotNull IIngredients ingredients) {
+        var fluidStacks = recipeLayout.getFluidStacks();
+        fluidStacks.init(inputFluid, true, 35, 20, 18, 18, 16000, true, slot);
+        fluidStacks.set(ingredients);
+
         IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
-        stacks.init(input, true, 35, 20);
-        stacks.init(catalyst, true, 55, 20);
+        stacks.init(input, true, 55, 20);
         stacks.init(output, false, 105, 20);
         stacks.set(ingredients);
     }
 
-    public static List<MaterializerRecipe> getRecipes() {
-        List<MaterializerRecipe> jeiRecipes = Lists.newArrayList();
-        for (ItemCatalyst recipeGroping : MaterializerHandler.getInstance().getRecipeGroupings()) {
+    public static List<EndForgeRecipe> getRecipes() {
+        List<EndForgeRecipe> jeiRecipes = Lists.newArrayList();
+        for (var recipeGroping : EndForgeHandler.getInstance().getRecipeGroupings()) {
             for (var rec : recipeGroping.getRecipes().values()) {
-                jeiRecipes.add(new MaterializerRecipe(
+                jeiRecipes.add(new EndForgeRecipe(
                         recipeGroping.getGrouping(),
                         rec.getInput(),
-                        rec.getRecipeFunction().apply(recipeGroping.getGrouping(), rec.getInput()),
-                        rec.getCraftDescription()));
+                        rec.getRecipeFunction().apply(recipeGroping.getGrouping(), rec.getInput())));
             }
         }
 

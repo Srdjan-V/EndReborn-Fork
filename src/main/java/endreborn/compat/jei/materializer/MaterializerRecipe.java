@@ -15,13 +15,13 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 public class MaterializerRecipe implements IRecipeWrapper {
 
     private final List<String> craftDescription;
-    private final ItemStack input, catalyst;
+    private final ItemStack input1, input2;
     private final ItemStack output;
 
-    public MaterializerRecipe(ItemStack input, ItemStack catalyst,
+    public MaterializerRecipe(ItemStack input1, ItemStack input2,
                               ItemStack output, List<String> craftDescription) {
-        this.input = input;
-        this.catalyst = catalyst;
+        this.input1 = input1;
+        this.input2 = input2;
         this.output = output;
         this.craftDescription = craftDescription;
     }
@@ -36,7 +36,7 @@ public class MaterializerRecipe implements IRecipeWrapper {
 
     @Override
     public void getIngredients(IIngredients ingredients) {
-        ingredients.setInputs(VanillaTypes.ITEM, Lists.newArrayList(input, catalyst));
+        ingredients.setInputs(VanillaTypes.ITEM, Lists.newArrayList(input2, input1));
         ingredients.setOutput(VanillaTypes.ITEM, output);
     }
 }

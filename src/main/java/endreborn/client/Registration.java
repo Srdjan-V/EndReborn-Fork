@@ -7,7 +7,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import endreborn.client.entity.render.*;
 import endreborn.common.Configs;
 import endreborn.common.entity.*;
-import endreborn.utils.GuiMainMenuEnd;
 import endreborn.utils.Initializer;
 
 final class Registration implements Initializer {
