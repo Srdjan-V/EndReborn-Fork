@@ -18,16 +18,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.EndReborn;
+import endreborn.common.items.base.ItemBase;
 import endreborn.utils.models.InventoryItemModel;
 
-public class ItemWorldMirror extends Item implements InventoryItemModel {
+public class ItemWorldMirror extends ItemBase implements InventoryItemModel {
 
     public ItemWorldMirror(String name) {
-        setTranslationKey(name);
-        setRegistryName(name);
-        this.maxStackSize = 1;
-        setCreativeTab(EndReborn.endertab);
+        super(name);
+        setMaxStackSize(1);
     }
 
     @Override

@@ -81,10 +81,24 @@ public interface ItemStackHashStrategy extends Hash.Strategy<ItemStack> {
                 .build();
     }
 
+    boolean comparingItem();
+
+    boolean comparingCount();
+
+    boolean comparingDamage();
+
+    boolean comparingTag();
+
+    boolean comparingCustom();
+
+    @Nullable
+    String customCheckLangKey();
+
     class Builder {
 
         private boolean item, count, damage, tag;
         private BiPredicate<ItemStack, ItemStack> customCheck;
+        private String customCheckLangKey;
 
         private Builder() {}
 
@@ -132,20 +146,44 @@ public interface ItemStackHashStrategy extends Hash.Strategy<ItemStack> {
             return this;
         }
 
-        public Builder setCustomCheck(BiPredicate<ItemStack, ItemStack> customCheck) {
+        public Builder setCustomCheck(BiPredicate<ItemStack, ItemStack> customCheck, String customCheckLangKey) {
             this.customCheck = customCheck;
-            return this;
-        }
-
-        public Builder addCustomCheck(BiPredicate<ItemStack, ItemStack> customCheck) {
-            if (Objects.nonNull(this.customCheck)) {
-                this.customCheck = this.customCheck.and(customCheck);
-            } else this.customCheck = customCheck;
+            this.customCheckLangKey = customCheckLangKey;
             return this;
         }
 
         public ItemStackHashStrategy build() {
             return new ItemStackHashStrategy() {
+
+                @Override
+                public boolean comparingItem() {
+                    return item;
+                }
+
+                @Override
+                public boolean comparingCount() {
+                    return count;
+                }
+
+                @Override
+                public boolean comparingDamage() {
+                    return damage;
+                }
+
+                @Override
+                public boolean comparingTag() {
+                    return tag;
+                }
+
+                @Override
+                public boolean comparingCustom() {
+                    return Objects.nonNull(customCheck);
+                }
+
+                @Override
+                public @Nullable String customCheckLangKey() {
+                    return customCheckLangKey;
+                }
 
                 @Override
                 public int hashCode(@Nullable ItemStack o) {

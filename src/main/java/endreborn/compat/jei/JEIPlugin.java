@@ -1,9 +1,6 @@
 package endreborn.compat.jei;
 
-import java.util.IllegalFormatException;
-
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
 
 import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
@@ -36,22 +33,5 @@ public class JEIPlugin implements IModPlugin {
 
         registry.addRecipes(EntropyWandCategory.getRecipes(), EntropyWandCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(ModItems.ENTROPY_WAND.get()), EntropyWandCategory.UID);
-    }
-
-    @SuppressWarnings("deprecation")
-    public static String translateToLocal(String key) {
-        if (I18n.canTranslate(key)) {
-            return I18n.translateToLocal(key);
-        }
-        return I18n.translateToFallback(key);
-    }
-
-    public static String translateToLocalFormatted(String key, Object... format) {
-        String string = translateToLocal(key);
-        try {
-            return String.format(string, format);
-        } catch (IllegalFormatException exception) {
-            return "FormatError: " + string;
-        }
     }
 }

@@ -14,7 +14,7 @@ import com.cleanroommc.modularui.utils.Color;
 
 import endreborn.api.entropywand.Conversion;
 import endreborn.common.Configs;
-import endreborn.compat.jei.JEIPlugin;
+import endreborn.utils.LangUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
@@ -55,7 +55,7 @@ public class EntropyWandRecipe implements IRecipeWrapper {
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (mouseX >= 73 && mouseX <= 84 && mouseY >= 44 && mouseY <= 55) {
-            return Collections.singletonList(JEIPlugin.translateToLocal("endreborn.jei.entropy_wand.item_cost"));
+            return Collections.singletonList(LangUtil.translateToLocal("endreborn.jei.entropy_wand.item_cost"));
         }
 
         return IRecipeWrapper.super.getTooltipStrings(mouseX, mouseY);

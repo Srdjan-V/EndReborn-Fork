@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
 import endreborn.Reference;
 import endreborn.api.entropywand.EntropyWandHandler;
 import endreborn.common.ModItems;
-import endreborn.compat.jei.JEIPlugin;
+import endreborn.utils.LangUtil;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
@@ -52,7 +52,7 @@ public class EntropyWandCategory implements IRecipeCategory<EntropyWandRecipe> {
 
     @Override
     public @NotNull String getTitle() {
-        return JEIPlugin.translateToLocal("item.entropy_wand.name");
+        return LangUtil.translateToLocal("item.entropy_wand.name");
     }
 
     @Override

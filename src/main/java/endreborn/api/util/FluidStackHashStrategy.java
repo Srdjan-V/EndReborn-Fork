@@ -33,7 +33,7 @@ public interface FluidStackHashStrategy extends Hash.Strategy<FluidStack> {
      * @return the ItemStackHashStrategy as described above.
      */
     static FluidStackHashStrategy comparingAll() {
-        return builder().compareFuild(true)
+        return builder().compareFluid(true)
                 .compareAmount(true)
                 .compareTag(true)
                 .build();
@@ -53,15 +53,27 @@ public interface FluidStackHashStrategy extends Hash.Strategy<FluidStack> {
      * @return the ItemStackHashStrategy as described above.
      */
     static FluidStackHashStrategy comparingAllButAmount() {
-        return builder().compareFuild(true)
+        return builder().compareFluid(true)
                 .compareTag(true)
                 .build();
     }
+
+    boolean comparingFluid();
+
+    boolean comparingAmount();
+
+    boolean comparingTag();
+
+    boolean comparingCustom();
+
+    @Nullable
+    String customCheckLangKey();
 
     class Builder {
 
         private boolean fluid, amount, tag;
         private BiPredicate<FluidStack, FluidStack> customCheck;
+        private String customCheckLangKey;
 
         private Builder() {}
 
@@ -71,7 +83,7 @@ public interface FluidStackHashStrategy extends Hash.Strategy<FluidStack> {
          * @param choice {@code true} to consider this property, {@code false} to ignore it.
          * @return {@code this}
          */
-        public Builder compareFuild(boolean choice) {
+        public Builder compareFluid(boolean choice) {
             fluid = choice;
             return this;
         }
@@ -98,20 +110,39 @@ public interface FluidStackHashStrategy extends Hash.Strategy<FluidStack> {
             return this;
         }
 
-        public Builder setCustomCheck(BiPredicate<FluidStack, FluidStack> customCheck) {
+        public Builder setCustomCheck(BiPredicate<FluidStack, FluidStack> customCheck, String customCheckLangKey) {
             this.customCheck = customCheck;
-            return this;
-        }
-
-        public Builder addCustomCheck(BiPredicate<FluidStack, FluidStack> customCheck) {
-            if (Objects.nonNull(this.customCheck)) {
-                this.customCheck = this.customCheck.and(customCheck);
-            } else this.customCheck = customCheck;
+            this.customCheckLangKey = customCheckLangKey;
             return this;
         }
 
         public FluidStackHashStrategy build() {
             return new FluidStackHashStrategy() {
+
+                @Override
+                public boolean comparingFluid() {
+                    return fluid;
+                }
+
+                @Override
+                public boolean comparingAmount() {
+                    return amount;
+                }
+
+                @Override
+                public boolean comparingTag() {
+                    return tag;
+                }
+
+                @Override
+                public boolean comparingCustom() {
+                    return Objects.nonNull(customCheck);
+                }
+
+                @Override
+                public @Nullable String customCheckLangKey() {
+                    return customCheckLangKey;
+                }
 
                 @Override
                 public int hashCode(@Nullable FluidStack o) {

@@ -220,8 +220,17 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
         panel.child(help);
 
         // TODO: 28/10/2023 center
-        panel.child(new ItemSlot().slot(new ModularSlot(inputInventory, 0)).left(50).top(45));
-        panel.child(new ItemSlot().slot(new ModularSlot(inputInventory, 1)).left(70).top(45));
+        var itemInput = new ItemSlot().slot(new ModularSlot(inputInventory, 0)).left(50).top(45);
+        itemInput.tooltip().setAutoUpdate(true).tooltipBuilder(tooltip -> {
+            tooltip.addLine(recipeProcessor.getHandlerRegistry().translateHashStrategy());
+        });
+        panel.child(itemInput);
+        var itemInput2 = new ItemSlot().slot(new ModularSlot(inputInventory, 1)).left(70).top(45);
+        itemInput2.tooltip().setAutoUpdate(true).tooltipBuilder(tooltip -> {
+            if (Objects.isNull(recipeProcessor.getRecipeGrouping())) return;
+            tooltip.addLine(recipeProcessor.getRecipeGrouping().translateHashStrategy());
+        });
+        panel.child(itemInput2);
         panel.child(new ItemSlot().slot(new ModularSlot(outInventory, 0).accessibility(false, true)).left(120).top(45));
 
         var process = new ProgressWidget()

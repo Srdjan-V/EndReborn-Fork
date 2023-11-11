@@ -17,17 +17,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.EndReborn;
+import endreborn.common.items.tools.ToolSword;
 import endreborn.utils.ItemStackUtils;
 import endreborn.utils.models.InventoryItemModel;
 
-public class ItemDeather extends ItemSword implements InventoryItemModel {
+public class ItemDeather extends ToolSword implements InventoryItemModel {
 
     public ItemDeather(String name, ToolMaterial material) {
-        super(material);
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(EndReborn.endertab);
+        super(name, material);
     }
 
     @Override

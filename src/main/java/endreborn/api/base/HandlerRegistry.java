@@ -11,11 +11,12 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
 
 public abstract class HandlerRegistry<IN1, IN2, OUT,
         RG extends RecipeGrouping<IN1, IN2, R>,
-        R extends Recipe<IN1, IN2, OUT>> {
+        R extends Recipe<IN1, IN2, OUT>>
+                                     implements HashStrategyTranslator<Hash.Strategy<IN1>> {
 
-    public abstract Hash.Strategy<IN1> strategy();
+    public abstract Hash.Strategy<IN1> getHashStrategy();
 
-    public final Map<IN1, RG> register = new Object2ObjectOpenCustomHashMap<>(strategy());
+    public final Map<IN1, RG> register = new Object2ObjectOpenCustomHashMap<>(getHashStrategy());
 
     public Map<IN1, RG> getRegister() {
         return register;

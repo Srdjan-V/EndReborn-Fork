@@ -39,17 +39,21 @@ public final class ModItems {
     private static final List<Supplier<? extends Item>> ITEMS = new ArrayList<>();
 
     // Materials
-    public static final Supplier<ToolMaterial> TOOL_ENDORIUM = Suppliers
-            .memoize(() -> EnumHelper.addToolMaterial("endorium", 4, 1024, 6.5F, 4.0F,
-                    13));
+    public static final Supplier<ToolMaterial> TOOL_ENDORIUM = Suppliers.memoize(() -> {
+        if (!Configs.GENERAL.registerEndoriumTools) return null;
+        return EnumHelper.addToolMaterial("endorium", 4, 1024, 6.5F, 4.0F,
+                13);
+    });
+    public static final Supplier<ToolMaterial> TUNGSTEN = Suppliers.memoize(() -> {
+        if (!Configs.GENERAL.registerTungstenTools) return null;
+        return EnumHelper.addToolMaterial("tungsten", 3, 512, 5.5F, 2.5F,
+                11);
+    });
     public static final Supplier<ToolMaterial> TOOL_MAGNIFIER = Suppliers
             .memoize(() -> EnumHelper.addToolMaterial("magnifier", 4, 256, 5.5F, 1.0F,
                     13));
     public static final Supplier<ToolMaterial> TOOL_END = Suppliers
             .memoize(() -> EnumHelper.addToolMaterial("tool_end", 5, 1024, 6.5F, 9.0F, 14));
-    public static final Supplier<ToolMaterial> TUNGSTEN = Suppliers
-            .memoize(() -> EnumHelper.addToolMaterial("tungsten", 3, 512, 5.5F, 2.5F,
-                    11));
 
     public static final Supplier<ArmorMaterial> ARMOUR_OBSIDIAN = Suppliers
             .memoize(() -> EnumHelper.addArmorMaterial("obsidian",
@@ -88,64 +92,100 @@ public final class ModItems {
     // public static final XorcitePlantBlockItem plantItem = new XorcitePlantBlockItem(ModBlocks.DRAGON_ESSENCE);
 
     // Tools
-    public static final Supplier<Item> PICKAXE_ENDORIUM = register(
-            () -> new ToolPickaxe("tool_pickaxe_endorium", TOOL_ENDORIUM.get()));
-    public static final Supplier<Item> SWORD_ENDORIUM = register(
-            () -> new ToolSword("tool_sword_endorium", TOOL_ENDORIUM.get()));
-    public static final Supplier<Item> HOE_ENDORIUM = register(
-            () -> new ToolHoe("tool_hoe_endorium", TOOL_ENDORIUM.get()));
-    public static final Supplier<Item> AXE_ENDORIUM = register(
-            () -> new ToolAxe("tool_axe_endorium", TOOL_ENDORIUM.get()));
-    public static final Supplier<Item> SHOVEL_ENDORIUM = register(
-            () -> new ToolShovel("tool_shovel_endorium", TOOL_ENDORIUM.get()));
+    public static final Supplier<Item> PICKAXE_ENDORIUM = register(() -> {
+        if (!Configs.GENERAL.registerEndoriumTools) return null;
+        return new ToolPickaxe("tool_pickaxe_endorium", TOOL_ENDORIUM.get());
+    });
+    public static final Supplier<Item> SWORD_ENDORIUM = register(() -> {
+        if (!Configs.GENERAL.registerEndoriumTools) return null;
+        return new ToolSword("tool_sword_endorium", TOOL_ENDORIUM.get());
+    });
+    public static final Supplier<Item> HOE_ENDORIUM = register(() -> {
+        if (!Configs.GENERAL.registerEndoriumTools) return null;
+        return new ToolHoe("tool_hoe_endorium", TOOL_ENDORIUM.get());
+    });
+    public static final Supplier<Item> AXE_ENDORIUM = register(() -> {
+        if (!Configs.GENERAL.registerEndoriumTools) return null;
+        return new ToolAxe("tool_axe_endorium", TOOL_ENDORIUM.get());
+    });
+    public static final Supplier<Item> SHOVEL_ENDORIUM = register(() -> {
+        if (!Configs.GENERAL.registerEndoriumTools) return null;
+        return new ToolShovel("tool_shovel_endorium", TOOL_ENDORIUM.get());
+    });
+    public static final Supplier<Item> PICKAXE_WOLFRAMIUM = register(() -> {
+        if (!Configs.GENERAL.registerTungstenTools) return null;
+        return new ToolPickaxe("tool_pickaxe_wolframium", TUNGSTEN.get());
+    });
+    public static final Supplier<Item> SWORD_WOLFRAMIUM = register(() -> {
+        if (!Configs.GENERAL.registerTungstenTools) return null;
+        return new ToolSword("tool_sword_wolframium", TUNGSTEN.get());
+    });
+    public static final Supplier<Item> HOE_WOLFRAMIUM = register(() -> {
+        if (!Configs.GENERAL.registerTungstenTools) return null;
+        return new ToolHoe("tool_hoe_wolframium", TUNGSTEN.get());
+    });
+    public static final Supplier<Item> AXE_WOLFRAMIUM = register(() -> {
+        if (!Configs.GENERAL.registerTungstenTools) return null;
+        return new ToolAxe("tool_axe_wolframium", TUNGSTEN.get());
+    });
+    public static final Supplier<Item> SHOVEL_WOLFRAMIUM = register(() -> {
+        if (!Configs.GENERAL.registerTungstenTools) return null;
+        return new ToolShovel("tool_shovel_wolframium", TUNGSTEN.get());
+    });
+    public static final Supplier<Item> ENTROPY_WAND = register(
+            () -> new ToolEntropyWand("entropy_wand", TOOL_MAGNIFIER.get()));
     public static final Supplier<Item> HAMMER_IRON = register(() -> new ItemHammer("tool_hammer_iron"));
-    public static final Supplier<Item> ENDER_BOW = register(() -> new ItemEnderBow("ender_bow", 10, 0, 1, 2));
+    public static final Supplier<Item> ENDER_BOW = register(() -> new ItemEnderBow("ender_bow"));
     public static final Supplier<Item> ENDER_SWORD = register(() -> new ItemEnderSword("ender_sword", TOOL_END.get()));
     public static final Supplier<Item> ENDER_HOOK = register(
             () -> new ItemDeather("tool_magnifier", TOOL_MAGNIFIER.get()));
-    public static final Supplier<Item> PICKAXE_WOLFRAMIUM = register(
-            () -> new ToolPickaxe("tool_pickaxe_wolframium", TUNGSTEN.get()));
-    public static final Supplier<Item> SWORD_WOLFRAMIUM = register(
-            () -> new ToolSword("tool_sword_wolframium", TUNGSTEN.get()));
-    public static final Supplier<Item> HOE_WOLFRAMIUM = register(
-            () -> new ToolHoe("tool_hoe_wolframium", TUNGSTEN.get()));
-    public static final Supplier<Item> AXE_WOLFRAMIUM = register(
-            () -> new ToolAxe("tool_axe_wolframium", TUNGSTEN.get()));
-    public static final Supplier<Item> SHOVEL_WOLFRAMIUM = register(
-            () -> new ToolShovel("tool_shovel_wolframium", TUNGSTEN.get()));
-    public static final Supplier<Item> ENTROPY_WAND = register(
-            () -> new ToolEntropyWand("entropy_wand", TOOL_MAGNIFIER.get()));
 
     // Armors
-    public static final Supplier<Item> CHESTPLATE_OBSIDIAN = register(
-            () -> new ArmourBase("armour_chestplate_obsidian", ARMOUR_OBSIDIAN.get(), 1,
-                    EntityEquipmentSlot.CHEST));
-    public static final Supplier<Item> LEGGINGS_OBSIDIAN = register(
-            () -> new ArmourBase("armour_leggings_obsidian", ARMOUR_OBSIDIAN.get(), 2,
-                    EntityEquipmentSlot.LEGS));
-    public static final Supplier<Item> BOOTS_OBSIDIAN = register(
-            () -> new ArmourBase("armour_boots_obsidian", ARMOUR_OBSIDIAN.get(), 1,
-                    EntityEquipmentSlot.FEET));
-    public static final Supplier<Item> HELMET_OBSIDIAN = register(
-            () -> new ArmourModel("armour_helmet_helmet", ARMOUR_OBSIDIAN.get(), 1,
-                    EntityEquipmentSlot.HEAD));
-    public static final Supplier<Item> CHESTPLATE_DRAGON = register(
-            () -> new ArmourBase("armour_chestplate_dragon", ARMOUR_DRAGON.get(), 1,
-                    EntityEquipmentSlot.CHEST));
-    public static final Supplier<Item> LEGGINGS_DRAGON = register(
-            () -> new ArmourBase("armour_leggings_dragon", ARMOUR_DRAGON.get(), 2,
-                    EntityEquipmentSlot.LEGS));
-    public static final Supplier<Item> BOOTS_DRAGON = register(
-            () -> new ArmourBase("armour_boots_dragon", ARMOUR_DRAGON.get(), 1,
-                    EntityEquipmentSlot.FEET));
-    public static final Supplier<Item> HELMET_DRAGON = register(
-            () -> new ArmourDModel("armour_helmet_dragon", ARMOUR_DRAGON.get(), 1,
-                    EntityEquipmentSlot.HEAD));
+    public static final Supplier<Item> CHESTPLATE_OBSIDIAN = register(() -> {
+        if (!Configs.GENERAL.registerObsidianArmor) return null;
+        return new ArmourBase("armour_chestplate_obsidian", ARMOUR_OBSIDIAN.get(), 1,
+                EntityEquipmentSlot.CHEST);
+    });
+    public static final Supplier<Item> LEGGINGS_OBSIDIAN = register(() -> {
+        if (!Configs.GENERAL.registerObsidianArmor) return null;
+        return new ArmourBase("armour_leggings_obsidian", ARMOUR_OBSIDIAN.get(), 2,
+                EntityEquipmentSlot.LEGS);
+    });
+    public static final Supplier<Item> BOOTS_OBSIDIAN = register(() -> {
+        if (!Configs.GENERAL.registerObsidianArmor) return null;
+        return new ArmourBase("armour_boots_obsidian", ARMOUR_OBSIDIAN.get(), 1,
+                EntityEquipmentSlot.FEET);
+    });
+    public static final Supplier<Item> HELMET_OBSIDIAN = register(() -> {
+        if (!Configs.GENERAL.registerObsidianArmor) return null;
+        return new ArmourModel("armour_helmet_helmet", ARMOUR_OBSIDIAN.get(), 1,
+                EntityEquipmentSlot.HEAD);
+    });
+    public static final Supplier<Item> CHESTPLATE_DRAGON = register(() -> {
+        if (!Configs.GENERAL.registerDragonArmor) return null;
+        return new ArmourBase("armour_chestplate_dragon", ARMOUR_DRAGON.get(), 1,
+                EntityEquipmentSlot.CHEST);
+    });
+    public static final Supplier<Item> LEGGINGS_DRAGON = register(() -> {
+        if (!Configs.GENERAL.registerDragonArmor) return null;
+        return new ArmourBase("armour_leggings_dragon", ARMOUR_DRAGON.get(), 2,
+                EntityEquipmentSlot.LEGS);
+    });
+    public static final Supplier<Item> BOOTS_DRAGON = register(() -> {
+        if (!Configs.GENERAL.registerDragonArmor) return null;
+        return new ArmourBase("armour_boots_dragon", ARMOUR_DRAGON.get(), 1,
+                EntityEquipmentSlot.FEET);
+    });
+    public static final Supplier<Item> HELMET_DRAGON = register(() -> {
+        if (!Configs.GENERAL.registerDragonArmor) return null;
+        return new ArmourDModel("armour_helmet_dragon", ARMOUR_DRAGON.get(), 1,
+                EntityEquipmentSlot.HEAD);
+    });
 
     // Food
     public static final Supplier<Item> ENDER_FLESH = register(() -> new FoodEnderFlesh("ender_flesh"));// TODO:
-                                                                                                       // 04/11/2023 add
-                                                                                                       // fixer
+    // 04/11/2023 add
+    // fixer
     // TODO: 08/11/2023 implement fixer old:food_dragonite_berries
     public static final Supplier<Item> DRAGONITE_BERRIES = register(() -> new DragoniteBerries("dragonite_berries"));
     public static final Supplier<Item> CHORUS_SOUP = register(() -> new FoodChorusSoup(5, "food_chorus_soup"));

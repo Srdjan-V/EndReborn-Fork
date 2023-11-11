@@ -135,7 +135,7 @@ tile.flesh.tooltip=Can improve eyesight
 tile.dragon_essence.tooltip=Small crystals that slowly spread as they grow
 tile.essence.tooltip=Substance that appearing among obsidian
 tile.user.tooltip=Allows to double some resources
-tile.tea.tooltip=A Chorus Fruit alternative
+tile.tea.tooltip=Allows one to fly
 tile.block_rune.tooltip=What if I surround it by eight purpur blocks...
 tile.block_forge.tooltip=The heat of this forge changes the properties of some materials
 tile.wand.tooltip=Changes some blocks to their destroyed state
@@ -149,6 +149,18 @@ tile.ender_lord.name=Lord
 tile.catalyst.tooltip=Materializer recipes �atalyst
 
 item.endreborn.record.end.desc=Yozhh - The Void
+
+#Lang
+status.fluid.matching=Matching fluid by:
+status.fluid.fluid=Type
+status.fluid.amount=Amount
+status.fluid.tag=Tag
+
+status.item.matching=Matching item by:
+status.item.item=Type
+status.item.count=Count
+status.item.damage=Damage
+status.item.tag=Tag
 
 #Materializer
 tile.materializer=Materializer

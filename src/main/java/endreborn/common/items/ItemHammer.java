@@ -2,19 +2,16 @@ package endreborn.common.items;
 
 import java.util.Random;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import endreborn.EndReborn;
+import endreborn.common.items.base.ItemBase;
 import endreborn.utils.models.InventoryItemModel;
 
-public class ItemHammer extends Item implements InventoryItemModel {
+public class ItemHammer extends ItemBase implements InventoryItemModel {
 
     public ItemHammer(String name) {
-        setTranslationKey(name);
-        setRegistryName(name);
+        super(name);
         setMaxDamage(64);
-        setCreativeTab(EndReborn.endertab);
         setMaxStackSize(1);
     }
 

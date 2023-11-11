@@ -9,7 +9,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
@@ -20,16 +19,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.EndReborn;
+import endreborn.common.items.base.ItemBase;
 import endreborn.utils.models.InventoryItemModel;
 
-public class ItemAdvancedEnderPearl extends Item implements InventoryItemModel {
+public class ItemAdvancedEnderPearl extends ItemBase implements InventoryItemModel {
 
     public ItemAdvancedEnderPearl(String name) {
-        setTranslationKey(name);
-        setRegistryName(name);
+        super(name);
         this.maxStackSize = 32;
-        setCreativeTab(EndReborn.endertab);
     }
 
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
@@ -39,7 +36,7 @@ public class ItemAdvancedEnderPearl extends Item implements InventoryItemModel {
         worldIn.playSound(null, playerIn.posX, playerIn.posY, playerIn.posZ,
                 SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.NEUTRAL, 0.5F,
                 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-        playerIn.getCooldownTracker().setCooldown(this, 1);
+        playerIn.getCooldownTracker().setCooldown(this, 10);
 
         if (!worldIn.isRemote) {
             EntityEnderPearl entityenderpearl = new EntityEnderPearl(worldIn, playerIn);

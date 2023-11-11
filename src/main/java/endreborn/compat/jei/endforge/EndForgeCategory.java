@@ -67,10 +67,18 @@ public class EndForgeCategory implements IRecipeCategory<EndForgeRecipe> {
     public void setRecipe(IRecipeLayout recipeLayout, @NotNull EndForgeRecipe recipeWrapper,
                           @NotNull IIngredients ingredients) {
         var fluidStacks = recipeLayout.getFluidStacks();
-        fluidStacks.init(inputFluid, true, 35, 20, 18, 18, 16000, true, slot);
+        fluidStacks.init(inputFluid, true, 35, 20, 18, 18, 16000, true, null);
+        fluidStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
+            if (slotIndex != inputFluid) return;
+            recipeWrapper.applyInput1Tooltip(tooltip);
+        });
         fluidStacks.set(ingredients);
 
         IGuiItemStackGroup stacks = recipeLayout.getItemStacks();
+        stacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
+            if (slotIndex != EndForgeCategory.input) return;
+            recipeWrapper.applyInput2Tooltip(tooltip);
+        });
         stacks.init(input, true, 55, 20);
         stacks.init(output, false, 105, 20);
         stacks.set(ingredients);
@@ -82,7 +90,9 @@ public class EndForgeCategory implements IRecipeCategory<EndForgeRecipe> {
             for (var rec : recipeGroping.getRecipes().values()) {
                 jeiRecipes.add(new EndForgeRecipe(
                         recipeGroping.getGrouping(),
+                        EndForgeHandler.getInstance().translateHashStrategy(),
                         rec.getInput(),
+                        recipeGroping.translateHashStrategy(),
                         rec.getRecipeFunction().apply(recipeGroping.getGrouping(), rec.getInput())));
             }
         }

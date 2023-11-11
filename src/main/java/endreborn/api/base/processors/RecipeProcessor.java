@@ -23,7 +23,7 @@ public abstract class RecipeProcessor<IN1, IN2, OUT,
             recipeGrouping = handlerRegistry.findRecipeGrouping(input);
             return Objects.nonNull(recipeGrouping);
         }
-        if (handlerRegistry.strategy().equals(input, recipeGrouping.getGrouping())) return true;
+        if (handlerRegistry.getHashStrategy().equals(input, recipeGrouping.getGrouping())) return true;
         recipeGrouping = handlerRegistry.findRecipeGrouping(input);
 
         return Objects.nonNull(recipeGrouping);
@@ -38,6 +38,10 @@ public abstract class RecipeProcessor<IN1, IN2, OUT,
         if (recipeGrouping.getHashStrategy().equals(input, recipe.getInput())) return true;
         recipe = handlerRegistry.findRecipe(recipeGrouping, input);
         return Objects.nonNull(recipe);
+    }
+
+    public HandlerRegistry<IN1, IN2, OUT, RG, R> getHandlerRegistry() {
+        return handlerRegistry;
     }
 
     public RG getRecipeGrouping() {

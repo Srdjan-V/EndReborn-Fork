@@ -16,7 +16,7 @@ public final class MaterializerHandler extends
     }
 
     @Override
-    public Hash.Strategy<ItemStack> strategy() {
+    public Hash.Strategy<ItemStack> getHashStrategy() {
         return ItemStackHashStrategy.comparingAllButCount();
     }
 }

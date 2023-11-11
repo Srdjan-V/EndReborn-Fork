@@ -5,21 +5,18 @@ import java.util.List;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import endreborn.EndReborn;
+import endreborn.common.items.base.ItemBase;
 import endreborn.utils.models.InventoryItemModel;
 
-public class ItemCatalyst extends Item implements InventoryItemModel {
+public class ItemCatalyst extends ItemBase implements InventoryItemModel {
 
     public ItemCatalyst(String name) {
-        setTranslationKey(name);
-        setRegistryName(name);
-        setCreativeTab(EndReborn.endertab);
+        super(name);
     }
 
     @SideOnly(Side.CLIENT)

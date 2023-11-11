@@ -257,6 +257,22 @@ public final class Configs {
 
     public static class GeneralConfig {
 
+        @Config.Name("Register endorium tools")
+        @Config.RequiresMcRestart
+        public boolean registerEndoriumTools = true;
+
+        @Config.Name("Register tungsten tools")
+        @Config.RequiresMcRestart
+        public boolean registerTungstenTools = true;
+
+        @Config.Name("Register obsidian armor")
+        @Config.RequiresMcRestart
+        public boolean registerObsidianArmor = true;
+
+        @Config.Name("Register dragon armor")
+        @Config.RequiresMcRestart
+        public boolean registerDragonArmor = true;
+
         @Config.Name("ender")
         @Config.RequiresMcRestart
         @Config.Comment({ "EnchantBoost" })

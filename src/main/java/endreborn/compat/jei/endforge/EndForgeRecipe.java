@@ -1,5 +1,9 @@
 package endreborn.compat.jei.endforge;
 
+import static endreborn.utils.TooltipUtils.addBeforeLast;
+
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -11,11 +15,23 @@ public class EndForgeRecipe implements IRecipeWrapper {
 
     private final FluidStack input1;
     private final ItemStack input2, output;
+    private final String input1Tooltip, input2Tooltip;
 
-    public EndForgeRecipe(FluidStack input1, ItemStack input2, ItemStack output) {
+    public EndForgeRecipe(FluidStack input1, String input1Tooltip, ItemStack input2, String input2Tooltip,
+                          ItemStack output) {
         this.input1 = input1;
+        this.input1Tooltip = input1Tooltip;
         this.input2 = input2;
+        this.input2Tooltip = input2Tooltip;
         this.output = output;
+    }
+
+    public void applyInput1Tooltip(List<String> tooltip) {
+        addBeforeLast(tooltip, input1Tooltip);
+    }
+
+    public void applyInput2Tooltip(List<String> tooltip) {
+        addBeforeLast(tooltip, input2Tooltip);
     }
 
     @Override
