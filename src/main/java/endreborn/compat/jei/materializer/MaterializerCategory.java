@@ -86,8 +86,7 @@ public class MaterializerCategory implements IRecipeCategory<MaterializerRecipe>
                         MaterializerHandler.getInstance().translateHashStrategy(),
                         rec.getInput(),
                         recipeGroping.translateHashStrategy(),
-                        rec.getRecipeFunction().apply(recipeGroping.getGrouping(), rec.getInput()),
-                        rec.getCraftDescription()));
+                        rec.getRecipeFunction().apply(recipeGroping.getGrouping(), rec.getInput())));
             }
         }
 

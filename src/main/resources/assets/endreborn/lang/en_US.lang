@@ -163,12 +163,26 @@ status.item.damage=Damage
 status.item.tag=Tag
 
 #Materializer
-tile.materializer=Materializer
-tile.materializer.gui.output_full=Output is full
-tile.materializer.gui.idle=Idle
-tile.materializer.gui.running=Running
-tile.materializer.gui.invalid_recipe=Invalid recipe
-tile.materializer.gui.failed=Failed to craft recipe
+tile.materializer.name=Materializer
+tile.materializer.render.show=Show required structure
+tile.materializer.render.info=%s %% chance to trigger at %s %% recipe progress
+tile.materializer.render.fail=Failed to find structure
+tile.materializer.render.followStruct=Follow the required structure as the recipe progresses
+tile.materializer.render.nextStruct=Show next structure
+tile.materializer.render.prevStruct=Show previous structure
+
+tile.materializer.render.toggleFullRender=Toggle full structure rendering
+tile.materializer.render.nextLayer=Show next layer
+tile.materializer.render.prevLayer=Show previous layer
+
+
+
+#Tile Status
+tile.status.gui.output_full=Output is full
+tile.status.gui.idle=Idle
+tile.status.gui.running=Running
+tile.status.gui.invalid_recipe=Invalid recipe
+tile.status.gui.failed=Failed to craft recipe
 
 #Banners
 item.banner.endreborn_rune.white=White Rune 

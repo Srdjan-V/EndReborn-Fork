@@ -4,10 +4,16 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import com.cleanroommc.modularui.manager.GuiManager;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.ModularScreen;
 
 public final class EventHandler {
 
@@ -38,6 +44,77 @@ public final class EventHandler {
             event.setCanceled(true);
             playerList.changePlayerDimension(player, 0);
         }
+    }
+
+    @SubscribeEvent
+    public static void onItemUse(PlayerInteractEvent.RightClickItem event) {
+        if (event.getEntityPlayer().getEntityWorld().isRemote && event.getItemStack().getItem() == Items.STICK) {
+            GuiManager.openClientUI(event.getEntityPlayer(), createGUI());
+        }
+    }
+
+    public static ModularScreen createGUI() {
+        ModularPanel panel = ModularPanel.defaultPanel("widgetTest");
+        /*
+         * var page = new PagedWidget<>().size(160);
+         * page.addPage(new BlockPatternWidget(
+         * new IBlockState[][][]{{{Blocks.END_STONE.getDefaultState(), Blocks.END_STONE.getDefaultState()}}},
+         * new ItemStack[][][]{{{new ItemStack(Blocks.END_STONE), new ItemStack(Blocks.END_STONE)}}}));
+         * 
+         * page.addPage(new BlockPatternWidget(
+         * new IBlockState[][][]{{{Blocks.SAND.getDefaultState(), Blocks.SAND.getDefaultState()}}},
+         * new ItemStack[][][]{{{new ItemStack(Blocks.SAND), new ItemStack(Blocks.SAND)}}}));
+         * 
+         * var controller = new PagedWidget.Controller();
+         * page.controller(controller);
+         * panel.child(page);
+         * page.listenGuiAction((IGuiAction.MousePressed) id-> {
+         * if (id == 0) {
+         * controller.nextPage();
+         * return true;
+         * }
+         * if (id == 1) {
+         * controller.previousPage();
+         * return true;
+         * }
+         * return false;
+         * });
+         */
+
+        /*
+         * IBlockState[][] z1;
+         * 
+         * {
+         * IBlockState[] x1 = new IBlockState[]{Blocks.END_STONE.getDefaultState(), Blocks.END_STONE.getDefaultState()};
+         * IBlockState[] x2 = new IBlockState[]{Blocks.COBBLESTONE.getDefaultState(),
+         * Blocks.COBBLESTONE.getDefaultState()};
+         * IBlockState[] x3 = new IBlockState[]{Blocks.SAND.getDefaultState(), Blocks.SAND.getDefaultState()};
+         * z1 = new IBlockState[][]{x1, x2, x3};
+         * }
+         * 
+         * IBlockState[][] z2;
+         * {
+         * 
+         * IBlockState[] x1 = new IBlockState[]{Blocks.FURNACE.getDefaultState(), Blocks.FURNACE.getDefaultState()};
+         * IBlockState[] x2 = new IBlockState[]{Blocks.FARMLAND.getDefaultState()};
+         * IBlockState[] x3 = new IBlockState[]{Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState()};
+         * z2 = new IBlockState[][]{x1, x2, x3};
+         * }
+         */
+
+        // panel.child(new BlockPatternWidget(new IBlockState[][][]{z1,z2}).size(160));
+        /*
+         * panel.child(new BlockPatternWidget(Structure.builder()
+         * .aisle("EEE", "EEE", "EEE")
+         * .aisle("EEE", "EAE", "EEE")
+         * .aisle("EEE", "EAE", "EEE")
+         * .aisle("EEE", "EAE", "EEE")
+         * .where('E', Blocks.COBBLESTONE.getDefaultState())
+         * .where('A', Blocks.AIR.getDefaultState())
+         * .build().getStructure()).size(160));
+         */
+
+        return new ModularScreen(panel);
     }
 
     private EventHandler() {}

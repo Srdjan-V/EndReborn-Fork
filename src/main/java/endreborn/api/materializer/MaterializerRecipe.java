@@ -1,39 +1,44 @@
 package endreborn.api.materializer;
 
-import java.util.List;
 import java.util.function.BiFunction;
 
 import net.minecraft.item.ItemStack;
 
+import org.jetbrains.annotations.Nullable;
+
 import endreborn.api.base.Recipe;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
 public final class MaterializerRecipe extends Recipe<ItemStack, ItemStack, ItemStack> {
 
-    private final Int2ObjectLinkedOpenHashMap<CriticalityEvent> criticalityEvents;
-    private final List<String> craftDescription;
+    private final Int2ObjectLinkedOpenHashMap<WorldEvent> worldEvents;
 
     public MaterializerRecipe(ItemStack input, int ticksToComplete,
                               BiFunction<ItemStack, ItemStack, ItemStack> function) {
         super(input, ticksToComplete, function);
-        this.criticalityEvents = new Int2ObjectLinkedOpenHashMap<>();
-        this.craftDescription = new ObjectArrayList<>();
+        this.worldEvents = new Int2ObjectLinkedOpenHashMap<>();
     }
 
-    public boolean registerCriticality(int progress, CriticalityEvent event) {
+    public boolean registerWorldEvent(int progress, WorldEvent event) {
         if (progress <= 0 || progress > 100) return false;
-        criticalityEvents.put(progress, event);
-        craftDescription.add(String.format("has a %d chance to convert %s to %s", event.getChance(), "NOT IMPLEMENTED",
-                "NOT IMPLEMENTED"));
+        worldEvents.put(progress, event);
         return true;
     }
 
-    public List<String> getCraftDescription() {
-        return craftDescription;
+    public Int2ObjectLinkedOpenHashMap<WorldEvent> getWorldEvents() {
+        return worldEvents;
     }
 
-    public Int2ObjectLinkedOpenHashMap<CriticalityEvent> getCriticalityEvents() {
-        return criticalityEvents;
+    @Nullable
+    public Int2ObjectMap.Entry<WorldEvent> getNextWorldEvent(int next) {
+        if (next < 0 || next > 100) return null;
+        Int2ObjectMap.Entry<WorldEvent> ret = null;
+        for (var entry : worldEvents.int2ObjectEntrySet())
+            if (entry.getIntKey() > next) {
+                ret = entry;
+                break;
+            }
+        return ret;
     }
 }

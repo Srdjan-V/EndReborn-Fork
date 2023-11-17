@@ -51,4 +51,12 @@ public abstract class RecipeProcessor<IN1, IN2, OUT,
     public R getRecipe() {
         return recipe;
     }
+
+    public boolean hasRecipeGroupingRecipe() {
+        return Objects.nonNull(recipeGrouping);
+    }
+
+    public boolean hasRecipe() {
+        return Objects.nonNull(recipe);
+    }
 }

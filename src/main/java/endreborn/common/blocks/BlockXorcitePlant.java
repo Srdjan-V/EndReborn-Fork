@@ -117,11 +117,12 @@ public class BlockXorcitePlant extends BaseBlockCrops implements InventoryBlockM
         if (isMaxAge(state)) return;
         if (!worldIn.isAreaLoaded(pos, 1)) return;
 
+        // TODO: 17/11/2023 add config options
         int existingXBlock = 0;
         var searchArea = BlockPos.getAllInBox(pos.add(2, 2, 2), pos.add(-2, -2, -2));
         for (BlockPos p : searchArea) {
             if (existingXBlock >= 6) break; // break early
-            if (worldIn.getBlockState(p).getBlock() == ModBlocks.XORCITE_BLOCK) existingXBlock++;
+            if (worldIn.getBlockState(p).getBlock() == ModBlocks.XORCITE_BLOCK.get()) existingXBlock++;
         }
 
         if (existingXBlock < 6) {

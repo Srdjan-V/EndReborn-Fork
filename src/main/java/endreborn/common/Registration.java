@@ -27,10 +27,11 @@ import endreborn.api.endforge.EndForgeHandler;
 import endreborn.api.endforge.EndForgeRecipe;
 import endreborn.api.entropywand.Conversion;
 import endreborn.api.entropywand.EntropyWandHandler;
-import endreborn.api.materializer.CriticalityEvent;
 import endreborn.api.materializer.ItemCatalyst;
 import endreborn.api.materializer.MaterializerHandler;
 import endreborn.api.materializer.MaterializerRecipe;
+import endreborn.api.materializer.WorldEvent;
+import endreborn.api.util.Structure;
 import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import endreborn.common.entity.*;
 import endreborn.common.tiles.EndForgeTile;
@@ -114,23 +115,58 @@ final class Registration implements Initializer {
         var itemCatalyst = new ItemCatalyst(new ItemStack(ModItems.CATALYST.get()));
         MaterializerHandler.getInstance().registerRecipeGrouping(itemCatalyst);
 
-        var ironToIronRecipe = new MaterializerRecipe(
-                new ItemStack(Items.IRON_INGOT), 120,
-                (stack, catalyst) -> new ItemStack(Items.IRON_INGOT, 2));
+        {
+            var ironToIronRecipe = new MaterializerRecipe(
+                    new ItemStack(Items.IRON_INGOT), 200,
+                    (stack, catalyst) -> new ItemStack(Items.IRON_INGOT, 2));
 
-        itemCatalyst.registerRecipe(ironToIronRecipe);
+            itemCatalyst.registerRecipe(ironToIronRecipe);
+            ironToIronRecipe.registerWorldEvent(30, WorldEvent.create(15,
+                    Structure.builder().aisle("S").where('S', Blocks.STONE).build(),
+                    WorldEvent.replaceEachPosWithDefaultBlockState(Blocks.IRON_BLOCK)));
 
-        ironToIronRecipe.registerCriticality(15, CriticalityEvent.create(15,
-                CriticalityEvent.equalsToBlock(Blocks.STONE),
-                CriticalityEvent.replaceWithDefaultBlockState(Blocks.IRON_BLOCK)));
+            ironToIronRecipe.registerWorldEvent(60, WorldEvent.create(15,
+                    Structure.builder().aisle("I").where('I', Blocks.IRON_BLOCK).build(),
+                    WorldEvent.replaceEachPosWithDefaultBlockState(Blocks.GOLD_BLOCK)));
 
-        ironToIronRecipe.registerCriticality(20, CriticalityEvent.create(15,
-                CriticalityEvent.equalsToBlock(Blocks.IRON_BLOCK),
-                CriticalityEvent.replaceWithDefaultBlockState(Blocks.GOLD_BLOCK)));
+            ironToIronRecipe.registerWorldEvent(90, WorldEvent.create(15,
+                    Structure.builder().aisle("G").where('G', Blocks.GOLD_BLOCK).build(),
+                    WorldEvent.replaceEachPosWithDefaultBlockState(Blocks.STONE)));
+        }
 
-        ironToIronRecipe.registerCriticality(30, CriticalityEvent.create(15,
-                CriticalityEvent.equalsToBlock(Blocks.GOLD_BLOCK),
-                CriticalityEvent.replaceWithDefaultBlockState(Blocks.STONE)));
+        var diaToDiaRecipe = new MaterializerRecipe(
+                new ItemStack(Items.DIAMOND), 600,
+                (stack, catalyst) -> new ItemStack(Items.DIAMOND, 1));
+        itemCatalyst.registerRecipe(diaToDiaRecipe);
+
+        diaToDiaRecipe.registerWorldEvent(30, WorldEvent.create(2,
+                Structure.builder()
+                        .aisle("S")
+                        .aisle("S")
+                        .aisle("S")
+                        .aisle("S")
+                        .aisle("S")
+                        .aisle("S")
+                        .where('S', Blocks.STONE).build(),
+                WorldEvent.replaceEachPosWithDefaultBlockState(Blocks.IRON_BLOCK)));
+
+        diaToDiaRecipe.registerWorldEvent(60, WorldEvent.create(2,
+                Structure.builder()
+                        .aisle("IIIIIII")
+                        .aisle("I      ")
+                        .aisle("I      ")
+                        .aisle("I      ")
+                        .aisle("I      ")
+                        .aisle("I      ")
+                        .aisle("I      ")
+                        .where('I', Blocks.IRON_BLOCK).build(),
+                WorldEvent.replaceEachPosWithDefaultBlockState(Blocks.GOLD_BLOCK)));
+
+        diaToDiaRecipe.registerWorldEvent(90, WorldEvent.create(2,
+                Structure.builder()
+                        .aisle("GGGGGGG")
+                        .where('G', Blocks.GOLD_BLOCK).build(),
+                WorldEvent.replaceEachPosWithItem(Items.DIAMOND)));
     }
 
     private static void registerBannerPatterns() {
@@ -142,10 +178,12 @@ final class Registration implements Initializer {
 
     private static void handleOreDictionary() {
         OreDictionary.registerOre("ingotEndorium", ModItems.INGOT_ENDORIUM.get());
+
         OreDictionary.registerOre("ingotTungsten", ModItems.TUNGSTEN_INGOT.get());
         OreDictionary.registerOre("nuggetTungsten", ModItems.TUNGSTEN_NUGGET.get());
+        OreDictionary.registerOre("blockTungsten ", ModBlocks.TUNGSTEN_BLOCK.get());
         OreDictionary.registerOre("oreTungsten", ModBlocks.TUNGSTEN_ORE.get());
-        OreDictionary.registerOre("tungstenIngot", ModItems.TUNGSTEN_INGOT.get());
+
         OreDictionary.registerOre("dustObsidian", ModItems.CATALYST.get());
         OreDictionary.registerOre("shardObsidian", ModItems.SHARD_OBSIDIAN.get());
         OreDictionary.registerOre("hammerIron", ModItems.HAMMER_IRON.get());

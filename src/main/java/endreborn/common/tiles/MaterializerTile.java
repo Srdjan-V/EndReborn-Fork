@@ -2,11 +2,8 @@ package endreborn.common.tiles;
 
 import static net.minecraft.util.EnumParticleTypes.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.util.*;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -14,6 +11,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -28,22 +26,19 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.cleanroommc.modularui.api.IGuiHolder;
-import com.cleanroommc.modularui.api.drawable.IKey;
-import com.cleanroommc.modularui.api.value.IValue;
 import com.cleanroommc.modularui.drawable.GuiTextures;
+import com.cleanroommc.modularui.drawable.keys.DynamicKey;
 import com.cleanroommc.modularui.drawable.keys.LangKey;
 import com.cleanroommc.modularui.manager.GuiCreationContext;
 import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.screen.viewport.GuiContext;
-import com.cleanroommc.modularui.theme.WidgetTheme;
-import com.cleanroommc.modularui.value.sync.DoubleSyncValue;
-import com.cleanroommc.modularui.value.sync.GuiSyncManager;
-import com.cleanroommc.modularui.value.sync.StringSyncValue;
-import com.cleanroommc.modularui.widget.Widget;
+import com.cleanroommc.modularui.value.sync.*;
+import com.cleanroommc.modularui.widget.ParentWidget;
+import com.cleanroommc.modularui.widgets.ButtonWidget;
 import com.cleanroommc.modularui.widgets.ItemSlot;
 import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
@@ -52,12 +47,14 @@ import com.google.common.collect.Lists;
 import endreborn.EndReborn;
 import endreborn.api.base.processors.ItemRecipeProcessor;
 import endreborn.api.base.processors.RecipeProcessor;
-import endreborn.api.materializer.CriticalityEvent;
 import endreborn.api.materializer.ItemCatalyst;
 import endreborn.api.materializer.MaterializerHandler;
 import endreborn.api.materializer.MaterializerRecipe;
+import endreborn.api.materializer.WorldEvent;
 import endreborn.common.ModBlocks;
 import endreborn.common.blocks.BlockMaterializer;
+import endreborn.common.widgets.BasicTextWidget;
+import endreborn.common.widgets.BlockStateRendereWidget;
 
 public class MaterializerTile extends TileEntity implements ITickable, IGuiHolder {
 
@@ -110,14 +107,17 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
     // Dynamic
     ////////////////////
-    private Status status = Status.Idle;
+    private TileStatus status = TileStatus.Idle;
+    private double percent;
     private final RecipeProcessor<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> recipeProcessor;
 
     ////////////////////
     private int ticksRun;
-    private int failTick;
-    private int lastTriggeredCriticalityIndex;
+    private int lastTriggeredWorldEventIndex;
     private int blockStateChangeBuffer;// no need to serialize
+    ////////////////////
+    private int failTick;
+    private boolean failed;
 
     public MaterializerTile() {
         recipeProcessor = new ItemRecipeProcessor<>(MaterializerHandler.getInstance());
@@ -138,7 +138,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
         super.readFromNBT(compound);
         ticksRun = compound.getInteger("ticksRun");
         failTick = compound.getInteger("failTick");
-        lastTriggeredCriticalityIndex = compound.getInteger("lastTriggeredCriticalityIndex");
+        lastTriggeredWorldEventIndex = compound.getInteger("lastTriggeredWorldEventIndex");
         if (compound.hasKey("inputInventory"))
             inputInventory.deserializeNBT(compound.getCompoundTag("inputInventory"));
         if (compound.hasKey("outInventory"))
@@ -151,7 +151,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setInteger("ticksRun", ticksRun);
         compound.setInteger("failTick", failTick);
-        compound.setInteger("lastTriggeredCriticalityIndex", lastTriggeredCriticalityIndex);
+        compound.setInteger("lastTriggeredWorldEventIndex", lastTriggeredWorldEventIndex);
         compound.setTag("inputInventory", inputInventory.serializeNBT());
         compound.setTag("outInventory", outInventory.serializeNBT());
         compound.setTag("processingInventory", processingInventory.serializeNBT());
@@ -162,62 +162,171 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
     public ModularPanel buildUI(GuiCreationContext creationContext, GuiSyncManager syncManager, boolean isClient) {
         ModularPanel panel = ModularPanel.defaultPanel("materializer_gui").bindPlayerInventory();
 
-        class BasicTextWidget extends Widget<BasicTextWidget> {
+        syncManager.syncValue("lastTriggeredCriticalityIndex",
+                SyncHandlers.intNumber(() -> lastTriggeredWorldEventIndex,
+                        lastTriggeredCriticalityIndex -> this.lastTriggeredWorldEventIndex = lastTriggeredCriticalityIndex));
+        syncManager.syncValue("tileStatus",
+                SyncHandlers.enumValue(TileStatus.class, () -> status, status -> this.status = status));
+        syncManager.syncValue("percentage",
+                SyncHandlers.doubleNumber(() -> percent, percent -> this.percent = percent));
+        syncManager.syncValue("processingInv", new SyncHandler() {
 
             @Override
-            public void setValue(IValue<?> value) {
-                super.setValue(value);
+            public void readOnClient(int id, PacketBuffer buf) throws IOException {
+                if (id == 0 || id == 1) processingInventory.setStackInSlot(id, buf.readItemStack());
             }
 
             @Override
-            public void draw(GuiContext context, WidgetTheme widgetTheme) {
-                if (failTick > 0) {
-                    IKey.lang(Status.Failed.langKey).drawAtZero(context, getArea());
-                    if (failTick > 20 * 3) {
-                        failTick = 0;
+            public void readOnServer(int id, PacketBuffer buf) {}
+
+            private ItemStack slot0 = ItemStack.EMPTY;
+            private ItemStack slot1 = ItemStack.EMPTY;
+            private boolean valid;
+
+            @Override
+            public void detectAndSendChanges(boolean init) {
+                if (init || invChanged()) {
+                    sync(0, buffer -> buffer.writeItemStack(processingInventory.getStackInSlot(0)));
+                    sync(1, buffer -> buffer.writeItemStack(processingInventory.getStackInSlot(1)));
+                }
+            }
+
+            private boolean invChanged() {
+                var changed = false;
+                var valid = recipeProcessor.hasRecipeGroupingRecipe() && recipeProcessor.hasRecipe();
+                if (this.valid != valid) {
+                    this.valid = valid;
+                    changed = true;
+                }
+                if (valid) {
+                    if (!recipeProcessor.getHandlerRegistry().getHashStrategy()
+                            .equals(processingInventory.getStackInSlot(0), slot0)) {
+                        slot0 = processingInventory.getStackInSlot(0);
+                        changed = true;
                     }
+                    if (!recipeProcessor.getRecipeGrouping().getHashStrategy()
+                            .equals(processingInventory.getStackInSlot(1), slot1)) {
+                        slot1 = processingInventory.getStackInSlot(1);
+                        changed = true;
+                    }
+                }
+                return changed;
+            }
+        });
+
+        if (isClient) {
+            var textBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.BACKGROUND);
+            textBox.setKey(() -> {
+                if (failed) return TileStatus.Failed.getLangKey();
+                return status.getLangKey();
+            });
+            panel.child(textBox);
+
+            final var render = new BlockStateRendereWidget()
+                    .background(GuiTextures.BACKGROUND).size(176, 166).leftRel(1f);
+            render.onUpdateListener(thatRender -> {
+                if (!recipeProcessor.validateGrouping(processingInventory.getStackInSlot(1)) ||
+                        !recipeProcessor.validateRecipe(processingInventory.getStackInSlot(0))) {
+                    thatRender.disableRender(true);
                     return;
                 }
+                if (failed) return;
+                var event = recipeProcessor.getRecipe().getNextWorldEvent(lastTriggeredWorldEventIndex);
+                if (Objects.isNull(event)) {
+                    thatRender.disableRender(true);
+                    return;
+                }
+                if (percent == 0 || event.getIntKey() > percent) {
+                    thatRender.disableRender(false);
+                    thatRender.setStructure(event.getValue().getStructure().getStructure());
+                }
+            });
 
-                var newStatus = (String) getValue().getValue();
-                var trueStatus = Status.valueOf(newStatus);
-                if (trueStatus == Status.Failed) failTick++;
-                IKey.lang(trueStatus.langKey).drawAtZero(context, getArea());
+            final var renderText = new BasicTextWidget().background(GuiTextures.BACKGROUND).bottomRel(1f).left(8)
+                    .right(8).height(25);
+            renderText.setKeyArg(() -> {
+                if (!recipeProcessor.validateRecipe(processingInventory.getStackInSlot(0))) return null;
+                if (percent <= 0 || percent >= 100) return null;
+                if (failed) return Pair.of("tile.materializer.render.fail", null);
+                var event = recipeProcessor.getRecipe().getNextWorldEvent(lastTriggeredWorldEventIndex);
+                if (event == null) return null;
+
+                return Pair.of("tile.materializer.render.info",
+                        new Object[] { event.getValue().getChance(), event.getIntKey() });
+            });
+
+            render.child(renderText);
+
+            final var renderControls = new ParentWidget<>().background(GuiTextures.BACKGROUND).topRel(1f).left(8)
+                    .right(8).height(25);
+            render.child(renderControls);
+
+            final var followCurrentStructureButton = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(20)
+                    .top(3);
+            followCurrentStructureButton.tooltip().addLine(new LangKey("tile.materializer.render.followStruct"));
+            followCurrentStructureButton.onMousePressed(mouseButton -> {
+                if (mouseButton != 0) return false;
+                render.setDisableOnUpdateListener(!render.isDisableOnUpdateListener());
+                return true;
+            });
+            renderControls.child(followCurrentStructureButton);
+
+            {
+                final var toggleFullRenderButton = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(60)
+                        .top(3);
+                toggleFullRenderButton.tooltip().addLine(new LangKey("tile.materializer.render.toggleFullRender"));
+                toggleFullRenderButton.onMousePressed(mouseButton -> {
+                    if (mouseButton != 0) return false;
+                    render.setRenderLayer(render.getMaxRenderLayer());
+                    return true;
+                });
+                renderControls.child(toggleFullRenderButton);
+
+                final var renderLayerUpButton = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(80)
+                        .top(3);
+                renderLayerUpButton.tooltip().addLine(new LangKey("tile.materializer.render.nextLayer"));
+                renderLayerUpButton.onMousePressed(mouseButton -> {
+                    if (mouseButton != 0) return false;
+                    render.nextRenderLayer();
+                    return true;
+                });
+                renderControls.child(renderLayerUpButton);
+
+                final var renderLayerDownButton = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(100)
+                        .top(3);
+                renderLayerDownButton.tooltip().addLine(new LangKey("tile.materializer.render.prevLayer"));
+                renderLayerDownButton.onMousePressed(mouseButton -> {
+                    if (mouseButton != 0) return false;
+                    render.prevRenderLayer();
+                    return true;
+                });
+                renderControls.child(renderLayerDownButton);
             }
+
+            panel.child(render);
+            creationContext.getJeiSettings().addJeiExclusionArea(render);
+            creationContext.getJeiSettings().addJeiExclusionArea(renderText);
+            creationContext.getJeiSettings().addJeiExclusionArea(renderControls);
+
+            var button = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(168).bottom(75)
+                    .tooltip(tooltip -> tooltip.addLine(new LangKey("tile.materializer.render.show")));
+            panel.child(button);
+
+            button.overlay(new DynamicKey(() -> String.valueOf((int) percent)));
+            button.onMousePressed(mouseButton -> {
+                if (mouseButton != 0) return false;
+                render.setEnabled(!render.isEnabled());
+                renderText.setEnabled(!renderText.isEnabled());
+                return true;
+            });
+            render.setEnabled(false);
+            renderText.setEnabled(false);
+
+            panel.child(new ProgressWidget()
+                    .size(18).left(95).top(45)
+                    .texture(GuiTextures.PROGRESS_ARROW, 25)
+                    .progress(() -> percent / 100));
         }
-
-        var textBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.BACKGROUND);
-        textBox.setValue(new StringSyncValue(() -> status.name(), null));
-        panel.child(textBox);
-
-        class BasicTextSyncingWidget extends Widget<BasicTextSyncingWidget> {
-
-            @Override
-            public void setValue(IValue<?> value) {
-                super.setValue(value);
-            }
-        }
-
-        final var mask = "[{}]";
-        var help = new BasicTextSyncingWidget()
-                .background(GuiTextures.BACKGROUND)
-                .overlay(GuiTextures.HELP)
-                .right(26).bottom(75);
-        help.setValue(new StringSyncValue(() -> {
-            if (Objects.isNull(recipeProcessor.getRecipe())) return null;
-            return recipeProcessor.getRecipe().getCraftDescription().stream()
-                    .collect(Collectors.joining(mask, "", ""));
-        }, null));
-
-        help.tooltip().tooltipBuilder(tooltip -> {
-            if (Objects.isNull(help.getValue())) return;
-            var text = (String) help.getValue().getValue();
-            var langKeys = text.split(mask);
-            Arrays.stream(langKeys)
-                    .map(LangKey::new)
-                    .forEach(tooltip::addLine);
-        }).setAutoUpdate(true);
-        panel.child(help);
 
         // TODO: 28/10/2023 center
         var itemInput = new ItemSlot().slot(new ModularSlot(inputInventory, 0)).left(50).top(45);
@@ -225,24 +334,15 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
             tooltip.addLine(recipeProcessor.getHandlerRegistry().translateHashStrategy());
         });
         panel.child(itemInput);
+
         var itemInput2 = new ItemSlot().slot(new ModularSlot(inputInventory, 1)).left(70).top(45);
         itemInput2.tooltip().setAutoUpdate(true).tooltipBuilder(tooltip -> {
-            if (Objects.isNull(recipeProcessor.getRecipeGrouping())) return;
+            if (!recipeProcessor.hasRecipeGroupingRecipe()) return;
             tooltip.addLine(recipeProcessor.getRecipeGrouping().translateHashStrategy());
         });
         panel.child(itemInput2);
+
         panel.child(new ItemSlot().slot(new ModularSlot(outInventory, 0).accessibility(false, true)).left(120).top(45));
-
-        var process = new ProgressWidget()
-                .size(18).left(95).top(45)
-                .texture(GuiTextures.PROGRESS_ARROW, 25)
-                .value(new DoubleSyncValue(() -> {
-                    if (recipeProcessor.getRecipe() != null)
-                        return (double) ticksRun / recipeProcessor.getRecipe().getTicksToComplete();
-                    return 0;
-                }, null));
-        panel.child(process);
-
         return panel;
     }
 
@@ -251,7 +351,14 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
         if (!world.isRemote) {
             updateBlockState();
             if (prepare()) progress();
-        } else if (failTick != 0) failTick++;
+        } else if (status == TileStatus.Failed || failTick > 0) {
+            if (failTick == 0) failed = true;
+            if (failTick > 20 * 3) {
+                failed = false;
+                failTick = 0;
+            }
+            failTick++;
+        }
     }
 
     private boolean prepare() {
@@ -262,7 +369,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
             if (!(processingItem.isEmpty() && processingCatalyst.isEmpty()))
                 EndReborn.LOGGER.warn("Clearing processing items in {} at {}, items {}, {}",
                         this.getClass(), this.pos, processingItem, processingCatalyst);
-            updateStatus(Status.Idle);
+            updateStatus(TileStatus.Idle);
             resetProcessingInv();
             validProcessingRecipe = false;
         }
@@ -281,8 +388,8 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
             if (invalid) {
                 if (inputCatalyst.isEmpty() && inputItem.isEmpty()) {
-                    updateStatus(Status.Idle);
-                } else updateStatus(Status.Invalid);
+                    updateStatus(TileStatus.Idle);
+                } else updateStatus(TileStatus.Invalid);
                 return false;
             }
 
@@ -293,7 +400,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
                         false);
                 processingInventory.insertItem(1, inputInventory.extractItem(1, 1, false), false);
             } else {
-                updateStatus(Status.Invalid);
+                updateStatus(TileStatus.Invalid);
                 return false;
             }
         }
@@ -303,6 +410,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
     private void progress() {
         // finished
         if (ticksRun >= recipeProcessor.getRecipe().getTicksToComplete()) {
+            progressWorldEvents();
             var outputStack = recipeProcessor.getRecipe().getRecipeFunction().apply(
                     processingInventory.getStackInSlot(0),
                     processingInventory.getStackInSlot(1));
@@ -311,29 +419,33 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
                 spawnSpawnSuccessfulCraft();
                 resetProcessingInv();
                 reset();
-            } else updateStatus(Status.OutFull);
+            } else updateStatus(TileStatus.OutFull);
         } else {
-            updateStatus(Status.Running);
-            final double ratio = (double) ticksRun / recipeProcessor.getRecipe().getTicksToComplete();
-            final int percent = (int) (ratio * 100);
-            for (int i : recipeProcessor.getRecipe().getCriticalityEvents().keySet()) {
-                if (percent >= i && (lastTriggeredCriticalityIndex < i || lastTriggeredCriticalityIndex == 0)) {
-                    if (!triggerCriticality(i)) {
-                        updateStatus(Status.Failed);
-                        spawnFailedCraftParticles();
-                        resetProcessingInv();
-                        reset();
-                    }
-                    lastTriggeredCriticalityIndex = i;
-                }
-            }
+            progressWorldEvents();
             ticksRun++;
         }
     }
 
-    private boolean triggerCriticality(int index) {
+    private void progressWorldEvents() {
+        updateStatus(TileStatus.Running);
+        final double ratio = (double) ticksRun / recipeProcessor.getRecipe().getTicksToComplete();
+        percent = (ratio * 100);
+        for (int i : recipeProcessor.getRecipe().getWorldEvents().keySet()) {
+            if ((int) percent >= i && (lastTriggeredWorldEventIndex < i || lastTriggeredWorldEventIndex == 0)) {
+                if (!triggerWorldEvent(i)) {
+                    updateStatus(TileStatus.Failed);
+                    spawnFailedCraftParticles();
+                    resetProcessingInv();
+                    reset();
+                }
+                lastTriggeredWorldEventIndex = i;
+            }
+        }
+    }
+
+    private boolean triggerWorldEvent(int index) {
         var chance = world.rand.nextInt(100);
-        CriticalityEvent event = recipeProcessor.getRecipe().getCriticalityEvents().get(index);
+        WorldEvent event = recipeProcessor.getRecipe().getWorldEvents().get(index);
         if (chance > event.getChance()) return true;
 
         List<BlockPos> posList = Lists.newArrayList(BlockPos.getAllInBox(this.getPos().add(5, 5, 5),
@@ -346,17 +458,26 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
                     blockPos.getZ() == this.getPos().getZ())
                 continue;
 
-            var state = world.getBlockState(pos);
-            if (event.getBlockChecker().test((WorldServer) world, state, pos)) {
-                event.getBlockAction().particles((WorldServer) world, state, pos);
-                event.getBlockAction().run((WorldServer) world, state, pos);
+            // var state = world.getBlockState(pos);
+            var pattern = event.getStructure().getPattern().match(world, blockPos);
+            if (pattern != null) {
+                for (int y = 0; y < event.getStructure().getPattern().getThumbLength(); y++) {
+                    for (int z = 0; z < event.getStructure().getPattern().getFingerLength(); z++) {
+                        for (int x = 0; x < event.getStructure().getPattern().getPalmLength(); x++) {
+                            var worldInfo = pattern.translateOffset(x, y, z);
+                            event.getBlockAction().particles((WorldServer) world, worldInfo);
+                            event.getBlockAction().run((WorldServer) world, worldInfo);
+                        }
+                    }
+                }
+                return true;
             }
         }
 
         return false;
     }
 
-    private void updateStatus(Status status) {
+    private void updateStatus(TileStatus status) {
         if (this.status != status) {
             this.status = status;
         }
@@ -366,7 +487,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
         if (++blockStateChangeBuffer % (20 * 2) == 0) {
             IBlockState state = world.getBlockState(pos);
             var working = state.getValue(BlockMaterializer.WORKING);
-            if (status == Status.Running && !working) {
+            if (status == TileStatus.Running && !working) {
                 world.playSound(null, pos, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.BLOCKS, 0.5F,
                         2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 
@@ -374,7 +495,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
                         .withProperty(BlockMaterializer.FACING, state.getValue(BlockMaterializer.FACING))
                         .withProperty(BlockMaterializer.WORKING, true), 3);
 
-            } else if (status != Status.Running && working) {
+            } else if (status != TileStatus.Running && working) {
                 world.setBlockState(pos, ModBlocks.MATERIALIZER.get().getDefaultState()
                         .withProperty(BlockMaterializer.FACING, state.getValue(BlockMaterializer.FACING))
                         .withProperty(BlockMaterializer.WORKING, false), 3);
@@ -408,7 +529,7 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
 
     private void reset() {
         ticksRun = 0;
-        lastTriggeredCriticalityIndex = 0;
+        lastTriggeredWorldEventIndex = 0;
         markDirty();
     }
 
@@ -445,29 +566,13 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing != null) {
             switch (facing) {
                 case NORTH, SOUTH, WEST, EAST -> {
-                    return (T) inputInventory;
+                    return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inputInventory);
                 }
                 case DOWN -> {
-                    return (T) outInventory;
+                    return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(outInventory);
                 }
             }
         }
         return super.getCapability(capability, facing);
-    }
-
-    enum Status {
-
-        Idle("tile.materializer.gui.idle"),
-        OutFull("tile.materializer.gui.output_full"),
-        Failed("tile.materializer.gui.failed"),
-        Invalid("tile.materializer.gui.invalid_recipe"),
-
-        Running("tile.materializer.gui.running");
-
-        private final String langKey;
-
-        Status(String langKey) {
-            this.langKey = langKey;
-        }
     }
 }
