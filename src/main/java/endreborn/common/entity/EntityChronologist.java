@@ -15,6 +15,8 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import endreborn.common.ModPotions;
+
 public class EntityChronologist extends EndEntity {
 
     public EntityChronologist(World worldIn) {
@@ -61,6 +63,12 @@ public class EntityChronologist extends EndEntity {
 
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_ENDERMEN_DEATH;
+    }
+
+    @Override
+    protected boolean shouldAttackPlayer(EntityPlayer player) {
+        if (player.isPotionActive(ModPotions.ENDER_EYES)) return false;
+        return super.shouldAttackPlayer(player);
     }
 
     @SideOnly(Side.CLIENT)

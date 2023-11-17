@@ -150,6 +150,8 @@ tile.catalyst.tooltip=Materializer recipes �atalyst
 
 item.endreborn.record.end.desc=Yozhh - The Void
 
+effect.ender_eyes=Ender eyes
+
 #Lang
 status.fluid.matching=Matching fluid by:
 status.fluid.fluid=Type

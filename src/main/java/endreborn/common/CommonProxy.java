@@ -33,6 +33,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(ModItems.class);
         MinecraftForge.EVENT_BUS.register(ModEnchants.class);
         MinecraftForge.EVENT_BUS.register(ModSounds.class);
+        MinecraftForge.EVENT_BUS.register(ModPotions.class);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
     }
 
