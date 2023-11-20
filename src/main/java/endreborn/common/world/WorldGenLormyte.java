@@ -14,14 +14,14 @@ public class WorldGenLormyte extends WorldGenerator {
         if (worldIn.isAirBlock(position)) {
             return false;
         } else {
-            worldIn.setBlockState(position, ModBlocks.LORMYTE_CRYSTAL.get().getDefaultState(), 2);
+            worldIn.setBlockState(position, ModBlocks.LORMYTE_CRYSTAL_BLOCK.get().getDefaultState(), 2);
 
             for (int i = 0; i < 512; ++i) {
                 BlockPos blockpos = position.add(rand.nextInt(4) - rand.nextInt(6), rand.nextInt(6) - rand.nextInt(6),
                         rand.nextInt(8) - rand.nextInt(10));
 
                 if (!worldIn.isAirBlock(blockpos)) {
-                    worldIn.setBlockState(blockpos, ModBlocks.LORMYTE_CRYSTAL.get().getDefaultState(), 2);
+                    worldIn.setBlockState(blockpos, ModBlocks.LORMYTE_CRYSTAL_BLOCK.get().getDefaultState(), 2);
 
                 }
 

@@ -72,7 +72,7 @@ final class Registration implements Initializer {
     }
 
     private static void registerEntropyWandRecipes() {
-        EntropyWandHandler.registerDefaultStateConversion(Blocks.END_STONE, ModBlocks.ENTROPY_END_STONE.get());
+        EntropyWandHandler.registerDefaultStateConversion(Blocks.END_STONE, ModBlocks.END_STONE_ENTROPY_BLOCK.get());
         EntropyWandHandler.registerDefaultStateConversion(Blocks.STONE, Blocks.COBBLESTONE);
         EntropyWandHandler.registerDefaultStateConversion(Blocks.COBBLESTONE, Blocks.GRAVEL);
         EntropyWandHandler.registerDefaultStateConversion(Blocks.GRAVEL, Blocks.SAND);
@@ -108,7 +108,7 @@ final class Registration implements Initializer {
                 (lava, item) -> new ItemStack(Items.BLAZE_POWDER)));
 
         lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.ENTROPY_END_STONE.get()), 200,
-                (lava, item) -> new ItemStack(ModBlocks.BLOCK_END_MAGMA.get())));
+                (lava, item) -> new ItemStack(ModBlocks.END_MAGMA_BLOCK.get())));
     }
 
     private static void registerMaterializerRecipes() {

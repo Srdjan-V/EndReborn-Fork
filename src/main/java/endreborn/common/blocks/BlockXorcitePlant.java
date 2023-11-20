@@ -38,9 +38,8 @@ import endreborn.EndReborn;
 import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
 import endreborn.common.blocks.base.BaseBlockCrops;
-import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockXorcitePlant extends BaseBlockCrops implements InventoryBlockModel {
+public class BlockXorcitePlant extends BaseBlockCrops {
 
     public static final EnumPlantType XORCITE = EnumPlantType.getPlantType("xorcite");
     public static final PropertyInteger Age = PropertyInteger.create("age", 0, 3);

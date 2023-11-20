@@ -491,12 +491,12 @@ public class MaterializerTile extends TileEntity implements ITickable, IGuiHolde
                 world.playSound(null, pos, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.BLOCKS, 0.5F,
                         2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 
-                world.setBlockState(pos, ModBlocks.MATERIALIZER.get().getDefaultState()
+                world.setBlockState(pos, ModBlocks.MATERIALIZER_BLOCK.get().getDefaultState()
                         .withProperty(BlockMaterializer.FACING, state.getValue(BlockMaterializer.FACING))
                         .withProperty(BlockMaterializer.WORKING, true), 3);
 
             } else if (status != TileStatus.Running && working) {
-                world.setBlockState(pos, ModBlocks.MATERIALIZER.get().getDefaultState()
+                world.setBlockState(pos, ModBlocks.MATERIALIZER_BLOCK.get().getDefaultState()
                         .withProperty(BlockMaterializer.FACING, state.getValue(BlockMaterializer.FACING))
                         .withProperty(BlockMaterializer.WORKING, false), 3);
             }

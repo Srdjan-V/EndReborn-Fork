@@ -21,7 +21,7 @@ public class CommonProxy {
 
     public CommonProxy() {
         components.add(CompatManger.getInstance());
-        components.add(new Fixer());
+        components.add(Fixer.getInstance());
         components.add(new Registration());
         components.add(new LootHandler());
     }

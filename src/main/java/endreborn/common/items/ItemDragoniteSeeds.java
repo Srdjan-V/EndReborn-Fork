@@ -16,7 +16,7 @@ public class ItemDragoniteSeeds extends BaseSeeds implements InventoryItemModel,
     public static final EnumPlantType DRAGONITE = EnumPlantType.getPlantType("dragonite");
 
     public ItemDragoniteSeeds(String name) {
-        super(name, ModBlocks.CROP_DRAGONITE.get(), ModBlocks.ENTROPY_END_STONE.get());
+        super(name, ModBlocks.DRAGONITE_CROP.get(), ModBlocks.END_STONE_ENTROPY_BLOCK.get());
     }
 
     @Override

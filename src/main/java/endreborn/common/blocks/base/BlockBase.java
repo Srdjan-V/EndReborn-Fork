@@ -4,8 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
 import endreborn.EndReborn;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockBase extends Block {
+public class BlockBase extends Block implements InventoryBlockModel {
 
     public BlockBase(String name, Material material) {
         super(material);

@@ -26,9 +26,9 @@ public class OreGen implements IWorldGenerator {
         tungstenOre = new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(), 4,
                 BlockMatcher.forBlock(Blocks.STONE));
         lormyte = new WorldGenLormyte();
-        endMagma = new WorldGenMinable(ModBlocks.BLOCK_END_MAGMA.get().getDefaultState(), 30,
+        endMagma = new WorldGenMinable(ModBlocks.END_MAGMA_BLOCK.get().getDefaultState(), 30,
                 BlockMatcher.forBlock(Blocks.END_STONE));
-        endEntropy = new WorldGenMinable(ModBlocks.ENTROPY_END_STONE.get().getDefaultState(), 10,
+        endEntropy = new WorldGenMinable(ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), 10,
                 BlockMatcher.forBlock(Blocks.END_STONE));
     }
 

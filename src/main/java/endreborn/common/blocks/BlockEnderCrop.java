@@ -16,9 +16,8 @@ import net.minecraft.world.World;
 
 import endreborn.common.ModBlocks;
 import endreborn.common.blocks.base.BaseBlockCrops;
-import endreborn.utils.models.InventoryBlockModel;
 
-public class BlockEnderCrop extends BaseBlockCrops implements InventoryBlockModel {
+public class BlockEnderCrop extends BaseBlockCrops {
 
     public BlockEnderCrop(String name) {
         super(name);
@@ -31,7 +30,7 @@ public class BlockEnderCrop extends BaseBlockCrops implements InventoryBlockMode
             if (this.isMaxAge(state)) {
                 worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(),
                         new ItemStack(Items.ENDER_PEARL, 1)));
-                worldIn.setBlockState(pos, ModBlocks.BROKEN_FLOWER.get().getDefaultState());
+                worldIn.setBlockState(pos, ModBlocks.ENDER_FLOWER_BROKEN.get().getDefaultState());
                 return true;
             }
         }

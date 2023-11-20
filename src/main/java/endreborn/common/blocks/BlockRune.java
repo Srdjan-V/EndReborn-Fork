@@ -97,7 +97,7 @@ public class BlockRune extends Block implements InventoryBlockModel {
     protected BlockPattern getPattern() {
         if (this.pattern == null) {
             this.pattern = FactoryBlockPattern.start().aisle("###", "#^#", "###")
-                    .where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(ModBlocks.BLOCK_RUNE.get())))
+                    .where('^', BlockWorldState.hasState(BlockStateMatcher.forBlock(ModBlocks.RUNE_BLOCK.get())))
                     .where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.PURPUR_BLOCK)))
                     .where('~', BlockWorldState.hasState(BlockMaterialMatcher.forMaterial(Material.AIR))).build();
         }

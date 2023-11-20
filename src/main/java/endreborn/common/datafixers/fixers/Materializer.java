@@ -1,6 +1,6 @@
 package endreborn.common.datafixers.fixers;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +15,10 @@ import endreborn.common.datafixers.providers.ItemMappingProvider;
 
 public class Materializer implements IFixableData, BlockMappingProvider, ItemMappingProvider {
 
-    public static final FixTypes TYPE = FixTypes.ITEM_INSTANCE;
+    @Override
+    public FixTypes getType() {
+        return FixTypes.ITEM_INSTANCE;
+    }
 
     @Override
     public int getFixVersion() {
@@ -29,12 +32,6 @@ public class Materializer implements IFixableData, BlockMappingProvider, ItemMap
 
     @Override
     public @NotNull Map<ResourceLocation, ResourceLocation> getCommonMappings() {
-        Map<ResourceLocation, ResourceLocation> mappings = new HashMap<>();
-
-        mappings.put(
-                resLoc("entropy_user"),
-                resLoc("materializer"));
-
-        return mappings;
+        return Collections.singletonMap(resLoc("entropy_user"), resLoc("materializer_block"));
     }
 }

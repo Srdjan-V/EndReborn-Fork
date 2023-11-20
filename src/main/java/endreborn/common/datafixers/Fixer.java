@@ -16,10 +16,9 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import com.google.common.collect.Maps;
 
+import endreborn.EndReborn;
 import endreborn.Reference;
-import endreborn.common.datafixers.fixers.Materializer;
-import endreborn.common.datafixers.fixers.Tungsten;
-import endreborn.common.datafixers.fixers.Xorcite;
+import endreborn.common.datafixers.fixers.*;
 import endreborn.common.datafixers.providers.BlockMappingProvider;
 import endreborn.common.datafixers.providers.CommonMappingProvider;
 import endreborn.common.datafixers.providers.ItemMappingProvider;
@@ -30,18 +29,29 @@ public final class Fixer implements Initializer {
     private static Fixer instance;
 
     public static Fixer getInstance() {
-        return Objects.requireNonNull(instance);
+        if (Objects.isNull(instance)) instance = new Fixer();
+        return instance;
     }
 
-    public final ModFixs modFixer;
+    private final ModFixs modFixer;
 
-    public Fixer() {
-        instance = this;
-        modFixer = FMLCommonHandler.instance().getDataFixer().init(Reference.MODID,
-                Reference.DATAFIXER_VERSION);
-        modFixer.registerFix(Tungsten.TYPE, new Tungsten());
-        modFixer.registerFix(Xorcite.TYPE, new Xorcite());
-        modFixer.registerFix(Materializer.TYPE, new Materializer());
+    public ModFixs getModFixer() {
+        return modFixer;
+    }
+
+    private Fixer() {
+        modFixer = FMLCommonHandler.instance().getDataFixer()
+                .init(Reference.MODID, Reference.DATAFIXER_VERSION);
+
+        registerFix(new Tungsten());
+        registerFix(new Xorcite());
+        registerFix(new Materializer());
+        registerFix(new EndForge());
+        registerFix(new GenericBlocks());
+    }
+
+    private void registerFix(CommonMappingProvider mappingProvider) {
+        modFixer.registerFix(mappingProvider.getType(), mappingProvider);
     }
 
     @Override
@@ -68,7 +78,13 @@ public final class Fixer implements Initializer {
             ResourceLocation newName = mappings.get(oldName);
             if (newName != null) {
                 var newBlock = ForgeRegistries.BLOCKS.getValue(newName);
-                if (newBlock != null) entry.remap(newBlock);
+                if (newBlock != null) {
+                    entry.remap(newBlock);
+                } else {
+                    EndReborn.LOGGER.error("Unable to locate block: {}", newName);
+                    EndReborn.LOGGER.error("Report it at: {}", Reference.issuesURL);
+                    entry.warn();
+                }
             }
         }
     }
@@ -92,7 +108,13 @@ public final class Fixer implements Initializer {
             ResourceLocation newName = mappings.get(oldName);
             if (newName != null) {
                 Item newItem = ForgeRegistries.ITEMS.getValue(newName);
-                if (newItem != null) entry.remap(newItem);
+                if (newItem != null) {
+                    entry.remap(newItem);
+                } else {
+                    EndReborn.LOGGER.error("Unable to locate item: {}", newName);
+                    EndReborn.LOGGER.error("Report it at: {}", Reference.issuesURL);
+                    entry.warn();
+                }
             }
         }
     }

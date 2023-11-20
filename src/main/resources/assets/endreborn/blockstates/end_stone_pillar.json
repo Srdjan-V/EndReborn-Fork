@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y":  { "model": "endreborn:end_stone_pillar" },
+        "axis=z":   { "model": "endreborn:end_stone_pillar", "x": 90 },
+        "axis=x":   { "model": "endreborn:end_stone_pillar", "x": 90, "y": 90 }
+    }
+}

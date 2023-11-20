@@ -29,7 +29,7 @@ public class JEIPlugin implements IModPlugin {
         registry.addRecipeCatalyst(new ItemStack(ModBlocks.BLOCK_END_FORGE.get()), EndForgeCategory.UID);
 
         registry.addRecipes(MaterializerCategory.getRecipes(), MaterializerCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.MATERIALIZER.get()), MaterializerCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.MATERIALIZER_BLOCK.get()), MaterializerCategory.UID);
 
         registry.addRecipes(EntropyWandCategory.getRecipes(), EntropyWandCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(ModItems.ENTROPY_WAND.get()), EntropyWandCategory.UID);

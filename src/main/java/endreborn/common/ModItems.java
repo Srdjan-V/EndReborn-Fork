@@ -191,33 +191,35 @@ public final class ModItems {
     public static final Supplier<Item> CHORUS_SOUP = register(() -> new FoodChorusSoup(5, "food_chorus_soup"));
 
     // TODO: 22/10/2023 rename itemBlocks
-    public static final Supplier<ItemBlock> BLOCK_ENDORIUM = registerItemBlock(ModBlocks.BLOCK_ENDORIUM);
-    public static final Supplier<ItemBlock> END_STONE_SMOOTH = registerItemBlock(ModBlocks.END_STONE_SMOOTH);
+    public static final Supplier<ItemBlock> BLOCK_ENDORIUM = registerItemBlock(ModBlocks.ENDORIUM_BLOCK);
+    public static final Supplier<ItemBlock> END_STONE_SMOOTH = registerItemBlock(ModBlocks.END_STONE_SMOOTH_BLOCK);
     public static final Supplier<ItemBlock> END_STONE_PILLAR = registerItemBlock(ModBlocks.END_STONE_PILLAR);
     public static final Supplier<ItemBlock> PURPUR_LAMP = registerItemBlock(ModBlocks.PURPUR_LAMP);
-    public static final Supplier<ItemBlock> ENDER_FLOWER = registerItemBlock(ModBlocks.ENDER_FLOWER);
-    public static final Supplier<ItemBlock> DRAGON_BUSH = registerItemBlock(ModBlocks.CROP_DRAGONITE);
+    public static final Supplier<ItemBlock> ENDER_FLOWER = registerItemBlock(ModBlocks.ENDER_FLOWER_CROP);
+    public static final Supplier<ItemBlock> DRAGON_BUSH = registerItemBlock(ModBlocks.DRAGONITE_CROP);
     public static final Supplier<ItemBlock> ESSENCE_ORE = registerItemBlock(ModBlocks.ESSENCE_ORE);
     public static final Supplier<ItemBlock> PHANTOM_BLOCK = registerItemBlock(ModBlocks.PHANTOM_BLOCK);
-    public static final Supplier<ItemBlock> ENTROPY_END_STONE = registerItemBlock(ModBlocks.ENTROPY_END_STONE);
-    public static final Supplier<ItemBlock> LORMYTE_CRYSTAL = registerItemBlock(ModBlocks.LORMYTE_CRYSTAL);
-    public static final Supplier<ItemBlock> DECORATIVE_LORMYTE = registerItemBlock(ModBlocks.DECORATIVE_LORMYTE);
+    public static final Supplier<ItemBlock> ENTROPY_END_STONE = registerItemBlock(ModBlocks.END_STONE_ENTROPY_BLOCK);
+    public static final Supplier<ItemBlock> LORMYTE_CRYSTAL = registerItemBlock(ModBlocks.LORMYTE_CRYSTAL_BLOCK);
+    public static final Supplier<ItemBlock> DECORATIVE_LORMYTE = registerItemBlock(ModBlocks.DECORATIVE_LORMYTE_BLOCK);
     public static final Supplier<ItemBlock> TUNGSTEN_BLOCK = registerItemBlock(ModBlocks.TUNGSTEN_BLOCK);
     public static final Supplier<ItemBlock> TUNGSTEN_ORE = registerItemBlock(ModBlocks.TUNGSTEN_ORE);
-    public static final Supplier<ItemBlock> BLOCK_RUNE = registerItemBlock(ModBlocks.BLOCK_RUNE);
-    public static final Supplier<ItemBlock> BLOCK_END_MAGMA = registerItemBlock(ModBlocks.BLOCK_END_MAGMA);
+    public static final Supplier<ItemBlock> BLOCK_RUNE = registerItemBlock(ModBlocks.RUNE_BLOCK);
+    public static final Supplier<ItemBlock> BLOCK_END_MAGMA = registerItemBlock(ModBlocks.END_MAGMA_BLOCK);
     public static final Supplier<ItemBlock> BLOCK_END_FORGE = registerItemBlock(ModBlocks.BLOCK_END_FORGE);
     public static final Supplier<ItemBlock> XORCITE_BLOCK = registerItemBlock(ModBlocks.XORCITE_BLOCK);
-    public static final Supplier<ItemBlock> BLOCK_E_USER = registerItemBlock(ModBlocks.MATERIALIZER);
-    public static final Supplier<ItemBlock> BROKEN_FLOWER = registerItemBlock(ModBlocks.BROKEN_FLOWER);
-    public static final Supplier<ItemBlock> END_STONE_CHISELED = registerItemBlock(ModBlocks.END_STONE_CHISELED);
-    public static final Supplier<ItemBlock> COLD_FIRE = registerItemBlock(ModBlocks.COLD_FIRE);
-    public static final Supplier<ItemBlock> STAIRS_END_BRICKS = registerItemBlock(ModBlocks.STAIRS_END_BRICKS);
+    public static final Supplier<ItemBlock> BLOCK_E_USER = registerItemBlock(ModBlocks.MATERIALIZER_BLOCK);
+    public static final Supplier<ItemBlock> BROKEN_FLOWER = registerItemBlock(ModBlocks.ENDER_FLOWER_BROKEN);
+    public static final Supplier<ItemBlock> END_STONE_CHISELED = registerItemBlock(ModBlocks.END_BRICKS_CHISELED);
+    public static final Supplier<ItemBlock> COLD_FIRE = registerItemBlock(ModBlocks.END_FIRE);
+    public static final Supplier<ItemBlock> STAIRS_END_BRICKS = registerItemBlock(ModBlocks.END_BRICKS_STAIRS);
     public static final Supplier<ItemBlock> STAIRS_SMOOTH_END_STONE = registerItemBlock(
-            ModBlocks.STAIRS_SMOOTH_END_STONE);
-    public static final Supplier<ItemBlock> WALL_END_BRICKS = registerItemBlock(ModBlocks.WALL_END_BRICKS);
-    public static final Supplier<ItemBlock> WALL_PURPUR = registerItemBlock(ModBlocks.WALL_PURPUR);
-    public static final Supplier<ItemBlock> WALL_SMOOTH_END_STONE = registerItemBlock(ModBlocks.WALL_SMOOTH_END_STONE);
+            ModBlocks.END_STONE_SMOOTH_STAIRS);
+    public static final Supplier<ItemBlock> WALL_END_BRICKS = registerItemBlock(ModBlocks.END_BRICKS_WALL);
+    public static final Supplier<ItemBlock> WALL_PURPUR = registerItemBlock(ModBlocks.PURPUR_WALL);
+    public static final Supplier<ItemBlock> WALL_SMOOTH_END_STONE = registerItemBlock(ModBlocks.END_STONE_SMOOTH_WALL);
+    // TODO: 20/11/2023 add worldgen
+    public static final Supplier<ItemBlock> END_CORAL = registerItemBlock(ModBlocks.END_CORAL);
 
     public static <I extends Item> Supplier<I> register(com.google.common.base.Supplier<I> supplier) {
         var memorized = Suppliers.memoize(supplier);

@@ -11,9 +11,9 @@ import net.minecraft.world.World;
 
 import endreborn.common.ModItems;
 import endreborn.common.blocks.base.BaseBlockCrops;
-import endreborn.utils.models.InventoryBlockModel;
 
-public class CropDragonite extends BaseBlockCrops implements InventoryBlockModel {
+// TODO: 20/11/2023 fix age
+public class CropDragonite extends BaseBlockCrops {
 
     public CropDragonite(String name) {
         super(name);

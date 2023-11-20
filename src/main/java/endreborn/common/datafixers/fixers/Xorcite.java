@@ -15,7 +15,10 @@ import endreborn.common.datafixers.providers.ItemMappingProvider;
 
 public class Xorcite implements IFixableData, ItemMappingProvider, BlockMappingProvider {
 
-    public static final FixTypes TYPE = FixTypes.ITEM_INSTANCE;
+    @Override
+    public FixTypes getType() {
+        return FixTypes.ITEM_INSTANCE;
+    }
 
     @Override
     public int getFixVersion() {

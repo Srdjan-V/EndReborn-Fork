@@ -69,7 +69,7 @@ public class BlockMaterializer extends BlockBase {
 
     @Override
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-        return new ItemStack(ModBlocks.MATERIALIZER.get());
+        return new ItemStack(ModBlocks.MATERIALIZER_BLOCK.get());
     }
 
     @Override

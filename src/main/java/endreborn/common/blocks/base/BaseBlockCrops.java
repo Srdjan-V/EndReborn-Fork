@@ -7,8 +7,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import endreborn.EndReborn;
+import endreborn.utils.models.InventoryBlockModel;
 
-public class BaseBlockCrops extends BlockCrops {
+public class BaseBlockCrops extends BlockCrops implements InventoryBlockModel {
 
     public BaseBlockCrops(String name) {
         setTranslationKey(name);
