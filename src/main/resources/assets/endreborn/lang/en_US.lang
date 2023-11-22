@@ -130,7 +130,7 @@ tile.deather_mode.on=Repulsion
 tile.mirror.tooltip_0=Teleports to zero coordinates
 tile.mirror.tooltip_1=We are not responsible for the consequences
 tile.soup.tooltip=Looks tasty
-tile.lormyte.tooltip=Appears in the Nether
+
 tile.flesh.tooltip=Can improve eyesight
 tile.dragon_essence.tooltip=Small crystals that slowly spread as they grow
 tile.essence.tooltip=Substance that appearing among obsidian

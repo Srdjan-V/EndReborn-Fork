@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import com.google.common.base.Suppliers;
 
 import endreborn.common.blocks.*;
+import endreborn.common.blocks.base.BaseBlockBush;
 import endreborn.common.blocks.base.BlockEndBase;
 import endreborn.common.blocks.base.BlockStairsBase;
 import endreborn.common.blocks.base.BlockWallBase;
@@ -57,7 +58,7 @@ public final class ModBlocks {
     public static final Supplier<Block> END_STONE_ENTROPY_BLOCK = register(
             () -> new BlockEndBase("end_stone_entropy_block", Material.ROCK));
 
-    public static final Supplier<Block> END_CORAL = register(
+    public static final Supplier<BaseBlockBush> END_CORAL = register(
             () -> new BlockEndCoral("end_coral", Material.VINE));
 
     public static final Supplier<Block> END_MAGMA_BLOCK = register(
@@ -89,12 +90,10 @@ public final class ModBlocks {
     public static final Supplier<Block> DRAGONITE_CROP = register(
             () -> new CropDragonite("dragonite_crop"));
     public static final Supplier<Block> XORCITE_BLOCK = register(
-            () -> new BlockXorcitePlant("xorcite_block"));
+            () -> new BlockXorciteCrop("xorcite_block"));
 
-    public static final Supplier<Block> ENDER_FLOWER_CROP = register(
+    public static final Supplier<BlockEnderCrop> ENDER_FLOWER_CROP = register(
             () -> new BlockEnderCrop("ender_flower_crop"));
-    public static final Supplier<Block> ENDER_FLOWER_BROKEN = register(
-            () -> new CutoutBlock("ender_flower_broken", Material.PLANTS));
 
     public static <B extends Block> Supplier<B> register(com.google.common.base.Supplier<B> supplier) {
         Supplier<B> memorized = Suppliers.memoize(supplier);

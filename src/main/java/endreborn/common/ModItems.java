@@ -195,7 +195,7 @@ public final class ModItems {
     public static final Supplier<ItemBlock> END_STONE_SMOOTH = registerItemBlock(ModBlocks.END_STONE_SMOOTH_BLOCK);
     public static final Supplier<ItemBlock> END_STONE_PILLAR = registerItemBlock(ModBlocks.END_STONE_PILLAR);
     public static final Supplier<ItemBlock> PURPUR_LAMP = registerItemBlock(ModBlocks.PURPUR_LAMP);
-    public static final Supplier<ItemBlock> ENDER_FLOWER = registerItemBlock(ModBlocks.ENDER_FLOWER_CROP);
+    public static final Supplier<ItemBlock> ENDER_FLOWER_CROP = registerItemBlock(ModBlocks.ENDER_FLOWER_CROP);
     public static final Supplier<ItemBlock> DRAGON_BUSH = registerItemBlock(ModBlocks.DRAGONITE_CROP);
     public static final Supplier<ItemBlock> ESSENCE_ORE = registerItemBlock(ModBlocks.ESSENCE_ORE);
     public static final Supplier<ItemBlock> PHANTOM_BLOCK = registerItemBlock(ModBlocks.PHANTOM_BLOCK);
@@ -209,7 +209,6 @@ public final class ModItems {
     public static final Supplier<ItemBlock> BLOCK_END_FORGE = registerItemBlock(ModBlocks.BLOCK_END_FORGE);
     public static final Supplier<ItemBlock> XORCITE_BLOCK = registerItemBlock(ModBlocks.XORCITE_BLOCK);
     public static final Supplier<ItemBlock> BLOCK_E_USER = registerItemBlock(ModBlocks.MATERIALIZER_BLOCK);
-    public static final Supplier<ItemBlock> BROKEN_FLOWER = registerItemBlock(ModBlocks.ENDER_FLOWER_BROKEN);
     public static final Supplier<ItemBlock> END_STONE_CHISELED = registerItemBlock(ModBlocks.END_BRICKS_CHISELED);
     public static final Supplier<ItemBlock> COLD_FIRE = registerItemBlock(ModBlocks.END_FIRE);
     public static final Supplier<ItemBlock> STAIRS_END_BRICKS = registerItemBlock(ModBlocks.END_BRICKS_STAIRS);

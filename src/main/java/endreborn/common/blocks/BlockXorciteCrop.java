@@ -39,13 +39,13 @@ import endreborn.common.ModBlocks;
 import endreborn.common.ModItems;
 import endreborn.common.blocks.base.BaseBlockCrops;
 
-public class BlockXorcitePlant extends BaseBlockCrops {
+public class BlockXorciteCrop extends BaseBlockCrops {
 
     public static final EnumPlantType XORCITE = EnumPlantType.getPlantType("xorcite");
     public static final PropertyInteger Age = PropertyInteger.create("age", 0, 3);
     protected static final AxisAlignedBB ESSENCE_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
 
-    public BlockXorcitePlant(String name) {
+    public BlockXorciteCrop(String name) {
         super(name);
         setSoundType(SoundType.STONE);
         setHardness(3.0F);
@@ -192,7 +192,8 @@ public class BlockXorcitePlant extends BaseBlockCrops {
     @Override
     public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction,
                                    IPlantable plantable) {
-        return true;
+        if (state.getBlock() == ModBlocks.XORCITE_BLOCK.get()) return true;
+        return super.canSustainPlant(state, world, pos, direction, plantable);
     }
 
     @Override

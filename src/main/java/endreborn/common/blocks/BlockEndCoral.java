@@ -14,12 +14,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
 
 import endreborn.common.ModBlocks;
 import endreborn.common.blocks.base.BaseBlockBush;
 
 public class BlockEndCoral extends BaseBlockBush implements net.minecraftforge.common.IShearable {
 
+    public final EnumPlantType endCoralPlant = EnumPlantType.getPlantType("endCoral");
     protected static final AxisAlignedBB END_BUSH_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D,
             0.09999999403953552D, 0.8999999761581421D, 0.400000011920929D, 0.8999999761581421D);
 
@@ -27,23 +29,28 @@ public class BlockEndCoral extends BaseBlockBush implements net.minecraftforge.c
         super(name, material);
     }
 
+    @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return END_BUSH_AABB;
     }
 
+    @Override
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         return MapColor.YELLOW;
     }
 
+    @Override
     protected boolean canSustainBush(IBlockState state) {
         return state.getBlock() == net.minecraft.init.Blocks.END_BRICKS ||
                 state.getBlock() == net.minecraft.init.Blocks.END_STONE;
     }
 
+    @Override
     public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos) {
         return true;
     }
 
+    @Override
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
                              @Nullable TileEntity te, ItemStack stack) {}
 

@@ -9,34 +9,39 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraft.world.gen.feature.WorldGenBush;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import endreborn.common.Configs;
 import endreborn.common.ModBlocks;
+import endreborn.common.world.gen.WorldGenEndFlower;
+import endreborn.common.world.gen.WorldGenLormyte;
 
-public class OreGen implements IWorldGenerator {
+public class WorldBlockGen implements IWorldGenerator {
 
-    private final WorldGenerator oreEndEssence, lormyte, tungstenOre, endMagma, endEntropy;
+    private final WorldGenerator oreEndEssence, lormyte, tungstenOre, endMagma, endEntropy, endCoral, endFlower;
 
-    public OreGen() {
+    public WorldBlockGen() {
         oreEndEssence = new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(), 9,
                 BlockMatcher.forBlock(Blocks.OBSIDIAN));
         tungstenOre = new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(), 4,
                 BlockMatcher.forBlock(Blocks.STONE));
         lormyte = new WorldGenLormyte();
-        endMagma = new WorldGenMinable(ModBlocks.END_MAGMA_BLOCK.get().getDefaultState(), 30,
+        endMagma = new WorldGenMinable(ModBlocks.END_MAGMA_BLOCK.get().getDefaultState(), 25,
                 BlockMatcher.forBlock(Blocks.END_STONE));
         endEntropy = new WorldGenMinable(ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), 10,
                 BlockMatcher.forBlock(Blocks.END_STONE));
+        endCoral = new WorldGenBush(ModBlocks.END_CORAL.get());
+        endFlower = new WorldGenEndFlower(ModBlocks.ENDER_FLOWER_CROP.get());
     }
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
                          IChunkProvider chunkProvider) {
         var generators = Configs.WORLD_ORE_GEN_CONFIG.getOreGensForDim(world.provider.getDimension());
-        for (Configs.WorldOreGenConfig.OreGen generator : generators) {
+        for (Configs.WorldOreGenConfig.WorldGen generator : generators) {
             final WorldGenerator gen;
 
             if (generator instanceof Configs.WorldOreGenConfig.EssenceOre) {
@@ -49,6 +54,10 @@ public class OreGen implements IWorldGenerator {
                 gen = endMagma;
             } else if (generator instanceof Configs.WorldOreGenConfig.EntropyEndStone) {
                 gen = endEntropy;
+            } else if (generator instanceof Configs.WorldOreGenConfig.EndCoral) {
+                gen = endCoral;
+            } else if (generator instanceof Configs.WorldOreGenConfig.EndFlower) {
+                gen = endFlower;
             } else throw new IllegalStateException("Non existent generator");
 
             for (Map.Entry<String, int[]> dimConfig : generator.oreSpawnConfig.entrySet()) {
@@ -68,9 +77,9 @@ public class OreGen implements IWorldGenerator {
 
         int heightDiff = maxHeight - minHeight + 1;
         for (int i = 0; i < chance; i++) {
-            int x = chunkX * 16 + rand.nextInt(16);
+            int x = chunkX * 16;
             int y = minHeight + rand.nextInt(heightDiff);
-            int z = chunkZ * 16 + rand.nextInt(16);
+            int z = chunkZ * 16;
 
             gen.generate(world, rand, new BlockPos(x, y, z));
         }

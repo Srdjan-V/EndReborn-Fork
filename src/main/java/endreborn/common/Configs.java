@@ -104,15 +104,17 @@ public final class Configs {
 
     public static class WorldOreGenConfig {
 
-        public final OreGen essenceOre = new EssenceOre();
+        public final WorldGen essenceOre = new EssenceOre();
 
-        public final OreGen tungstenOre = new TungstenOre();
+        public final WorldGen tungstenOre = new TungstenOre();
 
-        public final OreGen lormyte = new Lormyte();
-        public final OreGen endMagma = new EndMagma();
-        public final OreGen entropyEndStone = new EntropyEndStone();
+        public final WorldGen lormyte = new Lormyte();
+        public final WorldGen endMagma = new EndMagma();
+        public final WorldGen entropyEndStone = new EntropyEndStone();
+        public final WorldGen endCoral = new EndCoral();
+        public final WorldGen endFlower = new EndFlower();
 
-        public static class EssenceOre extends OreGen {
+        public static class EssenceOre extends WorldGen {
 
             {
                 oreSpawnConfig.put("0", new int[] { 80, 0, 256 });
@@ -120,39 +122,53 @@ public final class Configs {
             }
         }
 
-        public static class TungstenOre extends OreGen {
+        public static class TungstenOre extends WorldGen {
 
             {
                 oreSpawnConfig.put("0", new int[] { 80, 0, 48 });
             }
         }
 
-        public static class Lormyte extends OreGen {
+        public static class Lormyte extends WorldGen {
 
             {
                 oreSpawnConfig.put("1", new int[] { 1, 35, 52 });
             }
         }
 
-        public static class EndMagma extends OreGen {
+        public static class EndMagma extends WorldGen {
 
             {
                 oreSpawnConfig.put("1", new int[] { 2, 0, 22 });
             }
         }
 
-        public static class EntropyEndStone extends OreGen {
+        public static class EntropyEndStone extends WorldGen {
 
             {
                 oreSpawnConfig.put("1", new int[] { 2, 0, 22 });
             }
         }
 
-        public static class OreGen {
+        public static class EndCoral extends WorldGen {
 
-            @Config.Name("Enable ore spawn")
+            {
+                oreSpawnConfig.put("1", new int[] { 2, 50, 90 });
+            }
+        }
+
+        public static class EndFlower extends WorldGen {
+
+            {
+                oreSpawnConfig.put("1", new int[] { 2, 50, 90 });
+            }
+        }
+
+        public static class WorldGen {
+
+            @Config.Name("Enable generator")
             @Config.RequiresMcRestart
-            public boolean enableSpawning = true;
+            public boolean enableGeneration = true;
 
             @Config.Name("Dims to spawn ores")
             @Config.RequiresMcRestart
@@ -165,9 +181,9 @@ public final class Configs {
             public Map<String, int[]> oreSpawnConfig = new HashMap<>(1);
         }
 
-        public List<OreGen> getOreGensForDim(int dim) {
-            return Stream.of(essenceOre, tungstenOre, lormyte, endMagma, entropyEndStone)
-                    .filter(oreGen -> oreGen.enableSpawning)
+        public List<WorldGen> getOreGensForDim(int dim) {
+            return Stream.of(essenceOre, tungstenOre, lormyte, endMagma, entropyEndStone, endCoral, endFlower)
+                    .filter(oreGen -> oreGen.enableGeneration)
                     .filter(oreGen -> oreGen.oreSpawnConfig.containsKey(String.valueOf(dim)))
                     .collect(Collectors.toList());
         }

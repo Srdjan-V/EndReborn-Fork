@@ -5,15 +5,23 @@ import java.util.function.ToIntFunction;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 import endreborn.common.Configs;
+import endreborn.common.world.gen.WorldGenStructure;
 
-public class WorldGenCustomStructures implements IWorldGenerator {
+public class WorldStructureGen implements IWorldGenerator {
+
+    private final WorldGenStructure end_ruins, end_island, observ;
+
+    public WorldStructureGen() {
+        end_ruins = new WorldGenStructure("end_ruins");
+        end_island = new WorldGenStructure("end_island");
+        observ = new WorldGenStructure("observ");
+    }
 
     @Override
     public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkGenerator generator,
@@ -27,13 +35,13 @@ public class WorldGenCustomStructures implements IWorldGenerator {
             final ToIntFunction<Random> yCordFunction;
 
             if (confGenerator.getKey() instanceof Configs.WorldGenStructureConfig.EndRuins) {
-                gen = new WorldGenStructure("end_ruins");
+                gen = end_ruins;
                 yCordFunction = yRand -> 50 + rand.nextInt(15);
             } else if (confGenerator.getKey() instanceof Configs.WorldGenStructureConfig.EndIslands) {
-                gen = new WorldGenStructure("end_island");
+                gen = end_island;
                 yCordFunction = yRand -> 90 + rand.nextInt(15);
             } else if (confGenerator.getKey() instanceof Configs.WorldGenStructureConfig.Observatory) {
-                gen = new WorldGenStructure("observ");
+                gen = observ;
                 yCordFunction = yRand -> 3;
             } else throw new IllegalStateException("Non existent generator");
 

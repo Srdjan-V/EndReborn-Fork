@@ -1,4 +1,4 @@
-package endreborn.common.world;
+package endreborn.common.world.gen;
 
 import java.util.Random;
 
