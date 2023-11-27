@@ -1,5 +1,6 @@
-package endreborn.common.world.gen;
+package endreborn.api.worldgen.features;
 
+import java.util.Objects;
 import java.util.Random;
 
 import net.minecraft.util.Mirror;
@@ -15,15 +16,28 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import endreborn.EndReborn;
 import endreborn.Reference;
+import endreborn.api.worldgen.DimConfig;
 
 public class WorldGenStructure extends WorldGenerator {
 
-    public static final PlacementSettings settings = (new PlacementSettings()).setChunk(null).setIgnoreEntities(false)
+    public static final PlacementSettings defaultSettings = (new PlacementSettings()).setIgnoreEntities(false)
             .setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
-    private final String structureName;
+    protected final DimConfig dimConfig;
+    protected final ResourceLocation location;
+    protected final PlacementSettings settings;
 
-    public WorldGenStructure(String name) {
-        this.structureName = name;
+    public WorldGenStructure(ResourceLocation location, DimConfig dimConfig) {
+        this(dimConfig, location, defaultSettings);
+    }
+
+    public WorldGenStructure(String name, DimConfig dimConfig) {
+        this(dimConfig, new ResourceLocation(Reference.MODID, name), defaultSettings);
+    }
+
+    public WorldGenStructure(DimConfig dimConfig, ResourceLocation location, PlacementSettings settings) {
+        this.dimConfig = dimConfig;
+        this.location = location;
+        this.settings = settings;
     }
 
     @Override
@@ -34,17 +48,17 @@ public class WorldGenStructure extends WorldGenerator {
         }
 
         TemplateManager manager = server.getStructureTemplateManager();
-        Template template = manager.get(null, new ResourceLocation(Reference.MODID, structureName));
+        Template template = manager.get(null, location);
 
-        if (template == null) {
-            EndReborn.LOGGER.error("Unable to find template for structure: {}", structureName);
+        if (Objects.isNull(template)) {
+            EndReborn.LOGGER.error("Unable to find template for structure: {}", location);
             return false;
         }
 
         // probably not needed
         // IBlockState state = world.getBlockState(pos);
         // world.notifyBlockUpdate(pos, state, state, 3);
-        template.addBlocksToWorldChunk(world, pos, settings);
+        template.addBlocksToWorldChunk(world, pos.add(2, 0, 2), settings);
         return true;
     }
 }

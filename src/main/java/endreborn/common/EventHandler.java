@@ -53,6 +53,7 @@ public final class EventHandler {
         }
     }
 
+    // TODO: 27/11/2023 remove
     public static ModularScreen createGUI() {
         ModularPanel panel = ModularPanel.defaultPanel("widgetTest");
         /*

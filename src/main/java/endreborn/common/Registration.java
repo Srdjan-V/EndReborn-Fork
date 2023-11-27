@@ -32,13 +32,12 @@ import endreborn.api.materializer.MaterializerHandler;
 import endreborn.api.materializer.MaterializerRecipe;
 import endreborn.api.materializer.WorldEvent;
 import endreborn.api.util.Structure;
+import endreborn.api.worldgen.WorldGenHandler;
 import endreborn.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import endreborn.common.entity.*;
 import endreborn.common.tiles.EndForgeTile;
 import endreborn.common.tiles.MaterializerTile;
 import endreborn.common.village.EndVillagerHandler;
-import endreborn.common.world.WorldBlockGen;
-import endreborn.common.world.WorldStructureGen;
 import endreborn.utils.Initializer;
 
 final class Registration implements Initializer {
@@ -52,8 +51,7 @@ final class Registration implements Initializer {
         GameRegistry.registerTileEntity(EndForgeTile.class,
                 new ResourceLocation(Reference.MOD_PREFIX + "endForgeTile"));
 
-        GameRegistry.registerWorldGenerator(new WorldBlockGen(), 0);
-        GameRegistry.registerWorldGenerator(new WorldStructureGen(), 0);
+        WorldGenHandler.getInstance().registerGeneratorsFromConfig();
     }
 
     public void init() {

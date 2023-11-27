@@ -1,23 +1,33 @@
 package endreborn.common;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.*;
 import java.util.stream.Stream;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.pattern.BlockMatcher;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.Nullable;
 
 import endreborn.EndReborn;
 import endreborn.Reference;
-import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import endreborn.api.worldgen.DimConfig;
+import endreborn.api.worldgen.GenConfig;
+import endreborn.api.worldgen.GeneratorBuilder;
+import endreborn.api.worldgen.WorldGenHandler;
+import endreborn.api.worldgen.features.SurfaceGenerator;
+import endreborn.api.worldgen.features.WorldGenStructure;
+import endreborn.common.blocks.BlockEnderCrop;
+import endreborn.common.world.features.WorldGenLormyte;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 @Config(modid = Reference.MODID, category = "")
 public final class Configs {
@@ -104,88 +114,119 @@ public final class Configs {
 
     public static class WorldOreGenConfig {
 
-        public final WorldGen essenceOre = new EssenceOre();
+        public final WorldGenConfigBase essenceOre = new EssenceOre();
 
-        public final WorldGen tungstenOre = new TungstenOre();
+        public final WorldGenConfigBase tungstenOre = new TungstenOre();
 
-        public final WorldGen lormyte = new Lormyte();
-        public final WorldGen endMagma = new EndMagma();
-        public final WorldGen entropyEndStone = new EntropyEndStone();
-        public final WorldGen endCoral = new EndCoral();
-        public final WorldGen endFlower = new EndFlower();
+        public final WorldGenConfigBase lormyte = new Lormyte();
+        public final WorldGenConfigBase endMagma = new EndMagma();
+        public final WorldGenConfigBase entropyEndStone = new EntropyEndStone();
+        public final WorldGenConfigBase endCoral = new EndCoral();
+        public final WorldGenConfigBase endFlower = new EndFlower();
 
-        public static class EssenceOre extends WorldGen {
+        public static class EssenceOre extends WorldGenConfigBase {
 
-            {
-                oreSpawnConfig.put("0", new int[] { 80, 0, 256 });
-                oreSpawnConfig.put("1", new int[] { 60, 0, 256 });
+            public EssenceOre() {
+                dimWhiteList.put("0", new int[] { 80, 20, 0, 256 });
+                dimWhiteList.put("1", new int[] { 60, 40, 0, 256 });
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(),
+                        config.count(), BlockMatcher.forBlock(Blocks.OBSIDIAN)));
             }
         }
 
-        public static class TungstenOre extends WorldGen {
+        public static class TungstenOre extends WorldGenConfigBase {
 
-            {
-                oreSpawnConfig.put("0", new int[] { 80, 0, 48 });
+            public TungstenOre() {
+                dimWhiteList.put("0", new int[] { 80, 20, 0, 48 });
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(),
+                        config.count()));
             }
         }
 
-        public static class Lormyte extends WorldGen {
+        public static class Lormyte extends WorldGenConfigBase {
 
-            {
-                oreSpawnConfig.put("1", new int[] { 1, 35, 52 });
+            public Lormyte() {
+                dimWhiteList.put("1", new int[] { 80, 120, 35, 52 });
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenLormyte(config));
             }
         }
 
-        public static class EndMagma extends WorldGen {
+        public static class EndMagma extends WorldGenConfigBase {
 
-            {
-                oreSpawnConfig.put("1", new int[] { 2, 0, 22 });
+            public EndMagma() {
+                dimWhiteList.put("1", new int[] { 80, 50, 0, 22 });
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenMinable(ModBlocks.END_MAGMA_BLOCK.get().getDefaultState(),
+                        config.count(), BlockMatcher.forBlock(Blocks.END_STONE)));
             }
         }
 
-        public static class EntropyEndStone extends WorldGen {
+        public static class EntropyEndStone extends WorldGenConfigBase {
 
-            {
-                oreSpawnConfig.put("1", new int[] { 2, 0, 22 });
+            public EntropyEndStone() {
+                dimWhiteList.put("1", new int[] { 60, 30, 0, 22 });
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenMinable(
+                        ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), config.count(),
+                        BlockMatcher.forBlock(Blocks.END_STONE)));
             }
         }
 
-        public static class EndCoral extends WorldGen {
+        public static class EndCoral extends WorldGenConfigBase {
 
-            {
-                oreSpawnConfig.put("1", new int[] { 2, 50, 90 });
+            public EndCoral() {
+                dimWhiteList.put("1", new int[] { 80, 20, 50, 90 });
+                weight = -10;
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new SurfaceGenerator(config, ModBlocks.END_CORAL.get()));
             }
         }
 
-        public static class EndFlower extends WorldGen {
+        public static class EndFlower extends WorldGenConfigBase {
 
-            {
-                oreSpawnConfig.put("1", new int[] { 2, 50, 90 });
+            public EndFlower() {
+                dimWhiteList.put("1", new int[] { 20, 3, 50, 90 });
+                weight = -10;
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new SurfaceGenerator(config, ModBlocks.ENDER_FLOWER_CROP.get()) {
+
+                    @Override
+                    public IBlockState getState(World world, BlockPos pos, Random random) {
+                        return block.getDefaultState().withProperty(BlockEnderCrop.AGE,
+                                random.nextInt(BlockEnderCrop.AGE.getAllowedValues().size() - 1));
+                    }
+                });
             }
         }
 
-        public static class WorldGen {
-
-            @Config.Name("Enable generator")
-            @Config.RequiresMcRestart
-            public boolean enableGeneration = true;
-
-            @Config.Name("Dims to spawn ores")
-            @Config.RequiresMcRestart
-            @Config.Comment({
-                    "Key: dim id",
-                    "Value:",
-                    "   [0]: spawn rarity(The lower the value, the higher the spawn chance)",
-                    "   [1]: min height",
-                    "   [2]: max height" })
-            public Map<String, int[]> oreSpawnConfig = new HashMap<>(1);
-        }
-
-        public List<WorldGen> getOreGensForDim(int dim) {
-            return Stream.of(essenceOre, tungstenOre, lormyte, endMagma, entropyEndStone, endCoral, endFlower)
-                    .filter(oreGen -> oreGen.enableGeneration)
-                    .filter(oreGen -> oreGen.oreSpawnConfig.containsKey(String.valueOf(dim)))
-                    .collect(Collectors.toList());
+        public void registerToHandler(final WorldGenHandler handler) {
+            Stream.of(essenceOre, tungstenOre, lormyte, endMagma, entropyEndStone, endCoral, endFlower)
+                    .filter(genConfigBase -> genConfigBase.enableGeneration)
+                    .forEach(genConfigBase -> handler.registerGenericGenerator(genConfigBase.buildGenConfig()));
         }
     }
 
@@ -193,79 +234,68 @@ public final class Configs {
 
     public static class WorldGenStructureConfig {
 
-        public final StructGen endRuins = new EndRuins();
+        public final WorldGenConfigBase endRuins = new EndRuins();
 
-        public final StructGen endIslands = new EndIslands();
+        public final WorldGenConfigBase endIslands = new EndIslands();
 
-        public final StructGen observatory = new Observatory();
+        public final WorldGenConfigBase observatory = new Observatory();
 
-        public static class EndRuins extends StructGen {
+        public static class EndRuins extends WorldGenConfigBase {
 
-            {
-                structureSpawnConfig.put("sky", 300);
+            public EndRuins() {
+                biomeWhiteList.put("minecraft:sky", new int[0]);
+
+                defaultDimConfig = new int[] { 600, 1, 85, 100 };
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenStructure("end_ruins", config));
             }
         }
 
-        public static class EndIslands extends StructGen {
+        public static class EndIslands extends WorldGenConfigBase {
 
-            {
-                structureSpawnConfig.put("sky", 200);
-                structureSpawnConfig.put("plains", 200);
-                structureSpawnConfig.put("desert", 200);
-                structureSpawnConfig.put("ocean", 200);
-                structureSpawnConfig.put("deep_ocean", 200);
-                structureSpawnConfig.put("savanna", 200);
+            public EndIslands() {
+                biomeWhiteList.put("sky", new int[0]);
+                biomeWhiteList.put("plains", new int[0]);
+                biomeWhiteList.put("desert", new int[0]);
+                biomeWhiteList.put("ocean", new int[0]);
+                biomeWhiteList.put("deep_ocean", new int[0]);
+                biomeWhiteList.put("savanna", new int[0]);
+
+                defaultDimConfig = new int[] { 600, 1, 90, 115 };
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenStructure("end_island", config));
             }
         }
 
-        public static class Observatory extends StructGen {
+        public static class Observatory extends WorldGenConfigBase {
 
-            {
-                structureSpawnConfig.put("desert", 600);
-                structureSpawnConfig.put("ocean", 600);
-                structureSpawnConfig.put("deep_ocean", 600);
-                structureSpawnConfig.put("forest", 600);
-                structureSpawnConfig.put("birch_forest", 600);
-                structureSpawnConfig.put("swampland", 600);
+            public Observatory() {
+                biomeWhiteList.put("desert", new int[0]);
+                biomeWhiteList.put("ocean", new int[0]);
+                biomeWhiteList.put("deep_ocean", new int[0]);
+                biomeWhiteList.put("forest", new int[0]);
+                biomeWhiteList.put("birch_forest", new int[0]);
+                biomeWhiteList.put("swampland", new int[0]);
+
+                defaultDimConfig = new int[] { 600, 1, 3, 3 };
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenStructure("observ", config));
             }
         }
 
-        public static class StructGen {
-
-            @Config.Name("Enable structure gen")
-            @Config.RequiresMcRestart
-            public boolean enableGeneration = true;
-
-            @Config.Name("Dims to spawn structures")
-            @Config.RequiresMcRestart
-            @Config.Comment({
-                    "Key: biome id (minecraft:river, minecraft:sky)",
-                    "Value: spawn rarity(The lower the value, the higher the spawn chance)" })
-            public Map<String, Integer> structureSpawnConfig = new HashMap<>(1);
-        }
-
-        public List<Pair<StructGen, Object2IntMap<Biome>>> getStructGensForBiome(Biome biome) {
-            return Stream.of(endRuins, endIslands, observatory)
-                    .filter(structGen -> structGen.enableGeneration)
-                    .map(structGen -> {
-                        Object2IntMap<Biome> biomeIntegerMap = null;
-                        for (var spawnEntry : structGen.structureSpawnConfig.entrySet()) {
-                            var resBiome = Biome.REGISTRY.getObject(new ResourceLocation(spawnEntry.getKey()));
-                            if (Objects.isNull(resBiome)) {
-                                EndReborn.LOGGER.warn("Unable to find biome `{}` for structure gen",
-                                        spawnEntry.getKey());
-                                continue;
-                            }
-                            if (resBiome.equals(biome)) {
-                                if (biomeIntegerMap == null) biomeIntegerMap = new Object2IntArrayMap<>();
-                                biomeIntegerMap.put(resBiome, spawnEntry.getValue());
-                            }
-                        }
-                        if (biomeIntegerMap == null) return null;
-                        return Pair.of(structGen, biomeIntegerMap);
-                    })
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
+        public void registerToHandler(final WorldGenHandler handler) {
+            Stream.of(endRuins, endIslands, observatory)
+                    .filter(genConfigBase -> genConfigBase.enableGeneration)
+                    .forEach(genConfigBase -> handler.registerStructureGenerators(genConfigBase.buildGenConfig()));
         }
     }
 
@@ -296,17 +326,15 @@ public final class Configs {
 
         @Config.Name("EntropyWand tool damage per conversion")
         @Config.RequiresMcRestart
-        @Config.Comment({ "EnchantBoost" })
         public int entropyWandUseDamage = 2;
 
         @Config.Name("Show broken textures in jei for the EntropyWand")
         @Config.RequiresMcRestart
-        @Config.Comment({ "EnchantBoost" })
         public boolean entropyWandRenderBrokenTextures = false;
 
         @Config.Name("New Villagers")
         @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn." })
+        @Config.Comment({ "Allows to spawn" })
         public boolean spawnNewVillagers = true;
 
         @Config.Name("Chest Loot")
@@ -329,5 +357,147 @@ public final class Configs {
         public boolean teleporterEnd = true;
 
         private GeneralConfig() {}
+    }
+
+    public abstract static class WorldGenConfigBase {
+
+        @Config.Name("Enable generator")
+        @Config.RequiresMcRestart
+        public boolean enableGeneration = true;
+
+        @Config.Name("Generator weight")
+        @Config.RequiresMcRestart
+        public int weight = 0;
+
+        @Config.Name("Dim white list")
+        @Config.RequiresMcRestart
+        @Config.Comment({
+                "Key: dim id",
+                "Value: dimension config, if empty the default will be used",
+                "   [0]: rarity, a higher number will increase the rarity(0 == always spawning)",
+                "   [1]: maximum count per-chunk",
+                "   [2]: min height",
+                "   [3]: max height" })
+        public Map<String, int[]> dimWhiteList = new Object2ObjectOpenHashMap<>(1);
+
+        @Config.Name("Dim black list")
+        @Config.RequiresMcRestart
+        @Config.Comment({ "Dim id" })
+        public String[] dimBlackList = new String[0];
+
+        @Config.Name("Biome white list")
+        @Config.RequiresMcRestart
+        @Config.Comment({
+                "Key: Biome id (minecraft:river, minecraft:sky)",
+                "Value: dimension config, if empty the default will be used",
+                "   [0]: rarity, a higher number will increase the rarity(0 == always spawning)",
+                "   [1]: maximum count per-chunk",
+                "   [2]: min height",
+                "   [3]: max height" })
+        public Map<String, int[]> biomeWhiteList = new Object2ObjectOpenHashMap<>(1);
+
+        @Config.Name("Biome black list")
+        @Config.RequiresMcRestart
+        @Config.Comment({ "Biome id (minecraft:river, minecraft:sky)" })
+        public String[] biomeBlackList = new String[0];
+
+        @Config.Name("Default dimension config")
+        @Config.RequiresMcRestart
+        @Config.Comment({
+                "[0]: rarity, a higher number will increase the rarity(0 == always spawning)",
+                "[1]: maximum count per-chunk",
+                "[2]: min height",
+                "[3]: max height" })
+        public int[] defaultDimConfig = new int[0];
+
+        public abstract <G extends WorldGenerator> GeneratorBuilder<G> getGeneratorBuilder();
+
+        public <G extends WorldGenerator> GenConfig<G> buildGenConfig() {
+            GenConfig.Builder<G> gen = GenConfig.builder();
+            gen.setGeneratorName(getClass().getSimpleName())
+                    .setGeneratorWeight(weight)
+                    .setGeneratorBuilder(getGeneratorBuilder());
+            parseBiomes(gen);
+            parseDims(gen);
+            parseDefaultDimConfig(gen);
+            return gen.build();
+        }
+
+        public <G extends WorldGenerator> void parseDefaultDimConfig(GenConfig.Builder<G> gen) {
+            var dimConfig = parseDimConfig(defaultDimConfig);
+            gen.setDefaultDimConfig(dimConfig);
+        }
+
+        public <G extends WorldGenerator> void parseDims(GenConfig.Builder<G> gen) {
+            for (String dim : dimBlackList) {
+                final Integer dimID = resolveDimID(dim);
+                if (Objects.isNull(dimID)) continue;
+                gen.addDimToBlackList(dimID);
+            }
+
+            for (var configEntry : dimWhiteList.entrySet()) {
+                final Integer dimID = resolveDimID(configEntry.getKey());
+                if (Objects.isNull(dimID)) continue;
+                gen.addDimToWhiteList(dimID, parseDimConfig(configEntry.getValue()));
+            }
+        }
+
+        @Nullable
+        public DimConfig parseDimConfig(int[] dimConfigArr) {
+            if (dimConfigArr.length != 4) return null;
+
+            final DimConfig.Builder dimConfig;
+            try {
+                dimConfig = DimConfig.builder()
+                        .setRarity(dimConfigArr[0])
+                        .setCount(dimConfigArr[1])
+                        .setMinHeight(dimConfigArr[2])
+                        .setMaxHeight(dimConfigArr[3]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                EndReborn.LOGGER.error("Missing parameter for generator: {}", getClass().getSimpleName());
+                EndReborn.LOGGER.error(e);
+                return null;
+            }
+            return dimConfig.build();
+        }
+
+        @Nullable
+        public Integer resolveDimID(String dim) {
+            final int dimID;
+            try {
+                dimID = Integer.parseInt(dim);
+            } catch (NumberFormatException e) {
+                EndReborn.LOGGER.error("Unable to parse dim id for generator: {}", getClass().getSimpleName());
+                EndReborn.LOGGER.error(e);
+                return null;
+            }
+
+            return dimID;
+        }
+
+        public <G extends WorldGenerator> void parseBiomes(GenConfig.Builder<G> gen) {
+            for (String biome : biomeBlackList) {
+                final var res = resolveBiome(biome);
+                if (Objects.isNull(res)) continue;
+                gen.addBiomeToBlockList(res);
+            }
+
+            for (Map.Entry<String, int[]> entry : biomeWhiteList.entrySet()) {
+                final var biomeRes = resolveBiome(entry.getKey());
+                if (Objects.isNull(biomeRes)) continue;
+                var dimRes = parseDimConfig(entry.getValue());
+                gen.addBiomeToWhiteList(biomeRes, dimRes);
+            }
+        }
+
+        @Nullable
+        public Biome resolveBiome(String biome) {
+            var resBiome = Biome.REGISTRY.getObject(new ResourceLocation(biome));
+            if (Objects.isNull(resBiome)) {
+                EndReborn.LOGGER.warn("Unable to find biome `{}`", biome);
+                return null;
+            }
+            return resBiome;
+        }
     }
 }
