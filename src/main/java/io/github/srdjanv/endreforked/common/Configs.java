@@ -3,6 +3,7 @@ package io.github.srdjanv.endreforked.common;
 import java.util.*;
 import java.util.stream.Stream;
 
+import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
@@ -117,6 +118,7 @@ public final class Configs {
         public final WorldGenConfigBase essenceOre = new EssenceOre();
 
         public final WorldGenConfigBase tungstenOre = new TungstenOre();
+        public final WorldGenConfigBase tungstenEndOre = new TungstenOre();
 
         public final WorldGenConfigBase lormyte = new Lormyte();
         public final WorldGenConfigBase endMagma = new EndMagma();
@@ -141,13 +143,31 @@ public final class Configs {
         public static class TungstenOre extends WorldGenConfigBase {
 
             public TungstenOre() {
-                dimWhiteList.put("0", new int[] { 80, 20, 0, 48 });
+                dimWhiteList.put("0", new int[] { 80, 10, 0, 48 });
             }
 
             @Override
             public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
                 return ((world, biome, config) -> new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(),
-                        config.count()));
+                        config.count(), input -> {
+                            if (input != null && input.getBlock() == Blocks.STONE) {
+                                return input.getValue(BlockStone.VARIANT).equals(BlockStone.EnumType.DIORITE);
+                            } else return false;
+                        }));
+            }
+        }
+
+        public static class TungstenEndOre extends WorldGenConfigBase {
+
+            public TungstenEndOre() {
+                dimWhiteList.put("1", new int[] { 80, 25, 0, 48 });
+            }
+
+            @Override
+            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenMinable(
+                        ModBlocks.TUNGSTEN_END_ORE.get().getDefaultState(),
+                        config.count(), input -> input != null && input.getBlock() == Blocks.END_STONE));
             }
         }
 
@@ -224,7 +244,7 @@ public final class Configs {
         }
 
         public void registerToHandler(final WorldGenHandler handler) {
-            Stream.of(essenceOre, tungstenOre, lormyte, endMagma, entropyEndStone, endCoral, endFlower)
+            Stream.of(essenceOre, tungstenOre, tungstenEndOre, lormyte, endMagma, entropyEndStone, endCoral, endFlower)
                     .filter(genConfigBase -> genConfigBase.enableGeneration)
                     .forEach(genConfigBase -> handler.registerGenericGenerator(genConfigBase.buildGenConfig()));
         }

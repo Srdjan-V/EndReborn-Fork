@@ -78,6 +78,9 @@ public final class ModBlocks {
     public static final Supplier<Block> TUNGSTEN_ORE = register(
             () -> new TungstenOre("tungsten_ore", Material.ROCK));
 
+    public static final Supplier<Block> TUNGSTEN_END_ORE = register(
+            () -> new TungstenOre("tungsten_end_ore", Material.ROCK));
+
     // tiles
     public static final Supplier<Block> BLOCK_END_FORGE = register(
             () -> new BlockEndForge("end_forge_block"));

@@ -181,6 +181,7 @@ final class Registration implements Initializer {
         OreDictionary.registerOre("nuggetTungsten", ModItems.TUNGSTEN_NUGGET.get());
         OreDictionary.registerOre("blockTungsten ", ModBlocks.TUNGSTEN_BLOCK.get());
         OreDictionary.registerOre("oreTungsten", ModBlocks.TUNGSTEN_ORE.get());
+        OreDictionary.registerOre("oreTungsten", ModBlocks.TUNGSTEN_END_ORE.get());
 
         OreDictionary.registerOre("dustObsidian", ModItems.CATALYST.get());
         OreDictionary.registerOre("shardObsidian", ModItems.SHARD_OBSIDIAN.get());

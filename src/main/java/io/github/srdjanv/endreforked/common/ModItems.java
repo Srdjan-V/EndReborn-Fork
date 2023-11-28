@@ -203,6 +203,7 @@ public final class ModItems {
     public static final Supplier<ItemBlock> DECORATIVE_LORMYTE = registerItemBlock(ModBlocks.DECORATIVE_LORMYTE_BLOCK);
     public static final Supplier<ItemBlock> TUNGSTEN_BLOCK = registerItemBlock(ModBlocks.TUNGSTEN_BLOCK);
     public static final Supplier<ItemBlock> TUNGSTEN_ORE = registerItemBlock(ModBlocks.TUNGSTEN_ORE);
+    public static final Supplier<ItemBlock> TUNGSTEN_END_ORE = registerItemBlock(ModBlocks.TUNGSTEN_END_ORE);
     public static final Supplier<ItemBlock> BLOCK_RUNE = registerItemBlock(ModBlocks.RUNE_BLOCK);
     public static final Supplier<ItemBlock> BLOCK_END_MAGMA = registerItemBlock(ModBlocks.END_MAGMA_BLOCK);
     public static final Supplier<ItemBlock> BLOCK_END_FORGE = registerItemBlock(ModBlocks.BLOCK_END_FORGE);
