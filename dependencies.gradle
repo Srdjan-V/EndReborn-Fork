@@ -1,3 +1,5 @@
+import java.util.stream.Collectors
+
 //file:noinspection DependencyNotationArgument
 // TODO remove when fixed in RFG ^
 /*
@@ -25,11 +27,13 @@ configurations {
     source
 }
 
+def ModularUI  = "2.2.3"
+
 dependencies {
     implementation rfg.deobf("curse.maven:tinkersconstruct-74072:2902483")
     implementation rfg.deobf("curse.maven:mantle-74924:2713386")
-    implementation "CleanroomMC:ModularUI:2.2.3:dev@jar"
-    source "CleanroomMC:ModularUI:2.2.3:sources@jar"
+    implementation "CleanroomMC:ModularUI:${ModularUI}:dev@jar"
+    source "CleanroomMC:ModularUI:${ModularUI}:sources@jar"
 
     implementation 'curse.maven:just_enough_resources-240630:2728586-sources-2728587'
     //source 'curse.maven:just_enough_resources_source-240630:2728587'
@@ -50,4 +54,19 @@ dependencies {
     //runtimeOnly rfg.deobf('curse.maven:thermal_expansion-69163:2926431')
     //runtimeOnly rfg.deobf('curse.maven:thermal_foundation-222880:2926428')
     //runtimeOnly rfg.deobf('curse.maven:thermal-dynamics-227443:2920505')
+}
+
+
+minecraft {
+
+    def deps = ["required-after:modularui@[${ModularUI},)"]
+    injectedTags.put("MOD_DEPS", deps.stream().collect(Collectors.joining(",")))
+
+    injectedTags.put("MOD_PREFIX", modId + ":")
+    injectedTags.put("DATAFIXER_VERSION", 1)
+
+    injectedTags.put("CLIENTPROXY", "${modGroup}.client.ClientProxy")
+    injectedTags.put("COMMONPROXY", "${modGroup}.common.CommonProxy")
+
+    injectedTags.put("ISSUES_URL", "https://github.com/Srdjan-V/EndReforked/issues")
 }

@@ -1,5 +1,5 @@
 {
-  "package": "endreborn.core.mixin",
+  "package": "io.github.srdjanv.endreforked.core.mixin",
   "refmap": "mixins.endreborn.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
