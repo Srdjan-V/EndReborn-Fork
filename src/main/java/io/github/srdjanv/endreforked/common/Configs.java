@@ -27,7 +27,6 @@ import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
 import io.github.srdjanv.endreforked.api.worldgen.features.SurfaceGenerator;
 import io.github.srdjanv.endreforked.api.worldgen.features.WorldGenStructure;
 import io.github.srdjanv.endreforked.common.blocks.BlockEnderCrop;
-import io.github.srdjanv.endreforked.common.world.features.WorldGenLormyte;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 @Config(modid = Tags.MODID, category = "")
@@ -118,7 +117,7 @@ public final class Configs {
         public final WorldGenConfigBase essenceOre = new EssenceOre();
 
         public final WorldGenConfigBase tungstenOre = new TungstenOre();
-        public final WorldGenConfigBase tungstenEndOre = new TungstenOre();
+        public final WorldGenConfigBase tungstenEndOre = new TungstenEndOre();
 
         public final WorldGenConfigBase lormyte = new Lormyte();
         public final WorldGenConfigBase endMagma = new EndMagma();
@@ -167,7 +166,7 @@ public final class Configs {
             public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
                 return ((world, biome, config) -> new WorldGenMinable(
                         ModBlocks.TUNGSTEN_END_ORE.get().getDefaultState(),
-                        config.count(), input -> input != null && input.getBlock() == Blocks.END_STONE));
+                        config.count(), BlockMatcher.forBlock(Blocks.END_STONE)));
             }
         }
 
@@ -179,7 +178,9 @@ public final class Configs {
 
             @Override
             public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
-                return ((world, biome, config) -> new WorldGenLormyte(config));
+                return ((world, biome, config) -> new WorldGenMinable(
+                        ModBlocks.LORMYTE_CRYSTAL_BLOCK.get().getDefaultState(),
+                        config.count(), input -> input != null && input.getBlock() == Blocks.END_STONE));
             }
         }
 
@@ -213,7 +214,7 @@ public final class Configs {
         public static class EndCoral extends WorldGenConfigBase {
 
             public EndCoral() {
-                dimWhiteList.put("1", new int[] { 80, 20, 50, 90 });
+                dimWhiteList.put("1", new int[] { 0, 20, 50, 90 });
                 weight = -10;
             }
 
@@ -226,7 +227,7 @@ public final class Configs {
         public static class EndFlower extends WorldGenConfigBase {
 
             public EndFlower() {
-                dimWhiteList.put("1", new int[] { 20, 3, 50, 90 });
+                dimWhiteList.put("1", new int[] { 5, 6, 50, 90 });
                 weight = -10;
             }
 
