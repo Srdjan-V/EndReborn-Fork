@@ -13,28 +13,28 @@ import io.github.srdjanv.endreforked.common.entity.EntityColdFireball;
 
 public class RenderColdFireball extends Render<EntityColdFireball> {
 
+    public static final ResourceLocation TEXTURES = new ResourceLocation(Tags.MODID,
+            "textures/entity/cold_fireball.png");
+
     public RenderColdFireball(RenderManager renderManagerIn) {
         super(renderManagerIn);
     }
 
     public void doRender(EntityColdFireball entity, double x, double y, double z, float entityYaw, float partialTicks) {
         GlStateManager.pushMatrix();
-        this.bindEntityTexture(entity);
+        bindEntityTexture(entity);
         GlStateManager.translate((float) x, (float) y, (float) z);
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(0.8F, 0.8F, 0.8F);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
-        float f = 1.0F;
-        float f1 = 0.5F;
-        float f2 = 0.25F;
-        GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(
-                (float) (this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * -this.renderManager.playerViewX,
+                (float) (renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX,
                 1.0F, 0.0F, 0.0F);
-        if (this.renderOutlines) {
+        if (renderOutlines) {
             GlStateManager.enableColorMaterial();
-            GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+            GlStateManager.enableOutlineMode(getTeamColor(entity));
         }
 
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
@@ -43,7 +43,7 @@ public class RenderColdFireball extends Render<EntityColdFireball> {
         bufferbuilder.pos(0.5D, 0.75D, 0.0D).tex(1.0D, 0.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
         bufferbuilder.pos(-0.5D, 0.75D, 0.0D).tex(0.0D, 0.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
         tessellator.draw();
-        if (this.renderOutlines) {
+        if (renderOutlines) {
             GlStateManager.disableOutlineMode();
             GlStateManager.disableColorMaterial();
         }
@@ -54,6 +54,6 @@ public class RenderColdFireball extends Render<EntityColdFireball> {
     }
 
     protected ResourceLocation getEntityTexture(EntityColdFireball entity) {
-        return new ResourceLocation(Tags.MODID, "textures/entity/cold_fireball.png");
+        return TEXTURES;
     }
 }

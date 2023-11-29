@@ -21,10 +21,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import com.google.common.base.Suppliers;
 
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.client.armor.ArmourBase;
-import io.github.srdjanv.endreforked.client.armor.ArmourDModel;
-import io.github.srdjanv.endreforked.client.armor.ArmourModel;
+import io.github.srdjanv.endreforked.client.armor.ModelDArmor;
+import io.github.srdjanv.endreforked.client.armor.ModelEArmor;
 import io.github.srdjanv.endreforked.common.items.*;
+import io.github.srdjanv.endreforked.common.items.base.ArmourBase;
+import io.github.srdjanv.endreforked.common.items.base.CustomModelArmor;
 import io.github.srdjanv.endreforked.common.items.base.ItemBase;
 import io.github.srdjanv.endreforked.common.items.base.ItemLegendary;
 import io.github.srdjanv.endreforked.common.items.food.DragoniteBerries;
@@ -157,8 +158,8 @@ public final class ModItems {
     });
     public static final Supplier<Item> HELMET_OBSIDIAN = register(() -> {
         if (!Configs.GENERAL.registerObsidianArmor) return null;
-        return new ArmourModel("armour_helmet_helmet", ARMOUR_OBSIDIAN.get(), 1,
-                EntityEquipmentSlot.HEAD);
+        return new CustomModelArmor("armour_helmet_helmet", ARMOUR_OBSIDIAN.get(), 1,
+                EntityEquipmentSlot.HEAD, ModelEArmor::new);
     });
     public static final Supplier<Item> CHESTPLATE_DRAGON = register(() -> {
         if (!Configs.GENERAL.registerDragonArmor) return null;
@@ -177,8 +178,8 @@ public final class ModItems {
     });
     public static final Supplier<Item> HELMET_DRAGON = register(() -> {
         if (!Configs.GENERAL.registerDragonArmor) return null;
-        return new ArmourDModel("armour_helmet_dragon", ARMOUR_DRAGON.get(), 1,
-                EntityEquipmentSlot.HEAD);
+        return new CustomModelArmor("armour_helmet_dragon", ARMOUR_DRAGON.get(), 1,
+                EntityEquipmentSlot.HEAD, ModelDArmor::new);
     });
 
     // Food

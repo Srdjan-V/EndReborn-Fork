@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.client.entity.render;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -13,17 +13,23 @@ import io.github.srdjanv.endreforked.common.entity.EntityLord;
 
 public class RenderLord extends RenderLiving<EntityLord> {
 
-    public static boolean isNewYear() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.MONTH) == calendar.DECEMBER ||
-                ((Calendar.MONTH) == calendar.JANUARY && (calendar.get(Calendar.DAY_OF_MONTH) == 1 ||
-                        calendar.get(Calendar.DAY_OF_MONTH) == 2 || calendar.get(Calendar.DAY_OF_MONTH) == 3));
-    }
-
     public static final ResourceLocation TEXTURES = new ResourceLocation(
             Tags.MODID + ":textures/entity/endlord.png");
     public static final ResourceLocation TEXTURES_NEW = new ResourceLocation(
             Tags.MODID + ":textures/entity/endlord_new.png");
+
+    public static final ResourceLocation USED_TEXTURE;
+
+    static {
+        if (isNewYear()) {
+            USED_TEXTURE = TEXTURES_NEW;
+        } else USED_TEXTURE = TEXTURES;
+    }
+
+    public static boolean isNewYear() {
+        int day = LocalDate.now().getDayOfYear();
+        return day == 366 || day == 365 || day == 364 || day == 1;
+    }
 
     public static final Factory FACTORY = new Factory();
 
@@ -33,14 +39,7 @@ public class RenderLord extends RenderLiving<EntityLord> {
 
     @Override
     protected ResourceLocation getEntityTexture(EntityLord entity) {
-        if (isNewYear()) {
-            return TEXTURES_NEW;
-        } else return TEXTURES;
-    }
-
-    @Override
-    protected void applyRotations(EntityLord entityLiving, float p_77043_2_, float rotationYaw, float partialTicks) {
-        super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
+        return USED_TEXTURE;
     }
 
     public static class Factory implements IRenderFactory<EntityLord> {

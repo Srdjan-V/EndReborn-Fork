@@ -1,7 +1,5 @@
 package io.github.srdjanv.endreforked.client.entity.render;
 
-import java.util.Random;
-
 import net.minecraft.client.model.ModelEnderman;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -16,8 +14,7 @@ import io.github.srdjanv.endreforked.common.entity.EntityWatcher;
 public class RenderWatcher extends RenderLiving<EntityWatcher> {
 
     public static final ResourceLocation TEXTURES = new ResourceLocation(
-            Tags.MODID + ":textures/entity/watcher.png");
-    private final Random rnd = new Random();
+            Tags.MODID, "textures/entity/watcher.png");
 
     public static final Factory FACTORY = new Factory();
 
@@ -31,21 +28,19 @@ public class RenderWatcher extends RenderLiving<EntityWatcher> {
         return TEXTURES;
     }
 
+    @Override
     public ModelEnderman getMainModel() {
         return (ModelEnderman) super.getMainModel();
     }
 
-    /**
-     * Renders the desired {@code T} type Entity.
-     */
+    @Override
     public void doRender(EntityWatcher entity, double x, double y, double z, float entityYaw, float partialTicks) {
         ModelEnderman modelenderman = this.getMainModel();
         modelenderman.isAttacking = entity.isScreaming();
 
         if (entity.isScreaming()) {
-            double d0 = 0.02D;
-            x += this.rnd.nextGaussian() * 0.02D;
-            z += this.rnd.nextGaussian() * 0.02D;
+            x += entity.getRNG().nextGaussian() * 0.02D;
+            z += entity.getRNG().nextGaussian() * 0.02D;
         }
 
         super.doRender(entity, x, y, z, entityYaw, partialTicks);

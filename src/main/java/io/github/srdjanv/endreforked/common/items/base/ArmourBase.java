@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.client.armor;
+package io.github.srdjanv.endreforked.common.items.base;
 
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;

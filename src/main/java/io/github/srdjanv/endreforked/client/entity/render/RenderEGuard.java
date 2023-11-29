@@ -25,12 +25,6 @@ public class RenderEGuard extends RenderLiving<EntityEndGuard> {
         return TEXTURES;
     }
 
-    @Override
-    protected void applyRotations(EntityEndGuard entityLiving, float p_77043_2_, float rotationYaw,
-                                  float partialTicks) {
-        super.applyRotations(entityLiving, p_77043_2_, rotationYaw, partialTicks);
-    }
-
     public static class Factory implements IRenderFactory<EntityEndGuard> {
 
         @Override
