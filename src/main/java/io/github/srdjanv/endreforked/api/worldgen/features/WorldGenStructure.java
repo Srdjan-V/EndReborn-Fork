@@ -1,52 +1,51 @@
 package io.github.srdjanv.endreforked.api.worldgen.features;
 
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
+import net.minecraft.nbt.*;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
+import io.github.srdjanv.endreforked.api.worldgen.base.Locator;
+import io.github.srdjanv.endreforked.api.worldgen.base.PositionedFeature;
 
-public class WorldGenStructure extends WorldGenerator {
+public class WorldGenStructure extends PositionedFeature {
 
-    public static final PlacementSettings defaultSettings = (new PlacementSettings()).setIgnoreEntities(false)
+    public static final PlacementSettings defaultSettings = new PlacementSettings().setIgnoreEntities(false)
             .setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
-    protected final DimConfig dimConfig;
     protected final ResourceLocation location;
     protected final PlacementSettings settings;
 
-    public WorldGenStructure(ResourceLocation location, DimConfig dimConfig) {
-        this(dimConfig, location, defaultSettings);
+    @ApiStatus.Internal
+    public WorldGenStructure(Locator locator, DimConfig dimConfig, String name) {
+        this(locator, dimConfig, name, defaultSettings);
     }
 
-    public WorldGenStructure(String name, DimConfig dimConfig) {
-        this(dimConfig, new ResourceLocation(Tags.MODID, name), defaultSettings);
+    @ApiStatus.Internal
+    public WorldGenStructure(Locator locator, DimConfig dimConfig, String name, PlacementSettings settings) {
+        this(locator, dimConfig, new ResourceLocation(Tags.MODID, name), settings);
     }
 
-    public WorldGenStructure(DimConfig dimConfig, ResourceLocation location, PlacementSettings settings) {
-        this.dimConfig = dimConfig;
+    public WorldGenStructure(Locator locator, DimConfig dimConfig, ResourceLocation location,
+                             PlacementSettings settings) {
+        super(locator, dimConfig);
         this.location = location;
         this.settings = settings;
     }
 
     @Override
-    public boolean generate(World world, Random rand, BlockPos pos) {
-        if (!(world instanceof WorldServer server)) {
-            EndReforked.LOGGER.warn("Unable to run world generator on ClientWorld");
-            return false;
-        }
-
+    public boolean doGenerate(WorldServer server, Random rand, BlockPos pos) {
         TemplateManager manager = server.getStructureTemplateManager();
         Template template = manager.get(null, location);
 
@@ -58,7 +57,7 @@ public class WorldGenStructure extends WorldGenerator {
         // probably not needed
         // IBlockState state = world.getBlockState(pos);
         // world.notifyBlockUpdate(pos, state, state, 3);
-        template.addBlocksToWorldChunk(world, pos.add(2, 0, 2), settings);
+        template.addBlocksToWorld(server, pos.add(2, 0, 2), settings);
         return true;
     }
 }

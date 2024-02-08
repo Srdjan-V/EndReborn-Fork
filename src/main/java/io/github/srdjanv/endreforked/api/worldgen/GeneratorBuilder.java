@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @FunctionalInterface
-public interface GeneratorBuilder<G extends WorldGenerator> {
+public interface GeneratorBuilder {
 
-    G getGenerator(@NotNull World world, @Nullable Biome biome, @NotNull DimConfig config);
+    WorldGenerator getGenerator(@NotNull World world, @Nullable Biome biome, @NotNull DimConfig config);
 }

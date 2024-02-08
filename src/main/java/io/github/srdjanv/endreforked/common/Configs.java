@@ -24,6 +24,7 @@ import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.GeneratorBuilder;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
+import io.github.srdjanv.endreforked.api.worldgen.base.Locators;
 import io.github.srdjanv.endreforked.api.worldgen.features.SurfaceGenerator;
 import io.github.srdjanv.endreforked.api.worldgen.features.WorldGenStructure;
 import io.github.srdjanv.endreforked.common.blocks.BlockEnderCrop;
@@ -133,7 +134,7 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+            public GeneratorBuilder getGeneratorBuilder() {
                 return ((world, biome, config) -> new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(),
                         config.count(), BlockMatcher.forBlock(Blocks.OBSIDIAN)));
             }
@@ -146,7 +147,7 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+            public GeneratorBuilder getGeneratorBuilder() {
                 return ((world, biome, config) -> new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(),
                         config.count(), input -> {
                             if (input != null && input.getBlock() == Blocks.STONE) {
@@ -163,7 +164,7 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+            public GeneratorBuilder getGeneratorBuilder() {
                 return ((world, biome, config) -> new WorldGenMinable(
                         ModBlocks.TUNGSTEN_END_ORE.get().getDefaultState(),
                         config.count(), BlockMatcher.forBlock(Blocks.END_STONE)));
@@ -177,7 +178,7 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+            public GeneratorBuilder getGeneratorBuilder() {
                 return ((world, biome, config) -> new WorldGenMinable(
                         ModBlocks.LORMYTE_CRYSTAL_BLOCK.get().getDefaultState(),
                         config.count(), input -> input != null && input.getBlock() == Blocks.END_STONE));
@@ -191,7 +192,7 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+            public GeneratorBuilder getGeneratorBuilder() {
                 return ((world, biome, config) -> new WorldGenMinable(ModBlocks.END_MAGMA_BLOCK.get().getDefaultState(),
                         config.count(), BlockMatcher.forBlock(Blocks.END_STONE)));
             }
@@ -204,7 +205,7 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+            public GeneratorBuilder getGeneratorBuilder() {
                 return ((world, biome, config) -> new WorldGenMinable(
                         ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), config.count(),
                         BlockMatcher.forBlock(Blocks.END_STONE)));
@@ -219,7 +220,7 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+            public GeneratorBuilder getGeneratorBuilder() {
                 return ((world, biome, config) -> new SurfaceGenerator(config, ModBlocks.END_CORAL.get()));
             }
         }
@@ -232,11 +233,11 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
+            public GeneratorBuilder getGeneratorBuilder() {
                 return ((world, biome, config) -> new SurfaceGenerator(config, ModBlocks.ENDER_FLOWER_CROP.get()) {
 
                     @Override
-                    public IBlockState getState(World world, BlockPos pos, Random random) {
+                    public IBlockState getState(World world, Random random, BlockPos pos) {
                         return block.getDefaultState().withProperty(BlockEnderCrop.AGE,
                                 random.nextInt(BlockEnderCrop.AGE.getAllowedValues().size() - 1));
                     }
@@ -261,6 +262,8 @@ public final class Configs {
 
         public final WorldGenConfigBase observatory = new Observatory();
 
+        public final WorldGenConfigBase shipWreck = new ShipWreck();
+
         public static class EndRuins extends WorldGenConfigBase {
 
             public EndRuins() {
@@ -270,8 +273,8 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
-                return ((world, biome, config) -> new WorldGenStructure("end_ruins", config));
+            public GeneratorBuilder getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenStructure(Locators.OFFSET_16, config, "end_ruins"));
             }
         }
 
@@ -289,8 +292,8 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
-                return ((world, biome, config) -> new WorldGenStructure("end_island", config));
+            public GeneratorBuilder getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenStructure(Locators.OFFSET_16, config, "end_island"));
             }
         }
 
@@ -308,13 +311,28 @@ public final class Configs {
             }
 
             @Override
-            public GeneratorBuilder<WorldGenerator> getGeneratorBuilder() {
-                return ((world, biome, config) -> new WorldGenStructure("observ", config));
+            public GeneratorBuilder getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenStructure(Locators.OFFSET_16, config, "observ"));
+            }
+        }
+
+        public static class ShipWreck extends WorldGenConfigBase {
+
+            public ShipWreck() {
+                biomeWhiteList.put("minecraft:sky", new int[0]);
+                defaultDimConfig = new int[] { 600, 1, 50, 70 };
+            }
+
+            @Override
+            public GeneratorBuilder getGeneratorBuilder() {
+                return ((world, biome, config) -> new WorldGenStructure(
+                        Locators.OFFSET_16.andThenLocate(Locators.SURFACE_BLOCK).andThenMove(pos -> pos.add(0, -2, 2)),
+                        config, new ResourceLocation(Tags.MODID, "end_shipwreck"), WorldGenStructure.defaultSettings));
             }
         }
 
         public void registerToHandler(final WorldGenHandler handler) {
-            Stream.of(endRuins, endIslands, observatory)
+            Stream.of(endRuins, endIslands, observatory, shipWreck)
                     .filter(genConfigBase -> genConfigBase.enableGeneration)
                     .forEach(genConfigBase -> handler.registerStructureGenerators(genConfigBase.buildGenConfig()));
         }
@@ -431,9 +449,9 @@ public final class Configs {
                 "[3]: max height" })
         public int[] defaultDimConfig = new int[0];
 
-        public abstract <G extends WorldGenerator> GeneratorBuilder<G> getGeneratorBuilder();
+        public abstract GeneratorBuilder getGeneratorBuilder();
 
-        public <G extends WorldGenerator> GenConfig<G> buildGenConfig() {
+        public <G extends WorldGenerator> GenConfig buildGenConfig() {
             GenConfig.Builder<G> gen = GenConfig.builder();
             gen.setGeneratorName(getClass().getSimpleName())
                     .setGeneratorWeight(weight)

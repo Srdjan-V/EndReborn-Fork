@@ -15,11 +15,11 @@ import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
-public class GenConfig<G extends WorldGenerator> implements Comparable<GenConfig<G>> {
+public class GenConfig implements Comparable<GenConfig> {
 
     private final String generatorName;
     private final int generatorWeight;
-    private final GeneratorBuilder<G> generatorBuilder;
+    private final GeneratorBuilder generatorBuilder;
 
     private final Map<Biome, DimConfig> biomeConfigs;
     private final List<Biome> biomeBlackList;
@@ -28,7 +28,7 @@ public class GenConfig<G extends WorldGenerator> implements Comparable<GenConfig
     private final Int2ObjectMap<DimConfig> dimConfigs;
     private final DimConfig defaultDimConfig;
 
-    public GenConfig(String generatorName, int generatorWeight, GeneratorBuilder<G> generatorBuilder,
+    public GenConfig(String generatorName, int generatorWeight, GeneratorBuilder generatorBuilder,
                      Map<Biome, DimConfig> biomeConfigs, List<Biome> biomeBlackList,
                      IntList dimBlackList, Int2ObjectMap<DimConfig> dimConfigs, DimConfig defaultDimConfig) {
         this.generatorName = generatorName;
@@ -56,15 +56,16 @@ public class GenConfig<G extends WorldGenerator> implements Comparable<GenConfig
         return defaultDimConfig;
     }
 
-    public @Nullable G getDefaultGenerator(@NotNull World world) {
+    public @Nullable WorldGenerator getDefaultGenerator(@NotNull World world) {
         return getGenerator(world, null, (Integer) null);
     }
 
-    public @Nullable G getGenerator(@NotNull World world, @Nullable Biome biome, @Nullable Integer dim) {
+    public @Nullable WorldGenerator getGenerator(@NotNull World world, @Nullable Biome biome, @Nullable Integer dim) {
         return getGenerator(world, biome, getDimConfig(dim, biome));
     }
 
-    public @Nullable G getGenerator(@NotNull World world, @Nullable Biome biome, @Nullable DimConfig config) {
+    public @Nullable WorldGenerator getGenerator(@NotNull World world, @Nullable Biome biome,
+                                                 @Nullable DimConfig config) {
         if (Objects.isNull(config)) {
             if (Objects.isNull(defaultDimConfig)) return null;
             return generatorBuilder.getGenerator(world, biome, defaultDimConfig);
@@ -98,7 +99,20 @@ public class GenConfig<G extends WorldGenerator> implements Comparable<GenConfig
     }
 
     @Override
-    public int compareTo(@NotNull GenConfig<G> o) {
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GenConfig genConfig = (GenConfig) o;
+        return Objects.equals(generatorName, genConfig.generatorName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(generatorName);
+    }
+
+    @Override
+    public int compareTo(@NotNull GenConfig o) {
         return o.generatorWeight - generatorWeight;
     }
 
@@ -106,7 +120,7 @@ public class GenConfig<G extends WorldGenerator> implements Comparable<GenConfig
 
         private String generatorName;
         private Integer generatorWeight;
-        private GeneratorBuilder<G> generatorBuilder;
+        private GeneratorBuilder generatorBuilder;
 
         private final Map<Biome, DimConfig> biomeWhiteList = new Object2ObjectOpenHashMap<>();
         private final List<Biome> biomeBlackList = new ObjectArrayList<>();
@@ -126,7 +140,7 @@ public class GenConfig<G extends WorldGenerator> implements Comparable<GenConfig
             return this;
         }
 
-        public Builder<G> setGeneratorBuilder(GeneratorBuilder<G> generatorBuilder) {
+        public Builder<G> setGeneratorBuilder(GeneratorBuilder generatorBuilder) {
             this.generatorBuilder = generatorBuilder;
             return this;
         }
@@ -165,8 +179,8 @@ public class GenConfig<G extends WorldGenerator> implements Comparable<GenConfig
             return this;
         }
 
-        public GenConfig<G> build() {
-            return new GenConfig<>(
+        public GenConfig build() {
+            return new GenConfig(
                     Objects.requireNonNull(generatorName),
                     Objects.requireNonNull(generatorWeight),
                     Objects.requireNonNull(generatorBuilder),

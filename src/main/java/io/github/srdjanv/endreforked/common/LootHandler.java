@@ -20,6 +20,8 @@ public final class LootHandler implements Initializer {
     public static final ResourceLocation WATCHER = new ResourceLocation(Tags.MODID, "entities/watcher");
     public static final ResourceLocation LORD = new ResourceLocation(Tags.MODID, "entities/lord");
 
+    // TODO: 08/02/2024 add shipWreck loot table
+
     public static final List<String> INJECTED_CHEST_TABLES = ImmutableList.of(
             "abandoned_mineshaft",
             "desert_pyramid",
