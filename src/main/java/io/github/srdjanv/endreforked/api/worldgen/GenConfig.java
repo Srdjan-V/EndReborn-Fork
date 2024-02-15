@@ -160,7 +160,7 @@ public class GenConfig implements Comparable<GenConfig> {
             return this;
         }
 
-        public Builder<G> addBiomeToBlockList(Biome biome) {
+        public Builder<G> addBiomeToBlackList(Biome biome) {
             biomeBlackList.add(biome);
             return this;
         }

@@ -8,6 +8,6 @@ public interface InventoryItemModel extends IHasModel {
 
     @Override
     default void registerModels() {
-        EndReforked.proxy.registerItemRenderer((Item) this, 0, "inventory");
+        EndReforked.getProxy().registerItemRenderer((Item) this, 0, "inventory");
     }
 }

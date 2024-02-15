@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import com.cleanroommc.modularui.utils.Color;
 
 import io.github.srdjanv.endreforked.api.entropywand.Conversion;
-import io.github.srdjanv.endreforked.common.Configs;
+import io.github.srdjanv.endreforked.common.configs.Configs;
 import io.github.srdjanv.endreforked.utils.LangUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mezz.jei.api.ingredients.IIngredients;
@@ -31,7 +31,7 @@ public class EntropyWandRecipe implements IRecipeWrapper {
             if (conversion.getBlockStateMatcher().test(validState))
                 input.add(new ItemStack(block, 1, block.getMetaFromState(validState)));
 
-        if (!Configs.GENERAL.entropyWandRenderBrokenTextures) {
+        if (!Configs.CLIENT_SIDE_CONFIGS.entropyWandRenderBrokenTextures) {
             input = input.stream().filter(itemStack -> {
                 var masher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
                 var model = masher.getItemModel(itemStack);

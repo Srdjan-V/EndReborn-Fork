@@ -1,7 +1,6 @@
 package io.github.srdjanv.endreforked.api.worldgen.base;
 
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -15,17 +14,30 @@ import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 
 public abstract class PositionedFeature extends WorldGenerator {
 
-    private final Locator locator;
+    private final List<Locator> locators;
     protected final DimConfig config;
 
     protected PositionedFeature(Locator locator, DimConfig config) {
-        this.locator = locator;
+        this(Collections.singletonList(locator), config);
+    }
+
+    protected PositionedFeature(DimConfig config, Locator... locators) {
+        this(Arrays.asList(locators), config);
+    }
+
+    protected PositionedFeature(List<Locator> locator, DimConfig config) {
+        this.locators = locator;
         this.config = config;
     }
 
     @Nullable
     protected BlockPos getStartPos(WorldServer server, Random rand, BlockPos pos, PositionValidator validator) {
-        return locator.compute(server, rand, config, pos, validator);
+        BlockPos retPos = null;
+        for (Locator locator : locators) {
+            retPos = locator.compute(server, rand, config, pos, validator);
+            if (Objects.nonNull(retPos)) break;
+        }
+        return retPos;
     }
 
     @Override

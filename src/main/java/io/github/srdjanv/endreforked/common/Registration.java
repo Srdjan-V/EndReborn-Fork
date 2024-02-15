@@ -1,26 +1,20 @@
 package io.github.srdjanv.endreforked.common;
 
-import java.util.Map;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.google.common.collect.Lists;
 
-import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.api.base.groupings.FluidToItemGrouping;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
@@ -32,9 +26,8 @@ import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
 import io.github.srdjanv.endreforked.api.materializer.WorldEvent;
 import io.github.srdjanv.endreforked.api.util.Structure;
-import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
-import io.github.srdjanv.endreforked.common.entity.*;
+import io.github.srdjanv.endreforked.common.configs.Configs;
 import io.github.srdjanv.endreforked.common.tiles.EndForgeTile;
 import io.github.srdjanv.endreforked.common.tiles.MaterializerTile;
 import io.github.srdjanv.endreforked.common.village.EndVillagerHandler;
@@ -42,7 +35,7 @@ import io.github.srdjanv.endreforked.utils.Initializer;
 
 final class Registration implements Initializer {
 
-    public void preInit() {
+    public void preInit(FMLPreInitializationEvent event) {
         CapabilityTimedFlightHandler.register();
         registerMobs();
 
@@ -50,17 +43,16 @@ final class Registration implements Initializer {
                 new ResourceLocation(Tags.MODID, "materializerTile"));
         GameRegistry.registerTileEntity(EndForgeTile.class,
                 new ResourceLocation(Tags.MODID, "endForgeTile"));
-
-        WorldGenHandler.getInstance().registerGeneratorsFromConfig();
     }
 
-    public void init() {
+    public void init(FMLInitializationEvent event) {
         registerMaterializerRecipes();
         registerEndForgeRecipes();
         registerEntropyWandRecipes();
         registerBannerPatterns();
 
-        if (Configs.GENERAL.spawnNewVillagers) {
+        // todo remove or improve
+        if (Configs.SERVER_SIDE_CONFIGS.spawnNewVillagers) {
             EndVillagerHandler.initVillagerTrades();
             EndVillagerHandler.initVillagerHouse();
         }
@@ -198,54 +190,5 @@ final class Registration implements Initializer {
                 id, craftingItem);
     }
 
-    private static void registerMobEntity(String name, Class<? extends Entity> entityClass, int id, int trackingRange,
-                                          int updateFrequency, boolean sendsVelocityUpdates, int eggPrimary,
-                                          int eggSecondary) {
-        EntityRegistry.registerModEntity(new ResourceLocation(Tags.MODID, name), entityClass, name,
-                id, EndReforked.instance, trackingRange, updateFrequency, sendsVelocityUpdates, eggPrimary,
-                eggSecondary);
-    }
-
-    private static void registerMobs() {
-        if (Configs.MOBS_CONFIG.endGuard.register) {
-            registerMobEntity("endguard", EntityEndGuard.class, 0, 64, 3, false, 9654933, 11237052);
-            registerEntity("end_fireball", EntityColdFireball.class, 4, 30, 1, true);
-            registerSpawn(Configs.MOBS_CONFIG.endGuard, EntityEndGuard.class);
-        }
-
-        if (Configs.MOBS_CONFIG.watcher.register) {
-            registerMobEntity("watcher", EntityWatcher.class, 1, 64, 3, false, 461076, 2236447);
-            registerSpawn(Configs.MOBS_CONFIG.watcher, EntityWatcher.class);
-        }
-
-        if (Configs.MOBS_CONFIG.endlord.register) {
-            registerMobEntity("endlord", EntityLord.class, 2, 64, 3, false, 461076, 681365);
-            registerSpawn(Configs.MOBS_CONFIG.endlord, EntityLord.class);
-        }
-
-        if (Configs.MOBS_CONFIG.chronologist.register) {
-            registerMobEntity("chronologist", EntityChronologist.class, 3, 64, 3, false, 461076, 13680725);
-            registerSpawn(Configs.MOBS_CONFIG.chronologist, EntityChronologist.class);
-        }
-    }
-
-    private static void registerEntity(String name, Class<? extends Entity> entityClass, int id, int trackingRange,
-                                       int updateFrequency, boolean sendsVelocityUpdates) {
-        EntityRegistry.registerModEntity(new ResourceLocation(Tags.MODID, name), entityClass, name,
-                id, EndReforked.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
-    }
-
-    private static void registerSpawn(Configs.MobsConfig.RootMobConfig config,
-                                      Class<? extends EntityLiving> entityClass) {
-        if (config.registerSpawn) {
-            for (Map.Entry<Biome, int[]> biomeEntry : config.getBiomesForMob().entrySet()) {
-                EntityRegistry.addSpawn(entityClass,
-                        biomeEntry.getValue()[0],
-                        biomeEntry.getValue()[1],
-                        biomeEntry.getValue()[2],
-                        EnumCreatureType.MONSTER,
-                        biomeEntry.getKey());// might be too early to que biomes
-            }
-        }
-    }
+    private static void registerMobs() {}
 }

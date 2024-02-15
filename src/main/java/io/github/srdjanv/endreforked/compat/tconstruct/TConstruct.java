@@ -1,5 +1,8 @@
 package io.github.srdjanv.endreforked.compat.tconstruct;
 
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.compat.CompatManger;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -14,7 +17,7 @@ public class TConstruct implements CompatManger.ModCompat {
     }
 
     @Override
-    public void preInit() {
+    public void preInit(FMLPreInitializationEvent event) {
         TinkerRegistry.addMaterialStats(Endorium.material,
                 new HeadMaterialStats(1024, 5.5f, 8.0f, HarvestLevels.OBSIDIAN),
                 new BowMaterialStats(1.2f, 2f, 5),
@@ -31,7 +34,7 @@ public class TConstruct implements CompatManger.ModCompat {
     }
 
     @Override
-    public void init() {
+    public void init(FMLInitializationEvent event) {
         Endorium.material.addItem(ModItems.INGOT_ENDORIUM.get(), 1, Material.VALUE_Ingot);
         Endorium.material
                 .addTrait(Endorium.trait)

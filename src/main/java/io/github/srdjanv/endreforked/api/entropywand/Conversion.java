@@ -14,7 +14,7 @@ import net.minecraft.world.WorldServer;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.srdjanv.endreforked.common.Configs;
+import io.github.srdjanv.endreforked.common.configs.Configs;
 
 public final class Conversion {
 
@@ -39,7 +39,7 @@ public final class Conversion {
 
         private Predicate<IBlockState> matcher;
         private Supplier<IBlockState> newState;
-        private int itemDamage = Configs.GENERAL.entropyWandUseDamage;
+        private int itemDamage = Configs.SERVER_SIDE_CONFIGS.entropyWandUseDamage;
         private BiConsumer<WorldServer, BlockPos> conversionCallback;
 
         public Builder matcherAny() {

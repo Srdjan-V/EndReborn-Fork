@@ -10,13 +10,11 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.jetbrains.annotations.Unmodifiable;
 
-import io.github.srdjanv.endreforked.common.Configs;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 
@@ -32,6 +30,7 @@ public final class WorldGenHandler implements IWorldGenerator {
         return instance;
     }
 
+    private final Set<GenConfig> oreGenerators = new ObjectLinkedOpenHashSet<>();
     private final Set<GenConfig> genericGenerators = new ObjectLinkedOpenHashSet<>();
     private final Set<GenConfig> structureGenerators = new ObjectLinkedOpenHashSet<>();
     private final List<Runnable> mutators = new ObjectArrayList<>();
@@ -46,16 +45,22 @@ public final class WorldGenHandler implements IWorldGenerator {
 
     public void clearGenerators() {
         mutators.add(() -> {
+            oreGenerators.clear();
             genericGenerators.clear();
             structureGenerators.clear();
         });
     }
 
-    public void registerGeneratorsFromConfig() {
-        mutators.add(() -> {
-            Configs.WORLD_ORE_GEN_CONFIG.registerToHandler(this);
-            Configs.WORLD_GEN_STRUCTURE_CONFIG.registerToHandler(this);
-        });
+    public void registerOreGenerator(GenConfig genConfig) {
+        mutators.add(() -> oreGenerators.add(genConfig));
+    }
+
+    public void unregisterOreGenerator(GenConfig genConfig) {
+        mutators.add(() -> oreGenerators.remove(genConfig));
+    }
+
+    public void unregisterOreGenerator(Predicate<GenConfig> filter) {
+        mutators.add(() -> oreGenerators.removeIf(filter));
     }
 
     public void registerGenericGenerator(GenConfig genConfig) {
@@ -70,16 +75,24 @@ public final class WorldGenHandler implements IWorldGenerator {
         mutators.add(() -> genericGenerators.removeIf(filter));
     }
 
-    public <G extends WorldGenerator> void registerStructureGenerators(GenConfig genConfig) {
+    public void registerStructureGenerator(GenConfig genConfig) {
         mutators.add(() -> structureGenerators.add(genConfig));
     }
 
-    public <G extends WorldGenerator> void unregisterStructureGenerators(GenConfig genConfig) {
+    public void unregisterStructureGenerator(GenConfig genConfig) {
         mutators.add(() -> structureGenerators.add(genConfig));
     }
 
-    public <G extends WorldGenerator> void unregisterStructureGenerators(Predicate<GenConfig> filter) {
+    public void unregisterStructureGenerator(Predicate<GenConfig> filter) {
         mutators.add(() -> structureGenerators.removeIf(filter));
+    }
+
+    private final Set<GenConfig> unmodifiableOreGenerators = Collections
+            .unmodifiableSet(oreGenerators);
+
+    @Unmodifiable
+    public Set<GenConfig> getOreGenerators() {
+        return unmodifiableOreGenerators;
     }
 
     private final Set<GenConfig> unmodifiableGenericGenerators = Collections
@@ -101,9 +114,16 @@ public final class WorldGenHandler implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
                          IChunkProvider chunkProvider) {
+        mutate();
+
         // deterministic worldgen
         final long seed = random.nextLong();
         final var biome = world.getBiome(new BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8));
+
+        for (var gen : getApplicableGeneratorsForChunk(oreGenerators, world, biome)) {
+            random.setSeed(seed);
+            runChunkGenerator(gen, biome, world, random, chunkX, chunkZ);
+        }
 
         for (var gen : getApplicableGeneratorsForChunk(genericGenerators, world, biome)) {
             random.setSeed(seed);
@@ -114,7 +134,6 @@ public final class WorldGenHandler implements IWorldGenerator {
             random.setSeed(seed);
             runChunkGenerator(gen, biome, world, random, chunkX, chunkZ);
         }
-        mutate();
     }
 
     private void runChunkGenerator(GenConfig config, Biome biome, World world,

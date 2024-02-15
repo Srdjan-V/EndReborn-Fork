@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import io.github.srdjanv.endreforked.compat.tconstruct.TConstruct;
 import io.github.srdjanv.endreforked.utils.Initializer;
@@ -29,18 +32,18 @@ public class CompatManger implements Initializer {
     }
 
     @Override
-    public void preInit() {
-        for (ModCompat mod : mods) mod.preInit();
+    public void preInit(FMLPreInitializationEvent event) {
+        for (ModCompat mod : mods) mod.preInit(event);
     }
 
     @Override
-    public void init() {
-        for (ModCompat mod : mods) mod.init();
+    public void init(FMLInitializationEvent event) {
+        for (ModCompat mod : mods) mod.init(event);
     }
 
     @Override
-    public void postInit() {
-        for (ModCompat mod : mods) mod.postInit();
+    public void postInit(FMLPostInitializationEvent event) {
+        for (ModCompat mod : mods) mod.postInit(event);
     }
 
     public interface ModCompat extends Initializer {

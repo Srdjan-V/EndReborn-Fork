@@ -18,6 +18,7 @@ import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockEndBase;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockStairsBase;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockWallBase;
+import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
 import io.github.srdjanv.endreforked.utils.models.IHasModel;
 
 @SuppressWarnings("unused")
@@ -25,81 +26,95 @@ public final class ModBlocks {
 
     private static final List<Supplier<? extends Block>> BLOCKS = new ArrayList<>();
 
-    public static final Supplier<Block> END_FIRE = register(
+    public static final Supplier<Block> END_FIRE = registerDisableable(
             () -> new BlockColdFire("end_fire"));
 
-    public static final Supplier<Block> END_STONE_SMOOTH_BLOCK = register(
+    public static final Supplier<Block> END_STONE_SMOOTH_BLOCK = registerDisableable(
             () -> new BlockEndBase("end_stone_smooth_block", Material.ROCK));
-    public static final Supplier<Block> END_STONE_SMOOTH_STAIRS = register(
+    public static final Supplier<Block> END_STONE_SMOOTH_STAIRS = registerDisableable(
             () -> new BlockStairsBase("end_stone_smooth_stairs", ModBlocks.END_STONE_SMOOTH_BLOCK.get()));
-    public static final Supplier<Block> END_STONE_SMOOTH_WALL = register(
+    public static final Supplier<Block> END_STONE_SMOOTH_WALL = registerDisableable(
             () -> new BlockWallBase("end_stone_smooth_wall", ModBlocks.END_STONE_SMOOTH_BLOCK.get()));
 
-    public static final Supplier<Block> END_STONE_PILLAR = register(
+    public static final Supplier<Block> END_STONE_PILLAR = registerDisableable(
             () -> new BlockPillar("end_stone_pillar", Material.ROCK));
-    public static final Supplier<Block> END_BRICKS_CHISELED = register(
+    public static final Supplier<Block> END_BRICKS_CHISELED = registerDisableable(
             () -> new BlockEndBase("end_bricks_chiseled", Material.ROCK));
 
-    public static final Supplier<Block> END_BRICKS_STAIRS = register(
+    public static final Supplier<Block> END_BRICKS_STAIRS = registerDisableable(
             () -> new BlockStairsBase("end_bricks_stairs", net.minecraft.init.Blocks.END_BRICKS));
-    public static final Supplier<Block> END_BRICKS_WALL = register(
+    public static final Supplier<Block> END_BRICKS_WALL = registerDisableable(
             () -> new BlockWallBase("end_bricks_wall", net.minecraft.init.Blocks.END_BRICKS));
 
-    public static final Supplier<Block> PURPUR_WALL = register(
+    public static final Supplier<Block> PURPUR_WALL = registerDisableable(
             () -> new BlockWallBase("purpur_wall", net.minecraft.init.Blocks.PURPUR_BLOCK));
-    public static final Supplier<Block> PURPUR_LAMP = register(
+    public static final Supplier<Block> PURPUR_LAMP = registerDisableable(
             () -> new BlockPurpurLamp("purpur_lamp_block"));
 
-    public static final Supplier<Block> ESSENCE_ORE = register(
+    public static final Supplier<Block> ESSENCE_ORE = registerDisableable(
             () -> new BlockEssenceOre("essence_ore", Material.ROCK));
-    public static final Supplier<Block> PHANTOM_BLOCK = register(
+    public static final Supplier<Block> PHANTOM_BLOCK = registerDisableable(
             () -> new BlockPhantom("phantom_block", Material.BARRIER, false));
 
-    public static final Supplier<Block> END_STONE_ENTROPY_BLOCK = register(
+    public static final Supplier<Block> END_STONE_ENTROPY_BLOCK = registerDisableable(
             () -> new BlockEndBase("end_stone_entropy_block", Material.ROCK));
 
-    public static final Supplier<BaseBlockBush> END_CORAL = register(
+    public static final Supplier<BaseBlockBush> END_CORAL = registerDisableable(
             () -> new BlockEndCoral("end_coral", Material.VINE));
 
-    public static final Supplier<Block> END_MAGMA_BLOCK = register(
+    public static final Supplier<Block> END_MAGMA_BLOCK = registerDisableable(
             () -> new BlockEndMagma("end_magma_block"));
 
-    public static final Supplier<Block> LORMYTE_CRYSTAL_BLOCK = register(
+    public static final Supplier<Block> LORMYTE_CRYSTAL_BLOCK = registerDisableable(
             () -> new BlockEndBase("lormyte_crystal_block", Material.ROCK));
-    public static final Supplier<Block> DECORATIVE_LORMYTE_BLOCK = register(
+    public static final Supplier<Block> DECORATIVE_LORMYTE_BLOCK = registerDisableable(
             () -> new BlockEndBase("decorative_lormyte_block", Material.ROCK));
 
-    public static final Supplier<Block> ENDORIUM_BLOCK = register(
+    public static final Supplier<Block> ENDORIUM_BLOCK = registerDisableable(
             () -> new BlockEndBase("endorium_block", Material.IRON));
 
     // tungsten
-    public static final Supplier<Block> TUNGSTEN_BLOCK = register(
+    public static final Supplier<Block> TUNGSTEN_BLOCK = registerDisableable(
             () -> new BlockEndBase("tungsten_block", Material.IRON));
-    public static final Supplier<Block> TUNGSTEN_ORE = register(
+    public static final Supplier<Block> TUNGSTEN_ORE = registerDisableable(
             () -> new TungstenOre("tungsten_ore", Material.ROCK));
 
-    public static final Supplier<Block> TUNGSTEN_END_ORE = register(
+    public static final Supplier<Block> TUNGSTEN_END_ORE = registerDisableable(
             () -> new TungstenOre("tungsten_end_ore", Material.ROCK));
 
     // tiles
-    public static final Supplier<Block> BLOCK_END_FORGE = register(
+    public static final Supplier<Block> BLOCK_END_FORGE = registerDisableable(
             () -> new BlockEndForge("end_forge_block"));
-    public static final Supplier<Block> MATERIALIZER_BLOCK = register(
+    public static final Supplier<Block> MATERIALIZER_BLOCK = registerDisableable(
             () -> new BlockMaterializer("materializer_block"));
 
-    public static final Supplier<Block> RUNE_BLOCK = register(
+    public static final Supplier<Block> RUNE_BLOCK = registerDisableable(
             () -> new BlockRune("rune_block", Material.ROCK));
 
-    public static final Supplier<Block> DRAGONITE_CROP = register(
+    public static final Supplier<Block> DRAGONITE_CROP = registerDisableable(
             () -> new CropDragonite("dragonite_crop"));
-    public static final Supplier<Block> XORCITE_BLOCK = register(
+    public static final Supplier<Block> XORCITE_BLOCK = registerDisableable(
             () -> new BlockXorciteCrop("xorcite_block"));
 
-    public static final Supplier<BlockEnderCrop> ENDER_FLOWER_CROP = register(
+    public static final Supplier<BlockEnderCrop> ENDER_FLOWER_CROP = registerDisableable(
             () -> new BlockEnderCrop("ender_flower_crop"));
 
     public static <B extends Block> Supplier<B> register(com.google.common.base.Supplier<B> supplier) {
         Supplier<B> memorized = Suppliers.memoize(supplier);
+        BLOCKS.add(memorized);
+        return memorized;
+    }
+
+    public static <B extends Block> Supplier<B> registerDisableable(final com.google.common.base.Supplier<B> supplier) {
+        var memorized = Suppliers.memoize(() -> {
+            var item = supplier.get();
+            var blackList = DisabledContentConfig.getInstance().getLoadedData();
+            if (Objects.nonNull(blackList)) {
+                if (blackList.blocks.contains(item.getRegistryName().getPath())) return null;
+            }
+
+            return item;
+        });
         BLOCKS.add(memorized);
         return memorized;
     }

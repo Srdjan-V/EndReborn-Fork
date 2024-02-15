@@ -32,6 +32,20 @@ public class DimConfig {
         return count;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DimConfig dimConfig = (DimConfig) o;
+        return minHeight == dimConfig.minHeight && maxHeight == dimConfig.maxHeight && rarity == dimConfig.rarity &&
+                count == dimConfig.count;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(minHeight, maxHeight, rarity, count);
+    }
+
     public static Builder builder() {
         return new Builder();
     }

@@ -6,12 +6,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.*;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import io.github.srdjanv.endreforked.Tags;
+import io.github.srdjanv.endreforked.common.configs.Configs;
 import io.github.srdjanv.endreforked.utils.Initializer;
 
 public final class LootHandler implements Initializer {
@@ -37,7 +39,7 @@ public final class LootHandler implements Initializer {
         registerThisToEventBus();
     }
 
-    public void preInit() {
+    public void preInit(FMLPreInitializationEvent event) {
         for (ResourceLocation table : Lists.newArrayList(END_GUARD, WATCHER, LORD))
             LootTableList.register(table);
 
@@ -55,9 +57,9 @@ public final class LootHandler implements Initializer {
 
     @SubscribeEvent
     public void lootLoad(LootTableLoadEvent evt) {
-        if (Configs.GENERAL.chestLoot)
+        if (Configs.SERVER_SIDE_CONFIGS.chestLoot)
             inject(evt, "minecraft:chests/", INJECTED_CHEST_TABLES);
-        if (Configs.GENERAL.entityLoot)
+        if (Configs.SERVER_SIDE_CONFIGS.entityLoot)
             inject(evt, "minecraft:entities/", INJECTED_ENTITIES_TABLES);
     }
 

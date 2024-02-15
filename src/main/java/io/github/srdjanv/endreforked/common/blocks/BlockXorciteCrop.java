@@ -276,8 +276,8 @@ public class BlockXorciteCrop extends BaseBlockCrops {
     @Override
     public void registerModels() {
         var item = Item.getItemFromBlock(this);
-        EndReforked.proxy.registerItemRenderer(item, 0, "inventory");
-        EndReforked.proxy.registerItemRenderer(item, 3, "inventory");
+        EndReforked.getProxy().registerItemRenderer(item, 0, "inventory");
+        EndReforked.getProxy().registerItemRenderer(item, 3, "inventory");
     }
 
     @Override

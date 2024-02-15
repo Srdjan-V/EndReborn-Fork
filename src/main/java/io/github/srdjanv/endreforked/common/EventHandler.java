@@ -15,6 +15,8 @@ import com.cleanroommc.modularui.manager.GuiManager;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.ModularScreen;
 
+import io.github.srdjanv.endreforked.common.configs.Configs;
+
 public final class EventHandler {
 
     @SubscribeEvent
@@ -38,7 +40,7 @@ public final class EventHandler {
     @SubscribeEvent
     public static void onPlayerPosition(LivingHurtEvent event) {
         if (event.getEntityLiving() instanceof EntityPlayerMP player && event.getEntityLiving().dimension == 1 &&
-                Configs.GENERAL.teleporterEnd && event.getEntityLiving().getPosition().getY() <= -6) {
+                Configs.SERVER_SIDE_CONFIGS.teleporterEnd && event.getEntityLiving().getPosition().getY() <= -6) {
             PlayerList playerList = player.getEntityWorld().getMinecraftServer().getPlayerList();
 
             event.setCanceled(true);

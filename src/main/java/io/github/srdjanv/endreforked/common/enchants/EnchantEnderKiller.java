@@ -11,7 +11,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.potion.PotionEffect;
 
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.common.Configs;
+import io.github.srdjanv.endreforked.common.configs.Configs;
 
 public class EnchantEnderKiller extends Enchantment {
 
@@ -23,7 +23,7 @@ public class EnchantEnderKiller extends Enchantment {
 
     public void onEntityDamaged(EntityLivingBase user, Entity target, int level) {
         if (!(target instanceof EntityLivingBase targetMob)) return;
-        if (Arrays.stream(Configs.GENERAL.enchantBoost).anyMatch(i -> i == user.dimension))
+        if (Arrays.stream(Configs.SERVER_SIDE_CONFIGS.enchantBoost).anyMatch(i -> i == user.dimension))
             targetMob.addPotionEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE, 5, level));
     }
 
