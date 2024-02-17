@@ -81,4 +81,8 @@ public final class LootHandler implements Initializer {
         return new LootEntryTable(new ResourceLocation(Tags.MODID, "inject/" + name), 1, 0, new LootCondition[0],
                 "endreborn_inject_entry");
     }
+
+    @Override public boolean dispose() {
+        return true;
+    }
 }

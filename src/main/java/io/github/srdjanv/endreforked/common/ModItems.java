@@ -209,7 +209,6 @@ public final class ModItems {
     public static final Supplier<ItemBlock> WALL_END_BRICKS = registerItemBlock(ModBlocks.END_BRICKS_WALL);
     public static final Supplier<ItemBlock> WALL_PURPUR = registerItemBlock(ModBlocks.PURPUR_WALL);
     public static final Supplier<ItemBlock> WALL_SMOOTH_END_STONE = registerItemBlock(ModBlocks.END_STONE_SMOOTH_WALL);
-    // TODO: 20/11/2023 add worldgen
     public static final Supplier<ItemBlock> END_CORAL = registerItemBlock(ModBlocks.END_CORAL);
 
     public static final Supplier<ItemBlock> ORGANA_WEED = registerItemBlock(ModBlocks.ORGANA_WEED);

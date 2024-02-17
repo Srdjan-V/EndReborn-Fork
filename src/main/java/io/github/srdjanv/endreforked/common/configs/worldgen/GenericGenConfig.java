@@ -42,9 +42,9 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
                     worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
                             .setRarity(80)
-                            .setAmountModifier(8)
-                            .setMaxHeight(35)
-                            .setMinHeight(15).build());
+                            .setAmountModifier(12)
+                            .setMaxHeight(45)
+                            .setMinHeight(20).build());
 
                     return worldGenConfiguration;
                 },
@@ -64,9 +64,9 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     worldGenConfiguration.weight = 180;
                     worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
                             .setRarity(80)
-                            .setAmountModifier(8)
-                            .setMaxHeight(15)
-                            .setMinHeight(0).build());
+                            .setAmountModifier(12)
+                            .setMaxHeight(25)
+                            .setMinHeight(10).build());
                     return worldGenConfiguration;
                 },
                 (world, biome, config) -> {
@@ -86,8 +86,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
                             .setRarity(60)
                             .setAmountModifier(30)
-                            .setMaxHeight(22)
-                            .setMinHeight(0).build());
+                            .setMaxHeight(30)
+                            .setMinHeight(10).build());
                     return worldGenConfiguration;
                 },
                 (world, biome, config) -> new WorldGenMinable(
@@ -111,6 +111,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                             if (rand.nextInt(100) > 80) return false;
                             if (server.isAirBlock(pos) && !server.isAirBlock(pos.up())) return false;
                             server.setBlockState(pos, ModBlocks.END_MOSS.get().getDefaultState());
+                            if (rand.nextInt(100) > 80) return true;
                             server.setBlockState(pos.up(), ModBlocks.ORGANA_WEED.get().getDefaultState());
                             return true;
                         }));

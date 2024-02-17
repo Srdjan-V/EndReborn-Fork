@@ -15,6 +15,16 @@ public enum PositionValidators implements PositionValidator {
         public boolean validate(WorldServer server, Random rand, BlockPos pos) {
             return true;
         }
+    },
+    BLOCK_ANY {
+        @Override public boolean validate(WorldServer server, Random rand, BlockPos pos) {
+            return !server.isAirBlock(pos);
+        }
+    },
+    BLOCK_DOWN_ANY {
+        @Override public boolean validate(WorldServer server, Random rand, BlockPos pos) {
+            return !server.isAirBlock(pos.down());
+        }
     };
 
     public static PositionValidator blockBushValidator(BlockBush blockBush) {

@@ -98,6 +98,14 @@ public class GenConfig implements Comparable<GenConfig> {
         return new Builder<>();
     }
 
+
+    @Override public String toString() {
+        return "GenConfig{" +
+                "generatorName='" + generatorName + '\'' +
+                ", generatorWeight=" + generatorWeight +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

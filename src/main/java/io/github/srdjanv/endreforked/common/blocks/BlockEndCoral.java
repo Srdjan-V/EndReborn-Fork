@@ -1,13 +1,16 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
 import java.util.Collections;
+import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -20,7 +23,7 @@ import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 import net.minecraftforge.common.IShearable;
 
-public class BlockEndCoral extends BaseBlockBush implements IShearable {
+public class BlockEndCoral extends BaseBlockBush implements IShearable, IGrowable {
     public static final AxisAlignedBB END_BUSH_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D,
             0.09999999403953552D, 0.8999999761581421D, 0.400000011920929D, 0.8999999761581421D);
 
@@ -62,5 +65,43 @@ public class BlockEndCoral extends BaseBlockBush implements IShearable {
     public java.util.List<ItemStack> onSheared(ItemStack item, net.minecraft.world.IBlockAccess world, BlockPos pos,
                                                int fortune) {
         return Collections.singletonList(new ItemStack(ModBlocks.END_CORAL.get()));
+    }
+
+    @Override public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+        return true;
+    }
+
+    @Override public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+        return true;
+    }
+
+    @Override public void grow(World worldIn, Random rand, BlockPos startPos, IBlockState state) {
+        BlockPos upPos = startPos.up();
+
+        for (int i = 0; i < 64; ++i) {
+            BlockPos pos = upPos;
+            int j = 0;
+
+            while (true) {
+                if (j >= i / 16) {
+                    if (worldIn.isAirBlock(pos)) {
+                        if (canPlaceBlockAt(worldIn, pos)) worldIn.setBlockState(pos, getDefaultState());
+                    }
+                    break;
+                }
+
+                pos = pos.add(
+                        rand.nextInt(3) - 1,
+                        (rand.nextInt(3) - 1) * rand.nextInt(3) / 2,
+                        rand.nextInt(3) - 1);
+
+                if (worldIn.getBlockState(pos.down()).getBlock() != Blocks.END_STONE ||
+                        worldIn.getBlockState(pos).isNormalCube()) {
+                    break;
+                }
+
+                ++j;
+            }
+        }
     }
 }

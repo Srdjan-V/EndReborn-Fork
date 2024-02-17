@@ -169,7 +169,7 @@ public final class WorldGenHandler implements IWorldGenerator {
         }
     }
 
-    public static Set<GenConfig> getApplicableGeneratorsForChunk(Set<GenConfig> generatorMap, World world,
+    public static List<GenConfig> getApplicableGeneratorsForChunk(Set<GenConfig> generatorMap, World world,
                                                                  Biome biome) {
         final var dim = world.provider.getDimension();
 
@@ -194,6 +194,6 @@ public final class WorldGenHandler implements IWorldGenerator {
 
                     return true;
                 })
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }

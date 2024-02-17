@@ -102,7 +102,7 @@ public final class ModBlocks {
             () -> new BlockOrganaWeed("ogana_weed"));
 
     public static final Supplier<Block> END_MOSS = maybeRegister(
-            () -> new BlockBase("end_moss", Material.GRASS));
+            () -> new BlockEndMoss("end_moss"));
 
     public static <B extends Block> Supplier<B> register(com.google.common.base.Supplier<B> supplier) {
         Supplier<B> memorized = Suppliers.memoize(supplier);

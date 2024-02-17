@@ -40,7 +40,6 @@ public class SaveDefaultConfigCommand extends CommandBase {
                 .collect(Collectors.toList());
     }
 
-    //todo add static configs
     @Override public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length < 1 || args[0].length() <= 1) throw new WrongUsageException("commands.reloadconfig.usage");
 

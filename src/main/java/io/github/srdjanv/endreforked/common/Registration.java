@@ -37,7 +37,6 @@ final class Registration implements Initializer {
 
     public void preInit(FMLPreInitializationEvent event) {
         CapabilityTimedFlightHandler.register();
-        registerMobs();
 
         GameRegistry.registerTileEntity(MaterializerTile.class,
                 new ResourceLocation(Tags.MODID, "materializerTile"));
@@ -59,6 +58,10 @@ final class Registration implements Initializer {
 
         GameRegistry.addSmelting(ModBlocks.TUNGSTEN_ORE.get(), new ItemStack(ModItems.TUNGSTEN_INGOT.get(), 1), 1.5f);
         handleOreDictionary();
+    }
+
+    @Override public boolean dispose() {
+        return true;
     }
 
     private static void registerEntropyWandRecipes() {
@@ -190,5 +193,5 @@ final class Registration implements Initializer {
                 id, craftingItem);
     }
 
-    private static void registerMobs() {}
+
 }

@@ -16,7 +16,7 @@ public class BushSurfaceGenerator extends PositionedFeature {
     protected final BlockBush block;
 
     public BushSurfaceGenerator(DimConfig config, BlockBush block) {
-        super(Locators.OFFSET_16.andThenLocate(Locators.SURFACE_AIR), config);
+        super(Locators.SURFACE_AIR, config);
         this.block = block;
     }
 
@@ -46,4 +46,7 @@ public class BushSurfaceGenerator extends PositionedFeature {
         return block.getDefaultState();
     }
 
+    @Override protected PositionValidator getStartPosValidator() {
+        return PositionValidators.BLOCK_DOWN_ANY;
+    }
 }

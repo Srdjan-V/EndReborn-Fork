@@ -20,9 +20,7 @@ public enum Locators implements Locator {
             if (validator.validate(server, rand, pos)) return pos;
             return null;
         }
-    }
-    ,SURFACE_BLOCK {
-
+    }, SURFACE_BLOCK {
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
                                           PositionValidator validator) {
@@ -46,7 +44,6 @@ public enum Locators implements Locator {
         }
     },
     SURFACE_AIR {
-
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
                                           PositionValidator validator) {
@@ -61,7 +58,6 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_16 {
-
         @Override
         public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -69,11 +65,22 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_8 {
-
         @Override
         public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
                                 PositionValidator validator) {
             return new BlockPos(pos.getX() + 8, pos.getY(), pos.getZ() + 8);
         }
+    },
+    DIM_CONFIG_MIN_MAX {
+        @Override
+        public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+                                PositionValidator validator) {
+            final int heightDiff = config.maxHeight() - config.minHeight();
+            return new BlockPos(
+                    pos.getX(),
+                    config.minHeight() + rand.nextInt(Math.max(1, heightDiff)),
+                    pos.getZ());
+        }
     }
+
 }
