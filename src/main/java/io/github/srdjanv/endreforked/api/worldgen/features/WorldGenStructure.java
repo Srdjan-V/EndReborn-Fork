@@ -45,7 +45,7 @@ public class WorldGenStructure extends PositionedFeature {
     }
 
     @Override
-    public boolean doGenerate(WorldServer server, Random rand, BlockPos pos) {
+    public boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
         TemplateManager manager = server.getStructureTemplateManager();
         Template template = manager.get(null, location);
 
@@ -57,7 +57,7 @@ public class WorldGenStructure extends PositionedFeature {
         // probably not needed
         // IBlockState state = world.getBlockState(pos);
         // world.notifyBlockUpdate(pos, state, state, 3);
-        template.addBlocksToWorld(server, pos.add(2, 0, 2), settings);
+        template.addBlocksToWorld(server, startPos.add(2, 0, 2), settings);
         return true;
     }
 }

@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.common.comands;
 
+import io.github.srdjanv.endreforked.common.comands.configs.ConfigCommands;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -10,7 +11,7 @@ import io.github.srdjanv.endreforked.Tags;
 public class EndRebornCommands extends CommandTreeBase {
 
     public EndRebornCommands() {
-        super.addSubcommand(new ReloadConfigCommand());
+        super.addSubcommand(new ConfigCommands());
     }
 
     @Override

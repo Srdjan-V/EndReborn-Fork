@@ -37,7 +37,7 @@ public final class ComparingLang {
     public enum ItemLang {
 
         ITEM("status.item.item"),
-        COUNT("status.item.count"),
+        COUNT("status.item.amountModifier"),
         DAMAGE("status.item.damage"),
         TAG("status.item.tag");
 

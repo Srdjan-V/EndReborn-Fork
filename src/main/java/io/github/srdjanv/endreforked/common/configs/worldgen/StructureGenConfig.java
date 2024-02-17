@@ -33,11 +33,12 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("EndRuins",
                 worldGenConfiguration -> {
+                    worldGenConfiguration.weight = 200;
                     worldGenConfiguration.biomeData.whiteListDefaultConfig
                             .add(ResourceLocationWrapper.of(new ResourceLocation("sky")));
                     worldGenConfiguration.defaultGenConfigForData = DimConfig.builder()
                             .setRarity(600)
-                            .setCount(1)
+                            .setAmountModifier(1)
                             .setMaxHeight(100)
                             .setMinHeight(85).build();
                     return worldGenConfiguration;
@@ -46,6 +47,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("EndIslands",
                 worldGenConfiguration -> {
+                    worldGenConfiguration.weight = 180;
                     var data = Stream.of("sky", "plains", "desert", "ocean", "deep_ocean", "savanna")
                             .map(ResourceLocation::new)
                             .map(ResourceLocationWrapper::of).collect(Collectors.toList());
@@ -54,7 +56,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
                     worldGenConfiguration.defaultGenConfigForData = DimConfig.builder()
                             .setRarity(600)
-                            .setCount(1)
+                            .setAmountModifier(1)
                             .setMaxHeight(115)
                             .setMinHeight(90).build();
                     return worldGenConfiguration;
@@ -63,6 +65,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("Observatory",
                 worldGenConfiguration -> {
+                    worldGenConfiguration.weight = 160;
                     var data = Stream.of("desert", "ocean", "deep_ocean", "forest", "birch_forest", "swampland")
                             .map(ResourceLocation::new)
                             .map(ResourceLocationWrapper::of).collect(Collectors.toList());
@@ -70,7 +73,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                     worldGenConfiguration.biomeData.whiteListDefaultConfig.addAll(data);
                     worldGenConfiguration.defaultGenConfigForData = DimConfig.builder()
                             .setRarity(600)
-                            .setCount(1)
+                            .setAmountModifier(1)
                             .setMaxHeight(3)
                             .setMinHeight(3).build();
 
@@ -80,11 +83,12 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("ShipWreck",
                 worldGenConfiguration -> {
+                    worldGenConfiguration.weight = 140;
                     worldGenConfiguration.biomeData.whiteListDefaultConfig
                             .add(ResourceLocationWrapper.of(new ResourceLocation("sky")));
                     worldGenConfiguration.defaultGenConfigForData = DimConfig.builder()
                             .setRarity(600)
-                            .setCount(1)
+                            .setAmountModifier(1)
                             .setMaxHeight(70)
                             .setMinHeight(50).build();
 

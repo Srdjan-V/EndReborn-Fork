@@ -6,6 +6,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import io.github.srdjanv.endreforked.EndReforked;
 import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -57,127 +58,127 @@ public final class ModItems {
 
     public static final Supplier<ArmorMaterial> ARMOUR_OBSIDIAN = Suppliers
             .memoize(() -> EnumHelper.addArmorMaterial("obsidian",
-                    Tags.MOD_PREFIX + "obsidian", 33, new int[] { 4, 7, 8, 4 }, 10,
+                    Tags.MOD_PREFIX + "obsidian", 33, new int[]{4, 7, 8, 4}, 10,
                     SoundEvents.ITEM_ARMOR_EQUIP_IRON, 3.0F));
     public static final Supplier<ArmorMaterial> ARMOUR_DRAGON = Suppliers
             .memoize(() -> EnumHelper.addArmorMaterial("dragon",
-                    Tags.MOD_PREFIX + "dragon", 44, new int[] { 6, 9, 10, 6 }, 10,
+                    Tags.MOD_PREFIX + "dragon", 44, new int[]{6, 9, 10, 6}, 10,
                     SoundEvents.ITEM_ARMOR_EQUIP_IRON, 5.0F));
 
     // Items
-    public static final Supplier<Item> INGOT_ENDORIUM = registerDisableable(() -> new ItemBase("item_ingot_endorium"));
-    public static final Supplier<Item> SHARD_OBSIDIAN = registerDisableable(() -> new ItemBase("item_shard_obsidian"));
-    public static final Supplier<Item> RAW_ENDORIUM = registerDisableable(() -> new ItemBase("item_raw_endorium"));
+    public static final Supplier<Item> INGOT_ENDORIUM = maybeRegister(() -> new ItemBase("item_ingot_endorium"));
+    public static final Supplier<Item> SHARD_OBSIDIAN = maybeRegister(() -> new ItemBase("item_shard_obsidian"));
+    public static final Supplier<Item> RAW_ENDORIUM = maybeRegister(() -> new ItemBase("item_raw_endorium"));
     // TODO: 08/11/2023 implement fixer old:item_dragonite_seeds
-    public static final Supplier<Item> DRAGONITE_SEEDS = registerDisableable(
+    public static final Supplier<Item> DRAGONITE_SEEDS = maybeRegister(
             () -> new ItemDragoniteSeeds("dragonite_seeds"));
-    public static final Supplier<Item> ADVANCED_PEARL = registerDisableable(
+    public static final Supplier<Item> ADVANCED_PEARL = maybeRegister(
             () -> new ItemAdvancedEnderPearl("item_advanced_ender_pearl"));
-    public static final Supplier<Item> END_ESSENCE = registerDisableable(() -> new ItemBase("item_end_essence"));
-    public static final Supplier<Item> END_SHARD = registerDisableable(() -> new ItemBase("item_end_shard"));
-    public static final Supplier<Item> END_RUNE = registerDisableable(() -> new ItemLegendary("item_end_rune"));
-    public static final Supplier<Item> ITEM_LORMYTE_CRYSTAL = registerDisableable(
+    public static final Supplier<Item> END_ESSENCE = maybeRegister(() -> new ItemBase("item_end_essence"));
+    public static final Supplier<Item> END_SHARD = maybeRegister(() -> new ItemBase("item_end_shard"));
+    public static final Supplier<Item> END_RUNE = maybeRegister(() -> new ItemLegendary("item_end_rune"));
+    public static final Supplier<Item> ITEM_LORMYTE_CRYSTAL = maybeRegister(
             () -> new ItemBase("item_lormyte_crystal"));
-    public static final Supplier<Item> TUNGSTEN_INGOT = registerDisableable(() -> new ItemBase("tungsten_ingot"));
-    public static final Supplier<Item> ENDER_STRING = registerDisableable(() -> new ItemLegendary("item_ender_string"));
-    public static final Supplier<Item> WORLD_MIRROR = registerDisableable(
+    public static final Supplier<Item> TUNGSTEN_INGOT = maybeRegister(() -> new ItemBase("tungsten_ingot"));
+    public static final Supplier<Item> ENDER_STRING = maybeRegister(() -> new ItemLegendary("item_ender_string"));
+    public static final Supplier<Item> WORLD_MIRROR = maybeRegister(
             () -> new ItemWorldMirror("item_world_mirror"));
-    public static final Supplier<Item> DRAGONITE_TEA = registerDisableable(
+    public static final Supplier<Item> DRAGONITE_TEA = maybeRegister(
             () -> new ItemDragoniteTea("item_dragonite_tea"));
-    public static final Supplier<Item> ANGEL_FEATHER = registerDisableable(() -> new ItemBase("item_angel_feather"));
-    public static final Supplier<Item> DRAGON_SCALES = registerDisableable(() -> new ItemBase("dragon_scales"));
-    public static final Supplier<Item> XORCITE_SHARD = registerDisableable(() -> new ItemBase("xorcite_shard"));
-    public static final Supplier<Item> INFUSED_METALL = registerDisableable(() -> new ItemBase("ingot_infused"));
-    public static final Supplier<Item> SWORD_SHARD = registerDisableable(() -> new ItemBase("sword_shard"));
-    public static final Supplier<Item> CATALYST = registerDisableable(() -> new ItemCatalyst("catalyst"));
-    public static final Supplier<Item> RECORD = registerDisableable(
+    public static final Supplier<Item> ANGEL_FEATHER = maybeRegister(() -> new ItemBase("item_angel_feather"));
+    public static final Supplier<Item> DRAGON_SCALES = maybeRegister(() -> new ItemBase("dragon_scales"));
+    public static final Supplier<Item> XORCITE_SHARD = maybeRegister(() -> new ItemBase("xorcite_shard"));
+    public static final Supplier<Item> INFUSED_METALL = maybeRegister(() -> new ItemBase("ingot_infused"));
+    public static final Supplier<Item> SWORD_SHARD = maybeRegister(() -> new ItemBase("sword_shard"));
+    public static final Supplier<Item> CATALYST = maybeRegister(() -> new ItemCatalyst("catalyst"));
+    public static final Supplier<Item> RECORD = maybeRegister(
             () -> new ItemEndRecord("end_record", ModSounds.THE_VOID));
-    public static final Supplier<Item> TUNGSTEN_NUGGET = registerDisableable(() -> new ItemBase("tungsten_nugget"));
+    public static final Supplier<Item> TUNGSTEN_NUGGET = maybeRegister(() -> new ItemBase("tungsten_nugget"));
 
     // public static final XorcitePlantBlockItem plantItem = new XorcitePlantBlockItem(ModBlocks.DRAGON_ESSENCE);
 
     // Tools
-    public static final Supplier<Item> PICKAXE_ENDORIUM = registerDisableable(() -> {
+    public static final Supplier<Item> PICKAXE_ENDORIUM = maybeRegister(() -> {
         return new ToolPickaxe("tool_pickaxe_endorium", TOOL_ENDORIUM.get());
     });
-    public static final Supplier<Item> SWORD_ENDORIUM = registerDisableable(() -> {
+    public static final Supplier<Item> SWORD_ENDORIUM = maybeRegister(() -> {
         return new ToolSword("tool_sword_endorium", TOOL_ENDORIUM.get());
     });
-    public static final Supplier<Item> HOE_ENDORIUM = registerDisableable(() -> {
+    public static final Supplier<Item> HOE_ENDORIUM = maybeRegister(() -> {
         return new ToolHoe("tool_hoe_endorium", TOOL_ENDORIUM.get());
     });
-    public static final Supplier<Item> AXE_ENDORIUM = registerDisableable(() -> {
+    public static final Supplier<Item> AXE_ENDORIUM = maybeRegister(() -> {
         return new ToolAxe("tool_axe_endorium", TOOL_ENDORIUM.get());
     });
-    public static final Supplier<Item> SHOVEL_ENDORIUM = registerDisableable(() -> {
+    public static final Supplier<Item> SHOVEL_ENDORIUM = maybeRegister(() -> {
         return new ToolShovel("tool_shovel_endorium", TOOL_ENDORIUM.get());
     });
-    public static final Supplier<Item> PICKAXE_WOLFRAMIUM = registerDisableable(() -> {
+    public static final Supplier<Item> PICKAXE_WOLFRAMIUM = maybeRegister(() -> {
         return new ToolPickaxe("tool_pickaxe_wolframium", TUNGSTEN.get());
     });
-    public static final Supplier<Item> SWORD_WOLFRAMIUM = registerDisableable(() -> {
+    public static final Supplier<Item> SWORD_WOLFRAMIUM = maybeRegister(() -> {
         return new ToolSword("tool_sword_wolframium", TUNGSTEN.get());
     });
-    public static final Supplier<Item> HOE_WOLFRAMIUM = registerDisableable(() -> {
+    public static final Supplier<Item> HOE_WOLFRAMIUM = maybeRegister(() -> {
         return new ToolHoe("tool_hoe_wolframium", TUNGSTEN.get());
     });
-    public static final Supplier<Item> AXE_WOLFRAMIUM = registerDisableable(() -> {
+    public static final Supplier<Item> AXE_WOLFRAMIUM = maybeRegister(() -> {
         return new ToolAxe("tool_axe_wolframium", TUNGSTEN.get());
     });
-    public static final Supplier<Item> SHOVEL_WOLFRAMIUM = registerDisableable(() -> {
+    public static final Supplier<Item> SHOVEL_WOLFRAMIUM = maybeRegister(() -> {
         return new ToolShovel("tool_shovel_wolframium", TUNGSTEN.get());
     });
-    public static final Supplier<Item> ENTROPY_WAND = registerDisableable(
+    public static final Supplier<Item> ENTROPY_WAND = maybeRegister(
             () -> new ToolEntropyWand("entropy_wand", TOOL_MAGNIFIER.get()));
-    public static final Supplier<Item> HAMMER_IRON = registerDisableable(() -> new ItemHammer("tool_hammer_iron"));
-    public static final Supplier<Item> ENDER_BOW = registerDisableable(() -> new ItemEnderBow("ender_bow"));
-    public static final Supplier<Item> ENDER_SWORD = registerDisableable(
+    public static final Supplier<Item> HAMMER_IRON = maybeRegister(() -> new ItemHammer("tool_hammer_iron"));
+    public static final Supplier<Item> ENDER_BOW = maybeRegister(() -> new ItemEnderBow("ender_bow"));
+    public static final Supplier<Item> ENDER_SWORD = maybeRegister(
             () -> new ItemEnderSword("ender_sword", TOOL_END.get()));
-    public static final Supplier<Item> ENDER_HOOK = registerDisableable(
+    public static final Supplier<Item> ENDER_HOOK = maybeRegister(
             () -> new ItemDeather("tool_magnifier", TOOL_MAGNIFIER.get()));
 
     // Armors
-    public static final Supplier<Item> CHESTPLATE_OBSIDIAN = registerDisableable(() -> {
+    public static final Supplier<Item> CHESTPLATE_OBSIDIAN = maybeRegister(() -> {
         return new ArmourBase("armour_chestplate_obsidian", ARMOUR_OBSIDIAN.get(), 1,
                 EntityEquipmentSlot.CHEST);
     });
-    public static final Supplier<Item> LEGGINGS_OBSIDIAN = registerDisableable(() -> {
+    public static final Supplier<Item> LEGGINGS_OBSIDIAN = maybeRegister(() -> {
         return new ArmourBase("armour_leggings_obsidian", ARMOUR_OBSIDIAN.get(), 2,
                 EntityEquipmentSlot.LEGS);
     });
-    public static final Supplier<Item> BOOTS_OBSIDIAN = registerDisableable(() -> {
+    public static final Supplier<Item> BOOTS_OBSIDIAN = maybeRegister(() -> {
         return new ArmourBase("armour_boots_obsidian", ARMOUR_OBSIDIAN.get(), 1,
                 EntityEquipmentSlot.FEET);
     });
-    public static final Supplier<Item> HELMET_OBSIDIAN = registerDisableable(() -> {
+    public static final Supplier<Item> HELMET_OBSIDIAN = maybeRegister(() -> {
         return new CustomModelArmor("armour_helmet_helmet", ARMOUR_OBSIDIAN.get(), 1,
                 EntityEquipmentSlot.HEAD, ModelEArmor::new);
     });
-    public static final Supplier<Item> CHESTPLATE_DRAGON = registerDisableable(() -> {
+    public static final Supplier<Item> CHESTPLATE_DRAGON = maybeRegister(() -> {
         return new ArmourBase("armour_chestplate_dragon", ARMOUR_DRAGON.get(), 1,
                 EntityEquipmentSlot.CHEST);
     });
-    public static final Supplier<Item> LEGGINGS_DRAGON = registerDisableable(() -> {
+    public static final Supplier<Item> LEGGINGS_DRAGON = maybeRegister(() -> {
         return new ArmourBase("armour_leggings_dragon", ARMOUR_DRAGON.get(), 2,
                 EntityEquipmentSlot.LEGS);
     });
-    public static final Supplier<Item> BOOTS_DRAGON = registerDisableable(() -> {
+    public static final Supplier<Item> BOOTS_DRAGON = maybeRegister(() -> {
         return new ArmourBase("armour_boots_dragon", ARMOUR_DRAGON.get(), 1,
                 EntityEquipmentSlot.FEET);
     });
-    public static final Supplier<Item> HELMET_DRAGON = registerDisableable(() -> {
+    public static final Supplier<Item> HELMET_DRAGON = maybeRegister(() -> {
         return new CustomModelArmor("armour_helmet_dragon", ARMOUR_DRAGON.get(), 1,
                 EntityEquipmentSlot.HEAD, ModelDArmor::new);
     });
 
     // Food
-    public static final Supplier<Item> ENDER_FLESH = registerDisableable(() -> new FoodEnderFlesh("ender_flesh"));// TODO:
+    public static final Supplier<Item> ENDER_FLESH = maybeRegister(() -> new FoodEnderFlesh("ender_flesh"));// TODO:
     // 04/11/2023 add
     // fixer
     // TODO: 08/11/2023 implement fixer old:food_dragonite_berries
-    public static final Supplier<Item> DRAGONITE_BERRIES = registerDisableable(
+    public static final Supplier<Item> DRAGONITE_BERRIES = maybeRegister(
             () -> new DragoniteBerries("dragonite_berries"));
-    public static final Supplier<Item> CHORUS_SOUP = registerDisableable(
+    public static final Supplier<Item> CHORUS_SOUP = maybeRegister(
             () -> new FoodChorusSoup(5, "food_chorus_soup"));
 
     // TODO: 22/10/2023 rename itemBlocks
@@ -211,6 +212,9 @@ public final class ModItems {
     // TODO: 20/11/2023 add worldgen
     public static final Supplier<ItemBlock> END_CORAL = registerItemBlock(ModBlocks.END_CORAL);
 
+    public static final Supplier<ItemBlock> ORGANA_WEED = registerItemBlock(ModBlocks.ORGANA_WEED);
+    public static final Supplier<ItemBlock> END_MOSS = registerItemBlock(ModBlocks.END_MOSS);
+
     public static <I extends Item> Supplier<I> register(final com.google.common.base.Supplier<I> supplier) {
         var memorized = Suppliers.memoize(supplier);
         ITEMS.add(memorized);
@@ -227,13 +231,15 @@ public final class ModItems {
         return memorized;
     }
 
-    public static <I extends Item> Supplier<I> registerDisableable(final com.google.common.base.Supplier<I> supplier) {
+    public static <I extends Item> Supplier<I> maybeRegister(final com.google.common.base.Supplier<I> supplier) {
         var memorized = Suppliers.memoize(() -> {
             var item = supplier.get();
             var blackList = DisabledContentConfig.getInstance().getLoadedData();
-            if (Objects.nonNull(blackList)) {
-                if (blackList.items.contains(item.getRegistryName().getPath())) return null;
+            if (Objects.nonNull(blackList) && blackList.items.contains(item.getRegistryName().getPath())) {
+                EndReforked.LOGGER.info("Skipping registration of Item: '{}'", item.getRegistryName());
+                return null;
             }
+
             return item;
         });
         ITEMS.add(memorized);

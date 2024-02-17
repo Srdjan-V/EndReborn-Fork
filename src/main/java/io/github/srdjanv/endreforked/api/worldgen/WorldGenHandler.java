@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import io.github.srdjanv.endreforked.EndReforked;
+import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -30,9 +32,9 @@ public final class WorldGenHandler implements IWorldGenerator {
         return instance;
     }
 
-    private final Set<GenConfig> oreGenerators = new ObjectLinkedOpenHashSet<>();
-    private final Set<GenConfig> genericGenerators = new ObjectLinkedOpenHashSet<>();
-    private final Set<GenConfig> structureGenerators = new ObjectLinkedOpenHashSet<>();
+    private final Set<GenConfig> oreGenerators = new ObjectAVLTreeSet<>();
+    private final Set<GenConfig> genericGenerators = new ObjectAVLTreeSet<>();
+    private final Set<GenConfig> structureGenerators = new ObjectAVLTreeSet<>();
     private final List<Runnable> mutators = new ObjectArrayList<>();
 
     private void mutate() {
@@ -52,7 +54,11 @@ public final class WorldGenHandler implements IWorldGenerator {
     }
 
     public void registerOreGenerator(GenConfig genConfig) {
-        mutators.add(() -> oreGenerators.add(genConfig));
+        mutators.add(() -> {
+            if (!oreGenerators.add(genConfig)) {
+                EndReforked.LOGGER.warn("Ignoring GenConfig: '{}'", genConfig.getGeneratorName());
+            }
+        });
     }
 
     public void unregisterOreGenerator(GenConfig genConfig) {
@@ -63,8 +69,13 @@ public final class WorldGenHandler implements IWorldGenerator {
         mutators.add(() -> oreGenerators.removeIf(filter));
     }
 
+
     public void registerGenericGenerator(GenConfig genConfig) {
-        mutators.add(() -> genericGenerators.add(genConfig));
+        mutators.add(() -> {
+            if (!genericGenerators.add(genConfig)) {
+                EndReforked.LOGGER.warn("Ignoring GenConfig: '{}'", genConfig.getGeneratorName());
+            }
+        });
     }
 
     public void unregisterGenericGenerator(GenConfig genConfig) {
@@ -76,11 +87,15 @@ public final class WorldGenHandler implements IWorldGenerator {
     }
 
     public void registerStructureGenerator(GenConfig genConfig) {
-        mutators.add(() -> structureGenerators.add(genConfig));
+        mutators.add(() -> {
+            if (!structureGenerators.add(genConfig)) {
+                EndReforked.LOGGER.warn("Ignoring GenConfig: '{}'", genConfig.getGeneratorName());
+            }
+        });
     }
 
     public void unregisterStructureGenerator(GenConfig genConfig) {
-        mutators.add(() -> structureGenerators.add(genConfig));
+        mutators.add(() -> structureGenerators.remove(genConfig));
     }
 
     public void unregisterStructureGenerator(Predicate<GenConfig> filter) {

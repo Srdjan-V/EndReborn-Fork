@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.common.comands;
+package io.github.srdjanv.endreforked.common.comands.configs;
 
 import java.util.Arrays;
 import java.util.List;

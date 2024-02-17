@@ -1,11 +1,17 @@
 package io.github.srdjanv.endreforked.common.configs.worldgen;
 
 import java.util.Objects;
+import java.util.Random;
 
-import net.minecraft.block.BlockStone;
+import io.github.srdjanv.endreforked.api.worldgen.features.BushSurfaceGenerator;
+import io.github.srdjanv.endreforked.api.worldgen.features.RadiusSurfaceGenerator;
+import io.github.srdjanv.endreforked.api.worldgen.features.SphereGenerator;
+import io.github.srdjanv.endreforked.common.blocks.BlockEnderCrop;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -13,7 +19,6 @@ import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
 import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import io.github.srdjanv.endreforked.common.configs.worldgen.base.WorldGenBaseConfigReloadable;
 
 public class GenericGenConfig extends WorldGenBaseConfigReloadable {
@@ -31,57 +36,116 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        registerGen("EssenceOre",
+        registerGen("Lormyte",
                 worldGenConfiguration -> {
-                    worldGenConfiguration.dimData.whiteList.put(0, DimConfig.builder()
-                            .setRarity(80)
-                            .setCount(20)
-                            .setMaxHeight(256)
-                            .setMinHeight(0).build());
+                    worldGenConfiguration.weight = 200;
 
                     worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
-                            .setRarity(60)
-                            .setCount(40)
-                            .setMaxHeight(256)
-                            .setMinHeight(0).build());
-                    return worldGenConfiguration;
-                },
-                (world, biome, config) -> new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(),
-                        config.count(), BlockMatcher.forBlock(Blocks.OBSIDIAN)));
-
-        registerGen("TungstenOre",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.dimData.whiteList.put(0, DimConfig.builder()
                             .setRarity(80)
-                            .setCount(10)
-                            .setMaxHeight(48)
+                            .setAmountModifier(8)
+                            .setMaxHeight(35)
+                            .setMinHeight(15).build());
+
+                    return worldGenConfiguration;
+                },
+                (world, biome, config) -> {
+                    return new SphereGenerator(config, (server, rand, pos) -> {
+                        var state = server.getBlockState(pos);
+                        return state.getBlock() == Blocks.END_STONE;
+                    }, (server, rand, pos) -> {
+                        if (rand.nextInt(100) > 80) return false;
+                        server.setBlockState(pos, ModBlocks.LORMYTE_CRYSTAL_BLOCK.get().getDefaultState());
+                        return true;
+                    });
+                });
+
+        registerGen("EndMagma",
+                worldGenConfiguration -> {
+                    worldGenConfiguration.weight = 180;
+                    worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                            .setRarity(80)
+                            .setAmountModifier(8)
+                            .setMaxHeight(15)
                             .setMinHeight(0).build());
                     return worldGenConfiguration;
                 },
-                (world, biome, config) -> new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(),
-                        config.count(), input -> {
-                            if (input != null && input.getBlock() == Blocks.STONE) {
-                                return input.getValue(BlockStone.VARIANT).equals(BlockStone.EnumType.DIORITE);
-                            } else return false;
+                (world, biome, config) -> {
+                    return new SphereGenerator(config, (server, rand, pos) -> {
+                        var state = server.getBlockState(pos);
+                        return state.getBlock() == Blocks.END_STONE;
+                    }, (server, rand, pos) -> {
+                        if (rand.nextInt(100) > 80) return false;
+                        server.setBlockState(pos, ModBlocks.END_MAGMA_BLOCK.get().getDefaultState());
+                        return true;
+                    });
+                });
+
+        registerGen("EntropyEndStone",
+                worldGenConfiguration -> {
+                    worldGenConfiguration.weight = 160;
+                    worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                            .setRarity(60)
+                            .setAmountModifier(30)
+                            .setMaxHeight(22)
+                            .setMinHeight(0).build());
+                    return worldGenConfiguration;
+                },
+                (world, biome, config) -> new WorldGenMinable(
+                        ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), config.amountModifier(),
+                        BlockMatcher.forBlock(Blocks.END_STONE)));
+
+
+        registerGen("EndMossPatch", worldGenConfiguration -> {
+            worldGenConfiguration.weight = 140;
+            worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                    .setRarity(5)
+                    .setAmountModifier(4)
+                    .setMaxHeight(90)
+                    .setMinHeight(50).build());
+
+            return worldGenConfiguration;
+        }, (world, biome, config) ->
+                new RadiusSurfaceGenerator(config,
+                        (server, rand, pos) -> server.getBlockState(pos).getBlock() == Blocks.END_STONE,
+                        (server, rand, pos) -> {
+                            if (rand.nextInt(100) > 80) return false;
+                            if (server.isAirBlock(pos) && !server.isAirBlock(pos.up())) return false;
+                            server.setBlockState(pos, ModBlocks.END_MOSS.get().getDefaultState());
+                            server.setBlockState(pos.up(), ModBlocks.ORGANA_WEED.get().getDefaultState());
+                            return true;
                         }));
 
-        registerGen("TungstenEndOre",
+        registerGen("EndCoral",
                 worldGenConfiguration -> {
-                    worldGenConfiguration.defaultGenConfigForData = DimConfig.builder()
-                            .setRarity(80)
-                            .setCount(25)
-                            .setMaxHeight(48)
-                            .setMinHeight(0).build();
-
-                    worldGenConfiguration.dimData.whiteListDefaultConfig.add(1);
-                    worldGenConfiguration.biomeData.whiteListDefaultConfig
-                            .add(ResourceLocationWrapper.of(new ResourceLocation("sky")));
-
+                    worldGenConfiguration.weight = 120;
+                    worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                            .setRarity(0)
+                            .setAmountModifier(20)
+                            .setMaxHeight(90)
+                            .setMinHeight(50).build());
                     return worldGenConfiguration;
                 },
-                ((world, biome, config) -> new WorldGenMinable(
-                        ModBlocks.TUNGSTEN_END_ORE.get().getDefaultState(),
-                        config.count(), BlockMatcher.forBlock(Blocks.END_STONE))));
+                (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.END_CORAL.get()));
+
+        registerGen("EndFlower",
+                worldGenConfiguration -> {
+                    worldGenConfiguration.weight = 100;
+                    worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                            .setRarity(5)
+                            .setAmountModifier(6)
+                            .setMaxHeight(90)
+                            .setMinHeight(50).build());
+                    return worldGenConfiguration;
+                },
+                (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.ENDER_FLOWER_CROP.get()) {
+
+                    @Override
+                    public IBlockState getState(World world, Random random, BlockPos pos) {
+                        return block.getDefaultState().withProperty(BlockEnderCrop.AGE,
+                                random.nextInt(BlockEnderCrop.AGE.getAllowedValues().size() - 1));
+                    }
+                });
+
     }
 
     @Override
@@ -89,7 +153,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
         var instance = WorldGenHandler.getInstance();
         loadedDataData.forEach((name, worldGenConfiguration) -> {
             GenConfig genConfig = worldGenConfiguration.parseConfig(name, nameToGenerator.get(name));
-            instance.registerOreGenerator(genConfig);
+            instance.registerGenericGenerator(genConfig);
         });
     }
 

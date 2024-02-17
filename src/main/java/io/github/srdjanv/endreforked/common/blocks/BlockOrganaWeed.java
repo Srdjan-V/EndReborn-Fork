@@ -1,31 +1,33 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import java.util.Collections;
-
-import javax.annotation.Nullable;
-
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
-
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 import net.minecraftforge.common.IShearable;
 
-public class BlockEndCoral extends BaseBlockBush implements IShearable {
-    public static final AxisAlignedBB END_BUSH_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D,
-            0.09999999403953552D, 0.8999999761581421D, 0.400000011920929D, 0.8999999761581421D);
+import javax.annotation.Nullable;
+import java.util.Collections;
 
-    public BlockEndCoral(String name) {
+import static io.github.srdjanv.endreforked.common.blocks.BlockEndCoral.END_BUSH_AABB;
+
+public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
+    public BlockOrganaWeed(String name) {
         super(name, Material.VINE);
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+        return MapColor.PURPLE;
     }
 
     @Override
@@ -33,15 +35,8 @@ public class BlockEndCoral extends BaseBlockBush implements IShearable {
         return END_BUSH_AABB;
     }
 
-    @Override
-    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return MapColor.YELLOW;
-    }
-
-    @Override
-    protected boolean canSustainBush(IBlockState state) {
-        return state.getBlock() == net.minecraft.init.Blocks.END_BRICKS ||
-                state.getBlock() == net.minecraft.init.Blocks.END_STONE;
+    @Override protected boolean canSustainBush(IBlockState state) {
+        return state.getBlock() == ModBlocks.END_MOSS.get();
     }
 
     @Override
@@ -61,6 +56,6 @@ public class BlockEndCoral extends BaseBlockBush implements IShearable {
     @Override
     public java.util.List<ItemStack> onSheared(ItemStack item, net.minecraft.world.IBlockAccess world, BlockPos pos,
                                                int fortune) {
-        return Collections.singletonList(new ItemStack(ModBlocks.END_CORAL.get()));
+        return Collections.singletonList(new ItemStack(ModBlocks.ORGANA_WEED.get()));
     }
 }

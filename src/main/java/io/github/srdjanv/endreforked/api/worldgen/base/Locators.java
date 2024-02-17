@@ -15,7 +15,13 @@ import org.jetbrains.annotations.Nullable;
 import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 
 public enum Locators implements Locator {
-    SURFACE_BLOCK {
+    EMPTY {
+        @Override public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos, PositionValidator validator) {
+            if (validator.validate(server, rand, pos)) return pos;
+            return null;
+        }
+    }
+    ,SURFACE_BLOCK {
 
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,

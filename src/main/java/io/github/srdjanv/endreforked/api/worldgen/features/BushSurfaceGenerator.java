@@ -11,23 +11,21 @@ import net.minecraft.world.WorldServer;
 import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 
-public class SurfaceGenerator extends PositionedFeature {
+public class BushSurfaceGenerator extends PositionedFeature {
 
     protected final BlockBush block;
-    protected final PositionValidator positionValidator;
 
-    public SurfaceGenerator(DimConfig config, BlockBush block) {
+    public BushSurfaceGenerator(DimConfig config, BlockBush block) {
         super(Locators.OFFSET_16.andThenLocate(Locators.SURFACE_AIR), config);
         this.block = block;
-        positionValidator = PositionValidators.blockBushValidator(block);
     }
 
     @Override
-    protected boolean doGenerate(WorldServer server, Random rand, BlockPos position) {
+    protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
         int count = 0;
-        for (int i = 0; i < config.count() * 2; ++i) {
-            if (count > config.count()) break;
-            BlockPos blockpos = position.add(
+        for (int i = 0; i < config.amountModifier() * 2; ++i) {
+            if (count > config.amountModifier()) break;
+            BlockPos blockpos = startPos.add(
                     rand.nextInt(8) - rand.nextInt(8),
                     rand.nextInt(4) - rand.nextInt(4),
                     rand.nextInt(8) - rand.nextInt(8));
@@ -41,15 +39,11 @@ public class SurfaceGenerator extends PositionedFeature {
             }
         }
 
-        return count > config.count();
+        return count > config.amountModifier();
     }
 
     public IBlockState getState(World world, Random random, BlockPos pos) {
         return block.getDefaultState();
     }
 
-    @Override
-    protected PositionValidator getValidator() {
-        return positionValidator;
-    }
 }

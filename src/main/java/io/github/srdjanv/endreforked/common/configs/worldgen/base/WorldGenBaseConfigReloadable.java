@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.common.configs.worldgen.base;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public abstract class WorldGenBaseConfigReloadable extends ReloadableServerSideC
     }
 
     protected void registerGen(String name,
-                               Function<WorldGenSchema, WorldGenSchema> worldGenConfig,
+                               Function<WorldGenSchema, WorldGenSchema> worldGenConfig,//todo create builder
                                GeneratorBuilder builder) {
         defaultData.put(name, worldGenConfig);
         nameToGenerator.put(name, builder);
@@ -45,7 +46,7 @@ public abstract class WorldGenBaseConfigReloadable extends ReloadableServerSideC
 
     @Override
     protected boolean validateLoadedData(Map<String, WorldGenSchema> newLoadedData) {
-        return newLoadedData.size() == defaultData.size();
+        return newLoadedData.keySet().containsAll(defaultData.keySet());
     }
 
     @Override
@@ -54,15 +55,22 @@ public abstract class WorldGenBaseConfigReloadable extends ReloadableServerSideC
                                                      Map<String, WorldGenSchema> existingData, boolean fistLoad) {
         if (fistLoad) {
             Map<String, WorldGenSchema> data = new Object2ObjectOpenHashMap<>();
-            data.putAll(defaultData);
-            data.putAll(loadedData);
+            for (var entry : defaultData.entrySet()) {
+                WorldGenSchema worldGenSchema = loadedData.get(entry.getKey());
+                if (Objects.isNull(worldGenSchema)) worldGenSchema = entry.getValue();
+                data.put(entry.getKey(), worldGenSchema);
+            }
+
             return data;
         }
 
         Map<String, WorldGenSchema> data = new Object2ObjectOpenHashMap<>();
-        data.putAll(defaultData);
-        data.putAll(existingData);
-        data.putAll(loadedData);
+        for (var entry : defaultData.entrySet()) {
+            WorldGenSchema worldGenSchema = loadedData.get(entry.getKey());
+            if (Objects.isNull(worldGenSchema)) worldGenSchema = existingData.get(entry.getKey());
+            if (Objects.isNull(worldGenSchema)) worldGenSchema = entry.getValue();
+            data.put(entry.getKey(), worldGenSchema);
+        }
         return data;
     }
 

@@ -21,8 +21,8 @@ public class WorldGenLormyte extends WorldGenerator {
     public boolean generate(World worldIn, Random rand, BlockPos position) {
         position = position.add(16, 0, 16);
         int generated = 0;
-        for (int i = 0; i < config.count() * 2; ++i) {
-            if (generated >= config.count()) return true;
+        for (int i = 0; i < config.amountModifier() * 2; ++i) {
+            if (generated >= config.amountModifier()) return true;
             BlockPos blockpos = position.add(
                     rand.nextInt(8) - rand.nextInt(8),
                     rand.nextInt(4) - rand.nextInt(4),

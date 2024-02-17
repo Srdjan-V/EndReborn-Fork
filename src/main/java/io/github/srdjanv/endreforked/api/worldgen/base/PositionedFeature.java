@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.api.worldgen.base;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -47,14 +48,14 @@ public abstract class PositionedFeature extends WorldGenerator {
             return false;
         }
 
-        position = getStartPos(server, rand, position, getValidator());
+        position = getStartPos(server, rand, position, getStartPosValidator());
         if (Objects.isNull(position)) return false;
         return doGenerate(server, rand, position);
     }
 
-    protected abstract boolean doGenerate(WorldServer worldIn, Random rand, BlockPos position);
+    protected abstract boolean doGenerate(WorldServer server, Random rand, BlockPos startPos);
 
-    protected PositionValidator getValidator() {
+    protected PositionValidator getStartPosValidator() {
         return PositionValidators.ALWAYS_TRUE;
     }
 }

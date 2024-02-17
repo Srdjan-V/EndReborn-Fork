@@ -7,13 +7,13 @@ public class DimConfig {
     private final int minHeight;
     private final int maxHeight;
     private final int rarity;
-    private final int count;
+    private final int amountModifier;
 
-    private DimConfig(int minHeight, int maxHeight, int rarity, int count) {
+    private DimConfig(int minHeight, int maxHeight, int rarity, int amountModifier) {
         this.minHeight = minHeight;
         this.maxHeight = maxHeight;
         this.rarity = rarity;
-        this.count = count;
+        this.amountModifier = amountModifier;
     }
 
     public int minHeight() {
@@ -28,8 +28,8 @@ public class DimConfig {
         return rarity;
     }
 
-    public int count() {
-        return count;
+    public int amountModifier() {
+        return amountModifier;
     }
 
     @Override
@@ -38,12 +38,12 @@ public class DimConfig {
         if (o == null || getClass() != o.getClass()) return false;
         DimConfig dimConfig = (DimConfig) o;
         return minHeight == dimConfig.minHeight && maxHeight == dimConfig.maxHeight && rarity == dimConfig.rarity &&
-                count == dimConfig.count;
+                amountModifier == dimConfig.amountModifier;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(minHeight, maxHeight, rarity, count);
+        return Objects.hash(minHeight, maxHeight, rarity, amountModifier);
     }
 
     public static Builder builder() {
@@ -55,7 +55,7 @@ public class DimConfig {
         private Integer minHeight;
         private Integer maxHeight;
         private Integer rarity;
-        private Integer count;
+        private Integer amountModifier;
 
         private Builder() {}
 
@@ -74,8 +74,8 @@ public class DimConfig {
             return this;
         }
 
-        public Builder setCount(int count) {
-            this.count = count;
+        public Builder setAmountModifier(int amountModifier) {
+            this.amountModifier = amountModifier;
             return this;
         }
 
@@ -84,7 +84,7 @@ public class DimConfig {
                     Objects.requireNonNull(minHeight),
                     Objects.requireNonNull(maxHeight),
                     Objects.requireNonNull(rarity),
-                    Objects.requireNonNull(count));
+                    Objects.requireNonNull(amountModifier));
         }
     }
 }
