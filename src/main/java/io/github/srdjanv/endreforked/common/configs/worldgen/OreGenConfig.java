@@ -2,11 +2,9 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 
 import java.util.Objects;
 
-import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -14,6 +12,7 @@ import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
 import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import io.github.srdjanv.endreforked.common.configs.worldgen.base.WorldGenBaseConfigReloadable;
 
 public class OreGenConfig extends WorldGenBaseConfigReloadable {
@@ -60,10 +59,10 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(),
                         config.amountModifier(), input -> {
-                    if (input != null && input.getBlock() == Blocks.STONE) {
-                        return input.getValue(BlockStone.VARIANT).equals(BlockStone.EnumType.DIORITE);
-                    } else return false;
-                }));
+                            if (input != null && input.getBlock() == Blocks.STONE) {
+                                return input.getValue(BlockStone.VARIANT).equals(BlockStone.EnumType.DIORITE);
+                            } else return false;
+                        }));
 
         registerGen("TungstenEndOre",
                 builder -> {
@@ -82,7 +81,6 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                 ((world, biome, config) -> new WorldGenMinable(
                         ModBlocks.TUNGSTEN_END_ORE.get().getDefaultState(),
                         config.amountModifier(), BlockMatcher.forBlock(Blocks.END_STONE))));
-
     }
 
     @Override

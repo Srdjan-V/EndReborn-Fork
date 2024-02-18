@@ -6,7 +6,6 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import io.github.srdjanv.endreforked.EndReforked;
 import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -21,6 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.google.common.base.Suppliers;
 
+import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.client.armor.ModelDArmor;
 import io.github.srdjanv.endreforked.client.armor.ModelEArmor;
@@ -58,11 +58,11 @@ public final class ModItems {
 
     public static final Supplier<ArmorMaterial> ARMOUR_OBSIDIAN = Suppliers
             .memoize(() -> EnumHelper.addArmorMaterial("obsidian",
-                    Tags.MOD_PREFIX + "obsidian", 33, new int[]{4, 7, 8, 4}, 10,
+                    Tags.MOD_PREFIX + "obsidian", 33, new int[] { 4, 7, 8, 4 }, 10,
                     SoundEvents.ITEM_ARMOR_EQUIP_IRON, 3.0F));
     public static final Supplier<ArmorMaterial> ARMOUR_DRAGON = Suppliers
             .memoize(() -> EnumHelper.addArmorMaterial("dragon",
-                    Tags.MOD_PREFIX + "dragon", 44, new int[]{6, 9, 10, 6}, 10,
+                    Tags.MOD_PREFIX + "dragon", 44, new int[] { 6, 9, 10, 6 }, 10,
                     SoundEvents.ITEM_ARMOR_EQUIP_IRON, 5.0F));
 
     // Items

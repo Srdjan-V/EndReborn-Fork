@@ -4,8 +4,6 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -17,8 +15,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.jetbrains.annotations.Unmodifiable;
 
+import io.github.srdjanv.endreforked.EndReforked;
+import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 
 public final class WorldGenHandler implements IWorldGenerator {
 
@@ -68,7 +67,6 @@ public final class WorldGenHandler implements IWorldGenerator {
     public void unregisterOreGenerator(Predicate<GenConfig> filter) {
         mutators.add(() -> oreGenerators.removeIf(filter));
     }
-
 
     public void registerGenericGenerator(GenConfig genConfig) {
         mutators.add(() -> {
@@ -170,7 +168,7 @@ public final class WorldGenHandler implements IWorldGenerator {
     }
 
     public static List<GenConfig> getApplicableGeneratorsForChunk(Set<GenConfig> generatorMap, World world,
-                                                                 Biome biome) {
+                                                                  Biome biome) {
         final var dim = world.provider.getDimension();
 
         return generatorMap.stream()

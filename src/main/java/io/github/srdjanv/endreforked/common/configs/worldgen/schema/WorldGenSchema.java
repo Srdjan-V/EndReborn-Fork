@@ -46,11 +46,13 @@ public class WorldGenSchema {
             this.whiteListMap = null;
         }
 
-        @Override public boolean equals(Object o) {
+        @Override
+        public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Data<?> data = (Data<?>) o;
-            return Objects.equals(blackList, data.blackList) && Objects.equals(whiteList, data.whiteList) && Objects.equals(whiteListMap, data.whiteListMap);
+            return Objects.equals(blackList, data.blackList) && Objects.equals(whiteList, data.whiteList) &&
+                    Objects.equals(whiteListMap, data.whiteListMap);
         }
 
         @Override
@@ -59,7 +61,8 @@ public class WorldGenSchema {
         }
     }
 
-    private WorldGenSchema(boolean enableGeneration, int weight, DimConfig dimConfigFallback, Data<Integer> dimData, Data<ResourceLocationWrapper> biomeData) {
+    private WorldGenSchema(boolean enableGeneration, int weight, DimConfig dimConfigFallback, Data<Integer> dimData,
+                           Data<ResourceLocationWrapper> biomeData) {
         this.enableGeneration = enableGeneration;
         this.weight = weight;
         this.dimConfigFallback = dimConfigFallback;
@@ -80,6 +83,7 @@ public class WorldGenSchema {
     }
 
     public static class Builder {
+
         private Boolean enableGeneration;
         private Integer weight = 0;
         private DimConfig dimConfigFallback;
@@ -154,7 +158,6 @@ public class WorldGenSchema {
                     .collect(Collectors.toList()));
         }
 
-
         public Builder blackListBiome(ResourceLocationWrapper... wrapper) {
             return blackListBiome(Arrays.stream(wrapper).collect(Collectors.toList()));
         }
@@ -186,7 +189,6 @@ public class WorldGenSchema {
             return whiteListBiome(Arrays.stream(wrapper).collect(Collectors.toList()));
         }
 
-
         public Builder whiteListBiome(List<ResourceLocationWrapper> wrappers) {
             this.biomeData.whiteList.addAll(wrappers);
             return this;
@@ -195,7 +197,6 @@ public class WorldGenSchema {
         public Builder whiteListBiome(String biome, DimConfig dimConfig) {
             return whiteListBiome(ResourceLocationWrapper.of(biome), dimConfig);
         }
-
 
         public Builder whiteListBiome(ResourceLocationWrapper wrapper, DimConfig dimConfig) {
             this.biomeData.whiteListMap.put(wrapper, dimConfig);

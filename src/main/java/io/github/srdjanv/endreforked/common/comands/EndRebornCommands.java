@@ -1,12 +1,12 @@
 package io.github.srdjanv.endreforked.common.comands;
 
-import io.github.srdjanv.endreforked.common.comands.configs.ConfigCommands;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.server.command.CommandTreeBase;
 
 import io.github.srdjanv.endreforked.Tags;
+import io.github.srdjanv.endreforked.common.comands.configs.ConfigCommands;
 
 public class EndRebornCommands extends CommandTreeBase {
 

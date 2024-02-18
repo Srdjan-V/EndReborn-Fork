@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.common.blocks.base.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -15,7 +13,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.google.common.base.Suppliers;
 
+import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.blocks.*;
+import io.github.srdjanv.endreforked.common.blocks.base.*;
 import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
 import io.github.srdjanv.endreforked.utils.models.IHasModel;
 
@@ -97,7 +97,7 @@ public final class ModBlocks {
     public static final Supplier<BlockEnderCrop> ENDER_FLOWER_CROP = maybeRegister(
             () -> new BlockEnderCrop("ender_flower_crop"));
 
-    //todo fixup
+    // todo fixup
     public static final Supplier<Block> ORGANA_WEED = maybeRegister(
             () -> new BlockOrganaWeed("ogana_weed"));
 

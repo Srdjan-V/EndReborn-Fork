@@ -46,7 +46,8 @@ public class BushSurfaceGenerator extends PositionedFeature {
         return block.getDefaultState();
     }
 
-    @Override protected PositionValidator getStartPosValidator() {
+    @Override
+    protected PositionValidator getStartPosValidator() {
         return PositionValidators.BLOCK_DOWN_ANY;
     }
 }

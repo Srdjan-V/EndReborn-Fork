@@ -16,11 +16,16 @@ import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 
 public enum Locators implements Locator {
     EMPTY {
-        @Override public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos, PositionValidator validator) {
+
+        @Override
+        public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+                                          PositionValidator validator) {
             if (validator.validate(server, rand, pos)) return pos;
             return null;
         }
-    }, SURFACE_BLOCK {
+    },
+    SURFACE_BLOCK {
+
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
                                           PositionValidator validator) {
@@ -44,6 +49,7 @@ public enum Locators implements Locator {
         }
     },
     SURFACE_AIR {
+
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
                                           PositionValidator validator) {
@@ -58,6 +64,7 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_16 {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -65,6 +72,7 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_8 {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -72,6 +80,7 @@ public enum Locators implements Locator {
         }
     },
     DIM_CONFIG_MIN_MAX {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
                                 PositionValidator validator) {

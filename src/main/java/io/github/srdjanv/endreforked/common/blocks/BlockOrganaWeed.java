@@ -1,12 +1,15 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
+import static io.github.srdjanv.endreforked.common.blocks.BlockEndCoral.END_BUSH_AABB;
+
+import java.util.Collections;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -15,12 +18,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
-
-import static io.github.srdjanv.endreforked.common.blocks.BlockEndCoral.END_BUSH_AABB;
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 
 public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
+
     public BlockOrganaWeed(String name) {
         super(name, Material.VINE);
     }
@@ -35,7 +37,8 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
         return END_BUSH_AABB;
     }
 
-    @Override protected boolean canSustainBush(IBlockState state) {
+    @Override
+    protected boolean canSustainBush(IBlockState state) {
         return state.getBlock() == ModBlocks.END_MOSS.get();
     }
 

@@ -17,13 +17,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IShearable;
 
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
-import net.minecraftforge.common.IShearable;
 
 public class BlockEndCoral extends BaseBlockBush implements IShearable, IGrowable {
+
     public static final AxisAlignedBB END_BUSH_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D,
             0.09999999403953552D, 0.8999999761581421D, 0.400000011920929D, 0.8999999761581421D);
 
@@ -67,15 +67,18 @@ public class BlockEndCoral extends BaseBlockBush implements IShearable, IGrowabl
         return Collections.singletonList(new ItemStack(ModBlocks.END_CORAL.get()));
     }
 
-    @Override public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+    @Override
+    public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
         return true;
     }
 
-    @Override public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+    @Override
+    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
         return true;
     }
 
-    @Override public void grow(World worldIn, Random rand, BlockPos startPos, IBlockState state) {
+    @Override
+    public void grow(World worldIn, Random rand, BlockPos startPos, IBlockState state) {
         BlockPos upPos = startPos.up();
 
         for (int i = 0; i < 64; ++i) {

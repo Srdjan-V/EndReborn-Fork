@@ -18,5 +18,4 @@ public abstract class ReloadableServerSideConfig<D> extends BaseServerSideConfig
     public void sync() {
         sync(false);
     }
-
 }

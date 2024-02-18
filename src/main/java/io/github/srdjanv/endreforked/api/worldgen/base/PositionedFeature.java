@@ -1,7 +1,6 @@
 package io.github.srdjanv.endreforked.api.worldgen.base;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

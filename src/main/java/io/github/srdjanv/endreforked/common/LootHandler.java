@@ -82,7 +82,8 @@ public final class LootHandler implements Initializer {
                 "endreborn_inject_entry");
     }
 
-    @Override public boolean dispose() {
+    @Override
+    public boolean dispose() {
         return true;
     }
 }

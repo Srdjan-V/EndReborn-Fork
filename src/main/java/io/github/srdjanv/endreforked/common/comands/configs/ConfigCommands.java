@@ -11,11 +11,13 @@ public class ConfigCommands extends CommandTreeBase {
         super.addSubcommand(new SaveDefaultConfigCommand());
     }
 
-    @Override public String getName() {
+    @Override
+    public String getName() {
         return "configs";
     }
 
-    @Override public String getUsage(ICommandSender sender) {
+    @Override
+    public String getUsage(ICommandSender sender) {
         return "";
     }
 }

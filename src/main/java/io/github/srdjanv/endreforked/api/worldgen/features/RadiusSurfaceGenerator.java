@@ -1,30 +1,34 @@
 package io.github.srdjanv.endreforked.api.worldgen.features;
 
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
-import io.github.srdjanv.endreforked.api.worldgen.base.*;
+import java.util.Random;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 
-import java.util.Random;
+import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
+import io.github.srdjanv.endreforked.api.worldgen.base.*;
 
 public class RadiusSurfaceGenerator extends PositionedFeature {
+
     protected final PositionGenerator positionGenerator;
     protected final PositionValidator startPosValidator;
     protected final PositionValidator positionValidator;
 
-    public RadiusSurfaceGenerator(DimConfig config, PositionValidator positionValidator, PositionGenerator positionGenerator) {
+    public RadiusSurfaceGenerator(DimConfig config, PositionValidator positionValidator,
+                                  PositionGenerator positionGenerator) {
         this(config, PositionValidators.ALWAYS_TRUE, positionValidator, positionGenerator);
     }
 
-    public RadiusSurfaceGenerator(DimConfig config, PositionValidator startPosValidator, PositionValidator positionValidator, PositionGenerator positionGenerator) {
+    public RadiusSurfaceGenerator(DimConfig config, PositionValidator startPosValidator,
+                                  PositionValidator positionValidator, PositionGenerator positionGenerator) {
         super(Locators.SURFACE_BLOCK, config);
         this.positionGenerator = positionGenerator;
         this.positionValidator = positionValidator;
         this.startPosValidator = startPosValidator;
     }
 
-
-    @Override protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
+    @Override
+    protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
         int radius = config.amountModifier();
         int startX = startPos.getX();
         int startZ = startPos.getZ();
@@ -57,7 +61,8 @@ public class RadiusSurfaceGenerator extends PositionedFeature {
         return true;
     }
 
-    @Override protected PositionValidator getStartPosValidator() {
+    @Override
+    protected PositionValidator getStartPosValidator() {
         return startPosValidator;
     }
 }

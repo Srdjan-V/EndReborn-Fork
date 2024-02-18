@@ -98,8 +98,8 @@ public class GenConfig implements Comparable<GenConfig> {
         return new Builder<>();
     }
 
-
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "GenConfig{" +
                 "generatorName='" + generatorName + '\'' +
                 ", generatorWeight=" + generatorWeight +

@@ -60,7 +60,8 @@ final class Registration implements Initializer {
         handleOreDictionary();
     }
 
-    @Override public boolean dispose() {
+    @Override
+    public boolean dispose() {
         return true;
     }
 
@@ -192,6 +193,4 @@ final class Registration implements Initializer {
         EnumHelper.addEnum(clazz, name.toUpperCase(), new Class[] { String.class, String.class, ItemStack.class }, name,
                 id, craftingItem);
     }
-
-
 }

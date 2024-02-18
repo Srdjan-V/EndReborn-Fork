@@ -1,8 +1,6 @@
 package io.github.srdjanv.endreforked.common.configs.worldgen;
 
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

@@ -3,10 +3,6 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 import java.util.Objects;
 import java.util.Random;
 
-import io.github.srdjanv.endreforked.api.worldgen.features.BushSurfaceGenerator;
-import io.github.srdjanv.endreforked.api.worldgen.features.RadiusSurfaceGenerator;
-import io.github.srdjanv.endreforked.api.worldgen.features.SphereGenerator;
-import io.github.srdjanv.endreforked.common.blocks.BlockEnderCrop;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
@@ -18,7 +14,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
+import io.github.srdjanv.endreforked.api.worldgen.features.BushSurfaceGenerator;
+import io.github.srdjanv.endreforked.api.worldgen.features.RadiusSurfaceGenerator;
+import io.github.srdjanv.endreforked.api.worldgen.features.SphereGenerator;
 import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.blocks.BlockEnderCrop;
 import io.github.srdjanv.endreforked.common.configs.worldgen.base.WorldGenBaseConfigReloadable;
 
 public class GenericGenConfig extends WorldGenBaseConfigReloadable {
@@ -90,7 +90,6 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                         ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), config.amountModifier(),
                         BlockMatcher.forBlock(Blocks.END_STONE)));
 
-
         registerGen("EndMossPatch",
                 builder -> {
                     builder.whiteListDim(1, DimConfig.builder()
@@ -101,17 +100,16 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
                     return builder.build();
                 },
-                (world, biome, config) ->
-                        new RadiusSurfaceGenerator(config,
-                                (server, rand, pos) -> server.getBlockState(pos).getBlock() == Blocks.END_STONE,
-                                (server, rand, pos) -> {
-                                    if (rand.nextInt(100) > 80) return false;
-                                    if (server.isAirBlock(pos) && !server.isAirBlock(pos.up())) return false;
-                                    server.setBlockState(pos, ModBlocks.END_MOSS.get().getDefaultState());
-                                    if (rand.nextInt(100) > 80) return true;
-                                    server.setBlockState(pos.up(), ModBlocks.ORGANA_WEED.get().getDefaultState());
-                                    return true;
-                                }));
+                (world, biome, config) -> new RadiusSurfaceGenerator(config,
+                        (server, rand, pos) -> server.getBlockState(pos).getBlock() == Blocks.END_STONE,
+                        (server, rand, pos) -> {
+                            if (rand.nextInt(100) > 80) return false;
+                            if (server.isAirBlock(pos) && !server.isAirBlock(pos.up())) return false;
+                            server.setBlockState(pos, ModBlocks.END_MOSS.get().getDefaultState());
+                            if (rand.nextInt(100) > 80) return true;
+                            server.setBlockState(pos.up(), ModBlocks.ORGANA_WEED.get().getDefaultState());
+                            return true;
+                        }));
 
         registerGen("EndCoral",
                 builder -> {
@@ -141,7 +139,6 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                                 random.nextInt(BlockEnderCrop.AGE.getAllowedValues().size() - 1));
                     }
                 });
-
     }
 
     @Override

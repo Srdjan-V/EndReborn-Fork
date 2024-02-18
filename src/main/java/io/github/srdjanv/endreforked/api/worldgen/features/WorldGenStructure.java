@@ -2,7 +2,6 @@ package io.github.srdjanv.endreforked.api.worldgen.features;
 
 import java.util.*;
 
-import io.github.srdjanv.endreforked.api.worldgen.base.Locators;
 import net.minecraft.nbt.*;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
@@ -19,6 +18,7 @@ import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.Locator;
+import io.github.srdjanv.endreforked.api.worldgen.base.Locators;
 import io.github.srdjanv.endreforked.api.worldgen.base.PositionedFeature;
 
 public class WorldGenStructure extends PositionedFeature {

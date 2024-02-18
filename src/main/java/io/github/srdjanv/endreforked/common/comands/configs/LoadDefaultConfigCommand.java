@@ -1,7 +1,12 @@
 package io.github.srdjanv.endreforked.common.comands.configs;
 
-import io.github.srdjanv.endreforked.common.configs.base.ReloadableServerSideConfig;
-import io.github.srdjanv.endreforked.common.configs.worldgen.GenConfigs;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -9,18 +14,18 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import io.github.srdjanv.endreforked.common.configs.base.ReloadableServerSideConfig;
+import io.github.srdjanv.endreforked.common.configs.worldgen.GenConfigs;
 
 public class LoadDefaultConfigCommand extends CommandBase {
-    @Override public String getName() {
+
+    @Override
+    public String getName() {
         return "LoadDefaultConfigCommand";
     }
 
-    @Override public String getUsage(ICommandSender sender) {
+    @Override
+    public String getUsage(ICommandSender sender) {
         return "null";
     }
 
@@ -34,7 +39,8 @@ public class LoadDefaultConfigCommand extends CommandBase {
                 .collect(Collectors.toList());
     }
 
-    @Override public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+    @Override
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length < 1 || args[0].length() <= 1) throw new WrongUsageException("commands.reloadconfig.usage");
 
         var config = GenConfigs.get(args[0]);
