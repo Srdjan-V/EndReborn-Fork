@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.api.worldgen.features;
 
 import java.util.*;
 
+import io.github.srdjanv.endreforked.api.worldgen.base.Locators;
 import net.minecraft.nbt.*;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
@@ -26,6 +27,11 @@ public class WorldGenStructure extends PositionedFeature {
             .setIgnoreStructureBlock(false).setMirror(Mirror.NONE).setRotation(Rotation.NONE);
     protected final ResourceLocation location;
     protected final PlacementSettings settings;
+
+    @ApiStatus.Internal
+    public WorldGenStructure(DimConfig dimConfig, String name) {
+        this(Locators.OFFSET_16, dimConfig, name, defaultSettings);
+    }
 
     @ApiStatus.Internal
     public WorldGenStructure(Locator locator, DimConfig dimConfig, String name) {

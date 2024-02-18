@@ -37,16 +37,14 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("Lormyte",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.weight = 200;
-
-                    worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                builder -> {
+                    builder.whiteListDim(1, DimConfig.builder()
                             .setRarity(80)
                             .setAmountModifier(12)
                             .setMaxHeight(45)
                             .setMinHeight(20).build());
 
-                    return worldGenConfiguration;
+                    return builder.build();
                 },
                 (world, biome, config) -> {
                     return new SphereGenerator(config, (server, rand, pos) -> {
@@ -60,14 +58,13 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                 });
 
         registerGen("EndMagma",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.weight = 180;
-                    worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                builder -> {
+                    builder.whiteListDim(1, DimConfig.builder()
                             .setRarity(80)
                             .setAmountModifier(12)
                             .setMaxHeight(25)
                             .setMinHeight(10).build());
-                    return worldGenConfiguration;
+                    return builder.build();
                 },
                 (world, biome, config) -> {
                     return new SphereGenerator(config, (server, rand, pos) -> {
@@ -81,62 +78,60 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                 });
 
         registerGen("EntropyEndStone",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.weight = 160;
-                    worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                builder -> {
+                    builder.whiteListDim(1, DimConfig.builder()
                             .setRarity(60)
                             .setAmountModifier(30)
                             .setMaxHeight(30)
                             .setMinHeight(10).build());
-                    return worldGenConfiguration;
+                    return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(
                         ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), config.amountModifier(),
                         BlockMatcher.forBlock(Blocks.END_STONE)));
 
 
-        registerGen("EndMossPatch", worldGenConfiguration -> {
-            worldGenConfiguration.weight = 140;
-            worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
-                    .setRarity(5)
-                    .setAmountModifier(4)
-                    .setMaxHeight(90)
-                    .setMinHeight(50).build());
+        registerGen("EndMossPatch",
+                builder -> {
+                    builder.whiteListDim(1, DimConfig.builder()
+                            .setRarity(5)
+                            .setAmountModifier(4)
+                            .setMaxHeight(90)
+                            .setMinHeight(50).build());
 
-            return worldGenConfiguration;
-        }, (world, biome, config) ->
-                new RadiusSurfaceGenerator(config,
-                        (server, rand, pos) -> server.getBlockState(pos).getBlock() == Blocks.END_STONE,
-                        (server, rand, pos) -> {
-                            if (rand.nextInt(100) > 80) return false;
-                            if (server.isAirBlock(pos) && !server.isAirBlock(pos.up())) return false;
-                            server.setBlockState(pos, ModBlocks.END_MOSS.get().getDefaultState());
-                            if (rand.nextInt(100) > 80) return true;
-                            server.setBlockState(pos.up(), ModBlocks.ORGANA_WEED.get().getDefaultState());
-                            return true;
-                        }));
+                    return builder.build();
+                },
+                (world, biome, config) ->
+                        new RadiusSurfaceGenerator(config,
+                                (server, rand, pos) -> server.getBlockState(pos).getBlock() == Blocks.END_STONE,
+                                (server, rand, pos) -> {
+                                    if (rand.nextInt(100) > 80) return false;
+                                    if (server.isAirBlock(pos) && !server.isAirBlock(pos.up())) return false;
+                                    server.setBlockState(pos, ModBlocks.END_MOSS.get().getDefaultState());
+                                    if (rand.nextInt(100) > 80) return true;
+                                    server.setBlockState(pos.up(), ModBlocks.ORGANA_WEED.get().getDefaultState());
+                                    return true;
+                                }));
 
         registerGen("EndCoral",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.weight = 120;
-                    worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                builder -> {
+                    builder.whiteListDim(1, DimConfig.builder()
                             .setRarity(0)
                             .setAmountModifier(20)
                             .setMaxHeight(90)
                             .setMinHeight(50).build());
-                    return worldGenConfiguration;
+                    return builder.build();
                 },
                 (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.END_CORAL.get()));
 
         registerGen("EndFlower",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.weight = 100;
-                    worldGenConfiguration.dimData.whiteList.put(1, DimConfig.builder()
+                builder -> {
+                    builder.whiteListDim(1, DimConfig.builder()
                             .setRarity(5)
                             .setAmountModifier(6)
                             .setMaxHeight(90)
                             .setMinHeight(50).build());
-                    return worldGenConfiguration;
+                    return builder.build();
                 },
                 (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.ENDER_FLOWER_CROP.get()) {
 

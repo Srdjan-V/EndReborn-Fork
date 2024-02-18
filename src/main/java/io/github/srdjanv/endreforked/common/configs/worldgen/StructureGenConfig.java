@@ -32,67 +32,54 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("EndRuins",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.weight = 200;
-                    worldGenConfiguration.biomeData.whiteListDefaultConfig
-                            .add(ResourceLocationWrapper.of(new ResourceLocation("sky")));
-                    worldGenConfiguration.defaultGenConfigForData = DimConfig.builder()
+                builder -> {
+                    builder.whiteListBiome(ResourceLocationWrapper.of("sky"));
+                    builder.dimConfigFallback(DimConfig.builder()
                             .setRarity(600)
                             .setAmountModifier(1)
                             .setMaxHeight(100)
-                            .setMinHeight(85).build();
-                    return worldGenConfiguration;
+                            .setMinHeight(85).build());
+                    return builder.build();
                 },
-                (world, biome, config) -> new WorldGenStructure(Locators.OFFSET_16, config, "end_ruins"));
+                (world, biome, config) -> new WorldGenStructure(config, "end_ruins"));
 
         registerGen("EndIslands",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.weight = 180;
-                    var data = Stream.of("sky", "plains", "desert", "ocean", "deep_ocean", "savanna")
-                            .map(ResourceLocation::new)
-                            .map(ResourceLocationWrapper::of).collect(Collectors.toList());
+                builder -> {
+                    builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
 
-                    worldGenConfiguration.biomeData.whiteListDefaultConfig.addAll(data);
-
-                    worldGenConfiguration.defaultGenConfigForData = DimConfig.builder()
+                    builder.dimConfigFallback(DimConfig.builder()
                             .setRarity(600)
                             .setAmountModifier(1)
                             .setMaxHeight(115)
-                            .setMinHeight(90).build();
-                    return worldGenConfiguration;
+                            .setMinHeight(90).build());
+
+                    return builder.build();
                 },
-                ((world, biome, config) -> new WorldGenStructure(Locators.OFFSET_16, config, "end_island")));
+                ((world, biome, config) -> new WorldGenStructure(config, "end_island")));
 
         registerGen("Observatory",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.weight = 160;
-                    var data = Stream.of("desert", "ocean", "deep_ocean", "forest", "birch_forest", "swampland")
-                            .map(ResourceLocation::new)
-                            .map(ResourceLocationWrapper::of).collect(Collectors.toList());
-
-                    worldGenConfiguration.biomeData.whiteListDefaultConfig.addAll(data);
-                    worldGenConfiguration.defaultGenConfigForData = DimConfig.builder()
+                builder -> {
+                    builder.whiteListBiome("desert", "ocean", "deep_ocean", "forest", "birch_forest", "swampland");
+                    builder.dimConfigFallback(DimConfig.builder()
                             .setRarity(600)
                             .setAmountModifier(1)
                             .setMaxHeight(3)
-                            .setMinHeight(3).build();
+                            .setMinHeight(3).build());
 
-                    return worldGenConfiguration;
+                    return builder.build();
                 },
-                (world, biome, config) -> new WorldGenStructure(Locators.OFFSET_16, config, "observ"));
+                (world, biome, config) -> new WorldGenStructure(config, "observ"));
 
         registerGen("ShipWreck",
-                worldGenConfiguration -> {
-                    worldGenConfiguration.weight = 140;
-                    worldGenConfiguration.biomeData.whiteListDefaultConfig
-                            .add(ResourceLocationWrapper.of(new ResourceLocation("sky")));
-                    worldGenConfiguration.defaultGenConfigForData = DimConfig.builder()
+                builder -> {
+                    builder.whiteListBiome(ResourceLocationWrapper.of("sky"));
+                    builder.dimConfigFallback(DimConfig.builder()
                             .setRarity(600)
                             .setAmountModifier(1)
                             .setMaxHeight(70)
-                            .setMinHeight(50).build();
+                            .setMinHeight(50).build());
 
-                    return worldGenConfiguration;
+                    return builder.build();
                 },
                 ((world, biome, config) -> new WorldGenStructure(
                         Locators.OFFSET_16.andThenLocate(Locators.SURFACE_BLOCK).andThenMove(pos -> pos.add(0, -2, 2)),

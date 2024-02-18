@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.common.configs.worldgen.base;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 public abstract class WorldGenBaseConfigReloadable extends ReloadableServerSideConfig<Map<String, WorldGenSchema>> {
 
-    protected final Map<String, Function<WorldGenSchema, WorldGenSchema>> defaultData = new Object2ObjectOpenHashMap<>();
+    protected final Map<String, Function<WorldGenSchema.Builder, WorldGenSchema>> defaultData = new Object2ObjectOpenHashMap<>();
     protected final Map<String, GeneratorBuilder> nameToGenerator = new Object2ObjectOpenHashMap<>();
     protected Map<String, WorldGenSchema> loadedDataData;
 
@@ -25,7 +26,7 @@ public abstract class WorldGenBaseConfigReloadable extends ReloadableServerSideC
     }
 
     protected void registerGen(String name,
-                               Function<WorldGenSchema, WorldGenSchema> worldGenConfig,//todo create builder
+                               Function<WorldGenSchema.Builder, WorldGenSchema> worldGenConfig,
                                GeneratorBuilder builder) {
         defaultData.put(name, worldGenConfig);
         nameToGenerator.put(name, builder);
@@ -33,9 +34,13 @@ public abstract class WorldGenBaseConfigReloadable extends ReloadableServerSideC
 
     @Override
     protected Map<String, WorldGenSchema> getDefaultData() {
+        var atomic = new AtomicInteger(10000);
         return defaultData.entrySet().stream().map(
                 stringFunctionEntry -> Pair.of(stringFunctionEntry.getKey(),
-                        stringFunctionEntry.getValue().apply(new WorldGenSchema())))
+                        stringFunctionEntry.getValue().apply(
+                                WorldGenSchema.builder()
+                                        .enableGeneration(true)
+                                        .weight(atomic.getAndAdd(200)))))
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
