@@ -30,7 +30,7 @@ public class WorldGenStructure extends PositionedFeature {
 
     @ApiStatus.Internal
     public WorldGenStructure(DimConfig dimConfig, String name) {
-        this(Locators.OFFSET_16, dimConfig, name, defaultSettings);
+        this(Locators.OFFSET_16.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), dimConfig, name, defaultSettings);
     }
 
     @ApiStatus.Internal

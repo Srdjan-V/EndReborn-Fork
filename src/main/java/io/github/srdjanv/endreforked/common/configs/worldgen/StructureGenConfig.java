@@ -31,7 +31,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("EndRuins",
                 builder -> {
-                    builder.whiteListBiome(ResourceLocationWrapper.of("sky"));
+                    builder.whiteListBiome("sky");
                     builder.dimConfigFallback(DimConfig.builder()
                             .setRarity(600)
                             .setAmountModifier(1)
@@ -70,7 +70,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("ShipWreck",
                 builder -> {
-                    builder.whiteListBiome(ResourceLocationWrapper.of("sky"));
+                    builder.whiteListBiome("sky");
                     builder.dimConfigFallback(DimConfig.builder()
                             .setRarity(600)
                             .setAmountModifier(1)
