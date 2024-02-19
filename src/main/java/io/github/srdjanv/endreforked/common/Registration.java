@@ -173,6 +173,7 @@ final class Registration implements Initializer {
     private static void handleOreDictionary() {
         OreDictionary.registerOre("ingotEndorium", ModItems.INGOT_ENDORIUM.get());
 
+        //todo dont register a null block
         OreDictionary.registerOre("ingotTungsten", ModItems.TUNGSTEN_INGOT.get());
         OreDictionary.registerOre("nuggetTungsten", ModItems.TUNGSTEN_NUGGET.get());
         OreDictionary.registerOre("blockTungsten ", ModBlocks.TUNGSTEN_BLOCK.get());

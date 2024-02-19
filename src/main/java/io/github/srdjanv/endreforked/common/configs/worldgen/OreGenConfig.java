@@ -48,10 +48,23 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(),
                         config.amountModifier(), BlockMatcher.forBlock(Blocks.OBSIDIAN)));
 
+        registerGen("XorciteOre",
+                builder -> {
+                    builder.whiteListDim(1, DimConfig.builder()
+                            .setRarity(25)
+                            .setAmountModifier(20)
+                            .setMaxHeight(60)
+                            .setMinHeight(0).build());
+                    return builder.build();
+                },
+                (world, biome, config) -> new WorldGenMinable(ModBlocks.XORCITE_BLOCK.get().getDefaultState(),
+                        config.amountModifier(), BlockMatcher.forBlock(Blocks.END_STONE)));
+
+
         registerGen("TungstenOre",
                 builder -> {
                     builder.whiteListDim(0, DimConfig.builder()
-                            .setRarity(80)
+                            .setRarity(15)
                             .setAmountModifier(10)
                             .setMaxHeight(48)
                             .setMinHeight(0).build());
@@ -59,16 +72,16 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(),
                         config.amountModifier(), input -> {
-                            if (input != null && input.getBlock() == Blocks.STONE) {
-                                return input.getValue(BlockStone.VARIANT).equals(BlockStone.EnumType.DIORITE);
-                            } else return false;
-                        }));
+                    if (input != null && input.getBlock() == Blocks.STONE) {
+                        return input.getValue(BlockStone.VARIANT).equals(BlockStone.EnumType.DIORITE);
+                    } else return false;
+                }));
 
         registerGen("TungstenEndOre",
                 builder -> {
                     builder.dimConfigFallback(
                             DimConfig.builder()
-                                    .setRarity(80)
+                                    .setRarity(5)
                                     .setAmountModifier(25)
                                     .setMaxHeight(48)
                                     .setMinHeight(0).build());

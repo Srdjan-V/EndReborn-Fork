@@ -9,8 +9,12 @@ import javax.annotation.Nullable;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +29,19 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
 
     public BlockOrganaWeed(String name) {
         super(name, Material.VINE);
+    }
+
+
+    @Override public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+        if (worldIn.isRemote) return;
+        entityIn.fallDistance = 0;
+        if (entityIn instanceof EntityLivingBase livingBase) {
+            livingBase.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 10));
+        }
+        if (entityIn instanceof EntityPlayer player) {
+            if (player.isSneaking()) return;
+            player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 10));
+        }
     }
 
     @Override

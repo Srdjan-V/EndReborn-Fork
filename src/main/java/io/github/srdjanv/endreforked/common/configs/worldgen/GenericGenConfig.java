@@ -60,7 +60,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
         registerGen("EndMagma",
                 builder -> {
                     builder.whiteListDim(1, DimConfig.builder()
-                            .setRarity(80)
+                            .setRarity(95)
                             .setAmountModifier(12)
                             .setMaxHeight(25)
                             .setMinHeight(10).build());
@@ -80,7 +80,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
         registerGen("EntropyEndStone",
                 builder -> {
                     builder.whiteListDim(1, DimConfig.builder()
-                            .setRarity(60)
+                            .setRarity(25)
                             .setAmountModifier(30)
                             .setMaxHeight(30)
                             .setMinHeight(10).build());
@@ -93,7 +93,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
         registerGen("EndMossPatch",
                 builder -> {
                     builder.whiteListDim(1, DimConfig.builder()
-                            .setRarity(5)
+                            .setRarity(25)
                             .setAmountModifier(4)
                             .setMaxHeight(90)
                             .setMinHeight(50).build());
