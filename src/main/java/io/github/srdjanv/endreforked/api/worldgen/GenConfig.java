@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.api.worldgen;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -10,6 +11,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -34,10 +36,10 @@ public class GenConfig implements Comparable<GenConfig> {
         this.generatorName = generatorName;
         this.generatorWeight = generatorWeight;
         this.generatorBuilder = generatorBuilder;
-        this.biomeConfigs = biomeConfigs;
-        this.biomeBlackList = biomeBlackList;
-        this.dimBlackList = dimBlackList;
-        this.dimConfigs = dimConfigs;
+        this.biomeConfigs = Collections.unmodifiableMap(biomeConfigs);
+        this.biomeBlackList = Collections.unmodifiableList(biomeBlackList);
+        this.dimBlackList = IntLists.unmodifiable(dimBlackList);
+        this.dimConfigs = Int2ObjectMaps.unmodifiable(dimConfigs);
         this.defaultDimConfig = defaultDimConfig;
     }
 
@@ -73,18 +75,22 @@ public class GenConfig implements Comparable<GenConfig> {
         return generatorBuilder.getGenerator(world, biome, config);
     }
 
+    @Unmodifiable
     public Map<Biome, DimConfig> getBiomeConfigs() {
         return biomeConfigs;
     }
 
+    @Unmodifiable
     public List<Biome> getBiomeBlackList() {
         return biomeBlackList;
     }
 
+    @Unmodifiable
     public IntList getDimBlackList() {
         return dimBlackList;
     }
 
+    @Unmodifiable
     public Int2ObjectMap<DimConfig> getDimConfigs() {
         return dimConfigs;
     }
@@ -94,8 +100,8 @@ public class GenConfig implements Comparable<GenConfig> {
         return defaultDimConfig;
     }
 
-    public static <G extends WorldGenerator> Builder<G> builder() {
-        return new Builder<>();
+    public static Builder builder() {
+        return new Builder();
     }
 
     @Override
@@ -124,7 +130,7 @@ public class GenConfig implements Comparable<GenConfig> {
         return o.generatorWeight - generatorWeight;
     }
 
-    public static class Builder<G extends WorldGenerator> {
+    public static class Builder {
 
         private String generatorName;
         private Integer generatorWeight;
@@ -138,51 +144,51 @@ public class GenConfig implements Comparable<GenConfig> {
 
         private Builder() {}
 
-        public Builder<G> setGeneratorName(String generatorName) {
+        public Builder generatorName(String generatorName) {
             this.generatorName = generatorName;
             return this;
         }
 
-        public Builder<G> setGeneratorWeight(int generatorWeight) {
+        public Builder weight(int generatorWeight) {
             this.generatorWeight = generatorWeight;
             return this;
         }
 
-        public Builder<G> setGeneratorBuilder(GeneratorBuilder generatorBuilder) {
+        public Builder generatorBuilder(GeneratorBuilder generatorBuilder) {
             this.generatorBuilder = generatorBuilder;
             return this;
         }
 
-        public Builder<G> setDefaultDimConfig(DimConfig defaultDimConfig) {
+        public Builder defaultDimConfig(DimConfig defaultDimConfig) {
             this.defaultDimConfig = defaultDimConfig;
             dimConfigs.defaultReturnValue(defaultDimConfig);
             return this;
         }
 
-        public Builder<G> addBiomeToWhiteList(Biome biome) {
-            return addBiomeToWhiteList(biome, null);
+        public Builder biomeWhiteList(Biome biome) {
+            return biomeWhiteList(biome, null);
         }
 
-        public Builder<G> addBiomeToWhiteList(Biome biome, @Nullable DimConfig config) {
+        public Builder biomeWhiteList(Biome biome, @Nullable DimConfig config) {
             biomeWhiteList.put(biome, config);
             return this;
         }
 
-        public Builder<G> addBiomeToBlackList(Biome biome) {
+        public Builder biomeBlackList(Biome biome) {
             biomeBlackList.add(biome);
             return this;
         }
 
-        public Builder<G> addDimToBlackList(int dim) {
+        public Builder dimBlackList(int dim) {
             dimBlackList.add(dim);
             return this;
         }
 
-        public Builder<G> addDimToWhiteList(int dim) {
-            return addDimToWhiteList(dim, null);
+        public Builder dimWhiteList(int dim) {
+            return dimWhiteList(dim, null);
         }
 
-        public Builder<G> addDimToWhiteList(int dim, @Nullable DimConfig config) {
+        public Builder dimWhiteList(int dim, @Nullable DimConfig config) {
             dimConfigs.put(dim, config);
             return this;
         }

@@ -13,7 +13,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.gson.reflect.TypeToken;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import io.github.srdjanv.endreforked.common.configs.base.StaticServerSideConfig;
 import io.github.srdjanv.endreforked.common.entity.EntityColdFireball;
 import io.github.srdjanv.endreforked.common.entity.EntityEndGuard;
@@ -47,12 +46,11 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         registerMob("endguard", builder -> {
-            builder.registerSpawn(true).register(true);
-            builder.biomeSpawn(ResourceLocationWrapper.of("sky"))
-                    .defaultBiomeSpawnConfig(new MobConfigSchema.SpawnConfig(4, 3, 1));
+            builder.registerSpawn(true);
+            builder.biomeSpawn("sky").fallbackSpawnConfig(4, 3, 1);
             return builder.build();
         }, builder -> {
-            builder.name("endguard").entityClass(EntityEndGuard.class).id(0)
+            builder.entityClass(EntityEndGuard.class).id(0)
                     .creatureType(EnumCreatureType.MONSTER)
                     .trackingRange(64)
                     .updateFrequency(3)
@@ -62,9 +60,9 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
         });
 
         registerMob("end_cold_ball", builder -> {
-            return builder.register(true).registerSpawn(false).build();
+            return builder.registerSpawn(false).build();
         }, builder -> {
-            builder.name("end_cold_ball").entityClass(EntityColdFireball.class).id(1)
+            builder.entityClass(EntityColdFireball.class).id(1)
                     .registerEgg(false)
                     .trackingRange(30)
                     .updateFrequency(1)
@@ -73,16 +71,13 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
         });
 
         registerMob("watcher", builder -> {
-            builder.registerSpawn(true).register(true);
-            builder.biomeSpawn(ResourceLocationWrapper.of("sky"),
-                    new MobConfigSchema.SpawnConfig(10, 3, 1));
-
-            builder.biomeSpawn(ResourceLocationWrapper.of("plains"),
-                    new MobConfigSchema.SpawnConfig(4, 1, 1));
+            builder.registerSpawn(true);
+            builder.biomeSpawn("sky", 10, 3, 1);
+            builder.biomeSpawn("plains", 4, 1, 1);
 
             return builder.build();
         }, builder -> {
-            builder.name("watcher").entityClass(EntityWatcher.class).id(2)
+            builder.entityClass(EntityWatcher.class).id(2)
                     .creatureType(EnumCreatureType.MONSTER)
                     .trackingRange(64)
                     .updateFrequency(3)
@@ -92,9 +87,9 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
         });
 
         registerMob("endlord", builder -> {
-            return builder.registerSpawn(false).register(true).build();
+            return builder.registerSpawn(false).build();
         }, builder -> {
-            builder.name("endlord").entityClass(EntityWatcher.class).id(3)
+            builder.entityClass(EntityWatcher.class).id(3)
                     .creatureType(EnumCreatureType.MONSTER)
                     .trackingRange(64)
                     .updateFrequency(3)
@@ -104,12 +99,12 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
         });
 
         registerMob("chronologist", builder -> {
-            builder.registerSpawn(true).register(true);
-            builder.biomeSpawn(ResourceLocationWrapper.of("sky"));
-            builder.defaultBiomeSpawnConfig(new MobConfigSchema.SpawnConfig(4, 3, 1));
+            builder.registerSpawn(true);
+            builder.biomeSpawn("sky");
+            builder.fallbackSpawnConfig(4, 3, 1);
             return builder.build();
         }, builder -> {
-            builder.name("chronologist").entityClass(EntityWatcher.class).id(4)
+            builder.entityClass(EntityWatcher.class).id(4)
                     .creatureType(EnumCreatureType.MONSTER)
                     .trackingRange(64)
                     .updateFrequency(3)
@@ -130,7 +125,7 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
     protected Map<String, MobConfigSchema> getDefaultData() {
         return defaultData.entrySet().stream().map(
                 stringFunctionEntry -> Pair.of(stringFunctionEntry.getKey(),
-                        stringFunctionEntry.getValue().apply(MobConfigSchema.builder())))
+                        stringFunctionEntry.getValue().apply(MobConfigSchema.builder().register(true))))
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
@@ -158,10 +153,10 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
     @Override
     protected void dataLoaded(Map<String, MobConfigSchema> data) {
         for (var entry : data.entrySet()) {
-            var name = entry.getKey();
-            var configSchema = entry.getValue();
+            final var name = entry.getKey();
+            final var configSchema = entry.getValue();
             if (configSchema.isRegister()) {
-                var config = entityConfigs.get(name).apply(EntityConfig.builder());
+                var config = entityConfigs.get(name).apply(EntityConfig.builder().name(name));
                 assert Objects.nonNull(config);
                 config.init(configSchema);
             }

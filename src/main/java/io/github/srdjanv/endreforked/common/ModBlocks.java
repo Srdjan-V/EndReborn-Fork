@@ -101,7 +101,7 @@ public final class ModBlocks {
     public static final Supplier<Block> ORGANA_WEED = maybeRegister(
             () -> new BlockOrganaWeed("ogana_weed"));
 
-    public static final Supplier<Block> END_MOSS = maybeRegister(
+    public static final Supplier<BlockEndMoss> END_MOSS = maybeRegister(
             () -> new BlockEndMoss("end_moss"));
 
     public static <B extends Block> Supplier<B> register(com.google.common.base.Supplier<B> supplier) {

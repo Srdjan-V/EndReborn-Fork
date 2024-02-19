@@ -72,7 +72,7 @@ public class EntityConfig {
     }
 
     private void registerSpawn(MobConfigSchema configSchema) {
-        configSchema.getBiomeSpawnConfig().forEach((wrapper, spawnConfig) -> {
+        configSchema.getBiomeWhiteListMap().forEach((wrapper, spawnConfig) -> {
             var biome = Biome.REGISTRY.getObject(wrapper.get());
             if (Objects.isNull(biome)) throw new IllegalArgumentException(wrapper.get().toString());
             Class<? extends EntityLiving> entityLiving = entityClass.asSubclass(EntityLiving.class);
@@ -84,17 +84,17 @@ public class EntityConfig {
                     biome);
         });
 
-        if (Objects.isNull(configSchema.getDefaultConfig()) && !configSchema.getDefaultBiomeSpawns().isEmpty()) {
+        if (Objects.isNull(configSchema.getFallbackSpawnConfig()) && !configSchema.getBiomeWhiteList().isEmpty()) {
             throw new RuntimeException(); // TODO
         }
-        configSchema.getDefaultBiomeSpawns().forEach(wrapper -> {
+        configSchema.getBiomeWhiteList().forEach(wrapper -> {
             var biome = Biome.REGISTRY.getObject(wrapper.get());
             if (Objects.isNull(biome)) throw new IllegalArgumentException(wrapper.get().toString());
             Class<? extends EntityLiving> entityLiving = entityClass.asSubclass(EntityLiving.class);
             EntityRegistry.addSpawn(entityLiving,
-                    configSchema.getDefaultConfig().spawnProbability(),
-                    configSchema.getDefaultConfig().minimumSpawnGroup(),
-                    configSchema.getDefaultConfig().maximumSpawnGroup(),
+                    configSchema.getFallbackSpawnConfig().spawnProbability(),
+                    configSchema.getFallbackSpawnConfig().minimumSpawnGroup(),
+                    configSchema.getFallbackSpawnConfig().maximumSpawnGroup(),
                     creatureType,
                     biome);
         });

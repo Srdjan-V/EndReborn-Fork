@@ -1,9 +1,6 @@
 package io.github.srdjanv.endreforked.common.configs.worldgen.schema;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import net.minecraft.util.ResourceLocation;
@@ -41,9 +38,9 @@ public class WorldGenSchema {
         }
 
         public Data() {
-            this.blackList = null;
-            this.whiteList = null;
-            this.whiteListMap = null;
+            this.blackList = Collections.emptyList();
+            this.whiteList = Collections.emptyList();
+            this.whiteListMap = Collections.emptyMap();
         }
 
         @Override
@@ -240,44 +237,44 @@ public class WorldGenSchema {
     }
 
     public GenConfig parseConfig(String name, GeneratorBuilder generatorBuilder) {
-        GenConfig.Builder<?> gen = GenConfig.builder();
-        gen.setGeneratorName(name)
-                .setGeneratorWeight(weight)
-                .setGeneratorBuilder(generatorBuilder);
+        GenConfig.Builder gen = GenConfig.builder();
+        gen.generatorName(name)
+                .weight(weight)
+                .generatorBuilder(generatorBuilder);
         parseBiomes(gen);
         parseDims(gen);
-        gen.setDefaultDimConfig(dimConfigFallback);
+        gen.defaultDimConfig(dimConfigFallback);
         return gen.build();
     }
 
-    private void parseDims(GenConfig.Builder<?> gen) {
+    private void parseDims(GenConfig.Builder gen) {
         for (Integer dim : dimData.blackList)
-            gen.addDimToBlackList(dim);
+            gen.dimBlackList(dim);
 
         for (Integer dim : dimData.whiteList)
-            gen.addDimToWhiteList(dim);
+            gen.dimWhiteList(dim);
 
         for (var configEntry : dimData.whiteListMap.entrySet())
-            gen.addDimToWhiteList(configEntry.getKey(), configEntry.getValue());
+            gen.dimWhiteList(configEntry.getKey(), configEntry.getValue());
     }
 
-    private void parseBiomes(GenConfig.Builder<?> gen) {
+    private void parseBiomes(GenConfig.Builder gen) {
         for (ResourceLocationWrapper biome : biomeData.blackList) {
             final var res = resolveBiome(biome);
             if (Objects.isNull(res)) continue;
-            gen.addBiomeToBlackList(res);
+            gen.biomeBlackList(res);
         }
 
         for (ResourceLocationWrapper biome : biomeData.whiteList) {
             final var res = resolveBiome(biome);
             if (Objects.isNull(res)) continue;
-            gen.addBiomeToWhiteList(res);
+            gen.biomeWhiteList(res);
         }
 
         for (Map.Entry<ResourceLocationWrapper, DimConfig> entry : biomeData.whiteListMap.entrySet()) {
             final var biomeRes = resolveBiome(entry.getKey());
             if (Objects.isNull(biomeRes)) continue;
-            gen.addBiomeToWhiteList(biomeRes, entry.getValue());
+            gen.biomeWhiteList(biomeRes, entry.getValue());
         }
     }
 

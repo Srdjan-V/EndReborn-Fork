@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.common.configs.mobs;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -14,26 +15,26 @@ public class MobConfigSchema {
 
     private final boolean register;
     private final boolean registerSpawn;
-    private final SpawnConfig defaultConfig;
-    private final List<ResourceLocationWrapper> defaultBiomeSpawns;
-    private final Map<ResourceLocationWrapper, SpawnConfig> biomeSpawnConfig;
+    private final SpawnConfig fallbackSpawnConfig;
+    private final List<ResourceLocationWrapper> biomeWhiteList;
+    private final Map<ResourceLocationWrapper, SpawnConfig> biomeWhiteListMap;
 
-    public MobConfigSchema(boolean register, boolean registerSpawn, SpawnConfig defaultConfig,
-                           List<ResourceLocationWrapper> defaultBiomeSpawns,
-                           Map<ResourceLocationWrapper, SpawnConfig> biomeSpawnConfig) {
+    public MobConfigSchema(boolean register, boolean registerSpawn, SpawnConfig fallbackSpawnConfig,
+                           List<ResourceLocationWrapper> biomeWhiteList,
+                           Map<ResourceLocationWrapper, SpawnConfig> biomeWhiteListMap) {
         this.register = register;
         this.registerSpawn = registerSpawn;
-        this.defaultConfig = defaultConfig;
-        this.defaultBiomeSpawns = defaultBiomeSpawns;
-        this.biomeSpawnConfig = biomeSpawnConfig;
+        this.fallbackSpawnConfig = fallbackSpawnConfig;
+        this.biomeWhiteList = biomeWhiteList;
+        this.biomeWhiteListMap = biomeWhiteListMap;
     }
 
     public MobConfigSchema() {
-        defaultConfig = null;
-        defaultBiomeSpawns = null;
         register = false;
         registerSpawn = false;
-        biomeSpawnConfig = new Object2ObjectOpenHashMap<>();
+        fallbackSpawnConfig = null;
+        biomeWhiteList = Collections.emptyList();
+        biomeWhiteListMap = Collections.emptyMap();
     }
 
     public boolean isRegister() {
@@ -44,16 +45,16 @@ public class MobConfigSchema {
         return registerSpawn;
     }
 
-    public SpawnConfig getDefaultConfig() {
-        return defaultConfig;
+    public SpawnConfig getFallbackSpawnConfig() {
+        return fallbackSpawnConfig;
     }
 
-    public List<ResourceLocationWrapper> getDefaultBiomeSpawns() {
-        return defaultBiomeSpawns;
+    public List<ResourceLocationWrapper> getBiomeWhiteList() {
+        return biomeWhiteList;
     }
 
-    public Map<ResourceLocationWrapper, SpawnConfig> getBiomeSpawnConfig() {
-        return biomeSpawnConfig;
+    public Map<ResourceLocationWrapper, SpawnConfig> getBiomeWhiteListMap() {
+        return biomeWhiteListMap;
     }
 
     @Desugar
@@ -67,9 +68,9 @@ public class MobConfigSchema {
 
         private Boolean register;
         private Boolean registerSpawn;
-        private SpawnConfig defaultSpawnConfig;
-        private final Map<ResourceLocationWrapper, SpawnConfig> biomeSpawnConfig = new Object2ObjectOpenHashMap<>();
-        private final List<ResourceLocationWrapper> defaultBiomeSpawns = new ObjectArrayList<>();
+        private SpawnConfig fallbackSpawnConfig;
+        private final List<ResourceLocationWrapper> biomeSpawnList = new ObjectArrayList<>();
+        private final Map<ResourceLocationWrapper, SpawnConfig> biomeSpawnListMap = new Object2ObjectOpenHashMap<>();
 
         private Builder() {}
 
@@ -83,25 +84,47 @@ public class MobConfigSchema {
             return this;
         }
 
-        public Builder defaultBiomeSpawnConfig(SpawnConfig spawnConfig) {
-            this.defaultSpawnConfig = spawnConfig;
+        public Builder fallbackSpawnConfig(int spawnProbability, int maximumSpawnGroup, int minimumSpawnGroup) {
+            return fallbackSpawnConfig(new SpawnConfig(spawnProbability, maximumSpawnGroup, minimumSpawnGroup));
+        }
+
+        public Builder fallbackSpawnConfig(SpawnConfig fallbackSpawnConfig) {
+            this.fallbackSpawnConfig = fallbackSpawnConfig;
             return this;
+        }
+
+        public Builder biomeSpawn(String biome) {
+            return biomeSpawn(ResourceLocationWrapper.of(biome));
         }
 
         public Builder biomeSpawn(ResourceLocationWrapper wrapper) {
-            this.defaultBiomeSpawns.add(wrapper);
+            this.biomeSpawnList.add(wrapper);
             return this;
         }
 
+        public Builder biomeSpawn(String biome, int spawnProbability, int maximumSpawnGroup, int minimumSpawnGroup) {
+            return biomeSpawn(ResourceLocationWrapper.of(biome),
+                    new SpawnConfig(spawnProbability, maximumSpawnGroup, minimumSpawnGroup));
+        }
+
+        public Builder biomeSpawn(String biome, SpawnConfig spawnConfig) {
+            return biomeSpawn(ResourceLocationWrapper.of(biome), spawnConfig);
+        }
+
+        public Builder biomeSpawn(ResourceLocationWrapper wrapper, int spawnProbability, int maximumSpawnGroup,
+                                  int minimumSpawnGroup) {
+            return biomeSpawn(wrapper, new SpawnConfig(spawnProbability, maximumSpawnGroup, minimumSpawnGroup));
+        }
+
         public Builder biomeSpawn(ResourceLocationWrapper wrapper, SpawnConfig spawnConfig) {
-            this.biomeSpawnConfig.put(wrapper, spawnConfig);
+            this.biomeSpawnListMap.put(wrapper, spawnConfig);
             return this;
         }
 
         public MobConfigSchema build() {
             return new MobConfigSchema(Objects.requireNonNull(register),
                     Objects.requireNonNull(registerSpawn),
-                    defaultSpawnConfig, defaultBiomeSpawns, biomeSpawnConfig);
+                    fallbackSpawnConfig, biomeSpawnList, biomeSpawnListMap);
         }
     }
 
@@ -111,11 +134,11 @@ public class MobConfigSchema {
         if (o == null || getClass() != o.getClass()) return false;
         MobConfigSchema that = (MobConfigSchema) o;
         return register == that.register && registerSpawn == that.registerSpawn &&
-                Objects.equals(biomeSpawnConfig, that.biomeSpawnConfig);
+                Objects.equals(biomeWhiteListMap, that.biomeWhiteListMap);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(register, registerSpawn, biomeSpawnConfig);
+        return Objects.hash(register, registerSpawn, biomeWhiteListMap);
     }
 }
