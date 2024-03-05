@@ -11,7 +11,6 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.cleanroommc.modularui.manager.GuiManager;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.ModularScreen;
 
@@ -48,12 +47,12 @@ public final class EventHandler {
         }
     }
 
-    @SubscribeEvent
+/*    @SubscribeEvent
     public static void onItemUse(PlayerInteractEvent.RightClickItem event) {
         if (event.getEntityPlayer().getEntityWorld().isRemote && event.getItemStack().getItem() == Items.STICK) {
             GuiManager.openClientUI(event.getEntityPlayer(), createGUI());
         }
-    }
+    }*/
 
     // TODO: 27/11/2023 remove
     public static ModularScreen createGUI() {
@@ -63,11 +62,11 @@ public final class EventHandler {
          * page.addPage(new BlockPatternWidget(
          * new IBlockState[][][]{{{Blocks.END_STONE.getDefaultState(), Blocks.END_STONE.getDefaultState()}}},
          * new ItemStack[][][]{{{new ItemStack(Blocks.END_STONE), new ItemStack(Blocks.END_STONE)}}}));
-         * 
+         *
          * page.addPage(new BlockPatternWidget(
          * new IBlockState[][][]{{{Blocks.SAND.getDefaultState(), Blocks.SAND.getDefaultState()}}},
          * new ItemStack[][][]{{{new ItemStack(Blocks.SAND), new ItemStack(Blocks.SAND)}}}));
-         * 
+         *
          * var controller = new PagedWidget.Controller();
          * page.controller(controller);
          * panel.child(page);
@@ -86,7 +85,7 @@ public final class EventHandler {
 
         /*
          * IBlockState[][] z1;
-         * 
+         *
          * {
          * IBlockState[] x1 = new IBlockState[]{Blocks.END_STONE.getDefaultState(), Blocks.END_STONE.getDefaultState()};
          * IBlockState[] x2 = new IBlockState[]{Blocks.COBBLESTONE.getDefaultState(),
@@ -94,10 +93,10 @@ public final class EventHandler {
          * IBlockState[] x3 = new IBlockState[]{Blocks.SAND.getDefaultState(), Blocks.SAND.getDefaultState()};
          * z1 = new IBlockState[][]{x1, x2, x3};
          * }
-         * 
+         *
          * IBlockState[][] z2;
          * {
-         * 
+         *
          * IBlockState[] x1 = new IBlockState[]{Blocks.FURNACE.getDefaultState(), Blocks.FURNACE.getDefaultState()};
          * IBlockState[] x2 = new IBlockState[]{Blocks.FARMLAND.getDefaultState()};
          * IBlockState[] x3 = new IBlockState[]{Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState()};

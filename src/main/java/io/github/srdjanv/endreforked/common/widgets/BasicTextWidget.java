@@ -53,8 +53,11 @@ public class BasicTextWidget extends Widget<BasicTextWidget> {
         }
 
         if (Objects.isNull(lambdaKey)) return;
-        var lang = new LangKey(lambdaKey);
-        if (Objects.nonNull(lambdaArgs)) lang.args(lambdaArgs);
-        lang.drawAtZero(context, getArea());
+        final LangKey lang;
+        if (Objects.nonNull(lambdaArgs)) {
+            lang = new LangKey(lambdaKey, lambdaArgs);
+        } else lang = new LangKey(lambdaKey);
+
+        lang.drawAtZero(context, getArea(), widgetTheme);
     }
 }

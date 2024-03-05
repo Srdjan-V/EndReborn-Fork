@@ -2,6 +2,8 @@ package io.github.srdjanv.endreforked.common.tiles;
 
 import java.util.Objects;
 
+import com.cleanroommc.modularui.factory.GuiData;
+import com.cleanroommc.modularui.factory.PosGuiData;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,7 +24,6 @@ import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.api.value.IValue;
 import com.cleanroommc.modularui.drawable.GuiTextures;
-import com.cleanroommc.modularui.manager.GuiCreationContext;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.viewport.GuiContext;
 import com.cleanroommc.modularui.theme.WidgetTheme;
@@ -44,7 +45,7 @@ import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
 import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
 
-public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolder {
+public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolder<PosGuiData> {
 
     private final ItemStackHandler intput = new InternalItemStackHandler(1);
 
@@ -196,8 +197,8 @@ public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolde
         markDirty();
     }
 
-    @Override
-    public ModularPanel buildUI(GuiCreationContext creationContext, GuiSyncManager syncManager, boolean isClient) {
+
+    @Override public ModularPanel buildUI(PosGuiData data, GuiSyncManager syncManager) {
         ModularPanel panel = ModularPanel.defaultPanel("materializer_gui").bindPlayerInventory();
 
         class BasicTextWidget extends Widget<BasicTextWidget> {
@@ -215,7 +216,7 @@ public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolde
             }
         }
 
-        var textBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.BACKGROUND);
+        var textBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.MC_BACKGROUND);
         textBox.setValue(new StringSyncValue(() -> status.name(), null));
         panel.child(textBox);
 

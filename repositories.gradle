@@ -1,11 +1,5 @@
 // Add any additional repositories for your dependencies here
 
 repositories {
-    ivy {
-        url 'https://github.com/'
-        patternLayout {
-            artifact '[organisation]/[module]/releases/download/v[revision]/[module]-[revision]-[classifier].[ext]'
-        }
-        metadataSources { artifact() }
-    }
+
 }

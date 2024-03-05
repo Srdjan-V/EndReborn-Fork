@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import com.cleanroommc.modularui.factory.PosGuiData;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.SoundEvents;
@@ -37,7 +38,6 @@ import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.drawable.keys.DynamicKey;
 import com.cleanroommc.modularui.drawable.keys.LangKey;
-import com.cleanroommc.modularui.manager.GuiCreationContext;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.value.sync.GuiSyncManager;
 import com.cleanroommc.modularui.value.sync.SyncHandler;
@@ -63,7 +63,7 @@ import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
 import io.github.srdjanv.endreforked.common.widgets.BasicTextWidget;
 import io.github.srdjanv.endreforked.common.widgets.BlockStateRendereWidget;
 
-public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiHolder {
+public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiHolder<PosGuiData> {
 
     private final ItemStackHandler inputInventory = new ItemStackHandler(2) {
 
@@ -150,7 +150,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
     }
 
     @Override
-    public ModularPanel buildUI(GuiCreationContext creationContext, GuiSyncManager syncManager, boolean isClient) {
+    public ModularPanel buildUI(PosGuiData data, GuiSyncManager syncManager) {
         ModularPanel panel = ModularPanel.defaultPanel("materializer_gui").bindPlayerInventory();
 
         syncManager.syncValue("lastTriggeredCriticalityIndex",
@@ -205,8 +205,8 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
             }
         });
 
-        if (isClient) {
-            var textBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.BACKGROUND);
+        if (data.isClient()) {
+            var textBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.MC_BACKGROUND);
             textBox.setKey(() -> {
                 if (failed) return TileStatus.Failed.getLangKey();
                 return status.getLangKey();
@@ -214,7 +214,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
             panel.child(textBox);
 
             final var render = new BlockStateRendereWidget()
-                    .background(GuiTextures.BACKGROUND).size(176, 166).leftRel(1f);
+                    .background(GuiTextures.MC_BACKGROUND).size(176, 166).leftRel(1f);
             render.onUpdateListener(thatRender -> {
                 if (!recipeProcessor.validateGrouping(processingInventory.getStackInSlot(1)) ||
                         !recipeProcessor.validateRecipe(processingInventory.getStackInSlot(0))) {
@@ -233,7 +233,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                 }
             });
 
-            final var renderText = new BasicTextWidget().background(GuiTextures.BACKGROUND).bottomRel(1f).left(8)
+            final var renderText = new BasicTextWidget().background(GuiTextures.MC_BACKGROUND).bottomRel(1f).left(8)
                     .right(8).height(25);
             renderText.setKeyArg(() -> {
                 if (!recipeProcessor.validateRecipe(processingInventory.getStackInSlot(0))) return null;
@@ -248,11 +248,11 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
 
             render.child(renderText);
 
-            final var renderControls = new ParentWidget<>().background(GuiTextures.BACKGROUND).topRel(1f).left(8)
+            final var renderControls = new ParentWidget<>().background(GuiTextures.MC_BACKGROUND).topRel(1f).left(8)
                     .right(8).height(25);
             render.child(renderControls);
 
-            final var followCurrentStructureButton = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(20)
+            final var followCurrentStructureButton = new ButtonWidget<>().background(GuiTextures.MC_BACKGROUND).right(20)
                     .top(3);
             followCurrentStructureButton.tooltip().addLine(new LangKey("tile.materializer.render.followStruct"));
             followCurrentStructureButton.onMousePressed(mouseButton -> {
@@ -263,7 +263,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
             renderControls.child(followCurrentStructureButton);
 
             {
-                final var toggleFullRenderButton = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(60)
+                final var toggleFullRenderButton = new ButtonWidget<>().background(GuiTextures.MC_BACKGROUND).right(60)
                         .top(3);
                 toggleFullRenderButton.tooltip().addLine(new LangKey("tile.materializer.render.toggleFullRender"));
                 toggleFullRenderButton.onMousePressed(mouseButton -> {
@@ -273,7 +273,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                 });
                 renderControls.child(toggleFullRenderButton);
 
-                final var renderLayerUpButton = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(80)
+                final var renderLayerUpButton = new ButtonWidget<>().background(GuiTextures.MC_BACKGROUND).right(80)
                         .top(3);
                 renderLayerUpButton.tooltip().addLine(new LangKey("tile.materializer.render.nextLayer"));
                 renderLayerUpButton.onMousePressed(mouseButton -> {
@@ -283,7 +283,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                 });
                 renderControls.child(renderLayerUpButton);
 
-                final var renderLayerDownButton = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(100)
+                final var renderLayerDownButton = new ButtonWidget<>().background(GuiTextures.MC_BACKGROUND).right(100)
                         .top(3);
                 renderLayerDownButton.tooltip().addLine(new LangKey("tile.materializer.render.prevLayer"));
                 renderLayerDownButton.onMousePressed(mouseButton -> {
@@ -295,11 +295,11 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
             }
 
             panel.child(render);
-            creationContext.getJeiSettings().addJeiExclusionArea(render);
-            creationContext.getJeiSettings().addJeiExclusionArea(renderText);
-            creationContext.getJeiSettings().addJeiExclusionArea(renderControls);
+            data.getJeiSettings().addJeiExclusionArea(render);
+            data.getJeiSettings().addJeiExclusionArea(renderText);
+            data.getJeiSettings().addJeiExclusionArea(renderControls);
 
-            var button = new ButtonWidget<>().background(GuiTextures.BACKGROUND).right(168).bottom(75)
+            var button = new ButtonWidget<>().background(GuiTextures.MC_BACKGROUND).right(168).bottom(75)
                     .tooltip(tooltip -> tooltip.addLine(new LangKey("tile.materializer.render.show")));
             panel.child(button);
 

@@ -160,7 +160,7 @@ public class BlockStateRendereWidget extends ParentWidget<BlockStateRendereWidge
     public void draw(GuiContext context, WidgetTheme widgetTheme) {
         if (disableRender) return;
 
-        int stackDepth = GL11.glGetInteger(2979);
+        int stackDepth = GL11.glGetInteger(GL11.GL_MODELVIEW_STACK_DEPTH);
         int structureLength;
         try {
             if (this.canTick && ++this.tick % 20 == 0) {
@@ -219,7 +219,7 @@ public class BlockStateRendereWidget extends ParentWidget<BlockStateRendereWidge
             EndReforked.LOGGER.error(exception);
         }
 
-        for (structureLength = GL11.glGetInteger(2979); structureLength > stackDepth; --structureLength) {
+        for (structureLength = GL11.glGetInteger(GL11.GL_MODELVIEW_STACK_DEPTH); structureLength > stackDepth; --structureLength) {
             GlStateManager.popMatrix();
         }
     }
