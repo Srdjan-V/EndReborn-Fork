@@ -98,7 +98,7 @@ public final class ModBlocks {
             () -> new BlockEnderCrop("ender_flower_crop"));
 
     // todo fixup
-    public static final Supplier<Block> ORGANA_WEED = maybeRegister(
+    public static final Supplier<BlockOrganaWeed> ORGANA_WEED = maybeRegister(
             () -> new BlockOrganaWeed("ogana_weed"));
 
     public static final Supplier<BlockEndMoss> END_MOSS = maybeRegister(

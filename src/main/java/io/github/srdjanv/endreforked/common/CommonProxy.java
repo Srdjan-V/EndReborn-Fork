@@ -3,6 +3,7 @@ package io.github.srdjanv.endreforked.common;
 import java.util.Iterator;
 import java.util.List;
 
+import io.github.srdjanv.endreforked.common.configs.bioms.BiomesConfig;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -30,6 +31,7 @@ public class CommonProxy {
         components.addAll(GenConfigs.getAllConfigs());
         components.add(MobConfig.getInstance());
         components.add(DisabledContentConfig.getInstance());
+        components.add(BiomesConfig.getInstance());
     }
 
     public void registerEventBus() {
@@ -41,6 +43,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(ModSounds.class);
         MinecraftForge.EVENT_BUS.register(ModPotions.class);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
+        MinecraftForge.EVENT_BUS.register(ModBioms.class);
     }
 
     public void preInit(FMLPreInitializationEvent event) {
