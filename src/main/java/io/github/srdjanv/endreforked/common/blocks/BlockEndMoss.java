@@ -41,22 +41,16 @@ public class BlockEndMoss extends BlockBase implements IGrowable {
         if (entityIn.isSneaking()) {
             super.onLanded(worldIn, entityIn);
         } else if (entityIn.motionY < 0.0D) {
-            entityIn.motionY = -entityIn.motionY;
+            if (entityIn.motionY > -0.6D) {
+                super.onLanded(worldIn, entityIn);
+                return;
+            }
 
+            entityIn.motionY = -entityIn.motionY;
             if (!(entityIn instanceof EntityLivingBase)) {
                 entityIn.motionY *= 0.8D;
             }
         }
-    }
-
-    @Override public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
-        if (Math.abs(entityIn.motionY) < 0.1D && !entityIn.isSneaking()) {
-            double d0 = 0.4D + Math.abs(entityIn.motionY) * 0.2D;
-            entityIn.motionX *= d0;
-            entityIn.motionZ *= d0;
-        }
-
-        super.onEntityWalk(worldIn, pos, entityIn);
     }
 
     @Override

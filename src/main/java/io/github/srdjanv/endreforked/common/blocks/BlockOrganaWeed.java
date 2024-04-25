@@ -40,7 +40,7 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
         }
         if (entityIn instanceof EntityPlayer player) {
             if (player.isSneaking()) return;
-            player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 10));
+            player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 20, 2));
         }
     }
 
