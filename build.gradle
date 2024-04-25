@@ -33,6 +33,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.8.0' apply false
     id 'org.jetbrains.kotlin.kapt' version '1.8.0' apply false
     id 'com.google.devtools.ksp' version '1.8.0-1.0.9' apply false
+    id 'io.github.srdjan-v.hotswap-gradle' version '0.1.0'
 }
 
 def out = services.get(StyledTextOutputFactory).create('an-output')
@@ -323,10 +324,9 @@ if (!modVersion) {
     }
 }
 
-if (includeMCVersionJar.toBoolean()){
+if (includeMCVersionJar.toBoolean()) {
     version = "${minecraftVersion}-${modVersion}"
-}
-else {
+} else {
     version = modVersion
 }
 
@@ -356,9 +356,9 @@ minecraft {
     extraRunJvmArguments.add("-ea:${modGroup}")
     if (usesMixins.toBoolean()) {
         extraRunJvmArguments.addAll([
-            '-Dmixin.hotSwap=true',
-            '-Dmixin.checks.interfaces=true',
-            '-Dmixin.debug.export=true'
+                '-Dmixin.hotSwap=true',
+                '-Dmixin.checks.interfaces=true',
+                '-Dmixin.debug.export=true'
         ])
     }
 
@@ -505,7 +505,7 @@ dependencies {
         annotationProcessor 'com.google.code.gson:gson:2.8.9'
 
         mixinProviderSpec = modUtils.enableMixins(mixinProviderSpec, "mixins.${modId}.refmap.json")
-        api (mixinProviderSpec) {
+        api(mixinProviderSpec) {
             transitive = false
         }
 
@@ -788,7 +788,7 @@ if (usesShadowedDependencies.toBoolean()) {
         finalizedBy(tasks.shadowJar)
     }
     tasks.named('reobfJar', ReobfuscatedJar) {
-        inputJar.set(tasks.named('shadowJar', ShadowJar).flatMap({it.archiveFile}))
+        inputJar.set(tasks.named('shadowJar', ShadowJar).flatMap({ it.archiveFile }))
     }
     AdhocComponentWithVariants javaComponent = (AdhocComponentWithVariants) project.components.findByName('java')
     javaComponent.withVariantsFromConfiguration(configurations.shadowRuntimeElements) {
@@ -923,7 +923,7 @@ tasks.register('generateChangelog') {
                 .collect { ['--', it] }).flatten())
 
         if (changelog) {
-            changelog = "Changes since ${lastTag}:\n${{("\n" + changelog).replaceAll("\n", "\n* ")}}"
+            changelog = "Changes since ${lastTag}:\n${{ ("\n" + changelog).replaceAll("\n", "\n* ") }}"
         }
         def f = getFile('build/changelog.md')
         changelog = changelog ?: 'There have been no changes.'
@@ -968,8 +968,8 @@ if (cfApiKey.isPresent() || deploymentDebug.toBoolean()) {
                     def types = [
                             'req'   : 'requiredDependency', 'required': 'requiredDependency',
                             'opt'   : 'optionalDependency', 'optional': 'optionalDependency',
-                            'embed' : 'embeddedLibrary',    'embedded': 'embeddedLibrary',
-                            'incomp': 'incompatible',       'fail'    : 'incompatible']
+                            'embed' : 'embeddedLibrary', 'embedded': 'embeddedLibrary',
+                            'incomp': 'incompatible', 'fail': 'incompatible']
                     if (types.containsKey(type)) type = types[type]
                     if (!(type in ['requiredDependency', 'embeddedLibrary', 'optionalDependency', 'tool', 'incompatible'])) {
                         throw new Exception('Invalid Curseforge dependency type: ' + type)
@@ -1099,6 +1099,7 @@ def getReleaseType() {
  * Next, if 'generateDefaultChangelog' option is enabled, use that.
  * Otherwise, try to use a CHANGELOG.md file at root directory.
  */
+
 def getChangelog() {
     def final changelogEnv = providers.environmentVariable('CHANGELOG_LOCATION')
     if (changelogEnv.isPresent()) {
