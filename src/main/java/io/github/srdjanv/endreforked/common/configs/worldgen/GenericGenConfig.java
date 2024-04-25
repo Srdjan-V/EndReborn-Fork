@@ -79,7 +79,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                         if (rand.nextInt(100) > 50) {
                             server.setBlockState(pos, ModBlocks.END_MAGMA_BLOCK.get().getDefaultState());
                         } else
-                            server.setBlockState(pos, ModBlocks.BLOCK_FLUID_END_MAGMA_STATIC.get().getDefaultState());
+                            server.setBlockState(pos, ModBlocks.BLOCK_FLUID_END_MAGMA.get().getDefaultState());
                         return true;
                     });
                 });
@@ -99,7 +99,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                         var state = server.getBlockState(pos);
                         return state.getBlock() == Blocks.END_STONE;
                     }, (server, rand, pos) -> {
-                        server.setBlockState(pos, ModBlocks.BLOCK_FLUID_END_MAGMA_STATIC.get().getDefaultState());
+                        server.setBlockState(pos, ModBlocks.BLOCK_FLUID_END_MAGMA.get().getDefaultState());
                         return true;
                     }, (server, rand, pos) -> {
                         if (rand.nextInt(100) > 80) return false;

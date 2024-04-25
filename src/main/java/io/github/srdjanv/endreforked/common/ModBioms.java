@@ -1,31 +1,17 @@
 package io.github.srdjanv.endreforked.common;
 
 import com.google.common.base.Suppliers;
-import git.jbredwards.nether_api.api.event.NetherAPIRegistryEvent;
-import git.jbredwards.nether_api.mod.NetherAPI;
-import git.jbredwards.nether_api.mod.common.compat.betternether.BetterNetherHandler;
-import git.jbredwards.nether_api.mod.common.compat.biomesoplenty.BiomesOPlentyHandler;
-import git.jbredwards.nether_api.mod.common.compat.journey_into_the_light.JITLHandler;
-import git.jbredwards.nether_api.mod.common.compat.nethercraft.NethercraftHandler;
-import git.jbredwards.nether_api.mod.common.compat.netherex.NetherExHandler;
-import git.jbredwards.nether_api.mod.common.config.NetherAPIConfig;
 import io.github.srdjanv.endreforked.common.bioms.OrganaBiome;
-import io.github.srdjanv.endreforked.common.configs.bioms.BiomesConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.init.Biomes;
-import net.minecraft.item.Item;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.commons.lang3.tuple.Pair;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class ModBioms {
+public final class ModBioms {
     public static final List<Supplier<? extends Biome>> END_BIOMES = new ObjectArrayList<>();
 
     public static final Supplier<OrganaBiome> ORGANA_BIOME = regEnd(OrganaBiome::new);

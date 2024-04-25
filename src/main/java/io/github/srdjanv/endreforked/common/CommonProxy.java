@@ -37,6 +37,7 @@ public class CommonProxy {
     public void registerEventBus() {
         for (Initializer component : components) component.registerEventBus();
         MinecraftForge.EVENT_BUS.register(CapabilityTimedFlightHandler.class);
+        MinecraftForge.EVENT_BUS.register(ModFluids.class);
         MinecraftForge.EVENT_BUS.register(ModBlocks.class);
         MinecraftForge.EVENT_BUS.register(ModItems.class);
         MinecraftForge.EVENT_BUS.register(ModEnchants.class);

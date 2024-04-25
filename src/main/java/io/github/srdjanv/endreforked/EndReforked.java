@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -35,6 +36,10 @@ public class EndReforked {
             return new ItemStack(Items.ENDER_PEARL);
         }
     };
+
+    static {
+        FluidRegistry.enableUniversalBucket();
+    }
 
     public static EndReforked instance;
 
