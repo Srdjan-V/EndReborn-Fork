@@ -3,6 +3,10 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 import java.util.Objects;
 import java.util.Random;
 
+import io.github.srdjanv.endreforked.api.worldgen.features.FilledSphereGenerator;
+import io.github.srdjanv.endreforked.common.ModBioms;
+import io.github.srdjanv.endreforked.common.ModFluids;
+import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
@@ -57,7 +61,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     });
                 });
 
-        registerGen("EndMagma",
+        registerGen("FuzzyEndMagma",
                 builder -> {
                     builder.whiteListDim(1, DimConfig.builder()
                             .setRarity(95)
@@ -70,6 +74,33 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     return new SphereGenerator(config, (server, rand, pos) -> {
                         var state = server.getBlockState(pos);
                         return state.getBlock() == Blocks.END_STONE;
+                    }, (server, rand, pos) -> {
+                        if (rand.nextInt(100) > 80) return false;
+                        if (rand.nextInt(100) > 50) {
+                            server.setBlockState(pos, ModBlocks.END_MAGMA_BLOCK.get().getDefaultState());
+                        } else
+                            server.setBlockState(pos, ModBlocks.BLOCK_FLUID_END_MAGMA_STATIC.get().getDefaultState());
+                        return true;
+                    });
+                });
+
+        registerGen("FilledEndMagma",
+                builder -> {
+                    builder.whiteListBiome(DimConfig.builder()
+                                    .setRarity(95)
+                                    .setAmountModifier(12)
+                                    .setMaxHeight(25)
+                                    .setMinHeight(10).build(),
+                            ResourceLocationWrapper.of(ModBioms.ORGANA_BIOME.get().getRegistryName()));
+                    return builder.build();
+                },
+                (world, biome, config) -> {
+                    return new FilledSphereGenerator(config, (server, rand, pos) -> {
+                        var state = server.getBlockState(pos);
+                        return state.getBlock() == Blocks.END_STONE;
+                    }, (server, rand, pos) -> {
+                        server.setBlockState(pos, ModBlocks.BLOCK_FLUID_END_MAGMA_STATIC.get().getDefaultState());
+                        return true;
                     }, (server, rand, pos) -> {
                         if (rand.nextInt(100) > 80) return false;
                         server.setBlockState(pos, ModBlocks.END_MAGMA_BLOCK.get().getDefaultState());

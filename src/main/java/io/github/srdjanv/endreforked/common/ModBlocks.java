@@ -104,6 +104,12 @@ public final class ModBlocks {
     public static final Supplier<BlockEndMoss> END_MOSS = maybeRegister(
             () -> new BlockEndMoss("end_moss"));
 
+
+    public static final Supplier<BlockFluidEndMagmaDynamic> BLOCK_FLUID_END_MAGMA_DYNAMIC = register(BlockFluidEndMagmaDynamic::new);
+
+    public static final Supplier<BlockFluidEndMagmaStatic> BLOCK_FLUID_END_MAGMA_STATIC = register(BlockFluidEndMagmaStatic::new);
+
+
     public static <B extends Block> Supplier<B> register(com.google.common.base.Supplier<B> supplier) {
         Supplier<B> memorized = Suppliers.memoize(supplier);
         BLOCKS.add(memorized);
