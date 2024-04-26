@@ -3,8 +3,6 @@ package io.github.srdjanv.endreforked.common.bioms;
 import git.jbredwards.nether_api.api.biome.IEndBiome;
 import git.jbredwards.nether_api.api.world.INetherAPIChunkGenerator;
 import io.github.srdjanv.endreforked.common.ModBlocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeEnd;
 import net.minecraft.world.biome.BiomeEndDecorator;
@@ -17,7 +15,7 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome {
         super(new BiomeProperties("Organa").setRainDisabled());
         setRegistryName("Organa");
 
-        topBlock = ModBlocks.END_MOSS.get().getDefaultState();
+        topBlock = ModBlocks.END_MOSS_BLOCK.get().getDefaultState();
         fillerBlock = Blocks.END_STONE.getDefaultState();
         decorator = new BiomeEndDecorator();
     }

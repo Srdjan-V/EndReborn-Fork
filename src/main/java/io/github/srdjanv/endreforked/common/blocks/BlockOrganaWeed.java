@@ -56,7 +56,7 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
 
     @Override
     protected boolean canSustainBush(IBlockState state) {
-        return state.getBlock() == ModBlocks.END_MOSS.get();
+        return state.getBlock() == ModBlocks.END_MOSS_BLOCK.get();
     }
 
     @Override
@@ -76,6 +76,6 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
     @Override
     public java.util.List<ItemStack> onSheared(ItemStack item, net.minecraft.world.IBlockAccess world, BlockPos pos,
                                                int fortune) {
-        return Collections.singletonList(new ItemStack(ModBlocks.ORGANA_WEED.get()));
+        return Collections.singletonList(new ItemStack(ModBlocks.ORGANA_WEED_BLOCK.get()));
     }
 }

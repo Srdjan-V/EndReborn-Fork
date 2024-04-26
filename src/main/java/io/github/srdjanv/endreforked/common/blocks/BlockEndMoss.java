@@ -2,22 +2,12 @@ package io.github.srdjanv.endreforked.common.blocks;
 
 import java.util.Random;
 
-import io.github.srdjanv.endreforked.common.entity.EntityChronologist;
-import io.github.srdjanv.endreforked.common.entity.EntityWatcher;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -74,8 +64,8 @@ public class BlockEndMoss extends BlockBase implements IGrowable {
             while (true) {
                 if (j >= i / 16) {
                     if (worldIn.isAirBlock(pos)) {
-                        if (ModBlocks.ORGANA_WEED.get().canPlaceBlockAt(worldIn, pos)) {
-                            worldIn.setBlockState(pos, ModBlocks.ORGANA_WEED.get().getDefaultState());
+                        if (ModBlocks.ORGANA_WEED_BLOCK.get().canPlaceBlockAt(worldIn, pos)) {
+                            worldIn.setBlockState(pos, ModBlocks.ORGANA_WEED_BLOCK.get().getDefaultState());
                         } else {
                             var downPos = pos.down();
                             if (worldIn.getBlockState(downPos).getBlock() == Blocks.END_STONE) {

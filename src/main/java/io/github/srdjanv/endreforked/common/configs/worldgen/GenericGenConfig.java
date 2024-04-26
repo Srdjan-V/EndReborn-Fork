@@ -5,7 +5,6 @@ import java.util.Random;
 
 import io.github.srdjanv.endreforked.api.worldgen.features.FilledSphereGenerator;
 import io.github.srdjanv.endreforked.common.ModBioms;
-import io.github.srdjanv.endreforked.common.ModFluids;
 import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
@@ -79,7 +78,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                         if (rand.nextInt(100) > 50) {
                             server.setBlockState(pos, ModBlocks.END_MAGMA_BLOCK.get().getDefaultState());
                         } else
-                            server.setBlockState(pos, ModBlocks.BLOCK_FLUID_END_MAGMA.get().getDefaultState());
+                            server.setBlockState(pos, ModBlocks.FLUID_END_MAGMA_BLOCK.get().getDefaultState());
                         return true;
                     });
                 });
@@ -99,7 +98,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                         var state = server.getBlockState(pos);
                         return state.getBlock() == Blocks.END_STONE;
                     }, (server, rand, pos) -> {
-                        server.setBlockState(pos, ModBlocks.BLOCK_FLUID_END_MAGMA.get().getDefaultState());
+                        server.setBlockState(pos, ModBlocks.FLUID_END_MAGMA_BLOCK.get().getDefaultState());
                         return true;
                     }, (server, rand, pos) -> {
                         if (rand.nextInt(100) > 80) return false;
@@ -136,11 +135,11 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                         (server, rand, pos) -> {
                             if (rand.nextInt(100) > 80) return false;
                             if (server.isAirBlock(pos) && !server.isAirBlock(pos.up())) return false;
-                            server.setBlockState(pos, ModBlocks.END_MOSS.get().getDefaultState());
+                            server.setBlockState(pos, ModBlocks.END_MOSS_BLOCK.get().getDefaultState());
                             if (rand.nextInt(100) > 30) return true;
-                            server.setBlockState(pos.up(), ModBlocks.ORGANA_WEED.get().getDefaultState());
+                            server.setBlockState(pos.up(), ModBlocks.ORGANA_WEED_BLOCK.get().getDefaultState());
                             if (rand.nextInt(100) > 5) return true;
-                            var endMoss = ModBlocks.END_MOSS.get();
+                            var endMoss = ModBlocks.END_MOSS_BLOCK.get();
                             endMoss.grow(world, rand, pos, endMoss.getDefaultState());
                             return true;
                         }));
