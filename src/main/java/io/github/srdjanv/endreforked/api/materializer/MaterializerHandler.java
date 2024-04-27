@@ -2,12 +2,12 @@ package io.github.srdjanv.endreforked.api.materializer;
 
 import net.minecraft.item.ItemStack;
 
-import io.github.srdjanv.endreforked.api.base.HandlerRegistry;
+import io.github.srdjanv.endreforked.api.base.HandlerGroupingRegistry;
 import io.github.srdjanv.endreforked.api.util.ItemStackHashStrategy;
 import it.unimi.dsi.fastutil.Hash;
 
 public final class MaterializerHandler extends
-                                       HandlerRegistry<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> {
+        HandlerGroupingRegistry<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> {
 
     private static final MaterializerHandler instance = new MaterializerHandler();
 

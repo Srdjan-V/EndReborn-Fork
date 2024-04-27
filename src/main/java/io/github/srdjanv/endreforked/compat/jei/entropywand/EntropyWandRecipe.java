@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.github.srdjanv.endreforked.api.entropy.WorldConversion;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -11,7 +12,6 @@ import net.minecraft.item.ItemStack;
 
 import com.cleanroommc.modularui.utils.Color;
 
-import io.github.srdjanv.endreforked.api.entropywand.Conversion;
 import io.github.srdjanv.endreforked.common.configs.Configs;
 import io.github.srdjanv.endreforked.utils.LangUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -25,10 +25,10 @@ public class EntropyWandRecipe implements IRecipeWrapper {
     private final ItemStack output;
     private final int wandDamage;
 
-    public EntropyWandRecipe(Block block, Conversion conversion) {
+    public EntropyWandRecipe(Block block, WorldConversion worldConversion) {
         List<ItemStack> input = new ObjectArrayList<>();
         for (IBlockState validState : block.getBlockState().getValidStates())
-            if (conversion.getBlockStateMatcher().test(validState))
+            if (worldConversion.getBlockStateMatcher().test(validState))
                 input.add(new ItemStack(block, 1, block.getMetaFromState(validState)));
 
         if (!Configs.CLIENT_SIDE_CONFIGS.entropyWandRenderBrokenTextures) {
@@ -40,10 +40,10 @@ public class EntropyWandRecipe implements IRecipeWrapper {
         }
 
         this.input.add(input);
-        var newState = conversion.getNewState().get();
+        var newState = worldConversion.getNewState().get();
         var newStateBlock = newState.getBlock();
         output = new ItemStack(newStateBlock, 1, newStateBlock.getMetaFromState(newState));
-        wandDamage = conversion.getItemDamage();
+        wandDamage = worldConversion.getItemDamage();
     }
 
     @Override

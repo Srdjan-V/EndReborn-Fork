@@ -17,8 +17,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.entropywand.Conversion;
-import io.github.srdjanv.endreforked.api.entropywand.EntropyWandHandler;
+import io.github.srdjanv.endreforked.api.entropy.WorldConversion;
+import io.github.srdjanv.endreforked.api.entropy.EntropyWandHandler;
 import io.github.srdjanv.endreforked.utils.models.InventoryItemModel;
 
 public class ToolEntropyWand extends ItemSword implements InventoryItemModel {
@@ -55,11 +55,11 @@ public class ToolEntropyWand extends ItemSword implements InventoryItemModel {
         var conversions = EntropyWandHandler.getConversions(block.getBlock());
         if (conversions == null) return EnumActionResult.PASS;
 
-        for (Conversion conversion : conversions) {
-            if (conversion.getBlockStateMatcher().test(block)) {
-                server.setBlockState(pos, conversion.getNewState().get());
-                player.getHeldItem(hand).damageItem(conversion.getItemDamage(), player);
-                var callback = conversion.getConversionCallback();
+        for (WorldConversion worldConversion : conversions) {
+            if (worldConversion.getBlockStateMatcher().test(block)) {
+                server.setBlockState(pos, worldConversion.getNewState().get());
+                player.getHeldItem(hand).damageItem(worldConversion.getItemDamage(), player);
+                var callback = worldConversion.getConversionCallback();
                 if (callback != null) callback.accept(server, pos);
                 return EnumActionResult.SUCCESS;
             }

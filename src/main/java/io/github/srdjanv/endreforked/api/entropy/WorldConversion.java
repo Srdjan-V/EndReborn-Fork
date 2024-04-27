@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.api.entropywand;
+package io.github.srdjanv.endreforked.api.entropy;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.common.configs.Configs;
 
-public final class Conversion {
+public class WorldConversion {
 
     private final Predicate<IBlockState> matcher;
     private final Supplier<IBlockState> newState;
@@ -95,8 +95,8 @@ public final class Conversion {
             return this;
         }
 
-        public Conversion build() {
-            return new Conversion(
+        public WorldConversion build() {
+            return new WorldConversion(
                     Objects.requireNonNull(matcher),
                     Objects.requireNonNull(newState),
                     itemDamage,
@@ -104,10 +104,10 @@ public final class Conversion {
         }
     }
 
-    public Conversion(Predicate<IBlockState> matcher,
-                      Supplier<IBlockState> newState,
-                      int itemDamage,
-                      @Nullable BiConsumer<WorldServer, BlockPos> conversionCallback) {
+    public WorldConversion(Predicate<IBlockState> matcher,
+                           Supplier<IBlockState> newState,
+                           int itemDamage,
+                           @Nullable BiConsumer<WorldServer, BlockPos> conversionCallback) {
         this.matcher = matcher;
         this.newState = newState;
         this.itemDamage = itemDamage;

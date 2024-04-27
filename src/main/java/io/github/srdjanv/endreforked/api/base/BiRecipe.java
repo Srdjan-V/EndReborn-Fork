@@ -1,19 +1,20 @@
 package io.github.srdjanv.endreforked.api.base;
 
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
-public class Recipe<IN, OUT> {
-    protected final IN input;
-    protected final Function<IN, OUT> recipeFunction;
+public abstract class BiRecipe<IN1, IN2, OUT> {
+
+    protected final IN2 input;
+    protected final BiFunction<IN1, IN2, OUT> recipeFunction;
     protected final int ticksToComplete;
 
-    public Recipe(IN input, int ticksToComplete, Function<IN, OUT> recipeFunction) {
+    public BiRecipe(IN2 input, int ticksToComplete, BiFunction<IN1, IN2, OUT> recipeFunction) {
         this.input = input;
         this.ticksToComplete = ticksToComplete;
         this.recipeFunction = recipeFunction;
     }
 
-    public IN getInput() {
+    public IN2 getInput() {
         return input;
     }
 
@@ -21,7 +22,7 @@ public class Recipe<IN, OUT> {
         return ticksToComplete;
     }
 
-    public Function<IN, OUT> getRecipeFunction() {
+    public BiFunction<IN1, IN2, OUT> getRecipeFunction() {
         return recipeFunction;
     }
 }

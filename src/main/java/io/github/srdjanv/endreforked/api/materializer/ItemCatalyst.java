@@ -2,9 +2,9 @@ package io.github.srdjanv.endreforked.api.materializer;
 
 import net.minecraft.item.ItemStack;
 
-import io.github.srdjanv.endreforked.api.base.groupings.ItemToItemGrouping;
+import io.github.srdjanv.endreforked.api.base.groupings.Item2ItemGrouping;
 
-public class ItemCatalyst extends ItemToItemGrouping<MaterializerRecipe> {
+public class ItemCatalyst extends Item2ItemGrouping<MaterializerRecipe> {
 
     public ItemCatalyst(ItemStack catalyst) {
         super(catalyst);

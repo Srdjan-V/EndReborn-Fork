@@ -6,11 +6,11 @@ import net.minecraft.item.ItemStack;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.srdjanv.endreforked.api.base.Recipe;
+import io.github.srdjanv.endreforked.api.base.BiRecipe;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
-public final class MaterializerRecipe extends Recipe<ItemStack, ItemStack, ItemStack> {
+public final class MaterializerRecipe extends BiRecipe<ItemStack, ItemStack, ItemStack> {
 
     private final Int2ObjectLinkedOpenHashMap<WorldEvent> worldEvents;
 

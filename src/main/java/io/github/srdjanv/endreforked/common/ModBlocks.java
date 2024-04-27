@@ -86,6 +86,8 @@ public final class ModBlocks {
     public static final Supplier<Block> MATERIALIZER_BLOCK = maybeRegister(
             () -> new BlockMaterializer("materializer_block"));
 
+    public static final Supplier<BlockEntropyChamber> ENTROPY_CHAMBER_BLOCK = register(BlockEntropyChamber::new);
+
     public static final Supplier<Block> RUNE_BLOCK = maybeRegister(
             () -> new BlockRune("rune_block", Material.ROCK));
 

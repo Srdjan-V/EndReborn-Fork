@@ -4,17 +4,17 @@ import java.util.Objects;
 
 import net.minecraft.item.ItemStack;
 
-import io.github.srdjanv.endreforked.api.base.HandlerRegistry;
-import io.github.srdjanv.endreforked.api.base.Recipe;
+import io.github.srdjanv.endreforked.api.base.HandlerGroupingRegistry;
+import io.github.srdjanv.endreforked.api.base.BiRecipe;
 import io.github.srdjanv.endreforked.api.base.groupings.RecipeGrouping;
 
 public class ItemRecipeProcessor<OUT,
         RG extends RecipeGrouping<ItemStack, ItemStack, R>,
-        R extends Recipe<ItemStack, ItemStack, OUT>>
-                                extends RecipeProcessor<ItemStack, ItemStack, OUT, RG, R> {
+        R extends BiRecipe<ItemStack, ItemStack, OUT>>
+                                extends BiRecipeProcessor<ItemStack, ItemStack, OUT, RG, R> {
 
-    public ItemRecipeProcessor(HandlerRegistry<ItemStack, ItemStack, OUT, RG, R> handlerRegistry) {
-        super(handlerRegistry);
+    public ItemRecipeProcessor(HandlerGroupingRegistry<ItemStack, ItemStack, OUT, RG, R> handlerGroupingRegistry) {
+        super(handlerGroupingRegistry);
     }
 
     @Override

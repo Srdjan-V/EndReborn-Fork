@@ -2,7 +2,6 @@ package io.github.srdjanv.endreforked.common.tiles;
 
 import java.util.Objects;
 
-import com.cleanroommc.modularui.factory.GuiData;
 import com.cleanroommc.modularui.factory.PosGuiData;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -38,7 +37,7 @@ import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.base.groupings.FluidToItemGrouping;
+import io.github.srdjanv.endreforked.api.base.groupings.Fluid2ItemGrouping;
 import io.github.srdjanv.endreforked.api.base.processors.FluidItemRecipeProcessor;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
@@ -68,7 +67,7 @@ public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolde
     private final FluidTank processingFluid = new InternalFluidTank(1600);
 
     private TileStatus status = TileStatus.Idle;
-    private final FluidItemRecipeProcessor<ItemStack, FluidToItemGrouping<EndForgeRecipe>, EndForgeRecipe> recipeProcessor;
+    private final FluidItemRecipeProcessor<ItemStack, Fluid2ItemGrouping<EndForgeRecipe>, EndForgeRecipe> recipeProcessor;
     private int ticksRun;
 
     public EndForgeTile() {

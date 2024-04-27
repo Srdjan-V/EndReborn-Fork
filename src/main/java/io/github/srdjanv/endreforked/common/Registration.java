@@ -16,11 +16,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import com.google.common.collect.Lists;
 
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.api.base.groupings.FluidToItemGrouping;
+import io.github.srdjanv.endreforked.api.base.groupings.Fluid2ItemGrouping;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
-import io.github.srdjanv.endreforked.api.entropywand.Conversion;
-import io.github.srdjanv.endreforked.api.entropywand.EntropyWandHandler;
+import io.github.srdjanv.endreforked.api.entropy.WorldConversion;
+import io.github.srdjanv.endreforked.api.entropy.EntropyWandHandler;
 import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
@@ -73,14 +73,14 @@ final class Registration implements Initializer {
         EntropyWandHandler.registerDefaultStateConversion(Blocks.SANDSTONE, Blocks.SAND);
         EntropyWandHandler.registerConversions(
                 Lists.newArrayList(Blocks.TALLGRASS, Blocks.RED_FLOWER, Blocks.YELLOW_FLOWER),
-                Conversion.builder()
+                WorldConversion.builder()
                         .matcherAny()
                         .newState(Blocks.DEADBUSH)
                         .playFlintSound()
                         .build());
         EntropyWandHandler.registerConversions(
                 Lists.newArrayList(Blocks.LOG, Blocks.LOG2),
-                Conversion.builder()
+                WorldConversion.builder()
                         .matcherAny()
                         .newState(Blocks.COAL_BLOCK)
                         .addItemDamage(8)
@@ -89,7 +89,7 @@ final class Registration implements Initializer {
     }
 
     private static void registerEndForgeRecipes() {
-        var lavaGroup = new FluidToItemGrouping<EndForgeRecipe>(new FluidStack(FluidRegistry.LAVA, 1000));
+        var lavaGroup = new Fluid2ItemGrouping<EndForgeRecipe>(new FluidStack(FluidRegistry.LAVA, 1000));
         EndForgeHandler.getInstance().registerRecipeGrouping(lavaGroup);
 
         lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.INGOT_ENDORIUM.get()), 120,

@@ -51,7 +51,7 @@ import com.google.common.collect.Lists;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.api.base.processors.ItemRecipeProcessor;
-import io.github.srdjanv.endreforked.api.base.processors.RecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.processors.BiRecipeProcessor;
 import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
@@ -65,14 +65,14 @@ import io.github.srdjanv.endreforked.common.widgets.BlockStateRendereWidget;
 
 public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiHolder<PosGuiData> {
 
-    private final ItemStackHandler inputInventory = new ItemStackHandler(2) {
+    private final ItemStackHandler inputInventory = new InternalItemStackHandler(2) {
 
         @NotNull
         @Override
         public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             return switch (slot) {
                 case 1 -> {
-                    if (recipeProcessor.validateGrouping(stack)) {
+                    if (biRecipeProcessor.validateGrouping(stack)) {
                         yield super.insertItem(slot, stack, simulate);
                     }
                     yield stack;
@@ -82,7 +82,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
             };
         }
     };
-    private final ItemStackHandler outInventory = new ItemStackHandler(1) {
+    private final ItemStackHandler outInventory = new InternalItemStackHandler(1) {
 
         @NotNull
         @Override
@@ -100,7 +100,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
     ////////////////////
     private TileStatus status = TileStatus.Idle;
     private double percent;
-    private final RecipeProcessor<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> recipeProcessor;
+    private final BiRecipeProcessor<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> biRecipeProcessor;
 
     ////////////////////
     private int ticksRun;
@@ -111,7 +111,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
     private boolean failed;
 
     public MaterializerTile() {
-        recipeProcessor = new ItemRecipeProcessor<>(MaterializerHandler.getInstance());
+        biRecipeProcessor = new ItemRecipeProcessor<>(MaterializerHandler.getInstance());
     }
 
     @Override
@@ -184,18 +184,18 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
 
             private boolean invChanged() {
                 var changed = false;
-                var valid = recipeProcessor.hasRecipeGroupingRecipe() && recipeProcessor.hasRecipe();
+                var valid = biRecipeProcessor.hasRecipeGroupingRecipe() && biRecipeProcessor.hasRecipe();
                 if (this.valid != valid) {
                     this.valid = valid;
                     changed = true;
                 }
                 if (valid) {
-                    if (!recipeProcessor.getHandlerRegistry().getHashStrategy()
+                    if (!biRecipeProcessor.getHandlerRegistry().getHashStrategy()
                             .equals(processingInventory.getStackInSlot(0), slot0)) {
                         slot0 = processingInventory.getStackInSlot(0);
                         changed = true;
                     }
-                    if (!recipeProcessor.getRecipeGrouping().getHashStrategy()
+                    if (!biRecipeProcessor.getRecipeGrouping().getHashStrategy()
                             .equals(processingInventory.getStackInSlot(1), slot1)) {
                         slot1 = processingInventory.getStackInSlot(1);
                         changed = true;
@@ -216,13 +216,13 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
             final var render = new BlockStateRendereWidget()
                     .background(GuiTextures.MC_BACKGROUND).size(176, 166).leftRel(1f);
             render.onUpdateListener(thatRender -> {
-                if (!recipeProcessor.validateGrouping(processingInventory.getStackInSlot(1)) ||
-                        !recipeProcessor.validateRecipe(processingInventory.getStackInSlot(0))) {
+                if (!biRecipeProcessor.validateGrouping(processingInventory.getStackInSlot(1)) ||
+                        !biRecipeProcessor.validateRecipe(processingInventory.getStackInSlot(0))) {
                     thatRender.disableRender(true);
                     return;
                 }
                 if (failed) return;
-                var event = recipeProcessor.getRecipe().getNextWorldEvent(lastTriggeredWorldEventIndex);
+                var event = biRecipeProcessor.getRecipe().getNextWorldEvent(lastTriggeredWorldEventIndex);
                 if (Objects.isNull(event)) {
                     thatRender.disableRender(true);
                     return;
@@ -236,10 +236,10 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
             final var renderText = new BasicTextWidget().background(GuiTextures.MC_BACKGROUND).bottomRel(1f).left(8)
                     .right(8).height(25);
             renderText.setKeyArg(() -> {
-                if (!recipeProcessor.validateRecipe(processingInventory.getStackInSlot(0))) return null;
+                if (!biRecipeProcessor.validateRecipe(processingInventory.getStackInSlot(0))) return null;
                 if (percent <= 0 || percent >= 100) return null;
                 if (failed) return Pair.of("tile.materializer.render.fail", null);
-                var event = recipeProcessor.getRecipe().getNextWorldEvent(lastTriggeredWorldEventIndex);
+                var event = biRecipeProcessor.getRecipe().getNextWorldEvent(lastTriggeredWorldEventIndex);
                 if (event == null) return null;
 
                 return Pair.of("tile.materializer.render.info",
@@ -322,14 +322,14 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
         // TODO: 28/10/2023 center
         var itemInput = new ItemSlot().slot(new ModularSlot(inputInventory, 0)).left(50).top(45);
         itemInput.tooltip().setAutoUpdate(true).tooltipBuilder(tooltip -> {
-            tooltip.addLine(recipeProcessor.getHandlerRegistry().translateHashStrategy());
+            tooltip.addLine(biRecipeProcessor.getHandlerRegistry().translateHashStrategy());
         });
         panel.child(itemInput);
 
         var itemInput2 = new ItemSlot().slot(new ModularSlot(inputInventory, 1)).left(70).top(45);
         itemInput2.tooltip().setAutoUpdate(true).tooltipBuilder(tooltip -> {
-            if (!recipeProcessor.hasRecipeGroupingRecipe()) return;
-            tooltip.addLine(recipeProcessor.getRecipeGrouping().translateHashStrategy());
+            if (!biRecipeProcessor.hasRecipeGroupingRecipe()) return;
+            tooltip.addLine(biRecipeProcessor.getRecipeGrouping().translateHashStrategy());
         });
         panel.child(itemInput2);
 
@@ -366,16 +366,16 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
         }
 
         if (validProcessingRecipe) {
-            if (!recipeProcessor.validateGrouping(processingCatalyst)) return false;
-            if (!recipeProcessor.validateRecipe(processingItem)) return false;
+            if (!biRecipeProcessor.validateGrouping(processingCatalyst)) return false;
+            if (!biRecipeProcessor.validateRecipe(processingItem)) return false;
         } else {
             boolean invalid = false;
 
             var inputCatalyst = inputInventory.getStackInSlot(1);
-            if (!recipeProcessor.validateGrouping(inputCatalyst)) invalid = true;
+            if (!biRecipeProcessor.validateGrouping(inputCatalyst)) invalid = true;
 
             var inputItem = inputInventory.getStackInSlot(0);
-            if (!recipeProcessor.validateRecipe(inputItem)) invalid = true;
+            if (!biRecipeProcessor.validateRecipe(inputItem)) invalid = true;
 
             if (invalid) {
                 if (inputCatalyst.isEmpty() && inputItem.isEmpty()) {
@@ -384,10 +384,10 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                 return false;
             }
 
-            if (!inputInventory.extractItem(0, recipeProcessor.getRecipe().getInput().getCount(), true).isEmpty() &&
+            if (!inputInventory.extractItem(0, biRecipeProcessor.getRecipe().getInput().getCount(), true).isEmpty() &&
                     !inputInventory.extractItem(0, 1, true).isEmpty()) {
                 processingInventory.insertItem(0,
-                        inputInventory.extractItem(0, recipeProcessor.getRecipe().getInput().getCount(), false),
+                        inputInventory.extractItem(0, biRecipeProcessor.getRecipe().getInput().getCount(), false),
                         false);
                 processingInventory.insertItem(1, inputInventory.extractItem(1, 1, false), false);
             } else {
@@ -400,9 +400,9 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
 
     private void progress() {
         // finished
-        if (ticksRun >= recipeProcessor.getRecipe().getTicksToComplete()) {
+        if (ticksRun >= biRecipeProcessor.getRecipe().getTicksToComplete()) {
             progressWorldEvents();
-            var outputStack = recipeProcessor.getRecipe().getRecipeFunction().apply(
+            var outputStack = biRecipeProcessor.getRecipe().getRecipeFunction().apply(
                     processingInventory.getStackInSlot(0),
                     processingInventory.getStackInSlot(1));
             if (outInventory.insertItem(-1, outputStack, true).isEmpty()) {
@@ -419,9 +419,9 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
 
     private void progressWorldEvents() {
         updateStatus(TileStatus.Running);
-        final double ratio = (double) ticksRun / recipeProcessor.getRecipe().getTicksToComplete();
+        final double ratio = (double) ticksRun / biRecipeProcessor.getRecipe().getTicksToComplete();
         percent = (ratio * 100);
-        for (int i : recipeProcessor.getRecipe().getWorldEvents().keySet()) {
+        for (int i : biRecipeProcessor.getRecipe().getWorldEvents().keySet()) {
             if ((int) percent >= i && (lastTriggeredWorldEventIndex < i || lastTriggeredWorldEventIndex == 0)) {
                 if (!triggerWorldEvent(i)) {
                     updateStatus(TileStatus.Failed);
@@ -436,7 +436,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
 
     private boolean triggerWorldEvent(int index) {
         var chance = world.rand.nextInt(100);
-        WorldEvent event = recipeProcessor.getRecipe().getWorldEvents().get(index);
+        WorldEvent event = biRecipeProcessor.getRecipe().getWorldEvents().get(index);
         if (chance > event.getChance()) return true;
 
         List<BlockPos> posList = Lists.newArrayList(BlockPos.getAllInBox(this.getPos().add(5, 5, 5),

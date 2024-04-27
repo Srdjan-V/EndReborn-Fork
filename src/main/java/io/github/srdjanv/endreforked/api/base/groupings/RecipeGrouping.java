@@ -5,11 +5,11 @@ import java.util.Map;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.api.base.HashStrategyTranslator;
-import io.github.srdjanv.endreforked.api.base.Recipe;
+import io.github.srdjanv.endreforked.api.base.BiRecipe;
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
 
-public abstract class RecipeGrouping<IN1, IN2, R extends Recipe<IN1, IN2, ?>>
+public abstract class RecipeGrouping<IN1, IN2, R extends BiRecipe<IN1, IN2, ?>>
                                     implements HashStrategyTranslator<Hash.Strategy<IN2>> {
 
     private final IN1 grouping;

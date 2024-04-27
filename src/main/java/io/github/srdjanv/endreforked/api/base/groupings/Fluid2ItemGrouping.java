@@ -3,18 +3,18 @@ package io.github.srdjanv.endreforked.api.base.groupings;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-import io.github.srdjanv.endreforked.api.base.Recipe;
+import io.github.srdjanv.endreforked.api.base.BiRecipe;
 import io.github.srdjanv.endreforked.api.util.ItemStackHashStrategy;
 import it.unimi.dsi.fastutil.Hash;
 
-public class FluidToItemGrouping<R extends Recipe<FluidStack, ItemStack, ?>>
+public class Fluid2ItemGrouping<R extends BiRecipe<FluidStack, ItemStack, ?>>
                                 extends RecipeGrouping<FluidStack, ItemStack, R> {
 
-    public FluidToItemGrouping(FluidStack grouping, Hash.Strategy<ItemStack> strategy) {
+    public Fluid2ItemGrouping(FluidStack grouping, Hash.Strategy<ItemStack> strategy) {
         super(grouping, strategy);
     }
 
-    public FluidToItemGrouping(FluidStack grouping) {
+    public Fluid2ItemGrouping(FluidStack grouping) {
         super(grouping, ItemStackHashStrategy.memorizedComparingAllButCount());
     }
 }
