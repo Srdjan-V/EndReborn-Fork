@@ -26,7 +26,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -64,7 +63,7 @@ public class BlockOrganaFlower extends BlockBase {
         IBlockState downBlockState = worldIn.getBlockState(pos.down());
         Block downBlock = downBlockState.getBlock();
 
-        if (downBlock == ModBlocks.END_MOSS_BLOCK.get()) {
+        if (downBlock == ModBlocks.END_MOSS_GRASS_BLOCK.get()) {
             growOnlyUp = true;
         } else if (downBlock == ModBlocks.ORGANA_PLANT_BLOCK.get()) {
             int j = 1;
@@ -72,7 +71,7 @@ public class BlockOrganaFlower extends BlockBase {
             for (int k = 0; k < 4; ++k) {
                 Block block1 = worldIn.getBlockState(pos.down(j + 1)).getBlock();
                 if (block1 != ModBlocks.ORGANA_PLANT_BLOCK.get()) {
-                    if (block1 == ModBlocks.END_MOSS_BLOCK.get()) flag1 = true;
+                    if (block1 == ModBlocks.END_MOSS_GRASS_BLOCK.get()) flag1 = true;
                     break;
                 }
 
@@ -169,7 +168,7 @@ public class BlockOrganaFlower extends BlockBase {
         IBlockState belowState = worldIn.getBlockState(pos.down());
         Block belowBlock = belowState.getBlock();
 
-        if (belowBlock == ModBlocks.ORGANA_PLANT_BLOCK.get() || belowBlock == ModBlocks.END_MOSS_BLOCK.get())
+        if (belowBlock == ModBlocks.ORGANA_PLANT_BLOCK.get() || belowBlock == ModBlocks.END_MOSS_GRASS_BLOCK.get())
             return true;
         if (belowState.getMaterial() != Material.AIR) return false;
         int i = 0;

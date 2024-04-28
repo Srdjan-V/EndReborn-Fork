@@ -100,19 +100,16 @@ public final class ModBlocks {
             () -> new BlockEnderCrop("ender_flower_crop"));
 
     // todo fixup
-    public static final Supplier<BlockOrganaWeed> ORGANA_WEED_BLOCK = maybeRegister(
-            () -> new BlockOrganaWeed("ogana_weed"));
+    public static final Supplier<BlockOrganaWeed> ORGANA_WEED_BLOCK = register(BlockOrganaWeed::new);
 
     public static final Supplier<BlockFluidEndMagma> FLUID_END_MAGMA_BLOCK = register(BlockFluidEndMagma::new);
 
-
-    public static final Supplier<BlockEndMoss> END_MOSS_BLOCK = maybeRegister(
-            () -> new BlockEndMoss("end_moss"));
+    public static final Supplier<BlockEndMossGrass> END_MOSS_GRASS_BLOCK = register(BlockEndMossGrass::new);
+    public static final Supplier<BlockEndMoss> END_MOSS_BLOCK = register(BlockEndMoss::new);
 
     public static final Supplier<BlockOrganaFlower> ORGANA_FLOWER_BLOCK = register(BlockOrganaFlower::new);
     public static final Supplier<BlockOrganaPlant> ORGANA_PLANT_BLOCK = register(BlockOrganaPlant::new);
     public static final Supplier<BlockOrganaSmallFlower> ORGANA_SMALL_FLOWER_BLOCK = register(BlockOrganaSmallFlower::new);
-
 
 
     public static <B extends Block> Supplier<B> register(com.google.common.base.Supplier<B> supplier) {

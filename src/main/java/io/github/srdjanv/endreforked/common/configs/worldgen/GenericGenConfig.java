@@ -135,11 +135,11 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                         (server, rand, pos) -> {
                             if (rand.nextInt(100) > 80) return false;
                             if (server.isAirBlock(pos) && !server.isAirBlock(pos.up())) return false;
-                            server.setBlockState(pos, ModBlocks.END_MOSS_BLOCK.get().getDefaultState());
+                            server.setBlockState(pos, ModBlocks.END_MOSS_GRASS_BLOCK.get().getDefaultState());
                             if (rand.nextInt(100) > 30) return true;
                             server.setBlockState(pos.up(), ModBlocks.ORGANA_WEED_BLOCK.get().getDefaultState());
                             if (rand.nextInt(100) > 5) return true;
-                            var endMoss = ModBlocks.END_MOSS_BLOCK.get();
+                            var endMoss = ModBlocks.END_MOSS_GRASS_BLOCK.get();
                             endMoss.grow(world, rand, pos, endMoss.getDefaultState());
                             return true;
                         }));

@@ -211,8 +211,9 @@ public final class ModItems {
     public static final Supplier<ItemBlock> WALL_SMOOTH_END_STONE = registerItemBlock(ModBlocks.END_STONE_SMOOTH_WALL);
     public static final Supplier<ItemBlock> END_CORAL = registerItemBlock(ModBlocks.END_CORAL);
 
-    public static final Supplier<ItemBlock> ORGANA_WEED = registerItemBlock(ModBlocks.ORGANA_WEED_BLOCK);
-    public static final Supplier<ItemBlock> END_MOSS = registerItemBlock(ModBlocks.END_MOSS_BLOCK);
+    public static final Supplier<ItemBlock> ORGANA_WEED_BLOCK = registerItemBlock(ModBlocks.ORGANA_WEED_BLOCK);
+    public static final Supplier<ItemBlock> END_MOSS_GRASS_BLOCK = registerItemBlock(ModBlocks.END_MOSS_GRASS_BLOCK);
+    public static final Supplier<ItemBlock> END_MOSS_BLOCK = registerItemBlock(ModBlocks.END_MOSS_BLOCK);
 
     public static final Supplier<ItemBlock> ORGANA_FLOWER = registerItemBlock(ModBlocks.ORGANA_FLOWER_BLOCK);
     public static final Supplier<ItemBlock> ORGANA_SMALL_FLOWER = registerItemBlock(ModBlocks.ORGANA_SMALL_FLOWER_BLOCK);

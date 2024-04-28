@@ -27,8 +27,8 @@ import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 
 public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
 
-    public BlockOrganaWeed(String name) {
-        super(name, Material.VINE);
+    public BlockOrganaWeed() {
+        super("ogana_weed", Material.VINE);
     }
 
 
@@ -56,7 +56,7 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
 
     @Override
     protected boolean canSustainBush(IBlockState state) {
-        return state.getBlock() == ModBlocks.END_MOSS_BLOCK.get();
+        return state.getBlock() == ModBlocks.END_MOSS_GRASS_BLOCK.get();
     }
 
     @Override

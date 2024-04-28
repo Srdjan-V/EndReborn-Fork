@@ -15,8 +15,8 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome {
         super(new BiomeProperties("Organa").setRainDisabled());
         setRegistryName("Organa");
 
-        topBlock = ModBlocks.END_MOSS_BLOCK.get().getDefaultState();
-        fillerBlock = Blocks.END_STONE.getDefaultState();
+        topBlock = ModBlocks.END_MOSS_GRASS_BLOCK.get().getDefaultState();
+        fillerBlock = ModBlocks.END_MOSS_BLOCK.get().getDefaultState();
         decorator = new BiomeEndDecorator();
     }
 
