@@ -219,17 +219,14 @@ public class BlockOrganaFlower extends BlockBase {
         return new BlockStateContainer(this, AGE);
     }
 
-    public static void generatePlant(World worldIn, BlockPos pos, Random rand, int p_185603_3_) {
+    public static void generatePlant(World worldIn, BlockPos pos, Random rand, int age) {
         worldIn.setBlockState(pos, Blocks.CHORUS_PLANT.getDefaultState(), 2);
-        growTreeRecursive(worldIn, pos, rand, pos, p_185603_3_, 0);
+        growPlantRecursive(worldIn, pos, rand, pos, age, 0);
     }
 
-    private static void growTreeRecursive(World worldIn, BlockPos pos, Random rand, BlockPos p_185601_3_, int p_185601_4_, int p_185601_5_) {
+    private static void growPlantRecursive(World worldIn, BlockPos pos, Random rand, BlockPos pos2, int age, int iteration) {
         int i = rand.nextInt(4) + 1;
-
-        if (p_185601_5_ == 0) {
-            ++i;
-        }
+        if (iteration == 0) ++i;
 
         for (int j = 0; j < i; ++j) {
             BlockPos blockpos = pos.up(j + 1);
@@ -238,15 +235,15 @@ public class BlockOrganaFlower extends BlockBase {
                 return;
             }
 
-            worldIn.setBlockState(blockpos, Blocks.CHORUS_PLANT.getDefaultState(), 2);
+            worldIn.setBlockState(blockpos, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
         }
 
         boolean flag = false;
 
-        if (p_185601_5_ < 4) {
+        if (iteration < 4) {
             int l = rand.nextInt(4);
 
-            if (p_185601_5_ == 0) {
+            if (iteration == 0) {
                 ++l;
             }
 
@@ -254,17 +251,15 @@ public class BlockOrganaFlower extends BlockBase {
                 EnumFacing enumfacing = EnumFacing.Plane.HORIZONTAL.random(rand);
                 BlockPos blockpos1 = pos.up(i).offset(enumfacing);
 
-                if (Math.abs(blockpos1.getX() - p_185601_3_.getX()) < p_185601_4_ && Math.abs(blockpos1.getZ() - p_185601_3_.getZ()) < p_185601_4_ && worldIn.isAirBlock(blockpos1) && worldIn.isAirBlock(blockpos1.down()) && areAllNeighborsEmpty(worldIn, blockpos1, enumfacing.getOpposite())) {
+                if (Math.abs(blockpos1.getX() - pos2.getX()) < age && Math.abs(blockpos1.getZ() - pos2.getZ()) < age && worldIn.isAirBlock(blockpos1) && worldIn.isAirBlock(blockpos1.down()) && areAllNeighborsEmpty(worldIn, blockpos1, enumfacing.getOpposite())) {
                     flag = true;
                     worldIn.setBlockState(blockpos1, Blocks.CHORUS_PLANT.getDefaultState(), 2);
-                    growTreeRecursive(worldIn, blockpos1, rand, p_185601_3_, p_185601_4_, p_185601_5_ + 1);
+                    growPlantRecursive(worldIn, blockpos1, rand, pos2, age, iteration + 1);
                 }
             }
         }
 
-        if (!flag) {
-            worldIn.setBlockState(pos.up(i), Blocks.CHORUS_FLOWER.getDefaultState().withProperty(AGE, 5), 2);
-        }
+        if (!flag) worldIn.setBlockState(pos.up(i), ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(AGE, 5), 2);
     }
 
     @Override
@@ -272,6 +267,7 @@ public class BlockOrganaFlower extends BlockBase {
         return BlockFaceShape.UNDEFINED;
     }
 
+    //todo remove
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         updateTick(worldIn, pos, state, worldIn.rand);
         return true;

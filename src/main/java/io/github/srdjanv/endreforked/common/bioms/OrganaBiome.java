@@ -1,23 +1,37 @@
 package io.github.srdjanv.endreforked.common.bioms;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import git.jbredwards.nether_api.api.biome.IEndBiome;
+import git.jbredwards.nether_api.api.biome.INoSpawnBiome;
 import git.jbredwards.nether_api.api.world.INetherAPIChunkGenerator;
 import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
+import net.minecraft.block.BlockChorusFlower;
+import net.minecraft.block.BlockSand;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeEnd;
 import net.minecraft.world.biome.BiomeEndDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
-public class OrganaBiome extends BiomeEnd implements IEndBiome {
+public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome {
     public OrganaBiome() {
         super(new BiomeProperties("Organa").setRainDisabled());
         setRegistryName("Organa");
 
         topBlock = ModBlocks.END_MOSS_GRASS_BLOCK.get().getDefaultState();
         fillerBlock = ModBlocks.END_MOSS_BLOCK.get().getDefaultState();
-        decorator = new BiomeEndDecorator();
+        decorator = new Decorator();
     }
 
     public void buildSurface(
@@ -26,14 +40,51 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome {
             @Nonnull final ChunkPrimer primer,
             final int x, final int z,
             final double terrainNoise) {
+        int currDepth = -1;
+        for(int y = chunkGenerator.getWorld().getActualHeight() - 1; y >= 0; --y) {
+            final IBlockState here = primer.getBlockState(x, y, z);
+            if(here.getMaterial() == Material.AIR) currDepth = -1;
+            else if(here.getBlock() == Blocks.END_STONE) {
+                if(currDepth == -1) {
+                    currDepth = 3 + chunkGenerator.getRand().nextInt(2);
+                    primer.setBlockState(x, y, z, topBlock);
+                }
+                else if(currDepth > 0) {
+                    --currDepth;
+                    primer.setBlockState(x, y, z, fillerBlock);
+                }
+            }
+        }
     }
 
+    @Override public boolean generateChorusPlants(@NotNull INetherAPIChunkGenerator chunkGenerator, int chunkX, int chunkZ, float islandHeight) {
+        return false;
+    }
 
-    public static class Decorator extends BiomeEndDecorator {
+    public static class Decorator extends BiomeDecorator {
         public Decorator() {
-
         }
 
+        @Override protected void genDecorations(Biome biomeIn, World world, Random rand) {
+            super.genDecorations(biomeIn, world, rand);
 
+            //chunkPos is player pos
+            var realChunkPos = new BlockPos(chunkPos.getX() >> 4, 0, chunkPos.getY() >> 4);
+            if ((long) realChunkPos.getX() * (long) realChunkPos.getX() + (long) realChunkPos.getZ() * (long) realChunkPos.getZ() > 4096L) {
+                final BlockPos pos = chunkPos;
+                final int amountInChunk = rand.nextInt(5);
+                for (int i = 0; i < amountInChunk; i++) {
+                    final int xOffset = rand.nextInt(16) + 8;
+                    final int zOffset = rand.nextInt(16) + 8;
+                    final int y = world.getHeight(pos.add(xOffset, 0, zOffset)).getY();
+
+                    if (y > 0 && world.isAirBlock(pos.add(xOffset, y, zOffset))) {
+                        final IBlockState ground = world.getBlockState(pos.add(xOffset, y - 1, zOffset));
+                        if (ground == ModBlocks.END_MOSS_GRASS_BLOCK.get().getDefaultState())
+                            BlockOrganaFlower.generatePlant(world, pos.add(xOffset, y, zOffset), rand, 8);
+                    }
+                }
+            }
+        }
     }
 }

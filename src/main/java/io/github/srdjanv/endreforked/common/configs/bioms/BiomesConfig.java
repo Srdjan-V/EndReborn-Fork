@@ -2,18 +2,23 @@ package io.github.srdjanv.endreforked.common.configs.bioms;
 
 
 import com.google.gson.reflect.TypeToken;
+import git.jbredwards.nether_api.api.event.NetherAPIRegistryEvent;
 import git.jbredwards.nether_api.api.registry.INetherAPIRegistry;
+import git.jbredwards.nether_api.mod.common.config.NetherAPIConfig;
 import git.jbredwards.nether_api.mod.common.registry.NetherAPIRegistry;
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.ModBioms;
 import io.github.srdjanv.endreforked.common.configs.base.ReloadableServerSideConfig;
 import io.github.srdjanv.endreforked.common.configs.worldgen.schema.WorldGenSchema;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -37,6 +42,10 @@ public class BiomesConfig extends ReloadableServerSideConfig<Map<String, BiomesS
 
     private BiomesConfig() {
         super("BiomesConfig", new TypeToken<Map<String, BiomesSchema>>() {}.getType());
+    }
+
+    @Override public void registerEventBus() {
+        registerThisToEventBus();
     }
 
     @Override public void preInit(FMLPreInitializationEvent event) {
@@ -101,6 +110,27 @@ public class BiomesConfig extends ReloadableServerSideConfig<Map<String, BiomesS
             data.put(entry.getKey(), biomesSchema);
         }
         return data;
+    }
+
+    //todo look into making this not subscribe to all events
+    @SubscribeEvent
+    public void registerNetherAPI(@Nonnull NetherAPIRegistryEvent.End event) {
+        handle(event.registry);
+    }
+
+    @SubscribeEvent
+    public void registerNetherAPI(@Nonnull NetherAPIRegistryEvent.Nether event) {
+        handle(event.registry);
+    }
+
+
+    private void handle(INetherAPIRegistry registry) {
+        if (loadedDataData == null) return;
+        loadedDataData.forEach((name, biomesSchema) -> {
+            if (!biomesSchema.isEnabled()) return;
+            var data = name2Data.get(name);
+            data.getLeft().registerBiome(data.getRight().get(), biomesSchema.getWeight());
+        });
     }
 
     private void register() {
