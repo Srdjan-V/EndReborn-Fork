@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 
 import java.util.Objects;
 
+import io.github.srdjanv.endreforked.common.ModBioms;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
@@ -55,6 +56,14 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                             .setAmountModifier(20)
                             .setMaxHeight(60)
                             .setMinHeight(0).build());
+
+                    builder.whiteListBiome(
+                            DimConfig.builder()
+                                    .setRarity(15)
+                                    .setAmountModifier(25)
+                                    .setMaxHeight(60)
+                                    .setMinHeight(0).build(),
+                            ResourceLocationWrapper.of(ModBioms.ORGANA_BIOME.get().getRegistryName()));
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.XORCITE_BLOCK.get().getDefaultState(),
