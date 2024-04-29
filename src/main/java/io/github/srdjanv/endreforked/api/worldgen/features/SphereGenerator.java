@@ -20,7 +20,7 @@ public class SphereGenerator extends PositionedFeature {
 
     public SphereGenerator(DimConfig config, PositionValidator startPosValidator, PositionValidator positionValidator,
                            PositionGenerator positionGenerator) {
-        super(Locators.DIM_CONFIG_MIN_MAX, config);
+        super(Locators.OFFSET_16.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), config);
         this.startPosValidator = startPosValidator;
         this.positionValidator = positionValidator;
         this.positionGenerator = positionGenerator;

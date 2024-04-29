@@ -21,7 +21,7 @@ public class RadiusSurfaceGenerator extends PositionedFeature {
 
     public RadiusSurfaceGenerator(DimConfig config, PositionValidator startPosValidator,
                                   PositionValidator positionValidator, PositionGenerator positionGenerator) {
-        super(Locators.SURFACE_BLOCK, config);
+        super(Locators.OFFSET_16.andThenLocate(Locators.SURFACE_BLOCK), config);
         this.positionGenerator = positionGenerator;
         this.positionValidator = positionValidator;
         this.startPosValidator = startPosValidator;

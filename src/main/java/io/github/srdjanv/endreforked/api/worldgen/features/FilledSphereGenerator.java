@@ -41,7 +41,7 @@ public class FilledSphereGenerator extends PositionedFeature {
     public FilledSphereGenerator(DimConfig config, PositionValidator startPosValidator,
                                  PositionValidator innerPositionValidator, PositionGenerator innerPosGenerator,
                                  PositionValidator outerPositionValidator, PositionGenerator outerPosGenerator) {
-        super(Locators.DIM_CONFIG_MIN_MAX, config);
+        super(Locators.OFFSET_16.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), config);
         this.startPosValidator = startPosValidator;
 
         this.innerPositionValidator = innerPositionValidator;

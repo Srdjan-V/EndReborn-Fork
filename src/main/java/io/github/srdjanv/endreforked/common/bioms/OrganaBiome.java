@@ -40,19 +40,19 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome {
             @Nonnull final ChunkPrimer primer,
             final int x, final int z,
             final double terrainNoise) {
-        int currDepth = -1;
-        for(int y = chunkGenerator.getWorld().getActualHeight() - 1; y >= 0; --y) {
+        boolean needTop = true;
+        for (int y = chunkGenerator.getWorld().getActualHeight() - 1; y >= 0; --y) {
             final IBlockState here = primer.getBlockState(x, y, z);
-            if(here.getMaterial() == Material.AIR) currDepth = -1;
-            else if(here.getBlock() == Blocks.END_STONE) {
-                if(currDepth == -1) {
-                    currDepth = 3 + chunkGenerator.getRand().nextInt(2);
-                    primer.setBlockState(x, y, z, topBlock);
+            if (here.getBlock() == Blocks.END_STONE) {
+                if (needTop) {
+                    var top = primer.getBlockState(x, y + 1, z);
+                    if (top.getMaterial() == Material.AIR) {
+                        primer.setBlockState(x, y, z, topBlock);
+                        needTop = false;
+                        continue;
+                    }
                 }
-                else if(currDepth > 0) {
-                    --currDepth;
-                    primer.setBlockState(x, y, z, fillerBlock);
-                }
+                primer.setBlockState(x, y, z, fillerBlock);
             }
         }
     }

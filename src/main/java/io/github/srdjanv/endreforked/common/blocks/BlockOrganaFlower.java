@@ -220,7 +220,7 @@ public class BlockOrganaFlower extends BlockBase {
     }
 
     public static void generatePlant(World worldIn, BlockPos pos, Random rand, int age) {
-        worldIn.setBlockState(pos, Blocks.CHORUS_PLANT.getDefaultState(), 2);
+        worldIn.setBlockState(pos, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
         growPlantRecursive(worldIn, pos, rand, pos, age, 0);
     }
 

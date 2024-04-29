@@ -16,7 +16,7 @@ public class BushSurfaceGenerator extends PositionedFeature {
     protected final BlockBush block;
 
     public BushSurfaceGenerator(DimConfig config, BlockBush block) {
-        super(Locators.SURFACE_AIR, config);
+        super(Locators.OFFSET_16.andThenLocate(Locators.SURFACE_AIR), config);
         this.block = block;
     }
 
