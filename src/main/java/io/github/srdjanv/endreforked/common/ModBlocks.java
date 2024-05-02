@@ -109,7 +109,6 @@ public final class ModBlocks {
 
     public static final Supplier<BlockOrganaFlower> ORGANA_FLOWER_BLOCK = register(BlockOrganaFlower::new);
     public static final Supplier<BlockOrganaPlant> ORGANA_PLANT_BLOCK = register(BlockOrganaPlant::new);
-    public static final Supplier<BlockOrganaSmallFlower> ORGANA_SMALL_FLOWER_BLOCK = register(BlockOrganaSmallFlower::new);
 
 
     public static <B extends Block> Supplier<B> register(com.google.common.base.Supplier<B> supplier) {

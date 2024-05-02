@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.common.capabilities.timedflight;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.EnumFacing;
@@ -26,14 +27,16 @@ public class CapabilityTimedFlightHandler {
 
     @SubscribeEvent
     public static void attachTimedFlightCap(AttachCapabilitiesEvent<Entity> event) {
-        if (!(event.getObject() instanceof EntityPlayer)) return;
+        if (!(event.getObject() instanceof EntityPlayerMP)) return;
         event.addCapability(TimedFlight, new TimedFlightCapabilityProvider());
     }
 
     @SubscribeEvent
     public static void playerTickEvent(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.START) return;
-        event.player.getCapability(TIMED_FLIGHT_CAPABILITY, null).tickPlayer(event.player.capabilities);
+        if (event.player instanceof EntityPlayerMP playerMP) {
+            playerMP.getCapability(TIMED_FLIGHT_CAPABILITY, null).tickPlayer(playerMP);
+        }
     }
 
     public static void register() {

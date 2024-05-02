@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.common.blocks;
 
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
+import io.github.srdjanv.endreforked.common.tiles.OrganaFlowerTile;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
@@ -10,6 +11,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -19,6 +21,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -31,7 +34,7 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockOrganaFlower extends BlockBase {
-    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 8);
+    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 10);
 
     public BlockOrganaFlower() {
         super("organa_flower", Material.PLANTS, MapColor.PURPLE);
@@ -39,6 +42,12 @@ public class BlockOrganaFlower extends BlockBase {
         setDefaultState(
                 blockState.getBaseState()
                         .withProperty(AGE, 0));
+    }
+
+
+    @Override public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+        items.add(new ItemStack(this, 1, 0));
+        items.add(new ItemStack(this, 1, 10));
     }
 
     @Override
@@ -57,7 +66,18 @@ public class BlockOrganaFlower extends BlockBase {
         if (!worldIn.isAirBlock(upPos) || upPos.getY() >= 256) return;
         int age = state.getValue(AGE);
 
-        if (age >= 8 || !net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, upPos, state, true)) return;
+        if (age >= 10 || !net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, upPos, state, true)) return;
+        if (age >= 8) {
+            switch (age) {
+                case 8 -> {
+                    if (rand.nextDouble() < 0.2)
+                        worldIn.setBlockState(pos, this.getDefaultState().withProperty(AGE, 9), 2);
+                }
+                case 9 -> placeBigDeadFlower(worldIn, pos);
+            }
+            return;
+        }
+
         boolean growOnlyUp = false;
         boolean flag1 = false;
         IBlockState downBlockState = worldIn.getBlockState(pos.down());
@@ -103,8 +123,8 @@ public class BlockOrganaFlower extends BlockBase {
 
             if (flag2) {
                 placePlant(worldIn, pos);
-            } else placeDeadFlower(worldIn, pos);
-        } else placeDeadFlower(worldIn, pos);
+            } else placeSmallDeadFlower(worldIn, pos);
+        } else placeSmallDeadFlower(worldIn, pos);
         net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos));
     }
 
@@ -117,7 +137,7 @@ public class BlockOrganaFlower extends BlockBase {
             if (placed) break;
             var flowerPos = pos.offset(value);
             if (worldIn.isAirBlock(flowerPos)) {
-                worldIn.setBlockState(flowerPos, ModBlocks.ORGANA_SMALL_FLOWER_BLOCK.get().getDefaultState(), 2);
+                worldIn.setBlockState(flowerPos, ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState(), 2);
                 placed = true;
             }
         }
@@ -129,7 +149,12 @@ public class BlockOrganaFlower extends BlockBase {
         worldIn.playEvent(1033, pos, 0);
     }
 
-    private void placeDeadFlower(World worldIn, BlockPos pos) {
+    private void placeBigDeadFlower(World worldIn, BlockPos pos) {
+        worldIn.setBlockState(pos, this.getDefaultState().withProperty(AGE, 10), 2);
+        worldIn.playEvent(1034, pos, 0);
+    }
+
+    private void placeSmallDeadFlower(World worldIn, BlockPos pos) {
         worldIn.setBlockState(pos, this.getDefaultState().withProperty(AGE, 8), 2);
         worldIn.playEvent(1034, pos, 0);
     }
@@ -259,12 +284,23 @@ public class BlockOrganaFlower extends BlockBase {
             }
         }
 
-        if (!flag) worldIn.setBlockState(pos.up(i), ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(AGE, 5), 2);
+        if (!flag)
+            worldIn.setBlockState(pos.up(i), ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(AGE, 5), 2);
     }
 
     @Override
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
+    }
+
+
+    @Override public boolean hasTileEntity(IBlockState state) {
+        return state.getValue(AGE) == 10;
+    }
+
+    @org.jetbrains.annotations.Nullable @Override public TileEntity createTileEntity(World world, IBlockState state) {
+        if (state.getValue(AGE) == 10) return new OrganaFlowerTile();
+        return null;
     }
 
     //todo remove

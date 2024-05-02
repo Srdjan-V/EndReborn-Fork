@@ -216,7 +216,6 @@ public final class ModItems {
     public static final Supplier<ItemBlock> END_MOSS_BLOCK = registerItemBlock(ModBlocks.END_MOSS_BLOCK);
 
     public static final Supplier<ItemBlock> ORGANA_FLOWER = registerItemBlock(ModBlocks.ORGANA_FLOWER_BLOCK);
-    public static final Supplier<ItemBlock> ORGANA_SMALL_FLOWER = registerItemBlock(ModBlocks.ORGANA_SMALL_FLOWER_BLOCK);
 
 
     public static <I extends Item> Supplier<I> register(final com.google.common.base.Supplier<I> supplier) {
