@@ -31,11 +31,6 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
         return instance;
     }
 
-    @Override
-    public void onDispose() {
-        instance = null;
-    }
-
     private final Map<String, Function<MobConfigSchema.Builder, MobConfigSchema>> defaultData = new Object2ObjectOpenHashMap<>();
     private final Map<String, Function<EntityConfig.Builder, EntityConfig>> entityConfigs = new Object2ObjectOpenHashMap<>();
 

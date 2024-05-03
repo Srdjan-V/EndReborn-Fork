@@ -30,11 +30,6 @@ public class DisabledContentConfig extends StaticServerSideConfig<DisabledConten
         sync(true);
     }
 
-    @Override
-    public void onDispose() {
-        instance = null;
-    }
-
     private DisabledContentSchema loadedData;
 
     private DisabledContentConfig() {

@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
+import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
 
 import org.apache.commons.io.FileUtils;
@@ -31,6 +32,7 @@ public abstract class BaseServerSideConfig<D> implements Initializer {
         this.configPath = new File(((File) FMLInjectionData.data()[6]).getAbsolutePath(),
                 "config/" + Tags.MODID + "/" + configName + ".json");
         this.serializationType = serializationType;
+        JsonConfigs.addConfig(this);
     }
 
     public File getConfigPath() {
