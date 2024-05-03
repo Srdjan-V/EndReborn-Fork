@@ -47,6 +47,11 @@ public class WorldConversion {
             return this;
         }
 
+        public Builder matcher(Block matcher) {
+            this.matcher = state -> state.equals(matcher.getDefaultState());
+            return this;
+        }
+
         public Builder matcher(IBlockState matcher) {
             this.matcher = state -> state.equals(matcher);
             return this;

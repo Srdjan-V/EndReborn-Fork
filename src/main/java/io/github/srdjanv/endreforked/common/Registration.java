@@ -1,7 +1,12 @@
 package io.github.srdjanv.endreforked.common;
 
+import com.google.common.base.Predicate;
+import io.github.srdjanv.endreforked.api.entropy.ChamberRecipe;
+import io.github.srdjanv.endreforked.api.entropy.EntropyChamberHandler;
+import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
 import io.github.srdjanv.endreforked.common.tiles.EntropyChamberTile;
 import io.github.srdjanv.endreforked.common.tiles.OrganaFlowerTile;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -38,6 +43,10 @@ import io.github.srdjanv.endreforked.common.tiles.EndForgeTile;
 import io.github.srdjanv.endreforked.common.tiles.MaterializerTile;
 import io.github.srdjanv.endreforked.common.village.EndVillagerHandler;
 import io.github.srdjanv.endreforked.utils.Initializer;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 final class Registration implements Initializer {
 
@@ -63,6 +72,7 @@ final class Registration implements Initializer {
     public void init(FMLInitializationEvent event) {
         registerMaterializerRecipes();
         registerEndForgeRecipes();
+        registerEntropyChamberRecipes();
         registerEntropyWandRecipes();
         registerBannerPatterns();
 
@@ -102,6 +112,52 @@ final class Registration implements Initializer {
                         .addItemDamage(8)
                         .playFlintSound()
                         .build());
+
+        EntropyWandHandler.registerConversions(ModBlocks.ORGANA_FLOWER_BLOCK.get(),
+                WorldConversion.builder()
+                        .matcher(input -> input.getValue(BlockOrganaFlower.AGE) == 8)
+                        .newState(() -> ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(BlockOrganaFlower.AGE, 9))
+                        .addItemDamage(10)
+                        .build(),
+                WorldConversion.builder()
+                        .matcher(input -> input.getValue(BlockOrganaFlower.AGE) == 9)
+                        .newState(() -> ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(BlockOrganaFlower.AGE, 10))
+                        .addItemDamage(10)
+                        .build());
+
+        EntropyWandHandler.registerConversions(ModBlocks.END_MAGMA_BLOCK.get(),
+                WorldConversion.builder()
+                        .matcher(ModBlocks.END_MAGMA_BLOCK.get())
+                        .newState(ModBlocks.FLUID_END_MAGMA_BLOCK.get())
+                        .addItemDamage(15)
+                        .build());
+    }
+
+    private static void registerEntropyChamberRecipes() {
+        var fluid = EntropyChamberHandler.FLUID;
+        var item = EntropyChamberHandler.ITEM;
+
+        fluid.registerRecipe(
+                new ChamberRecipe.Fluid(
+                        new FluidStack(FluidRegistry.LAVA, 2_000),
+                        10 * 20,
+                        fluidStack -> new FluidStack(ModFluids.END_MAGMA.get(), 1_000))
+                );
+
+        item.registerRecipe(
+                new ChamberRecipe.Item(
+                        new ItemStack(Blocks.END_STONE, 4),
+                        5 * 20,
+                        itemStack -> new ItemStack(ModItems.ORGANA_WEED_BLOCK.get(), 2)
+                ));
+
+        item.registerRecipe(
+                new ChamberRecipe.Item(
+                        new ItemStack(Blocks.GRASS, 20),
+                        5 * 20,
+                        itemStack -> new ItemStack(ModItems.END_MOSS_GRASS_BLOCK.get(), 2)
+                ));
+
     }
 
     private static void registerEndForgeRecipes() {
@@ -119,6 +175,23 @@ final class Registration implements Initializer {
 
         lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.ENTROPY_END_STONE.get()), 200,
                 (lava, item) -> new ItemStack(ModBlocks.END_MAGMA_BLOCK.get())));
+
+
+        var endLava = new Fluid2ItemGrouping<EndForgeRecipe>(new FluidStack(ModFluids.END_MAGMA.get(), 1000));
+        EndForgeHandler.getInstance().registerRecipeGrouping(endLava);
+
+        endLava.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.INGOT_ENDORIUM.get()), 100,
+                (lava, item) -> new ItemStack(ModItems.INFUSED_METALL.get(), 4)));
+
+        endLava.registerRecipe(new EndForgeRecipe(new ItemStack(Items.SLIME_BALL), 150,
+                (lava, item) -> new ItemStack(Items.MAGMA_CREAM, 4)));
+
+        endLava.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.END_ESSENCE.get()), 150,
+                (lava, item) -> new ItemStack(Items.BLAZE_POWDER, 4)));
+
+        endLava.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.ENTROPY_END_STONE.get()), 150,
+                (lava, item) -> new ItemStack(ModBlocks.END_MAGMA_BLOCK.get(), 4)));
+
     }
 
     private static void registerMaterializerRecipes() {
@@ -214,7 +287,7 @@ final class Registration implements Initializer {
     public static void addPattern(Class<? extends Enum<?>> clazz, String name, String id, ItemStack craftingItem) {
         name = "endreborn_" + name;
         id = "er_" + id;
-        EnumHelper.addEnum(clazz, name.toUpperCase(), new Class[] { String.class, String.class, ItemStack.class }, name,
+        EnumHelper.addEnum(clazz, name.toUpperCase(), new Class[]{String.class, String.class, ItemStack.class}, name,
                 id, craftingItem);
     }
 }
