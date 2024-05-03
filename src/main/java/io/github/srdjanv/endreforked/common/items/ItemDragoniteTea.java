@@ -41,7 +41,7 @@ public class ItemDragoniteTea extends ItemFood implements InventoryItemModel {
             player.getCooldownTracker().setCooldown(this, 480);
             player.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 500, 0));
             if (!worldIn.isRemote)
-                player.getCapability(CapabilityTimedFlightHandler.TIMED_FLIGHT_CAPABILITY, null).setFlightDuration(500);
+                player.getCapability(CapabilityTimedFlightHandler.INSTANCE, null).setFlightDuration(500);
         }
         return stack;
     }

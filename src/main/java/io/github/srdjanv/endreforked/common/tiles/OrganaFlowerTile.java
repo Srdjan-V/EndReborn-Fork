@@ -2,7 +2,6 @@ package io.github.srdjanv.endreforked.common.tiles;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
-import io.github.srdjanv.endreforked.common.capabilities.timedflight.TimedFlight;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
@@ -31,11 +30,11 @@ public class OrganaFlowerTile extends TileEntity implements ITickable {
         AxisAlignedBB axisalignedbb = (new AxisAlignedBB(x, y, z, x + 1, y + 1, z + 1)).grow(10);
         List<EntityPlayer> list = world.getEntitiesWithinAABB(EntityPlayer.class, axisalignedbb);
         for (EntityPlayer player : list) {
-            if (!player.hasCapability(CapabilityTimedFlightHandler.TIMED_FLIGHT_CAPABILITY, null)) {
+            if (!player.hasCapability(CapabilityTimedFlightHandler.INSTANCE, null)) {
                 EndReforked.LOGGER.warn("Player {} has no timed flight capability", player.getName());
                 continue;
             }
-            var cap = player.getCapability(CapabilityTimedFlightHandler.TIMED_FLIGHT_CAPABILITY, null);
+            var cap = player.getCapability(CapabilityTimedFlightHandler.INSTANCE, null);
             cap.setFlightDuration(30 * 20);
         }
 

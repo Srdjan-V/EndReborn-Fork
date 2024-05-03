@@ -10,26 +10,27 @@ import org.jetbrains.annotations.Nullable;
 
 public class TimedFlightCapabilityProvider implements ICapabilitySerializable<NBTTagInt> {
 
-    private final TimedFlight timedFlight = CapabilityTimedFlightHandler.TIMED_FLIGHT_CAPABILITY.getDefaultInstance();
+    private final TimedFlight timedFlight = CapabilityTimedFlightHandler.INSTANCE.getDefaultInstance();
 
     @Override
     public boolean hasCapability(@NotNull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityTimedFlightHandler.TIMED_FLIGHT_CAPABILITY;
+        return capability == CapabilityTimedFlightHandler.INSTANCE;
     }
 
     @Nullable
     @Override
     public <T> T getCapability(@NotNull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityTimedFlightHandler.TIMED_FLIGHT_CAPABILITY ? (T) timedFlight : null;
+        return capability == CapabilityTimedFlightHandler.INSTANCE ?
+                CapabilityTimedFlightHandler.INSTANCE.cast(timedFlight) : null;
     }
 
     @Override
     public NBTTagInt serializeNBT() {
-        return (NBTTagInt) CapabilityTimedFlightHandler.TIMED_FLIGHT_CAPABILITY.writeNBT(timedFlight, null);
+        return (NBTTagInt) CapabilityTimedFlightHandler.INSTANCE.writeNBT(timedFlight, null);
     }
 
     @Override
     public void deserializeNBT(NBTTagInt nbt) {
-        CapabilityTimedFlightHandler.TIMED_FLIGHT_CAPABILITY.readNBT(timedFlight, null, nbt);
+        CapabilityTimedFlightHandler.INSTANCE.readNBT(timedFlight, null, nbt);
     }
 }

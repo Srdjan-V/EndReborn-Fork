@@ -1,7 +1,6 @@
 package io.github.srdjanv.endreforked.common.capabilities.timedflight;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagInt;
@@ -21,7 +20,7 @@ import io.github.srdjanv.endreforked.Tags;
 public class CapabilityTimedFlightHandler {
 
     @CapabilityInject(TimedFlight.class)
-    public static Capability<TimedFlight> TIMED_FLIGHT_CAPABILITY;
+    public static Capability<TimedFlight> INSTANCE;
 
     public static final ResourceLocation TimedFlight = new ResourceLocation(Tags.MODID, "TimedFlight");
 
@@ -35,7 +34,7 @@ public class CapabilityTimedFlightHandler {
     public static void playerTickEvent(TickEvent.PlayerTickEvent event) {
         if (event.phase != TickEvent.Phase.START) return;
         if (event.player instanceof EntityPlayerMP playerMP) {
-            playerMP.getCapability(TIMED_FLIGHT_CAPABILITY, null).tickPlayer(playerMP);
+            playerMP.getCapability(INSTANCE, null).tickPlayer(playerMP);
         }
     }
 
