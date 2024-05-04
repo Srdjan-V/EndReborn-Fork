@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
+import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 import net.minecraft.block.Block;
@@ -38,7 +39,6 @@ public class BlockOrganaPlant extends BlockBase {
 
     public BlockOrganaPlant() {
         super("organa_plant", Material.PLANTS, MapColor.PURPLE);
-        this.setCreativeTab(CreativeTabs.DECORATIONS);
         this.setDefaultState(
                 blockState.getBaseState()
                         .withProperty(NORTH, Boolean.FALSE)
@@ -51,19 +51,20 @@ public class BlockOrganaPlant extends BlockBase {
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        Block block = worldIn.getBlockState(pos.down()).getBlock();
-        Block block1 = worldIn.getBlockState(pos.up()).getBlock();
-        Block block2 = worldIn.getBlockState(pos.north()).getBlock();
-        Block block3 = worldIn.getBlockState(pos.east()).getBlock();
-        Block block4 = worldIn.getBlockState(pos.south()).getBlock();
-        Block block5 = worldIn.getBlockState(pos.west()).getBlock();
+        Block down = worldIn.getBlockState(pos.down()).getBlock();
+        Block up = worldIn.getBlockState(pos.up()).getBlock();
+        Block north = worldIn.getBlockState(pos.north()).getBlock();
+        Block east = worldIn.getBlockState(pos.east()).getBlock();
+        Block south = worldIn.getBlockState(pos.south()).getBlock();
+        Block west = worldIn.getBlockState(pos.west()).getBlock();
+        var organaFlower = ModBlocks.ORGANA_FLOWER_BLOCK.get();
         return state
-                .withProperty(DOWN, block == this || block == Blocks.CHORUS_FLOWER || block == Blocks.END_STONE)
-                .withProperty(UP, block1 == this || block1 == Blocks.CHORUS_FLOWER)
-                .withProperty(NORTH, block2 == this || block2 == Blocks.CHORUS_FLOWER)
-                .withProperty(EAST, block3 == this || block3 == Blocks.CHORUS_FLOWER)
-                .withProperty(SOUTH, block4 == this || block4 == Blocks.CHORUS_FLOWER)
-                .withProperty(WEST, block5 == this || block5 == Blocks.CHORUS_FLOWER);
+                .withProperty(DOWN, down == this || down == organaFlower || down == ModBlocks.END_MOSS_GRASS_BLOCK.get())
+                .withProperty(UP, up == this || up == organaFlower)
+                .withProperty(NORTH, north == this || north == organaFlower)
+                .withProperty(EAST, east == this || east == organaFlower)
+                .withProperty(SOUTH, south == this || south == organaFlower)
+                .withProperty(WEST, west == this || west == organaFlower);
     }
 
     @Override
@@ -170,9 +171,9 @@ public class BlockOrganaPlant extends BlockBase {
                     return false;
                 }
 
-                Block block1 = wordIn.getBlockState(blockpos.down()).getBlock();
+                Block blockUnder = wordIn.getBlockState(blockpos.down()).getBlock();
 
-                if (block1 == this || block1 == Blocks.END_STONE) {
+                if (blockUnder == this || blockUnder == ModBlocks.END_MOSS_GRASS_BLOCK.get()) {
                     return true;
                 }
             }
@@ -184,7 +185,7 @@ public class BlockOrganaPlant extends BlockBase {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[]{NORTH, EAST, SOUTH, WEST, UP, DOWN});
+        return new BlockStateContainer(this, NORTH, EAST, SOUTH, WEST, UP, DOWN);
     }
 
     @Override

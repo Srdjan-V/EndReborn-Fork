@@ -1,0 +1,8 @@
+{
+    "parent": "endreborn:block/organa_flower",
+    "textures": {
+        "texture": "endreborn:blocks/organa_flower_mature_small",
+        "bottom": "endreborn:blocks/organa_plant",
+        "particle": "endreborn:blocks/organa_flower_mature_small"
+    }
+}

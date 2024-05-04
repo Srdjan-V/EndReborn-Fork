@@ -263,8 +263,7 @@ public class BlockOrganaFlower extends BlockBase {
             worldIn.setBlockState(blockpos, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
         }
 
-        boolean flag = false;
-
+        boolean grown = false;
         if (iteration < 4) {
             int l = rand.nextInt(4);
 
@@ -277,15 +276,15 @@ public class BlockOrganaFlower extends BlockBase {
                 BlockPos blockpos1 = pos.up(i).offset(enumfacing);
 
                 if (Math.abs(blockpos1.getX() - pos2.getX()) < age && Math.abs(blockpos1.getZ() - pos2.getZ()) < age && worldIn.isAirBlock(blockpos1) && worldIn.isAirBlock(blockpos1.down()) && areAllNeighborsEmpty(worldIn, blockpos1, enumfacing.getOpposite())) {
-                    flag = true;
-                    worldIn.setBlockState(blockpos1, Blocks.CHORUS_PLANT.getDefaultState(), 2);
+                    grown = true;
+                    worldIn.setBlockState(blockpos1, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
                     growPlantRecursive(worldIn, blockpos1, rand, pos2, age, iteration + 1);
                 }
             }
         }
 
-        if (!flag)
-            worldIn.setBlockState(pos.up(i), ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(AGE, 5), 2);
+        if (!grown)
+            worldIn.setBlockState(pos.up(i), ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(AGE, 10), 2);
     }
 
     @Override
