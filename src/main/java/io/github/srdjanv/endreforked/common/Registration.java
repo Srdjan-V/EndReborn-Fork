@@ -141,6 +141,7 @@ final class Registration implements Initializer {
                 new ChamberRecipe.Fluid(
                         new FluidStack(FluidRegistry.LAVA, 2_000),
                         10 * 20,
+                        2,
                         fluidStack -> new FluidStack(ModFluids.END_MAGMA.get(), 1_000))
                 );
 
@@ -148,6 +149,7 @@ final class Registration implements Initializer {
                 new ChamberRecipe.Item(
                         new ItemStack(Blocks.END_STONE, 4),
                         5 * 20,
+                        2,
                         itemStack -> new ItemStack(ModItems.ORGANA_WEED_BLOCK.get(), 2)
                 ));
 
@@ -155,6 +157,7 @@ final class Registration implements Initializer {
                 new ChamberRecipe.Item(
                         new ItemStack(Blocks.GRASS, 20),
                         5 * 20,
+                        2,
                         itemStack -> new ItemStack(ModItems.END_MOSS_GRASS_BLOCK.get(), 2)
                 ));
 

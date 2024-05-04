@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.compat.jei;
 
+import io.github.srdjanv.endreforked.compat.jei.entropychamber.EntropyChamberCategory;
 import net.minecraft.item.ItemStack;
 
 import io.github.srdjanv.endreforked.common.ModBlocks;
@@ -21,6 +22,7 @@ public class JEIPlugin implements IModPlugin {
         registry.addRecipeCategories(new EndForgeCategory(gui));
         registry.addRecipeCategories(new MaterializerCategory(gui));
         registry.addRecipeCategories(new EntropyWandCategory(gui));
+        registry.addRecipeCategories(new EntropyChamberCategory(gui));
     }
 
     @Override
@@ -33,5 +35,8 @@ public class JEIPlugin implements IModPlugin {
 
         registry.addRecipes(EntropyWandCategory.getRecipes(), EntropyWandCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(ModItems.ENTROPY_WAND.get()), EntropyWandCategory.UID);
+
+        registry.addRecipes(EntropyChamberCategory.getRecipes(), EntropyChamberCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.ENTROPY_CHAMBER_BLOCK.get()), EntropyChamberCategory.UID);
     }
 }

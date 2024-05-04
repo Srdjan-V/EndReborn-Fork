@@ -11,6 +11,10 @@ public abstract class HandlerRegistry<IN, R extends Recipe<IN, ?>> implements Ha
 
     public final Map<IN, R> registry = new Object2ObjectOpenCustomHashMap<>(getHashStrategy());
 
+    public Map<IN, R> getRegistry() {
+        return registry;
+    }
+
     public boolean registerRecipe(R recipe) {
         registry.put(recipe.getInput(), recipe);
         return true;
