@@ -1,6 +1,8 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
+import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 import io.github.srdjanv.endreforked.common.tiles.OrganaFlowerTile;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -46,6 +48,10 @@ public class BlockOrganaFlower extends BlockBase {
         setHardness(1.25f);
     }
 
+    @Override public void registerModels() {
+        EndReforked.getProxy().registerItemRenderer(ModItems.ORGANA_FLOWER.get(), 0, "inventory");
+        EndReforked.getProxy().registerItemRenderer(ModItems.ORGANA_FLOWER.get(), 10, "inventory");
+    }
 
     @Override public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
         items.add(new ItemStack(this, 1, 0));
