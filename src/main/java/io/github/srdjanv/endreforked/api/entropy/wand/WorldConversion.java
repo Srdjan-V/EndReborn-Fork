@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.api.entropy;
+package io.github.srdjanv.endreforked.api.entropy.wand;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;

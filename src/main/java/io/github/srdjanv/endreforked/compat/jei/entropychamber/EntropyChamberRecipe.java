@@ -1,7 +1,8 @@
 package io.github.srdjanv.endreforked.compat.jei.entropychamber;
 
 import com.cleanroommc.modularui.utils.Color;
-import io.github.srdjanv.endreforked.api.entropy.ChamberRecipe;
+import io.github.srdjanv.endreforked.api.entropy.chamber.FluidChamberRecipe;
+import io.github.srdjanv.endreforked.api.entropy.chamber.ItemChamberRecipe;
 import io.github.srdjanv.endreforked.utils.LangUtil;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
@@ -22,7 +23,7 @@ public class EntropyChamberRecipe implements IRecipeWrapper {
     private final FluidStack fluidOut;
     private final int entropyCost;
 
-    public EntropyChamberRecipe(ItemStack stack, ChamberRecipe.Item chamberRecipe) {
+    public EntropyChamberRecipe(ItemStack stack, ItemChamberRecipe chamberRecipe) {
         type = Type.ITEM;
         entropyCost = chamberRecipe.getEntropyCost();
 
@@ -33,7 +34,7 @@ public class EntropyChamberRecipe implements IRecipeWrapper {
         fluidOut = null;
     }
 
-    public EntropyChamberRecipe(FluidStack stack, ChamberRecipe.Fluid chamberRecipe) {
+    public EntropyChamberRecipe(FluidStack stack, FluidChamberRecipe chamberRecipe) {
         type = Type.FLUID;
         entropyCost = chamberRecipe.getEntropyCost();
 

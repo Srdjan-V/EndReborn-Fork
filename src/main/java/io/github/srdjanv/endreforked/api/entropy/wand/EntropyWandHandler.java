@@ -1,17 +1,15 @@
-package io.github.srdjanv.endreforked.api.entropy;
+package io.github.srdjanv.endreforked.api.entropy.wand;
+
+import io.github.srdjanv.endreforked.EndReforked;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.block.Block;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import net.minecraft.block.Block;
-
-import org.jetbrains.annotations.Nullable;
-
-import io.github.srdjanv.endreforked.EndReforked;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public final class EntropyWandHandler {
 

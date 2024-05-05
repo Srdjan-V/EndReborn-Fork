@@ -5,10 +5,9 @@ import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.api.base.groupings.Fluid2ItemGrouping;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
-import io.github.srdjanv.endreforked.api.entropy.ChamberRecipe;
-import io.github.srdjanv.endreforked.api.entropy.EntropyChamberHandler;
-import io.github.srdjanv.endreforked.api.entropy.EntropyWandHandler;
-import io.github.srdjanv.endreforked.api.entropy.WorldConversion;
+import io.github.srdjanv.endreforked.api.entropy.chamber.*;
+import io.github.srdjanv.endreforked.api.entropy.wand.EntropyWandHandler;
+import io.github.srdjanv.endreforked.api.entropy.wand.WorldConversion;
 import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
@@ -18,10 +17,7 @@ import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import io.github.srdjanv.endreforked.common.configs.Configs;
-import io.github.srdjanv.endreforked.common.tiles.EndForgeTile;
-import io.github.srdjanv.endreforked.common.tiles.EntropyChamberTile;
-import io.github.srdjanv.endreforked.common.tiles.MaterializerTile;
-import io.github.srdjanv.endreforked.common.tiles.OrganaFlowerTile;
+import io.github.srdjanv.endreforked.common.tiles.*;
 import io.github.srdjanv.endreforked.common.village.EndVillagerHandler;
 import io.github.srdjanv.endreforked.utils.Initializer;
 import net.minecraft.init.Blocks;
@@ -51,15 +47,15 @@ final class Registration implements Initializer {
         CapabilityEntropyHandler.register();
 
         GameRegistry.registerTileEntity(MaterializerTile.class,
-                new ResourceLocation(Tags.MODID, "materializerTile"));
+                new ResourceLocation(Tags.MODID, "materializer_tile"));
         GameRegistry.registerTileEntity(EndForgeTile.class,
-                new ResourceLocation(Tags.MODID, "endForgeTile"));
-
+                new ResourceLocation(Tags.MODID, "endforge_Tile"));
         GameRegistry.registerTileEntity(EntropyChamberTile.class,
-                new ResourceLocation(Tags.MODID, "entropyChamberTile"));
-
+                new ResourceLocation(Tags.MODID, "entropy_chamber_tile"));
         GameRegistry.registerTileEntity(OrganaFlowerTile.class,
-                new ResourceLocation(Tags.MODID, "organaFlowerTile"));
+                new ResourceLocation(Tags.MODID, "organa_flower_tile"));
+        GameRegistry.registerTileEntity(OrganaWeedTile.class,
+                new ResourceLocation(Tags.MODID, "organa_weed_tile"));
     }
 
     public void init(FMLInitializationEvent event) {
@@ -127,11 +123,11 @@ final class Registration implements Initializer {
     }
 
     private static void registerEntropyChamberRecipes() {
-        var fluid = EntropyChamberHandler.FLUID;
-        var item = EntropyChamberHandler.ITEM;
+        var fluid = EntropyFluidChamberHandler.INSTANCE;
+        var item = EntropyItemChamberHandler.INSTANCE;
 
         fluid.registerRecipe(
-                new ChamberRecipe.Fluid(
+                new FluidChamberRecipe(
                         new FluidStack(FluidRegistry.LAVA, 2_000),
                         10 * 20,
                         2,
@@ -139,7 +135,7 @@ final class Registration implements Initializer {
                 );
 
         item.registerRecipe(
-                new ChamberRecipe.Item(
+                new ItemChamberRecipe(
                         new ItemStack(Blocks.END_STONE, 4),
                         5 * 20,
                         2,
@@ -147,7 +143,7 @@ final class Registration implements Initializer {
                 ));
 
         item.registerRecipe(
-                new ChamberRecipe.Item(
+                new ItemChamberRecipe(
                         new ItemStack(Blocks.GRASS, 20),
                         5 * 20,
                         2,

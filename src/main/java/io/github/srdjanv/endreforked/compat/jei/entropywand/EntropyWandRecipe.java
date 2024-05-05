@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import io.github.srdjanv.endreforked.api.entropy.WorldConversion;
+import io.github.srdjanv.endreforked.api.entropy.wand.WorldConversion;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

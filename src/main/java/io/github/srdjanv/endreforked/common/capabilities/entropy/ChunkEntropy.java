@@ -1,12 +1,13 @@
 package io.github.srdjanv.endreforked.common.capabilities.entropy;
 
 import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.api.entropy.storage.WeekEntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class ChunkEntropy implements INBTSerializable<NBTTagCompound> {
+public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntropyStorage {
     private final ChunkPos chunkPos;
 
     private int maxEntropy;
@@ -19,28 +20,35 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound> {
 
     public ChunkEntropy(Chunk chunk) {
         this.chunkPos = chunk.getPos();
-        maxEntropy = 100;
+        maxEntropy = 1000;
     }
 
-    public void induceEntropy(int entropy) {
+    @Override public int induceEntropy(int entropy, boolean simulate) {
+        var remainder = maxEntropy - (entropyIn + entropy);
+        if (simulate) return remainder;
+
         inducedNumberOfEntropies++;
         entropyIn += entropy;
 
         if (nextCheck < EndReforked.getWorldTick()) {
-            nextCheck = EndReforked.getWorldTick() + 40;
+            nextCheck = EndReforked.getWorldTick() + genDecayFrequency();
             var newEntropy = Math.max(entropyIn / inducedNumberOfEntropies, currentEntropy - decay);
             currentEntropy = Math.min(Math.max(newEntropy, minEntropy), maxEntropy);
             inducedNumberOfEntropies = 0;
             entropyIn = 0;
         }
+        return remainder;
     }
 
-    public boolean drainEntropy(int entropy, boolean simulate) {
+    @Override public int drainEntropy(int entropy, boolean simulate) {
         if (currentEntropy >= entropy) {
-            if (!simulate) currentEntropy -= entropy;
-            return true;
+            if (!simulate) this.currentEntropy -= entropy;
+            return entropy;
         }
-        return false;
+        if (!simulate) this.currentEntropy = 0;
+        int missing = this.currentEntropy;
+        missing -= entropy;
+        return entropy - missing;
     }
 
     public ChunkPos getChunkPos() {
@@ -59,20 +67,24 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound> {
         this.decay = decay;
     }
 
-    public int getMaxEntropy() {
+    @Override public int genDecayFrequency() {
+        return 40;
+    }
+
+    @Override public int getDecay() {
+        return decay;
+    }
+
+    @Override public int getMaxEntropy() {
         return maxEntropy;
     }
 
-    public int getMinEntropy() {
+    @Override public int getMinEntropy() {
         return minEntropy;
     }
 
-    public int getCurrentEntropy() {
+    @Override public int getCurrentEntropy() {
         return currentEntropy;
-    }
-
-    public int getDecay() {
-        return decay;
     }
 
     @Override public NBTTagCompound serializeNBT() {

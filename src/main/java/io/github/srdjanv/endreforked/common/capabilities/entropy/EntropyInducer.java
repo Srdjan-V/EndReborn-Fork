@@ -33,7 +33,7 @@ public class EntropyInducer {
     public void induceEntropy(WorldServer server, BlockPos pos, int entropy) {
         if (++tick % frequency != 0) return;
         if (!initCap(server, pos)) return;
-        chunkEntropy.induceEntropy(entropy);
+        chunkEntropy.induceEntropy(entropy, false);
     }
 
     private boolean initCap(WorldServer server, BlockPos pos) {

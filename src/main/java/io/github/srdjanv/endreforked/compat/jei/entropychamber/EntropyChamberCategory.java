@@ -1,7 +1,8 @@
 package io.github.srdjanv.endreforked.compat.jei.entropychamber;
 
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.api.entropy.EntropyChamberHandler;
+import io.github.srdjanv.endreforked.api.entropy.chamber.EntropyFluidChamberHandler;
+import io.github.srdjanv.endreforked.api.entropy.chamber.EntropyItemChamberHandler;
 import io.github.srdjanv.endreforked.utils.LangUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mezz.jei.api.IGuiHelper;
@@ -56,11 +57,11 @@ public class EntropyChamberCategory implements IRecipeCategory<EntropyChamberRec
 
     public static List<EntropyChamberRecipe> getRecipes() {
         List<EntropyChamberRecipe> jeiRecipes = new ObjectArrayList<>();
-        for (var set : EntropyChamberHandler.ITEM.getRegistry().entrySet()) {
+        for (var set : EntropyItemChamberHandler.INSTANCE.getRegistry().entrySet()) {
             jeiRecipes.add(new EntropyChamberRecipe(set.getKey(), set.getValue()));
         }
 
-        for (var set : EntropyChamberHandler.FLUID.getRegistry().entrySet()) {
+        for (var set : EntropyFluidChamberHandler.INSTANCE.getRegistry().entrySet()) {
             jeiRecipes.add(new EntropyChamberRecipe(set.getKey(), set.getValue()));
         }
 

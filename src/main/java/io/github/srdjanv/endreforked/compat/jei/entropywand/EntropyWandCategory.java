@@ -11,7 +11,7 @@ import com.cleanroommc.modularui.drawable.ItemDrawable;
 import com.google.common.collect.Lists;
 
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.api.entropy.EntropyWandHandler;
+import io.github.srdjanv.endreforked.api.entropy.wand.EntropyWandHandler;
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.utils.LangUtil;
 import mezz.jei.api.IGuiHelper;

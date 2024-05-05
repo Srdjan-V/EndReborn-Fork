@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.common.items;
 
+import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.EntropyChunkDataReader;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.common.items.base.ItemBase;
@@ -10,8 +11,11 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+
+import java.util.Map;
 
 public class ItemEntropyReader extends ItemBase {
     private final EntropyChunkDataReader<EntityPlayer> reader;
@@ -34,9 +38,8 @@ public class ItemEntropyReader extends ItemBase {
 
     @Override public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         if (!worldIn.isRemote) {
-            var data = reader.getChunkEntropy(playerIn);
-            if (data != null) {
-                playerIn.sendMessage(new TextComponentString(data.toString()));
+            for (Map.Entry<ChunkPos, ChunkEntropy> entry : reader.getEntropyView(playerIn).getView().entrySet()) {
+                playerIn.sendMessage(new TextComponentString(entry.toString()));
             }
         }
 
