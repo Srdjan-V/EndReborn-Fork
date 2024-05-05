@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -56,6 +57,12 @@ public class EndReforked {
         return Objects.requireNonNull(proxy);
     }
 
+    private static int worldTick;
+
+    public static int getWorldTick() {
+        return worldTick;
+    }
+
     public EndReforked() {
         instance = this;
         proxy = FMLCommonHandler.instance().getSide().isClient() ? new ClientProxy() : new CommonProxy();
@@ -83,6 +90,12 @@ public class EndReforked {
     @EventHandler
     public void serverStarting(FMLServerStartingEvent evt) {
         evt.registerServerCommand(new EndRebornCommands());
+        worldTick = 0;
+    }
+
+    @SubscribeEvent
+    public static void onWorldTick(TickEvent event) {
+        if (event.phase == TickEvent.Phase.START) worldTick++;
     }
 
     @SubscribeEvent

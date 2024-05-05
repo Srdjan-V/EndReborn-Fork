@@ -3,6 +3,7 @@ package io.github.srdjanv.endreforked.common;
 import java.util.Iterator;
 import java.util.List;
 
+import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
 import io.github.srdjanv.endreforked.common.configs.bioms.BiomesConfig;
 import io.github.srdjanv.endreforked.common.configs.worldgen.GenericGenConfig;
@@ -47,6 +48,7 @@ public class CommonProxy {
     public void registerEventBus() {
         for (Initializer component : components) component.registerEventBus();
         MinecraftForge.EVENT_BUS.register(CapabilityTimedFlightHandler.class);
+        MinecraftForge.EVENT_BUS.register(CapabilityEntropyHandler.class);
         MinecraftForge.EVENT_BUS.register(ModFluids.class);
         MinecraftForge.EVENT_BUS.register(ModBlocks.class);
         MinecraftForge.EVENT_BUS.register(ModItems.class);
