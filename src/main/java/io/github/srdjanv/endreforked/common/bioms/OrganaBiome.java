@@ -6,6 +6,7 @@ import git.jbredwards.nether_api.api.biome.IEndBiome;
 import git.jbredwards.nether_api.api.biome.INoSpawnBiome;
 import git.jbredwards.nether_api.api.world.INetherAPIChunkGenerator;
 import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.blocks.BlockEndMossGrass;
 import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
 import net.minecraft.block.BlockChorusFlower;
 import net.minecraft.block.BlockSand;
@@ -82,6 +83,24 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome {
                         final IBlockState ground = world.getBlockState(pos.add(xOffset, y - 1, zOffset));
                         if (ground == ModBlocks.END_MOSS_GRASS_BLOCK.get().getDefaultState())
                             BlockOrganaFlower.generatePlant(world, pos.add(xOffset, y, zOffset), rand, 8);
+                    }
+                }
+            }
+
+            final BlockPos pos = chunkPos;
+            final int amountInChunk = rand.nextInt(3);
+            for (int i = 0; i < amountInChunk; i++) {
+                final int xOffset = rand.nextInt(16) + 8;
+                final int zOffset = rand.nextInt(16) + 8;
+                final int y = world.getHeight(pos.add(xOffset, 0, zOffset)).getY();
+
+                if (y > 0 && world.isAirBlock(pos.add(xOffset, y, zOffset))) {
+                    final var currentPos = pos.add(xOffset, y - 1, zOffset);
+                    final var currentBlockState = world.getBlockState(currentPos);
+                    final var ground = currentBlockState.getBlock();
+                    if (ground instanceof BlockEndMossGrass grass) {
+                        if (grass.canGrow(world, currentPos, currentBlockState, false))
+                            grass.grow(world, rand, currentPos, currentBlockState);
                     }
                 }
             }

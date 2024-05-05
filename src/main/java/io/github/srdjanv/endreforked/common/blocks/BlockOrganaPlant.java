@@ -159,28 +159,22 @@ public class BlockOrganaPlant extends BlockBase {
     }
 
     public boolean canSurviveAt(World wordIn, BlockPos pos) {
-        boolean flag = wordIn.isAirBlock(pos.up());
-        boolean flag1 = wordIn.isAirBlock(pos.down());
+        boolean upAir = wordIn.isAirBlock(pos.up());
+        boolean downAir = wordIn.isAirBlock(pos.down());
 
         for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
-            BlockPos blockpos = pos.offset(enumfacing);
-            Block block = wordIn.getBlockState(blockpos).getBlock();
+            BlockPos blockPosFacing = pos.offset(enumfacing);
+            Block blockFacing = wordIn.getBlockState(blockPosFacing).getBlock();
 
-            if (block == this) {
-                if (!flag && !flag1) {
-                    return false;
-                }
-
-                Block blockUnder = wordIn.getBlockState(blockpos.down()).getBlock();
-
-                if (blockUnder == this || blockUnder == ModBlocks.END_MOSS_GRASS_BLOCK.get()) {
-                    return true;
-                }
+            if (blockFacing == this) {
+                if (!upAir && !downAir) return false;
+                Block blockUnder = wordIn.getBlockState(blockPosFacing.down()).getBlock();
+                if (blockUnder == this || blockUnder == ModBlocks.END_MOSS_GRASS_BLOCK.get()) return true;
             }
         }
 
-        Block block2 = wordIn.getBlockState(pos.down()).getBlock();
-        return block2 == this || block2 == Blocks.END_STONE;
+        Block blockDown = wordIn.getBlockState(pos.down()).getBlock();
+        return blockDown == this || blockDown == ModBlocks.END_MOSS_GRASS_BLOCK.get();
     }
 
     @Override
