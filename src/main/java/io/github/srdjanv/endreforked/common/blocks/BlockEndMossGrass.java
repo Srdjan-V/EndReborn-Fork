@@ -18,7 +18,7 @@ import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 public class BlockEndMossGrass extends BlockBase implements IGrowable {
 
     public BlockEndMossGrass() {
-        super("end_grass_moss", Material.GRASS);
+        super("end_moss_grass", Material.GRASS);
         setHarvestLevel("pickaxe", 3);
         setTickRandomly(true);
     }

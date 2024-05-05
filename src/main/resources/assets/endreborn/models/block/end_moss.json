@@ -1,8 +1,6 @@
 {
-    "parent": "block/cube_bottom_top",
+    "parent": "block/cube_all",
     "textures": {
-        "bottom": "minecraft:blocks/end_stone",
-        "top": "endreborn:blocks/end_moss_top",
-        "side": "endreborn:blocks/end_moss_side"
+        "all": "endreborn:blocks/end_moss"
     }
 }
