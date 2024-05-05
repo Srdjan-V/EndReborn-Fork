@@ -65,6 +65,7 @@ public class BlockOrganaFlower extends BlockBase {
 
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+        if (worldIn.isRemote) return;
         if (!canSurvive(worldIn, pos)) {
             worldIn.destroyBlock(pos, true);
             return;
@@ -113,7 +114,7 @@ public class BlockOrganaFlower extends BlockBase {
 
         if (growOnlyUp && areAllNeighborsEmpty(worldIn, upPos, null) && worldIn.isAirBlock(pos.up(2))) {
             placePlant(worldIn, pos);
-            placeGrownFlower(worldIn, upPos, age);
+            placeGrownFlower(worldIn, upPos, age + 1);
         } else if (age < 7) {
             int l = rand.nextInt(4);
             boolean flag2 = false;
@@ -138,18 +139,6 @@ public class BlockOrganaFlower extends BlockBase {
 
     private void placePlant(World worldIn, BlockPos pos) {
         worldIn.setBlockState(pos, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
-        boolean placed = false;
-        List<EnumFacing> facings = new ObjectArrayList<>(EnumFacing.VALUES);
-        Collections.shuffle(facings);
-        for (EnumFacing value : facings) {
-            if (placed) break;
-            var flowerPos = pos.offset(value);
-            if (worldIn.isAirBlock(flowerPos)) {
-                worldIn.setBlockState(flowerPos, ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState(), 2);
-                placed = true;
-            }
-        }
-
     }
 
     private void placeGrownFlower(World worldIn, BlockPos pos, int age) {
