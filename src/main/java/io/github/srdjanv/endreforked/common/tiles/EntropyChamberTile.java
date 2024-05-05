@@ -15,12 +15,15 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import io.github.srdjanv.endreforked.api.base.processors.RecipeProcessor;
 import io.github.srdjanv.endreforked.api.entropy.ChamberRecipe;
 import io.github.srdjanv.endreforked.api.entropy.EntropyChamberHandler;
+import io.github.srdjanv.endreforked.common.capabilities.entropy.EntropyChunkDataReader;
+import io.github.srdjanv.endreforked.common.capabilities.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
 import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
 import io.github.srdjanv.endreforked.common.widgets.BasicTextWidget;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
@@ -28,8 +31,8 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import java.io.IOException;
 
-public class EntropyChamberTile extends BaseTileEntity implements ITickable, IGuiHolder<PosGuiData> {
-    private final ItemStackHandler catalyst = new InternalItemStackHandler(1);
+public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEntropyDataProvider, IGuiHolder<PosGuiData> {
+    private final EntropyChunkDataReader<TileEntity> reader;
 
     private TileStatus itemStatus = TileStatus.Idle;
     private double itemProgress = 0;
@@ -46,6 +49,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IGu
     private final RecipeProcessor<FluidStack, FluidStack, ChamberRecipe.Fluid> fluidProcessor = new RecipeProcessor<>(EntropyChamberHandler.FLUID);
 
     public EntropyChamberTile() {
+        reader = new EntropyChunkDataReader.TileEntity();
     }
 
     @Override
@@ -72,6 +76,21 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IGu
         compound.setTag("fluidOut", fluidOut.writeToNBT(new NBTTagCompound()));
 
         return super.writeToNBT(compound);
+    }
+
+    @Override public int getPassiveEntropyCost() {
+        return 10;
+    }
+
+    @Override public boolean hasActiveEntropyCost() {
+        return itemProcessor.hasRecipe() || fluidProcessor.hasRecipe();
+    }
+
+    @Override public int getActiveEntropyCost() {
+        int cost = 0;
+        if (itemProcessor.hasRecipe()) cost = itemProcessor.getRecipe().getEntropyCost();
+        if (fluidProcessor.hasRecipe()) cost += fluidProcessor.getRecipe().getEntropyCost();
+        return cost;
     }
 
     @Override public ModularPanel buildUI(PosGuiData data, GuiSyncManager syncManager) {
@@ -165,7 +184,6 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IGu
                 SyncHandlers.enumValue(TileStatus.class, () -> fluidStatus, status -> this.fluidStatus = status));
 
 
-
         if (data.isClient()) {
             var itemTextBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.MC_BACKGROUND);
             itemTextBox.setKey(() -> itemStatus.getLangKey());
@@ -227,18 +245,28 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IGu
 
     private boolean prepareItems() {
         var processingItem = itemIn.getStackInSlot(0);
+        boolean valid = false;
         if (itemProcessor.validateRecipe(processingItem)) {
-            updateItemStatus(TileStatus.Running);
-            return true;
-        } else {
-            updateItemStatus(TileStatus.Invalid);
-            return false;
+            var data = reader.getChunkEntropy(this);
+            if (data != null
+                    && data.getCurrentEntropy() > itemProcessor.getRecipe().getEntropyCost())
+                valid = true;
         }
+
+        if (valid) {
+            updateItemStatus(TileStatus.Running);
+        } else updateItemStatus(TileStatus.Invalid);
+        return valid;
     }
 
     private void updateItems() {
         // finished
         if (itemsTicksRun >= itemProcessor.getRecipe().getTicksToComplete()) {
+            if (!drainEntropy(reader, itemProcessor)) {
+                updateItemStatus(TileStatus.NotEnoughEntropy);
+                return;
+            }
+
             var outputStack = itemProcessor.getRecipe().getRecipeFunction().apply(itemOut.getStackInSlot(0));
             if (itemOut.insertItem(-1, outputStack, true).isEmpty()) {
                 itemOut.insertItem(-1, outputStack, false);
@@ -254,21 +282,31 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IGu
         }
     }
 
-
     private boolean prepareFluids() {
-        var processingItem = fluidIn.getFluid();
-        if (fluidProcessor.validateRecipe(processingItem)) {
-            updateFluidStatus(TileStatus.Running);
-            return true;
-        } else {
-            updateFluidStatus(TileStatus.Invalid);
-            return false;
+        var processingFluid = fluidIn.getFluid();
+        boolean valid = false;
+        if (fluidProcessor.validateRecipe(processingFluid)) {
+            var data = reader.getChunkEntropy(this);
+            if (data != null
+                    && data.getCurrentEntropy() > fluidProcessor.getRecipe().getEntropyCost())
+                valid = true;
         }
+
+        if (valid) {
+            updateItemStatus(TileStatus.Running);
+        } else updateItemStatus(TileStatus.Invalid);
+        return valid;
+
     }
 
     private void updateFluids() {
         // finished
         if (fluidsTicksRun >= fluidProcessor.getRecipe().getTicksToComplete()) {
+            if (!drainEntropy(reader, fluidProcessor)) {
+                updateItemStatus(TileStatus.NotEnoughEntropy);
+                return;
+            }
+
             var outputFluid = fluidProcessor.getRecipe().getRecipeFunction().apply(fluidOut.getFluid());
             if (fluidOut.fill(outputFluid, true) == outputFluid.amount) {
                 fluidOut.fill(outputFluid, false);
@@ -284,4 +322,13 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IGu
         }
     }
 
+    protected <R extends ChamberRecipe<?, ?>> boolean drainEntropy(EntropyChunkDataReader<TileEntity> reader, RecipeProcessor<?, ?, R> processor) {
+        var data = reader.getChunkEntropy(this);
+        if (data == null) throw new IllegalStateException("This should never happen");
+        if (data.drainEntropy(processor.getRecipe().getEntropyCost(), true)) {
+            data.drainEntropy(processor.getRecipe().getEntropyCost(), false);
+            return true;
+        }
+        return false;
+    }
 }

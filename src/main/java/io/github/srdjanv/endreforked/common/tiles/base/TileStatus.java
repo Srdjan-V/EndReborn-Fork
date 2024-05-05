@@ -6,6 +6,7 @@ public enum TileStatus {
     OutFull("tile.status.gui.output_full"),
     Failed("tile.status.gui.failed"),
     Invalid("tile.status.gui.invalid_recipe"),
+    NotEnoughEntropy("tile.status.gui.not_enough_entropy"),
 
     Running("tile.status.gui.running");
 

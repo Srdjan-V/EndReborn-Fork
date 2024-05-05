@@ -35,6 +35,14 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound> {
         }
     }
 
+    public boolean drainEntropy(int entropy, boolean simulate) {
+        if (currentEntropy >= entropy) {
+            if (!simulate) currentEntropy -= entropy;
+            return true;
+        }
+        return false;
+    }
+
     public ChunkPos getChunkPos() {
         return chunkPos;
     }

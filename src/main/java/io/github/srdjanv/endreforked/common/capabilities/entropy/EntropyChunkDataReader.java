@@ -7,11 +7,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public abstract class EntropyReader<D> {
+public abstract class EntropyChunkDataReader<D> {
     private final Function<D, BlockPos> posFunction;
     private ChunkEntropy lastEntropy = null;
 
-    public EntropyReader(Function<D, BlockPos> posFunction) {
+    public EntropyChunkDataReader(Function<D, BlockPos> posFunction) {
         this.posFunction = posFunction;
     }
 
@@ -39,4 +39,27 @@ public abstract class EntropyReader<D> {
         }
         return null;
     }
+
+    public static final class TileEntity extends EntropyChunkDataReader<net.minecraft.tileentity.TileEntity> {
+        public TileEntity() {
+            super(net.minecraft.tileentity.TileEntity::getPos);
+        }
+
+        @Override public @Nullable ChunkEntropy resolveChunkEntropy(net.minecraft.tileentity.TileEntity data, BlockPos pos) {
+            if (!data.getWorld().isRemote) return resolveChunkEntropy((WorldServer) data.getWorld(), pos);
+            return null;
+        }
+    }
+
+    public static final class EntityPlayer extends EntropyChunkDataReader<net.minecraft.entity.player.EntityPlayer> {
+        public EntityPlayer() {
+            super(net.minecraft.entity.player.EntityPlayer::getPosition);
+        }
+
+        @Override public @Nullable ChunkEntropy resolveChunkEntropy(net.minecraft.entity.player.EntityPlayer data, BlockPos pos) {
+            if (!data.world.isRemote) return resolveChunkEntropy((WorldServer) data.world, pos);
+            return null;
+        }
+    }
+
 }
