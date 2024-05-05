@@ -4,6 +4,7 @@ import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 
@@ -19,8 +20,20 @@ public class OrganaFlowerTile extends TileEntity implements ITickable {
 
     @Override
     public void update() {
-        if (!world.isRemote && ++tick % 80 == 0)
-            addEffectToPlayers();
+        if (!world.isRemote) {
+            if (++tick % 80 == 0) addEffectToPlayers();
+        } else if (++tick % 60 == 0) {
+            int color = 0x5900b3;
+            double xSpeed = (double) (color >> 16 & 255) / 255.0D;
+            double ySpeed = (double) (color >> 8 & 255) / 255.0D;
+            double zSpeed = (double) (color >> 0 & 255) / 255.0D;
+
+            world.spawnParticle(EnumParticleTypes.SPELL_MOB,
+                    pos.getX() + (world.rand.nextDouble() - 0.5D),
+                    pos.getY() + (world.rand.nextDouble() - 0.5D),
+                    pos.getZ() + (world.rand.nextDouble() - 0.5D),
+                    xSpeed, ySpeed, zSpeed);
+        }
     }
 
     private void addEffectToPlayers() {
