@@ -47,6 +47,9 @@ public class BlockOrganaPlant extends BlockBase {
                         .withProperty(WEST, Boolean.FALSE)
                         .withProperty(UP, Boolean.FALSE)
                         .withProperty(DOWN, Boolean.FALSE));
+
+        setHarvestLevel("pickaxe", 1);
+        setHardness(1.25f);
     }
 
     @Override
@@ -126,6 +129,7 @@ public class BlockOrganaPlant extends BlockBase {
         }
     }
 
+    //todo drop something different
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Items.CHORUS_FRUIT;

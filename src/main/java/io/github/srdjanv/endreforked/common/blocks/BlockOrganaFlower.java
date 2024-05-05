@@ -42,6 +42,8 @@ public class BlockOrganaFlower extends BlockBase {
         setDefaultState(
                 blockState.getBaseState()
                         .withProperty(AGE, 0));
+        setHarvestLevel("pickaxe", 2);
+        setHardness(1.25f);
     }
 
 
