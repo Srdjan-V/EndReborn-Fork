@@ -1,11 +1,8 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import static io.github.srdjanv.endreforked.common.blocks.BlockEndCoral.END_BUSH_AABB;
-
-import java.util.Collections;
-
-import javax.annotation.Nullable;
-
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
+import io.github.srdjanv.endreforked.common.tiles.OrganaWeedTile;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -22,8 +19,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
+
+import static io.github.srdjanv.endreforked.common.blocks.BlockEndCoral.END_BUSH_AABB;
 
 public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
 
@@ -31,6 +31,13 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
         super("ogana_weed", Material.VINE);
     }
 
+    @Override public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+
+    @org.jetbrains.annotations.Nullable @Override public TileEntity createTileEntity(World world, IBlockState state) {
+        return new OrganaWeedTile();
+    }
 
     @Override public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
         if (worldIn.isRemote) return;
@@ -69,12 +76,12 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
                              @Nullable TileEntity te, ItemStack stack) {}
 
     @Override
-    public boolean isShearable(ItemStack item, net.minecraft.world.IBlockAccess world, BlockPos pos) {
+    public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos) {
         return true;
     }
 
     @Override
-    public java.util.List<ItemStack> onSheared(ItemStack item, net.minecraft.world.IBlockAccess world, BlockPos pos,
+    public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos,
                                                int fortune) {
         return Collections.singletonList(new ItemStack(ModBlocks.ORGANA_WEED_BLOCK.get()));
     }

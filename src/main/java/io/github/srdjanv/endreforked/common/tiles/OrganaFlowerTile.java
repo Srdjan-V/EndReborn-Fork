@@ -1,26 +1,31 @@
 package io.github.srdjanv.endreforked.common.tiles;
 
 import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.common.capabilities.entropy.EntropyInducer;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.WorldServer;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class OrganaFlowerTile extends TileEntity implements ITickable {
+    private final EntropyInducer inducer;
     private int tick;
 
     public OrganaFlowerTile() {
-        this.tick = ThreadLocalRandom.current().nextInt((60));
+        this.tick = ThreadLocalRandom.current().nextInt(60);
+        inducer = new EntropyInducer(5 * 20);
     }
 
     @Override
     public void update() {
         if (!world.isRemote) {
+            inducer.induceEntropy((WorldServer) world, this,  10);
             if (++tick % 80 == 0) addEffectToPlayers();
         } else if (++tick % 60 == 0) {
             int color = 0x5900b3;

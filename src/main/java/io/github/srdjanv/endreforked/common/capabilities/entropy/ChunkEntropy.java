@@ -26,11 +26,12 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound> {
         inducedNumberOfEntropies++;
         entropyIn += entropy;
 
-        if (nextCheck == EndReforked.getWorldTick()) {
-            nextCheck = EndReforked.getWorldTick() + 20;
+        if (nextCheck < EndReforked.getWorldTick()) {
+            nextCheck = EndReforked.getWorldTick() + 40;
             var newEntropy = Math.max(entropyIn / inducedNumberOfEntropies, currentEntropy - decay);
             currentEntropy = Math.min(Math.max(newEntropy, minEntropy), maxEntropy);
             inducedNumberOfEntropies = 0;
+            entropyIn = 0;
         }
     }
 
