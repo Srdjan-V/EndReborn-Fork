@@ -1,25 +1,6 @@
 package io.github.srdjanv.endreforked.common;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.function.BooleanSupplier;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import net.minecraft.block.Block;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemBlock;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import com.google.common.base.Suppliers;
-
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.client.armor.ModelDArmor;
@@ -36,6 +17,23 @@ import io.github.srdjanv.endreforked.common.items.food.FoodEnderFlesh;
 import io.github.srdjanv.endreforked.common.items.tools.*;
 import io.github.srdjanv.endreforked.utils.models.IHasModel;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.block.Block;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemBlock;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.function.BooleanSupplier;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public final class ModItems {
 
@@ -170,6 +168,8 @@ public final class ModItems {
         return new CustomModelArmor("armour_helmet_dragon", ARMOUR_DRAGON.get(), 1,
                 EntityEquipmentSlot.HEAD, ModelDArmor::new);
     });
+
+    public static final Supplier<ItemEntropyReader> ENTROPY_READER = maybeRegister(ItemEntropyReader::new);
 
     // Food
     public static final Supplier<Item> ENDER_FLESH = maybeRegister(() -> new FoodEnderFlesh("ender_flesh"));// TODO:

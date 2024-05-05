@@ -19,7 +19,7 @@ public class CapabilityEntropyHandler {
 
     @SubscribeEvent
     public static void attachChunkEntropyCap(AttachCapabilitiesEvent<Chunk> event) {
-        if (event.getObject().getWorld().isRemote) {
+        if (!event.getObject().getWorld().isRemote) {
             event.addCapability(CHUNK_ENTROPY_LOC, new ChunkEntropyProvider(event.getObject()));
         }
     }

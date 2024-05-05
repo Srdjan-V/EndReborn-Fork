@@ -7,29 +7,32 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class EntropyReader {
-    private final Function<WorldServer, BlockPos> posFunction;
+public abstract class EntropyReader<D> {
+    private final Function<D, BlockPos> posFunction;
     private ChunkEntropy lastEntropy = null;
 
-    public EntropyReader(Function<WorldServer, BlockPos> posFunction) {
+    public EntropyReader(Function<D, BlockPos> posFunction) {
         this.posFunction = posFunction;
     }
 
     @Nullable
-    public ChunkEntropy getChunkEntropy(WorldServer server) {
-        final var pos = posFunction.apply(server);
+    public ChunkEntropy getChunkEntropy(D data) {
+        final var pos = posFunction.apply(data);
 
         if (lastEntropy != null && (!lastEntropy.getChunkPos().equals(new ChunkPos(pos))))
             lastEntropy = null;
 
         if (lastEntropy == null)
-            lastEntropy = resolverChunkEntropy(server, pos);
+            lastEntropy = resolveChunkEntropy(data, pos);
 
         return lastEntropy;
     }
 
     @Nullable
-    public ChunkEntropy resolverChunkEntropy(WorldServer server, BlockPos pos) {
+    public abstract ChunkEntropy resolveChunkEntropy(D data, BlockPos pos);
+
+    @Nullable
+    public ChunkEntropy resolveChunkEntropy(WorldServer server, BlockPos pos) {
         var chunk = server.getChunk(pos);
         if (chunk.hasCapability(CapabilityEntropyHandler.CHUNK_ENTROPY, null)) {
             return chunk.getCapability(CapabilityEntropyHandler.CHUNK_ENTROPY, null);

@@ -19,6 +19,7 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound> {
 
     public ChunkEntropy(Chunk chunk) {
         this.chunkPos = chunk.getPos();
+        maxEntropy = 100;
     }
 
     public void induceEntropy(int entropy) {
@@ -79,5 +80,14 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound> {
         minEntropy = nbt.getInteger("minEntropy");
         currentEntropy = nbt.getInteger("currentEntropy");
         decay = nbt.getInteger("decay");
+    }
+
+    @Override public String toString() {
+        return "ChunkEntropy{" +
+                "maxEntropy=" + maxEntropy +
+                ", minEntropy=" + minEntropy +
+                ", currentEntropy=" + currentEntropy +
+                ", decay=" + decay +
+                '}';
     }
 }

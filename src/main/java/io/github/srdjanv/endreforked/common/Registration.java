@@ -1,19 +1,35 @@
 package io.github.srdjanv.endreforked.common;
 
-import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+import io.github.srdjanv.endreforked.Tags;
+import io.github.srdjanv.endreforked.api.base.groupings.Fluid2ItemGrouping;
+import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
+import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
 import io.github.srdjanv.endreforked.api.entropy.ChamberRecipe;
 import io.github.srdjanv.endreforked.api.entropy.EntropyChamberHandler;
+import io.github.srdjanv.endreforked.api.entropy.EntropyWandHandler;
+import io.github.srdjanv.endreforked.api.entropy.WorldConversion;
+import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
+import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
+import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
+import io.github.srdjanv.endreforked.api.materializer.WorldEvent;
+import io.github.srdjanv.endreforked.api.util.Structure;
 import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
+import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
+import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
+import io.github.srdjanv.endreforked.common.configs.Configs;
+import io.github.srdjanv.endreforked.common.tiles.EndForgeTile;
 import io.github.srdjanv.endreforked.common.tiles.EntropyChamberTile;
+import io.github.srdjanv.endreforked.common.tiles.MaterializerTile;
 import io.github.srdjanv.endreforked.common.tiles.OrganaFlowerTile;
-import net.minecraft.block.state.IBlockState;
+import io.github.srdjanv.endreforked.common.village.EndVillagerHandler;
+import io.github.srdjanv.endreforked.utils.Initializer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -24,30 +40,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
-import com.google.common.collect.Lists;
-
-import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.api.base.groupings.Fluid2ItemGrouping;
-import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
-import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
-import io.github.srdjanv.endreforked.api.entropy.WorldConversion;
-import io.github.srdjanv.endreforked.api.entropy.EntropyWandHandler;
-import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
-import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
-import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
-import io.github.srdjanv.endreforked.api.materializer.WorldEvent;
-import io.github.srdjanv.endreforked.api.util.Structure;
-import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
-import io.github.srdjanv.endreforked.common.configs.Configs;
-import io.github.srdjanv.endreforked.common.tiles.EndForgeTile;
-import io.github.srdjanv.endreforked.common.tiles.MaterializerTile;
-import io.github.srdjanv.endreforked.common.village.EndVillagerHandler;
-import io.github.srdjanv.endreforked.utils.Initializer;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 final class Registration implements Initializer {
 
     @Override public void registerEventBus() {
@@ -56,6 +48,7 @@ final class Registration implements Initializer {
 
     public void preInit(FMLPreInitializationEvent event) {
         CapabilityTimedFlightHandler.register();
+        CapabilityEntropyHandler.register();
 
         GameRegistry.registerTileEntity(MaterializerTile.class,
                 new ResourceLocation(Tags.MODID, "materializerTile"));
