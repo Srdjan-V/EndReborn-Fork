@@ -2,7 +2,6 @@ package io.github.srdjanv.endreforked.common.entropy.chunks;
 
 import io.github.srdjanv.endreforked.api.entropy.storage.WeekEntropyStorage;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.WorldServer;
@@ -12,22 +11,20 @@ import org.jetbrains.annotations.UnmodifiableView;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class ChunkEntropyView implements WeekEntropyStorage {
     private final int radius;
     private ChunkEntropy centerEntropy = null;
-    private final Map<ChunkPos, ChunkEntropy> chunkEntropies = new Object2ObjectArrayMap<>();
     private final List<ChunkEntropy> sortedEntropies = new ObjectArrayList<>();
-    private final Map<ChunkPos, ChunkEntropy> unmodifiedChunkEntropies = Collections.unmodifiableMap(chunkEntropies);
+    private final List<ChunkEntropy> unmodifiableSortedEntropies = Collections.unmodifiableList(sortedEntropies);
 
     public ChunkEntropyView(int radius) {
         this.radius = radius;
     }
 
     @UnmodifiableView
-    public Map<ChunkPos, ChunkEntropy> getView() {
-        return unmodifiedChunkEntropies;
+    public List<ChunkEntropy> getView() {
+        return unmodifiableSortedEntropies;
     }
 
     @Override public int getDecay() {
@@ -70,12 +67,10 @@ public class ChunkEntropyView implements WeekEntropyStorage {
             return;
         this.centerEntropy = centerEntropy;
         var chunks = getChunksInRadius(centerEntropy.getChunkPos(), radius);
-        chunkEntropies.clear();
         sortedEntropies.clear();
         for (var chunk : chunks) {
             var chunkEntropy = reader.resolveChunkEntropy(server, chunk.getBlock(8, 0, 8));
             if (chunkEntropy == null) continue;
-            chunkEntropies.put(chunk, chunkEntropy);
             sortedEntropies.add(chunkEntropy);
         }
         sortedEntropies.sort(Comparator.comparingInt(ChunkEntropy::getCurrentEntropy));

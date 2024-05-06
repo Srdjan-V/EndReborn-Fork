@@ -20,7 +20,7 @@ public class OrganaFlowerTile extends TileEntity implements ITickable {
 
     public OrganaFlowerTile() {
         this.tick = ThreadLocalRandom.current().nextInt(60);
-        this.tileWrapper = new EntropyChunkDataWrapper.TileEntity(2);
+        this.tileWrapper = new EntropyChunkDataWrapper.TileEntity(1);
         inducer = new EntropyChunkInducer<>(tileWrapper, 5 * 20, 10);
     }
 

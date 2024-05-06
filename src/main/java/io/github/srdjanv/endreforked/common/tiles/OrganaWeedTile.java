@@ -11,7 +11,7 @@ public class OrganaWeedTile extends TileEntity implements ITickable {
 
     public OrganaWeedTile() {
         this.tileWrapper = new EntropyChunkDataWrapper.TileEntity();
-        this.inducer = new EntropyChunkInducer<>(tileWrapper, 2 * 20, 2);
+        this.inducer = new EntropyChunkInducer<>(tileWrapper, 2 * 20, 0);
     }
 
     @Override public void update() {
