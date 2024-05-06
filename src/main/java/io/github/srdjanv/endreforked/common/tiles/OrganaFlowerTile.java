@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.common.tiles;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
+import io.github.srdjanv.endreforked.common.entropy.EntropyRange;
 import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
 import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkInducer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +21,7 @@ public class OrganaFlowerTile extends TileEntity implements ITickable {
 
     public OrganaFlowerTile() {
         this.tick = ThreadLocalRandom.current().nextInt(60);
-        this.tileWrapper = new EntropyChunkDataWrapper.TileEntity(1);
+        this.tileWrapper = new EntropyChunkDataWrapper.TileEntity(EntropyRange.TWO);
         inducer = new EntropyChunkInducer<>(tileWrapper, 5 * 20, 10);
     }
 

@@ -14,6 +14,7 @@ import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import io.github.srdjanv.endreforked.api.base.processors.RecipeProcessor;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;
+import io.github.srdjanv.endreforked.common.entropy.EntropyRange;
 import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
@@ -48,7 +49,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEn
     private final RecipeProcessor<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessor = new RecipeProcessor<>(EntropyFluidChamberHandler.INSTANCE);
 
     public EntropyChamberTile() {
-        reader = new EntropyChunkDataWrapper.TileEntity(2);
+        reader = new EntropyChunkDataWrapper.TileEntity(EntropyRange.TWO);
     }
 
     @Override

@@ -2,8 +2,8 @@ package io.github.srdjanv.endreforked.common.entropy.chunks;
 
 import io.github.srdjanv.endreforked.api.entropy.storage.WeekEntropyStorage;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
+import io.github.srdjanv.endreforked.common.entropy.EntropyRange;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.WorldServer;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
@@ -13,12 +13,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ChunkEntropyView implements WeekEntropyStorage {
-    private final int radius;
+    private final EntropyRange radius;
     private ChunkEntropy centerEntropy = null;
     private final List<ChunkEntropy> sortedEntropies = new ObjectArrayList<>();
     private final List<ChunkEntropy> unmodifiableSortedEntropies = Collections.unmodifiableList(sortedEntropies);
 
-    public ChunkEntropyView(int radius) {
+    public ChunkEntropyView(EntropyRange radius) {
         this.radius = radius;
     }
 
@@ -66,7 +66,7 @@ public class ChunkEntropyView implements WeekEntropyStorage {
         if (this.centerEntropy != null && this.centerEntropy.getChunkPos().equals(centerEntropy.getChunkPos()))
             return;
         this.centerEntropy = centerEntropy;
-        var chunks = getChunksInRadius(centerEntropy.getChunkPos(), radius);
+        var chunks = radius.getChunksInRadius(centerEntropy.getChunkPos());
         sortedEntropies.clear();
         for (var chunk : chunks) {
             var chunkEntropy = reader.resolveChunkEntropy(server, chunk.getBlock(8, 0, 8));
@@ -74,17 +74,6 @@ public class ChunkEntropyView implements WeekEntropyStorage {
             sortedEntropies.add(chunkEntropy);
         }
         sortedEntropies.sort(Comparator.comparingInt(ChunkEntropy::getCurrentEntropy));
-    }
-
-    private static List<ChunkPos> getChunksInRadius(ChunkPos center, int radius) {
-        List<ChunkPos> chunks = new ObjectArrayList<>();
-
-        for (int x = center.x - radius; x <= center.x + radius; x++) {
-            for (int z = center.z - radius; z <= center.z + radius; z++) {
-                chunks.add(new ChunkPos(x, z));
-            }
-        }
-        return chunks;
     }
 
 }

@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.common.entropy.chunks;
 
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
+import io.github.srdjanv.endreforked.common.entropy.EntropyRange;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.WorldServer;
@@ -16,10 +17,10 @@ public abstract class EntropyChunkDataWrapper<D> {
     private ChunkEntropy centerEntropy = null;
 
     public EntropyChunkDataWrapper(Function<D, BlockPos> posFunction) {
-        this(posFunction, 1);
+        this(posFunction, EntropyRange.ONE);
     }
 
-    public EntropyChunkDataWrapper(Function<D, BlockPos> posFunction, int radius) {
+    public EntropyChunkDataWrapper(Function<D, BlockPos> posFunction, EntropyRange radius) {
         this.posFunction = posFunction;
         entropyView = new ChunkEntropyView(radius);
     }
@@ -65,10 +66,10 @@ public abstract class EntropyChunkDataWrapper<D> {
 
     public static final class TileEntity extends EntropyChunkDataWrapper<net.minecraft.tileentity.TileEntity> {
         public TileEntity() {
-            super(net.minecraft.tileentity.TileEntity::getPos, 1);
+            super(net.minecraft.tileentity.TileEntity::getPos);
         }
 
-        public TileEntity(int radius) {
+        public TileEntity(EntropyRange radius) {
             super(net.minecraft.tileentity.TileEntity::getPos, radius);
         }
 
@@ -80,10 +81,10 @@ public abstract class EntropyChunkDataWrapper<D> {
 
     public static final class EntityPlayer extends EntropyChunkDataWrapper<net.minecraft.entity.player.EntityPlayer> {
         public EntityPlayer() {
-            super(net.minecraft.entity.player.EntityPlayer::getPosition, 1);
+            super(net.minecraft.entity.player.EntityPlayer::getPosition);
         }
 
-        public EntityPlayer(int radius) {
+        public EntityPlayer(EntropyRange radius) {
             super(net.minecraft.entity.player.EntityPlayer::getPosition, radius);
         }
 
