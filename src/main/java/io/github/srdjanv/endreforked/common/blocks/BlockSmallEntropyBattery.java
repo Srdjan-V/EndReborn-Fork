@@ -3,6 +3,7 @@ package io.github.srdjanv.endreforked.common.blocks;
 import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 import io.github.srdjanv.endreforked.common.tiles.SmallEntropyBatteryTile;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +11,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockSmallEntropyBattery extends BlockBase {
     public BlockSmallEntropyBattery() {
@@ -34,4 +37,27 @@ public class BlockSmallEntropyBattery extends BlockBase {
         return new SmallEntropyBatteryTile();
     }
 
+    @Override public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
+        return true;
+    }
+
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        if (worldIn.isRemote) return;
+        if (!worldIn.isBlockPowered(pos)) {
+            var tile = worldIn.getTileEntity(pos);
+            if (tile instanceof SmallEntropyBatteryTile battery) {
+                battery.linkToChunk(true);
+            }
+        }
+    }
+
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        if (worldIn.isRemote) return;
+        if (worldIn.isBlockPowered(pos)) {
+            var tile = worldIn.getTileEntity(pos);
+            if (tile instanceof SmallEntropyBatteryTile battery) {
+                battery.linkToChunk(true);
+            }
+        }
+    }
 }
