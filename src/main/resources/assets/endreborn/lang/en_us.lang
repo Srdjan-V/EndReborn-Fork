@@ -177,7 +177,20 @@ tile.materializer.render.toggleFullRender=Toggle full structure rendering
 tile.materializer.render.nextLayer=Show next layer
 tile.materializer.render.prevLayer=Show previous layer
 
+#Entropy
+entropy.chunk.available=Available entropy in chunk
+entropy.chunk.max=Max entropy in chunk
 
+entropy.storage.available=Available entropy in storage
+entropy.storage.max=Max Entropy in storage
+
+entropy.storage_reference.linked.true=Storage is linked
+entropy.storage_reference.linked.false=Storage is not linked
+
+#SmallEntropyBattery
+tile.small_entropy_battery.entropy.combined=Combined entropy available
+tile.small_entropy_battery.entropy.link=Link battery to chunk
+tile.small_entropy_battery.entropy.linked=Battery is linked to chunk
 
 #Tile Status
 tile.status.gui.output_full=Output is full
