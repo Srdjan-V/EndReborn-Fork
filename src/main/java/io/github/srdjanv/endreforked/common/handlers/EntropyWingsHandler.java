@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class EntropyWingsHandler implements Initializer {
     private static EntropyWingsHandler instance;
@@ -24,7 +25,7 @@ public class EntropyWingsHandler implements Initializer {
         return instance;
     }
 
-    private final Map<EntityPlayerMP, EntropyChunkDataWrapper.EntityPlayer> cachedEntropyChunks = new Object2ObjectOpenHashMap<>();
+    private final Map<UUID, EntropyChunkDataWrapper.EntityPlayer> cachedEntropyChunks = new Object2ObjectOpenHashMap<>();
 
     @Override public void registerEventBus() {
         registerThisToEventBus();
@@ -48,7 +49,7 @@ public class EntropyWingsHandler implements Initializer {
                 var wrapper = cachedEntropyChunks.get(player);
                 if (wrapper == null || !wrapper.getRadius().equals(wings.getEntropyRange())) {
                     wrapper = new EntropyChunkDataWrapper.EntityPlayer(wings.getEntropyRange());
-                    cachedEntropyChunks.put(player, wrapper);
+                    cachedEntropyChunks.put(player.getUniqueID(), wrapper);
                 }
                 ChunkEntropyView data = wrapper.getEntropyView(player);
                 if (data.drainEntropy(wings.getEntropyCost(), true) == wings.getEntropyCost()) {
