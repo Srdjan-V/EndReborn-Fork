@@ -1,6 +1,7 @@
-package io.github.srdjanv.endreforked.common.capabilities.entropy;
+package io.github.srdjanv.endreforked.common.entropy.chunks;
 
 import io.github.srdjanv.endreforked.api.entropy.storage.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.util.math.ChunkPos;
@@ -29,20 +30,18 @@ public class ChunkEntropyView implements WeekEntropyStorage {
         return unmodifiedChunkEntropies;
     }
 
-    @Override public int genDecayFrequency() {
-        return (int) sortedEntropies.stream().mapToInt(WeekEntropyStorage::genDecayFrequency).average().orElse(0);
-    }
-
     @Override public int getDecay() {
         return (int) sortedEntropies.stream().mapToInt(WeekEntropyStorage::getDecay).average().orElse(0);
     }
 
-    @Override public int getMaxEntropy() {
-        return sortedEntropies.stream().mapToInt(ChunkEntropy::getMaxEntropy).sum();
+    @Override public void setDecay(int decay) {
+        for (ChunkEntropy chunkEntropy : sortedEntropies) {
+            chunkEntropy.setDecay(decay);
+        }
     }
 
-    @Override public int getMinEntropy() {
-        return sortedEntropies.stream().mapToInt(ChunkEntropy::getMinEntropy).sum();
+    @Override public int getMaxEntropy() {
+        return sortedEntropies.stream().mapToInt(ChunkEntropy::getMaxEntropy).sum();
     }
 
     @Override public int getCurrentEntropy() {
@@ -50,22 +49,22 @@ public class ChunkEntropyView implements WeekEntropyStorage {
     }
 
     @Override public int induceEntropy(int entropy, boolean simulate) {
-        int remain = 0;
+        int accepted = entropy;
         for (ChunkEntropy chunkEntropy : sortedEntropies) {
-            remain += chunkEntropy.induceEntropy(entropy, simulate);
+            accepted -= chunkEntropy.induceEntropy(accepted, simulate);
         }
-        return remain;
+        return entropy - accepted;
     }
 
     @Override public int drainEntropy(int entropy, boolean simulate) {
-        int remain = 0;
+        int accepted = entropy;
         for (ChunkEntropy chunkEntropy : sortedEntropies) {
-            remain += chunkEntropy.drainEntropy(entropy, simulate);
+            accepted -= chunkEntropy.drainEntropy(entropy, simulate);
         }
-        return remain;
+        return entropy - accepted;
     }
 
-    void buildView(WorldServer server, EntropyChunkDataReader<?> reader, @Nullable ChunkEntropy centerEntropy) {
+    public void buildView(WorldServer server, EntropyChunkDataWrapper<?> reader, @Nullable ChunkEntropy centerEntropy) {
         if (centerEntropy == null) return;
         if (this.centerEntropy != null && this.centerEntropy.getChunkPos().equals(centerEntropy.getChunkPos()))
             return;

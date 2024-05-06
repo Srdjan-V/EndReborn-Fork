@@ -1,8 +1,8 @@
 package io.github.srdjanv.endreforked.common.items;
 
 import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
-import io.github.srdjanv.endreforked.common.capabilities.entropy.EntropyChunkDataReader;
-import io.github.srdjanv.endreforked.common.capabilities.entropy.IEntropyDataProvider;
+import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
+import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.common.items.base.ItemBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,11 +18,11 @@ import net.minecraft.world.World;
 import java.util.Map;
 
 public class ItemEntropyReader extends ItemBase {
-    private final EntropyChunkDataReader<EntityPlayer> reader;
+    private final EntropyChunkDataWrapper<EntityPlayer> reader;
 
     public ItemEntropyReader() {
         super("entropy_reader");
-        reader = new EntropyChunkDataReader.EntityPlayer();
+        reader = new EntropyChunkDataWrapper.EntityPlayer();
     }
 
     @Override public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {

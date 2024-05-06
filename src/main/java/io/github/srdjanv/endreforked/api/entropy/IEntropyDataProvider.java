@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.common.capabilities.entropy;
+package io.github.srdjanv.endreforked.api.entropy;
 
 public interface IEntropyDataProvider {
     default boolean hasPassiveEntropyCost() {

@@ -1,5 +1,7 @@
-package io.github.srdjanv.endreforked.common.capabilities.entropy;
+package io.github.srdjanv.endreforked.common.entropy.chunks;
 
+import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
+import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.WorldServer;
@@ -8,16 +10,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public abstract class EntropyChunkDataReader<D> {
+public abstract class EntropyChunkDataWrapper<D> {
     private final Function<D, BlockPos> posFunction;
     private final ChunkEntropyView entropyView;
     private ChunkEntropy centerEntropy = null;
 
-    public EntropyChunkDataReader(Function<D, BlockPos> posFunction) {
+    public EntropyChunkDataWrapper(Function<D, BlockPos> posFunction) {
         this(posFunction, 1);
     }
 
-    public EntropyChunkDataReader(Function<D, BlockPos> posFunction, int radius) {
+    public EntropyChunkDataWrapper(Function<D, BlockPos> posFunction, int radius) {
         this.posFunction = posFunction;
         entropyView = new ChunkEntropyView(radius);
     }
@@ -25,12 +27,12 @@ public abstract class EntropyChunkDataReader<D> {
     @NotNull
     public ChunkEntropyView getEntropyView(D data) {
         var resData = resolveData(data);
-        if (resData != null) entropyView.buildView(resData, this, resolveCenterChunkEntropy(data));
+        if (resData != null) entropyView.buildView(resData, this, getCenterEntropy(data));
         return entropyView;
     }
 
     @Nullable
-    public ChunkEntropy resolveCenterChunkEntropy(D data) {
+    public ChunkEntropy getCenterEntropy(D data) {
         final var pos = posFunction.apply(data);
 
         if (centerEntropy != null && (!centerEntropy.getChunkPos().equals(new ChunkPos(pos))))
@@ -61,7 +63,7 @@ public abstract class EntropyChunkDataReader<D> {
         return null;
     }
 
-    public static final class TileEntity extends EntropyChunkDataReader<net.minecraft.tileentity.TileEntity> {
+    public static final class TileEntity extends EntropyChunkDataWrapper<net.minecraft.tileentity.TileEntity> {
         public TileEntity() {
             super(net.minecraft.tileentity.TileEntity::getPos, 1);
         }
@@ -76,7 +78,7 @@ public abstract class EntropyChunkDataReader<D> {
         }
     }
 
-    public static final class EntityPlayer extends EntropyChunkDataReader<net.minecraft.entity.player.EntityPlayer> {
+    public static final class EntityPlayer extends EntropyChunkDataWrapper<net.minecraft.entity.player.EntityPlayer> {
         public EntityPlayer() {
             super(net.minecraft.entity.player.EntityPlayer::getPosition, 1);
         }

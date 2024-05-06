@@ -1,17 +1,20 @@
 package io.github.srdjanv.endreforked.common.tiles;
 
-import io.github.srdjanv.endreforked.common.capabilities.entropy.EntropyInducer;
+import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
+import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkInducer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 
 public class OrganaWeedTile extends TileEntity implements ITickable {
-    private final EntropyInducer inducer;
+    private final EntropyChunkDataWrapper.TileEntity tileWrapper;
+    private final EntropyChunkInducer<TileEntity> inducer;
 
     public OrganaWeedTile() {
-        this.inducer = new EntropyInducer(2 * 20);
+        this.tileWrapper = new EntropyChunkDataWrapper.TileEntity();
+        this.inducer = new EntropyChunkInducer<>(tileWrapper, 2 * 20, 2);
     }
 
     @Override public void update() {
-        inducer.induceEntropy(world, pos, 2);
+        inducer.induce(this);
     }
 }
