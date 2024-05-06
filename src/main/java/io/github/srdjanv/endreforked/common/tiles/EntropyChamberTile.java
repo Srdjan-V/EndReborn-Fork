@@ -14,7 +14,7 @@ import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import io.github.srdjanv.endreforked.api.base.processors.RecipeProcessor;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;
-import io.github.srdjanv.endreforked.common.entropy.EntropyRange;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;

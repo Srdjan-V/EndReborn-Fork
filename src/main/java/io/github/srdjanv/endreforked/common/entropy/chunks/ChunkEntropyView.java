@@ -2,7 +2,7 @@ package io.github.srdjanv.endreforked.common.entropy.chunks;
 
 import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
-import io.github.srdjanv.endreforked.common.entropy.EntropyRange;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.WorldServer;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +20,10 @@ public class ChunkEntropyView implements WeekEntropyStorage {
 
     public ChunkEntropyView(EntropyRange radius) {
         this.radius = radius;
+    }
+
+    public EntropyRange getRadius() {
+        return radius;
     }
 
     @UnmodifiableView
@@ -55,7 +59,7 @@ public class ChunkEntropyView implements WeekEntropyStorage {
             if (accepted <= 0) break;
             var ref = chunkEntropy.getEntropyStorageReference();
             if (!ref.isPresent()) continue;
-            accepted -= ref.get().drainEntropy(entropy, simulate);
+            accepted -= ref.get().drainEntropy(accepted, simulate);
         }
         return entropy - accepted;
     }
@@ -64,13 +68,13 @@ public class ChunkEntropyView implements WeekEntropyStorage {
         int accepted = entropy;
         for (ChunkEntropy chunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
-            accepted -= chunkEntropy.drainEntropy(entropy, simulate);
+            accepted -= chunkEntropy.drainEntropy(accepted, simulate);
         }
         for (ChunkEntropy chunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
             var ref = chunkEntropy.getEntropyStorageReference();
             if (!ref.isPresent()) continue;
-            accepted -= ref.get().drainEntropy(entropy, simulate);
+            accepted -= ref.get().drainEntropy(accepted, simulate);
         }
         return entropy - accepted;
     }

@@ -13,7 +13,6 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class CapabilityTimedFlightHandler {
@@ -27,14 +26,6 @@ public class CapabilityTimedFlightHandler {
     public static void attachTimedFlightCap(AttachCapabilitiesEvent<Entity> event) {
         if (!(event.getObject() instanceof EntityPlayerMP)) return;
         event.addCapability(TimedFlight, new TimedFlightCapabilityProvider());
-    }
-
-    @SubscribeEvent
-    public static void playerTickEvent(TickEvent.PlayerTickEvent event) {
-        if (event.phase != TickEvent.Phase.START) return;
-        if (event.player instanceof EntityPlayerMP playerMP) {
-            playerMP.getCapability(INSTANCE, null).tickPlayer(playerMP);
-        }
     }
 
     public static void register() {

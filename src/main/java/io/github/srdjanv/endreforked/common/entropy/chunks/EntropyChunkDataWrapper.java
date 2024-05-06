@@ -2,7 +2,7 @@ package io.github.srdjanv.endreforked.common.entropy.chunks;
 
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
-import io.github.srdjanv.endreforked.common.entropy.EntropyRange;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.WorldServer;
@@ -23,6 +23,10 @@ public abstract class EntropyChunkDataWrapper<D> {
     public EntropyChunkDataWrapper(Function<D, BlockPos> posFunction, EntropyRange radius) {
         this.posFunction = posFunction;
         entropyView = new ChunkEntropyView(radius);
+    }
+
+    public EntropyRange getRadius() {
+        return entropyView.getRadius();
     }
 
     @NotNull

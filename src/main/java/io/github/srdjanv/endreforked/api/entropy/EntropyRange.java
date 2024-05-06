@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.common.entropy;
+package io.github.srdjanv.endreforked.api.entropy;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.util.math.ChunkPos;

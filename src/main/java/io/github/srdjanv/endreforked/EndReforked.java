@@ -1,8 +1,10 @@
 package io.github.srdjanv.endreforked;
 
-import java.util.Objects;
-
+import io.github.srdjanv.endreforked.client.ClientProxy;
+import io.github.srdjanv.endreforked.common.CommonProxy;
+import io.github.srdjanv.endreforked.common.comands.EndRebornCommands;
 import io.github.srdjanv.endreforked.common.network.PlayerParticlePacket;
+import io.github.srdjanv.endreforked.compat.CompatManger;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -16,7 +18,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -25,10 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import io.github.srdjanv.endreforked.client.ClientProxy;
-import io.github.srdjanv.endreforked.common.CommonProxy;
-import io.github.srdjanv.endreforked.common.comands.EndRebornCommands;
-import io.github.srdjanv.endreforked.compat.CompatManger;
+import java.util.Objects;
 
 @Mod(modid = Tags.MODID, name = Tags.MODNAME, version = Tags.VERSION, dependencies = Tags.MOD_DEPS)
 public class EndReforked {
@@ -85,6 +83,16 @@ public class EndReforked {
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
         CompatManger.invalidate();
+    }
+
+    @EventHandler
+    public void onServerStarted(FMLServerStartedEvent event) {
+        proxy.onServerStarted(event);
+    }
+
+    @EventHandler
+    public void onServerStopped(FMLServerStoppedEvent event) {
+        proxy.onServerStopped(event);
     }
 
     @EventHandler

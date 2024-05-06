@@ -181,6 +181,10 @@ public final class ModItems {
     public static final Supplier<Item> CHORUS_SOUP = maybeRegister(
             () -> new FoodChorusSoup(5, "food_chorus_soup"));
 
+
+    public static final Supplier<EntropyWings> ENTROPY_WINGS = register(EntropyWings::new);
+
+
     // TODO: 22/10/2023 rename itemBlocks
     public static final Supplier<ItemBlock> BLOCK_ENDORIUM = registerItemBlock(ModBlocks.ENDORIUM_BLOCK);
     public static final Supplier<ItemBlock> END_STONE_SMOOTH = registerItemBlock(ModBlocks.END_STONE_SMOOTH_BLOCK);
@@ -218,7 +222,6 @@ public final class ModItems {
     public static final Supplier<ItemBlock> END_MOSS_BLOCK = registerItemBlock(ModBlocks.END_MOSS_BLOCK);
 
     public static final Supplier<ItemBlock> ORGANA_FLOWER = registerItemBlock(ModBlocks.ORGANA_FLOWER_BLOCK);
-
 
     public static <I extends Item> Supplier<I> register(final com.google.common.base.Supplier<I> supplier) {
         var memorized = Suppliers.memoize(supplier);

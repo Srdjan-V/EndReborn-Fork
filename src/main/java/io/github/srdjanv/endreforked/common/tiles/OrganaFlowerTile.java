@@ -2,7 +2,7 @@ package io.github.srdjanv.endreforked.common.tiles;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
-import io.github.srdjanv.endreforked.common.entropy.EntropyRange;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
 import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkInducer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +29,7 @@ public class OrganaFlowerTile extends TileEntity implements ITickable {
     public void update() {
         if (!world.isRemote) {
             inducer.induce(this);
-            if (++tick % 80 == 0) addEffectToPlayers();
+            //if (++tick % 80 == 0) addEffectToPlayers();
         } else if (++tick % 60 == 0) {
             int color = 0x5900b3;
             double xSpeed = (double) (color >> 16 & 255) / 255.0D;

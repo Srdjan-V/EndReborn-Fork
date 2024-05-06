@@ -1,9 +1,7 @@
 package io.github.srdjanv.endreforked.utils;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
 
 public interface Initializer {
 
@@ -18,6 +16,9 @@ public interface Initializer {
     default void init(FMLInitializationEvent event) {}
 
     default void postInit(FMLPostInitializationEvent event) {}
+
+    default void onServerStarted(FMLServerStartedEvent event) {}
+    default void onServerStopped(FMLServerStoppedEvent event) {}
 
     default boolean dispose() {
         return false;
