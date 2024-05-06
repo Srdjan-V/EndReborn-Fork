@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.api.entropy.storage;
+package io.github.srdjanv.endreforked.api.capabilities.entropy;
 
 public interface EntropyStorage {
     int getMaxEntropy();

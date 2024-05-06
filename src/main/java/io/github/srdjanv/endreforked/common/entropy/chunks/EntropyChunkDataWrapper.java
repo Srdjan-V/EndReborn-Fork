@@ -58,8 +58,9 @@ public abstract class EntropyChunkDataWrapper<D> {
     @Nullable
     public ChunkEntropy resolveChunkEntropy(WorldServer server, BlockPos pos) {
         var chunk = server.getChunk(pos);
-        if (chunk.hasCapability(CapabilityEntropyHandler.CHUNK_ENTROPY, null)) {
-            return chunk.getCapability(CapabilityEntropyHandler.CHUNK_ENTROPY, null);
+        if (chunk.hasCapability(CapabilityEntropyHandler.INSTANCE, null)) {
+            var cap = chunk.getCapability(CapabilityEntropyHandler.INSTANCE, null);
+            if (cap instanceof ChunkEntropy) return (ChunkEntropy) cap;
         }
         return null;
     }

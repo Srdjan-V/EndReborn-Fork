@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.common.entropy.storage;
 
-import io.github.srdjanv.endreforked.api.entropy.storage.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class DefaultWeekEntropyStorage extends DefaultEntropyStorage implements WeekEntropyStorage {

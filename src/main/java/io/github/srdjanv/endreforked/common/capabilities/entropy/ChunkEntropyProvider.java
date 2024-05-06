@@ -16,18 +16,22 @@ public class ChunkEntropyProvider implements ICapabilitySerializable<NBTTagCompo
     }
 
     @Override public boolean hasCapability(@NotNull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityEntropyHandler.CHUNK_ENTROPY;
+        return capability == CapabilityEntropyHandler.INSTANCE || capability == CapabilityEntropyHandler.WEEK_INSTANCE;
     }
 
     @Nullable @Override public <T> T getCapability(@NotNull Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityEntropyHandler.CHUNK_ENTROPY ? CapabilityEntropyHandler.CHUNK_ENTROPY.cast(instance) : null;
+        if (capability == CapabilityEntropyHandler.INSTANCE) {
+            return CapabilityEntropyHandler.INSTANCE.cast(instance);
+        } else if (capability == CapabilityEntropyHandler.WEEK_INSTANCE) {
+            return CapabilityEntropyHandler.WEEK_INSTANCE.cast(instance);
+        } else return null;
     }
 
     @Override public NBTTagCompound serializeNBT() {
-        return (NBTTagCompound) CapabilityEntropyHandler.CHUNK_ENTROPY.writeNBT(instance, null);
+        return instance.serializeNBT();
     }
 
     @Override public void deserializeNBT(NBTTagCompound nbt) {
-        CapabilityEntropyHandler.CHUNK_ENTROPY.readNBT(instance, null, nbt);
+        instance.deserializeNBT(nbt);
     }
 }

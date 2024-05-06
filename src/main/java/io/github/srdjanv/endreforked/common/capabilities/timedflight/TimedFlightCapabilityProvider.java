@@ -1,16 +1,16 @@
 package io.github.srdjanv.endreforked.common.capabilities.timedflight;
 
+import io.github.srdjanv.endreforked.api.capabilities.timedflight.ITimedFlight;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class TimedFlightCapabilityProvider implements ICapabilitySerializable<NBTTagInt> {
 
-    private final TimedFlight timedFlight = CapabilityTimedFlightHandler.INSTANCE.getDefaultInstance();
+    private final ITimedFlight timedFlight = CapabilityTimedFlightHandler.INSTANCE.getDefaultInstance();
 
     @Override
     public boolean hasCapability(@NotNull Capability<?> capability, @Nullable EnumFacing facing) {

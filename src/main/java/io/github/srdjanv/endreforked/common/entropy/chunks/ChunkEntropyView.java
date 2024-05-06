@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.common.entropy.chunks;
 
-import io.github.srdjanv.endreforked.api.entropy.storage.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
 import io.github.srdjanv.endreforked.common.entropy.EntropyRange;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;

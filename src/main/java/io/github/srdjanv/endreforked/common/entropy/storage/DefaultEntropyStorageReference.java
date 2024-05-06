@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.common.entropy.storage;
 
-import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorageReference;
 import org.jetbrains.annotations.Nullable;
 

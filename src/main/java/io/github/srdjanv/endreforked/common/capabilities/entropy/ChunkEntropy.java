@@ -1,8 +1,8 @@
 package io.github.srdjanv.endreforked.common.capabilities.entropy;
 
-import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorageReference;
-import io.github.srdjanv.endreforked.api.entropy.storage.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorageReference;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultWeekEntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;

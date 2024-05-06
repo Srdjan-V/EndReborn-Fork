@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.common.entropy.storage;
 
-import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -37,6 +37,14 @@ public class DefaultEntropyStorage implements EntropyStorage, INBTSerializable<N
         }
         if (!simulate) this.entropy += entropy;
         return entropy;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setEntropy(int entropy) {
+        this.entropy = entropy;
     }
 
     @Override public boolean canInduceEntropy() {
