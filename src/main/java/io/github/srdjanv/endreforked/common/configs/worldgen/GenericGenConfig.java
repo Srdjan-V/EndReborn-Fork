@@ -51,8 +51,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> {
                     return new SphereGenerator(config, (server, rand, pos) -> {
-                        var state = server.getBlockState(pos);
-                        return state.getBlock() == Blocks.END_STONE;
+                        var block = server.getBlockState(pos).getBlock();
+                        return block == Blocks.END_STONE || block == ModBlocks.END_MOSS_BLOCK.get();
                     }, (server, rand, pos) -> {
                         if (rand.nextInt(100) > 80) return false;
                         server.setBlockState(pos, ModBlocks.LORMYTE_CRYSTAL_BLOCK.get().getDefaultState());
@@ -71,8 +71,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> {
                     return new SphereGenerator(config, (server, rand, pos) -> {
-                        var state = server.getBlockState(pos);
-                        return state.getBlock() == Blocks.END_STONE;
+                        var block = server.getBlockState(pos).getBlock();
+                        return block == Blocks.END_STONE || block == ModBlocks.END_MOSS_BLOCK.get();
                     }, (server, rand, pos) -> {
                         if (rand.nextInt(100) > 80) return false;
                         if (rand.nextInt(100) > 50) {
@@ -95,8 +95,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> {
                     return new FilledSphereGenerator(config, (server, rand, pos) -> {
-                        var state = server.getBlockState(pos);
-                        return state.getBlock() == Blocks.END_STONE;
+                        var block = server.getBlockState(pos).getBlock();
+                        return block == Blocks.END_STONE || block == ModBlocks.END_MOSS_BLOCK.get();
                     }, (server, rand, pos) -> {
                         server.setBlockState(pos, ModBlocks.FLUID_END_MAGMA_BLOCK.get().getDefaultState());
                         return true;
