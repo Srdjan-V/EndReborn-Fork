@@ -54,11 +54,19 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntro
     }
 
     @Override public int induceEntropy(int entropy, boolean simulate) {
-        return storage.induceEntropy(entropy, simulate);
+        int ind = storage.induceEntropy(entropy, simulate);
+        if (hasEntropyStorageReference() && entropy > ind) {
+            ind += getEntropyStorageReference().induceEntropy(entropy - ind, simulate);
+        }
+        return ind;
     }
 
     @Override public int drainEntropy(int entropy, boolean simulate) {
-        return storage.drainEntropy(entropy, simulate);
+        int drain = storage.drainEntropy(entropy, simulate);
+        if (hasEntropyStorageReference() && entropy > drain) {
+            drain += getEntropyStorageReference().drainEntropy(entropy - drain, simulate);
+        }
+        return drain;
     }
 
     @Override public NBTTagCompound serializeNBT() {

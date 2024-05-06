@@ -1,23 +1,24 @@
 package io.github.srdjanv.endreforked.common;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
-
+import com.google.common.base.Suppliers;
+import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.common.blocks.*;
+import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
+import io.github.srdjanv.endreforked.common.blocks.base.BlockEndBase;
+import io.github.srdjanv.endreforked.common.blocks.base.BlockStairsBase;
+import io.github.srdjanv.endreforked.common.blocks.base.BlockWallBase;
+import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
+import io.github.srdjanv.endreforked.utils.models.IHasModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.google.common.base.Suppliers;
-
-import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.common.blocks.*;
-import io.github.srdjanv.endreforked.common.blocks.base.*;
-import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
-import io.github.srdjanv.endreforked.utils.models.IHasModel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public final class ModBlocks {
@@ -85,6 +86,7 @@ public final class ModBlocks {
             () -> new BlockEndForge("end_forge_block"));
     public static final Supplier<Block> MATERIALIZER_BLOCK = maybeRegister(
             () -> new BlockMaterializer("materializer_block"));
+    public static final Supplier<BlockSmallEntropyBattery> SMALL_ENTROPY_BATTERY_BLOCK = register(BlockSmallEntropyBattery::new);
 
     public static final Supplier<BlockEntropyChamber> ENTROPY_CHAMBER_BLOCK = register(BlockEntropyChamber::new);
 

@@ -56,6 +56,8 @@ final class Registration implements Initializer {
                 new ResourceLocation(Tags.MODID, "organa_flower_tile"));
         GameRegistry.registerTileEntity(OrganaWeedTile.class,
                 new ResourceLocation(Tags.MODID, "organa_weed_tile"));
+        GameRegistry.registerTileEntity(SmallEntropyBatteryTile.class,
+                new ResourceLocation(Tags.MODID, "small_entropy_battery_tile"));
     }
 
     public void init(FMLInitializationEvent event) {

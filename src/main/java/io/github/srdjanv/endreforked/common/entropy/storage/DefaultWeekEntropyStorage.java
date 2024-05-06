@@ -18,7 +18,7 @@ public class DefaultWeekEntropyStorage extends DefaultEntropyStorage implements 
 
     @Override public int induceEntropy(int entropy, boolean simulate) {
         var ind = super.induceEntropy(entropy, simulate);
-        if (!simulate) drainEntropy(decay, false);
+        if (!simulate) super.drainEntropy(decay, false);
         return ind;
     }
 

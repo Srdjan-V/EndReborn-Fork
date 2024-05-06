@@ -11,13 +11,13 @@ public class DefaultEntropyStorage implements EntropyStorage, INBTSerializable<N
     public DefaultEntropyStorage() {
     }
 
+    public DefaultEntropyStorage(int capacity) {
+        this(capacity, 0);
+    }
+
     public DefaultEntropyStorage(int capacity, int entropy) {
         this.capacity = capacity;
         this.entropy = entropy;
-    }
-
-    public DefaultEntropyStorage(int capacity) {
-        this.capacity = capacity;
     }
 
     @Override public int getMaxEntropy() {
@@ -30,10 +30,13 @@ public class DefaultEntropyStorage implements EntropyStorage, INBTSerializable<N
 
     @Override public int induceEntropy(int entropy, boolean simulate) {
         if (!canInduceEntropy()) return 0;
-
-        int energyReceived = capacity - entropy;
-        if (!simulate) this.entropy += energyReceived;
-        return energyReceived;
+        int availableSpace = getMaxEntropy() - getCurrentEntropy();
+        if (this.entropy > availableSpace) {
+            if (!simulate) this.entropy = getMaxEntropy();
+            return entropy - availableSpace;
+        }
+        if (!simulate) this.entropy += entropy;
+        return entropy;
     }
 
     @Override public boolean canInduceEntropy() {
@@ -41,9 +44,15 @@ public class DefaultEntropyStorage implements EntropyStorage, INBTSerializable<N
     }
 
     @Override public int drainEntropy(int entropy, boolean simulate) {
-        int energyExtracted = Math.min(entropy, 0);
-        if (!simulate) this.entropy -= energyExtracted;
-        return energyExtracted;
+        if (!canDrainEntropy()) return 0;
+
+        if (entropy > this.entropy) {
+            entropy = this.entropy;
+            if (!simulate) this.entropy = 0;
+            return entropy;
+        }
+        if (!simulate) this.entropy -= entropy;
+        return entropy;
     }
 
     @Override public boolean canDrainEntropy() {
