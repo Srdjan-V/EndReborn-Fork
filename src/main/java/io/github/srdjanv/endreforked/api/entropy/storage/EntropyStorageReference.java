@@ -1,0 +1,14 @@
+package io.github.srdjanv.endreforked.api.entropy.storage;
+
+import org.jetbrains.annotations.Nullable;
+
+public interface EntropyStorageReference {
+    default boolean hasEntropyStorageReference() {
+        return getEntropyStorageReference() != null;
+    }
+
+    @Nullable
+    EntropyStorage getEntropyStorageReference();
+
+    boolean setEntropyStorageReference(EntropyStorage reference, boolean force);
+}

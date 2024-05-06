@@ -1,15 +1,20 @@
 package io.github.srdjanv.endreforked.common.capabilities.entropy;
 
+import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorage;
+import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorageReference;
 import io.github.srdjanv.endreforked.api.entropy.storage.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorageReference;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultWeekEntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.Nullable;
 
-public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntropyStorage {
+public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntropyStorage, EntropyStorageReference {
     private final ChunkPos chunkPos;
     private final DefaultWeekEntropyStorage storage;
+    private final DefaultEntropyStorageReference storageReference;
 
     public ChunkEntropy(Chunk chunk) {
         this.chunkPos = chunk.getPos();
@@ -17,6 +22,15 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntro
         storage = new DefaultWeekEntropyStorage(
                 Math.max(1000, rand.nextInt(1200)),
                 Math.max(5, rand.nextInt(10)));
+        storageReference = new DefaultEntropyStorageReference();
+    }
+
+    @Override public @Nullable EntropyStorage getEntropyStorageReference() {
+        return storageReference.getEntropyStorageReference();
+    }
+
+    @Override public boolean setEntropyStorageReference(EntropyStorage reference, boolean force) {
+        return storageReference.setEntropyStorageReference(reference, force);
     }
 
     public ChunkPos getChunkPos() {
