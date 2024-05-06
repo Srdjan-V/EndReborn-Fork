@@ -9,7 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.INBTSerializable;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntropyStorage, EntropyStorageReference {
     private final ChunkPos chunkPos;
@@ -25,7 +26,7 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntro
         storageReference = new DefaultEntropyStorageReference();
     }
 
-    @Override public @Nullable EntropyStorage getEntropyStorageReference() {
+    @Override public Optional<EntropyStorage> getEntropyStorageReference() {
         return storageReference.getEntropyStorageReference();
     }
 
@@ -55,16 +56,18 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntro
 
     @Override public int induceEntropy(int entropy, boolean simulate) {
         int ind = storage.induceEntropy(entropy, simulate);
-        if (hasEntropyStorageReference() && entropy > ind) {
-            ind += getEntropyStorageReference().induceEntropy(entropy - ind, simulate);
+        var ref = storageReference.getEntropyStorageReference();
+        if (ref.isPresent() && entropy > ind) {
+            ind += ref.get().induceEntropy(entropy - ind, simulate);
         }
         return ind;
     }
 
     @Override public int drainEntropy(int entropy, boolean simulate) {
         int drain = storage.drainEntropy(entropy, simulate);
-        if (hasEntropyStorageReference() && entropy > drain) {
-            drain += getEntropyStorageReference().drainEntropy(entropy - drain, simulate);
+        var ref = storageReference.getEntropyStorageReference();
+        if (ref.isPresent() && entropy > drain) {
+            drain += ref.get().drainEntropy(entropy - drain, simulate);
         }
         return drain;
     }

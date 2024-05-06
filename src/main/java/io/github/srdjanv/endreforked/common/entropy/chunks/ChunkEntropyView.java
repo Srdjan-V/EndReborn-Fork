@@ -53,8 +53,9 @@ public class ChunkEntropyView implements WeekEntropyStorage {
         }
         for (ChunkEntropy chunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
-            if (!chunkEntropy.hasEntropyStorageReference()) continue;
-            accepted -= chunkEntropy.getEntropyStorageReference().drainEntropy(entropy, simulate);
+            var ref = chunkEntropy.getEntropyStorageReference();
+            if (!ref.isPresent()) continue;
+            accepted -= ref.get().drainEntropy(entropy, simulate);
         }
         return entropy - accepted;
     }
@@ -67,8 +68,9 @@ public class ChunkEntropyView implements WeekEntropyStorage {
         }
         for (ChunkEntropy chunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
-            if (!chunkEntropy.hasEntropyStorageReference()) continue;
-            accepted -= chunkEntropy.getEntropyStorageReference().drainEntropy(entropy, simulate);
+            var ref = chunkEntropy.getEntropyStorageReference();
+            if (!ref.isPresent()) continue;
+            accepted -= ref.get().drainEntropy(entropy, simulate);
         }
         return entropy - accepted;
     }

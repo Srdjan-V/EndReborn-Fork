@@ -2,13 +2,14 @@ package io.github.srdjanv.endreforked.common.entropy.storage;
 
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorageReference;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class DefaultEntropyStorageReference implements EntropyStorageReference {
     private EntropyStorage reference;
 
-    @Override public @Nullable EntropyStorage getEntropyStorageReference() {
-        return reference;
+    @Override public Optional<EntropyStorage> getEntropyStorageReference() {
+        return Optional.ofNullable(reference);
     }
 
     @Override public boolean setEntropyStorageReference(EntropyStorage reference, boolean force) {
