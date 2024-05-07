@@ -22,7 +22,7 @@ public class CropDragonite extends BaseBlockCrops {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
                                     EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        return handleRightClick(worldIn, pos, state, new ItemStack(ModItems.DRAGONITE_BERRIES.get(), 2));
+        return handleRightClick(worldIn, pos, state, () -> new ItemStack(ModItems.DRAGONITE_BERRIES.get(), 2));
     }
 
     @Override

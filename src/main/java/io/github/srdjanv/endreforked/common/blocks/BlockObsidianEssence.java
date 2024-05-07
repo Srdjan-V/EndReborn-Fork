@@ -19,10 +19,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 
-public class BlockEssenceOre extends BlockBase {
+public class BlockObsidianEssence extends BlockBase {
 
-    public BlockEssenceOre(String name, Material material) {
-        super(name, material);
+    public BlockObsidianEssence() {
+        super("essence_ore", Material.ROCK);
 
         setSoundType(SoundType.STONE);
         setHardness(50.0F);

@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.common.blocks;
 
 import java.util.Random;
 
+import io.github.srdjanv.endreforked.common.ModBlocks;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -11,20 +12,28 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockCrops;
 
+import javax.annotation.Nullable;
+
 public class BlockEnderCrop extends BaseBlockCrops {
+    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 3);
 
-    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 4);
-
-    public BlockEnderCrop(String name) {
-        super(name);
+    public BlockEnderCrop() {
+        super("ender_flower_crop");
+        sustainableBlocks.add(Blocks.END_BRICKS);
+        sustainableBlocks.add(Blocks.END_STONE);
+        sustainableBlocks.add(ModBlocks.END_STONE_ENTROPY_BLOCK.get());
+        sustainableBlocks.add(ModBlocks.XORCITE_BLOCK.get());
     }
 
     @Override
@@ -50,8 +59,7 @@ public class BlockEnderCrop extends BaseBlockCrops {
             worldIn.spawnEntity(
                     new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(),
                             new ItemStack(Items.ENDER_PEARL, worldIn.rand.nextInt(3))));
-            worldIn.setBlockState(pos,
-                    getDefaultState().withProperty(BlockEnderCrop.AGE, 4));
+            worldIn.setBlockState(pos, ModBlocks.ENDER_FLOWER_CROP_DEAD.get().getDefaultState());
             return true;
         }
         return false;
@@ -68,14 +76,35 @@ public class BlockEnderCrop extends BaseBlockCrops {
     }
 
     @Override
-    public boolean canPlaceBlockAt(World world, BlockPos pos) {
-        return world.getBlockState(pos).getBlock().isReplaceable(world, pos) &&
-                world.getBlockState(pos.down()).getBlock() == Blocks.END_STONE;
+    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
+                             @Nullable TileEntity te, ItemStack stack) {
+        if (worldIn.isRemote) return;
+        if (!isMaxAge(state)) return;
+        worldIn.spawnEntity(
+                new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(),
+                        new ItemStack(Items.ENDER_PEARL, worldIn.rand.nextInt(3))));
+    }
+
+    @Override public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        if (getAge(state) >= getMaxAge()) drops.add(new ItemStack(getCrop()));
+    }
+
+    @Override public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return isMaxAge(state) ? getCrop() : Items.AIR;
+    }
+
+    @Override public int quantityDropped(Random random) {
+        return 1;
     }
 
     @Override
     public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
-        return world.getBlockState(pos.down()).getBlock() == Blocks.END_STONE;
+        if (state.getBlock() == this) //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
+        {
+            IBlockState soil = world.getBlockState(pos.down());
+            return soil.getBlock().canSustainPlant(soil, world, pos.down(), net.minecraft.util.EnumFacing.UP, this);
+        }
+        return this.canSustainBush(world.getBlockState(pos.down()));
     }
 
     @Override

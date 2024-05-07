@@ -1,18 +1,24 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -23,12 +29,15 @@ import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 
 public class BlockEndCoral extends BaseBlockBush implements IShearable, IGrowable {
-
     public static final AxisAlignedBB END_BUSH_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D,
             0.09999999403953552D, 0.8999999761581421D, 0.400000011920929D, 0.8999999761581421D);
 
     public BlockEndCoral(String name) {
         super(name, Material.VINE);
+        sustainableBlocks.add(Blocks.END_BRICKS);
+        sustainableBlocks.add(Blocks.END_STONE);
+        sustainableBlocks.add(ModBlocks.END_STONE_ENTROPY_BLOCK.get());
+        sustainableBlocks.add(ModBlocks.XORCITE_BLOCK.get());
     }
 
     @Override
@@ -42,9 +51,8 @@ public class BlockEndCoral extends BaseBlockBush implements IShearable, IGrowabl
     }
 
     @Override
-    protected boolean canSustainBush(IBlockState state) {
-        return state.getBlock() == net.minecraft.init.Blocks.END_BRICKS ||
-                state.getBlock() == net.minecraft.init.Blocks.END_STONE;
+    public int quantityDropped(Random random) {
+        return 0;
     }
 
     @Override

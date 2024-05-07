@@ -33,7 +33,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        registerGen("EndRuins",
+        registerGen("end_ruins",
                 builder -> {
                     builder.whiteListBiome("sky");
                     builder.dimConfigFallback(DimConfig.builder()
@@ -45,7 +45,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> new WorldGenStructure(config, "end_ruins"));
 
-        registerGen("EndIslands",
+        registerGen("end_endermite_island",
                 builder -> {
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
 
@@ -57,9 +57,22 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
                     return builder.build();
                 },
-                ((world, biome, config) -> new WorldGenStructure(config, "end_island")));
+                ((world, biome, config) -> new WorldGenStructure(config, "end_endermite_island")));
 
-        registerGen("end_mos_islands",
+        registerGen("end_entropy_island",
+                builder -> {
+                    builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
+
+                    builder.dimConfigFallback(DimConfig.builder()
+                            .setRarity(600)
+                            .setAmountModifier(1)
+                            .setMaxHeight(115)
+                            .setMinHeight(90).build());
+
+                    return builder.build();
+                },
+                ((world, biome, config) -> new WorldGenStructure(config, "end_endermite_island")));
+        registerGen("end_moss_island",
                 builder -> {
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
 
@@ -90,7 +103,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                             return (server, config, rand, pos) -> server.getBlockState(pos).getBlock() == ModBlocks.END_MOSS_GRASS_BLOCK.get();
                         }
                     }
-                    return new GeneratorWrapper(new WorldGenStructure(config, "end_mos_island"))
+                    return new GeneratorWrapper(new WorldGenStructure(config, "end_moss_island"))
                             .subGen((server, rand, position) -> new OrganaFlowerFeature(config, 7))
                             .subGen((server, rand, position) -> {
                                 if (rand.nextInt(100) > 30) return null;
@@ -106,7 +119,6 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                             });
                 }
         );
-
 
         registerGen("Observatory",
                 builder -> {

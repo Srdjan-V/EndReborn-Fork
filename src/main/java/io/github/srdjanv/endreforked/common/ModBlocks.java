@@ -50,8 +50,7 @@ public final class ModBlocks {
     public static final Supplier<Block> PURPUR_LAMP = maybeRegister(
             () -> new BlockPurpurLamp("purpur_lamp_block"));
 
-    public static final Supplier<Block> ESSENCE_ORE = maybeRegister(
-            () -> new BlockEssenceOre("essence_ore", Material.ROCK));
+    public static final Supplier<Block> ESSENCE_ORE = register(BlockObsidianEssence::new);
     public static final Supplier<Block> PHANTOM_BLOCK = maybeRegister(
             () -> new BlockPhantom("phantom_block", Material.BARRIER, false));
 
@@ -98,8 +97,9 @@ public final class ModBlocks {
     public static final Supplier<Block> XORCITE_BLOCK = maybeRegister(
             () -> new BlockXorciteCrop("xorcite_block"));
 
-    public static final Supplier<BlockEnderCrop> ENDER_FLOWER_CROP = maybeRegister(
-            () -> new BlockEnderCrop("ender_flower_crop"));
+    public static final Supplier<BlockEnderCrop> ENDER_FLOWER_CROP = register(BlockEnderCrop::new);
+    public static final Supplier<BlockEnderCropDead> ENDER_FLOWER_CROP_DEAD = register(BlockEnderCropDead::new);
+
 
     // todo fixup
     public static final Supplier<BlockOrganaWeed> ORGANA_WEED_BLOCK = register(BlockOrganaWeed::new);
