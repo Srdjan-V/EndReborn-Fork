@@ -1,8 +1,12 @@
 package io.github.srdjanv.endreforked.api.capabilities.entropy;
 
 public interface WeekEntropyStorage extends EntropyStorage {
+    double getLoadFactor();
+    void setLoadFactor(double loadFactor);
+    boolean isOverLoaded();
+
     /**
-     * Each inversion/extraction will decrease entropy in the storage
+     * The amount of entropy lost for each inversion/extraction if the storage exceeds the load factor
      */
     int getDecay();
     void setDecay(int decay);

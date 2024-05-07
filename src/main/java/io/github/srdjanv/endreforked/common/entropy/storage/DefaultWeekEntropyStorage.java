@@ -4,6 +4,7 @@ import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage
 import net.minecraft.nbt.NBTTagCompound;
 
 public class DefaultWeekEntropyStorage extends DefaultEntropyStorage implements WeekEntropyStorage {
+    private double loadFactor;
     private int decay;
 
     public DefaultWeekEntropyStorage(int capacity, int entropy, int decay) {
@@ -18,14 +19,26 @@ public class DefaultWeekEntropyStorage extends DefaultEntropyStorage implements 
 
     @Override public int induceEntropy(int entropy, boolean simulate) {
         var ind = super.induceEntropy(entropy, simulate);
-        if (!simulate) super.drainEntropy(decay, false);
+        if (!simulate && isOverLoaded()) super.drainEntropy(decay, false);
         return ind;
     }
 
     @Override public int drainEntropy(int entropy, boolean simulate) {
         var drn = super.drainEntropy(entropy, simulate);
-        if (!simulate) super.drainEntropy(decay, false);
+        if (!simulate && isOverLoaded()) super.drainEntropy(decay, false);
         return drn;
+    }
+
+    @Override public boolean isOverLoaded() {
+        return (double) getCurrentEntropy() / getMaxEntropy() > getLoadFactor();
+    }
+
+    @Override public double getLoadFactor() {
+        return loadFactor;
+    }
+
+    @Override public void setLoadFactor(double loadFactor) {
+        this.loadFactor = loadFactor;
     }
 
     @Override public int getDecay() {

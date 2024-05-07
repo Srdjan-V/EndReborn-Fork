@@ -31,6 +31,18 @@ public class ChunkEntropyView implements WeekEntropyStorage {
         return unmodifiableSortedEntropies;
     }
 
+    @Override public double getLoadFactor() {
+        return sortedEntropies.stream().mapToDouble(WeekEntropyStorage::getLoadFactor).average().orElse(0);
+    }
+
+    @Override public void setLoadFactor(double loadFactor) {
+        sortedEntropies.forEach(e -> e.setLoadFactor(loadFactor));
+    }
+
+    @Override public boolean isOverLoaded() {
+        return sortedEntropies.stream().anyMatch(WeekEntropyStorage::isOverLoaded);
+    }
+
     @Override public int getDecay() {
         return (int) sortedEntropies.stream().mapToInt(WeekEntropyStorage::getDecay).average().orElse(0);
     }
@@ -91,7 +103,9 @@ public class ChunkEntropyView implements WeekEntropyStorage {
             if (chunkEntropy == null) continue;
             sortedEntropies.add(chunkEntropy);
         }
-        sortedEntropies.sort(Comparator.comparingInt(ChunkEntropy::getCurrentEntropy));
+        sortedEntropies.sort(Comparator
+                .comparing(ChunkEntropy::isOverLoaded)
+                .thenComparingInt(ChunkEntropy::getCurrentEntropy));
     }
 
 }

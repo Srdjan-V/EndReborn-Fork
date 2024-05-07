@@ -38,6 +38,18 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntro
         return chunkPos;
     }
 
+    @Override public double getLoadFactor() {
+        return storage.getLoadFactor();
+    }
+
+    @Override public void setLoadFactor(double loadFactor) {
+        storage.setLoadFactor(loadFactor);
+    }
+
+    @Override public boolean isOverLoaded() {
+        return storage.isOverLoaded();
+    }
+
     @Override public int getDecay() {
         return storage.getDecay();
     }
