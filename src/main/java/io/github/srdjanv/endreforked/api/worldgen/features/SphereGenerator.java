@@ -39,7 +39,7 @@ public class SphereGenerator extends PositionedFeature {
                     if (Math.pow(x - startX, 2) + Math.pow(y - startY, 2) + Math.pow(z - startZ, 2) <=
                             Math.pow(radius, 2)) {
                         var pos = new BlockPos(x, y, z);
-                        if (positionValidator.validate(server, rand, pos))
+                        if (positionValidator.validate(server, config, rand, pos))
                             positionGenerator.generate(server, rand, pos);
                     }
                 }

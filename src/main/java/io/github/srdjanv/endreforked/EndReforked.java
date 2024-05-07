@@ -8,6 +8,7 @@ import io.github.srdjanv.endreforked.compat.CompatManger;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -55,12 +56,6 @@ public class EndReforked {
         return Objects.requireNonNull(proxy);
     }
 
-    private static int worldTick;
-
-    public static int getWorldTick() {
-        return worldTick;
-    }
-
     public EndReforked() {
         instance = this;
         proxy = FMLCommonHandler.instance().getSide().isClient() ? new ClientProxy() : new CommonProxy();
@@ -98,12 +93,6 @@ public class EndReforked {
     @EventHandler
     public void serverStarting(FMLServerStartingEvent evt) {
         evt.registerServerCommand(new EndRebornCommands());
-        worldTick = 0;
-    }
-
-    @SubscribeEvent
-    public static void onWorldTick(TickEvent event) {
-        if (event.phase == TickEvent.Phase.START) worldTick++;
     }
 
     @SubscribeEvent

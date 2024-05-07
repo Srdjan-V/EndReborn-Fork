@@ -30,7 +30,7 @@ public class WorldGenStructure extends PositionedFeature {
 
     @ApiStatus.Internal
     public WorldGenStructure(DimConfig dimConfig, String name) {
-        this(Locators.OFFSET_16.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), dimConfig, name, defaultSettings);
+        this(Locators.OFFSET_2.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), dimConfig, name, defaultSettings);
     }
 
     @ApiStatus.Internal
@@ -63,7 +63,7 @@ public class WorldGenStructure extends PositionedFeature {
         // probably not needed
         // IBlockState state = world.getBlockState(pos);
         // world.notifyBlockUpdate(pos, state, state, 3);
-        template.addBlocksToWorld(server, startPos.add(2, 0, 2), settings);
+        template.addBlocksToWorld(server, startPos, settings);
         return true;
     }
 }

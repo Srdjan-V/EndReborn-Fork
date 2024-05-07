@@ -52,7 +52,7 @@ public class RadiusSurfaceGenerator extends PositionedFeature {
                     }
                     if (!server.isAirBlock(pos.up())) continue;
 
-                    if (!positionValidator.validate(server, rand, pos)) continue;
+                    if (!positionValidator.validate(server, config, rand, pos)) continue;
                     positionGenerator.generate(server, rand, pos);
                 }
             }

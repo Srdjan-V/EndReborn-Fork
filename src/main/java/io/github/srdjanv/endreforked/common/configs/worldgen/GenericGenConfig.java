@@ -50,7 +50,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     return builder.build();
                 },
                 (world, biome, config) -> {
-                    return new SphereGenerator(config, (server, rand, pos) -> {
+                    return new SphereGenerator(config, (server, configL, rand, pos) -> {
                         var block = server.getBlockState(pos).getBlock();
                         return block == Blocks.END_STONE || block == ModBlocks.END_MOSS_BLOCK.get();
                     }, (server, rand, pos) -> {
@@ -70,7 +70,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     return builder.build();
                 },
                 (world, biome, config) -> {
-                    return new SphereGenerator(config, (server, rand, pos) -> {
+                    return new SphereGenerator(config, (server, configL, rand, pos) -> {
                         var block = server.getBlockState(pos).getBlock();
                         return block == Blocks.END_STONE || block == ModBlocks.END_MOSS_BLOCK.get();
                     }, (server, rand, pos) -> {
@@ -94,7 +94,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     return builder.build();
                 },
                 (world, biome, config) -> {
-                    return new FilledSphereGenerator(config, (server, rand, pos) -> {
+                    return new FilledSphereGenerator(config, (server, configL, rand, pos) -> {
                         var block = server.getBlockState(pos).getBlock();
                         return block == Blocks.END_STONE || block == ModBlocks.END_MOSS_BLOCK.get();
                     }, (server, rand, pos) -> {
@@ -131,7 +131,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     return builder.build();
                 },
                 (world, biome, config) -> new RadiusSurfaceGenerator(config,
-                        (server, rand, pos) -> server.getBlockState(pos).getBlock() == Blocks.END_STONE,
+                        (server, configL, rand, pos) -> server.getBlockState(pos).getBlock() == Blocks.END_STONE,
                         (server, rand, pos) -> {
                             if (rand.nextInt(100) > 80) return false;
                             if (server.isAirBlock(pos) && !server.isAirBlock(pos.up())) return false;

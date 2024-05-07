@@ -130,21 +130,21 @@ public final class WorldGenHandler implements IWorldGenerator {
         mutate();
 
         // deterministic worldgen
-        final long seed = random.nextLong();
+        //final long seed = random.nextLong();
         final var biome = world.getBiome(new BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8));
 
         for (var gen : getApplicableGeneratorsForChunk(oreGenerators, world, biome)) {
-            random.setSeed(seed);
+            //random.setSeed(seed);
             runChunkGenerator(gen, biome, world, random, chunkX, chunkZ);
         }
 
         for (var gen : getApplicableGeneratorsForChunk(genericGenerators, world, biome)) {
-            random.setSeed(seed);
+            //random.setSeed(seed);
             runChunkGenerator(gen, biome, world, random, chunkX, chunkZ);
         }
 
         for (var gen : getApplicableGeneratorsForChunk(structureGenerators, world, biome)) {
-            random.setSeed(seed);
+            //random.setSeed(seed);
             runChunkGenerator(gen, biome, world, random, chunkX, chunkZ);
         }
     }

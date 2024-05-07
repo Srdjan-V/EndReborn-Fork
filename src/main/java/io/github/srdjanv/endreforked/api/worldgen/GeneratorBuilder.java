@@ -10,5 +10,5 @@ import org.jetbrains.annotations.Nullable;
 @FunctionalInterface
 public interface GeneratorBuilder {
 
-    WorldGenerator getGenerator(@NotNull World world, @Nullable Biome biome, @NotNull DimConfig config);
+    @Nullable WorldGenerator getGenerator(@NotNull World world, @Nullable Biome biome, @NotNull DimConfig config);
 }

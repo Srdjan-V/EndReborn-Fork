@@ -69,10 +69,10 @@ public class FilledSphereGenerator extends PositionedFeature {
 
                         // Check if the distance is less than or equal to the radius of the sphere
                         if (distance <= (double) radius / 2) {
-                            if (innerPositionValidator.validate(server, rand, pos))
+                            if (innerPositionValidator.validate(server, config, rand, pos))
                                 innerPosGenerator.generate(server, rand, pos);
                         } else {
-                            if (outerPositionValidator.validate(server, rand, pos))
+                            if (outerPositionValidator.validate(server, config, rand, pos))
                                 outerPosGenerator.generate(server, rand, pos);
                         }
                     }

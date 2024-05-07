@@ -34,4 +34,13 @@ public interface Locator {
             return posFunction.apply(computedPos);
         };
     }
+
+    default Locator andThenValidate(PositionValidator validator) {
+        Objects.requireNonNull(validator);
+        return (server, rand, config, pos, validatorL) -> {
+            var computedPos = Locator.this.compute(server, rand, config, pos, validatorL);
+            if (Objects.isNull(computedPos)) return null;
+            return validator.validate(server, config, rand, computedPos) ? computedPos : null;
+        };
+    }
 }
