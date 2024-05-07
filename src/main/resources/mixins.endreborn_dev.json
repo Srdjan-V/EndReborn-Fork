@@ -1,0 +1,13 @@
+{
+  "package": "io.github.srdjanv.endreforked.core.devmixin",
+  "refmap": "mixins.endreborn.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "AnvilChunkLoaderMixin"
+  ],
+  "client": [],
+  "server": []
+}
