@@ -48,11 +48,10 @@ public class BlockEndMossGrass extends BlockBase implements IGrowable {
     }
 
     @Override public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if (!worldIn.isRemote) {
-            if (!worldIn.isAreaLoaded(pos, 3))
-                return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
-            spreadMoss(worldIn, pos, rand);
-        }
+        if (worldIn.isRemote) return;
+        if (!worldIn.isAreaLoaded(pos, 3))
+            return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
+        spreadMoss(worldIn, pos, rand);
     }
 
     @Override
@@ -105,8 +104,6 @@ public class BlockEndMossGrass extends BlockBase implements IGrowable {
         if (worldIn.getLightFromNeighbors(pos.up()) < 4 && worldIn.getBlockState(pos.up()).getLightOpacity(worldIn, pos.up()) > 2) {
             worldIn.setBlockState(pos, ModBlocks.END_MOSS_BLOCK.get().getDefaultState());
         }
-        if (worldIn.getLightFromNeighbors(pos.up()) < 9) return;
-
         for (int i = 0; i < 4; ++i) {
             BlockPos randPos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1);
             if (randPos.getY() >= 0 && randPos.getY() < 256 && !worldIn.isBlockLoaded(randPos)) return;
