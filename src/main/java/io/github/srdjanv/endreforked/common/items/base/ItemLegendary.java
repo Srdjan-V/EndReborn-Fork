@@ -12,7 +12,7 @@ public class ItemLegendary extends Item implements InventoryItemModel {
     public ItemLegendary(String name) {
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     @Override

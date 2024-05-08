@@ -11,6 +11,6 @@ public class BaseSeeds extends ItemSeeds {
         super(crops, soil);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 }

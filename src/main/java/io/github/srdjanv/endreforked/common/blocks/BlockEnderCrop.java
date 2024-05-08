@@ -33,7 +33,7 @@ public class BlockEnderCrop extends BaseBlockCrops {
         sustainableBlocks.add(Blocks.END_BRICKS);
         sustainableBlocks.add(Blocks.END_STONE);
         sustainableBlocks.add(ModBlocks.END_STONE_ENTROPY_BLOCK.get());
-        sustainableBlocks.add(ModBlocks.XORCITE_BLOCK.get());
+        sustainableBlocks.add(ModBlocks.ENTROPY_CROP_BLOCK.get());
     }
 
     @Override

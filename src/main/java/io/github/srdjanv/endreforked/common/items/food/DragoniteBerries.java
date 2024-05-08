@@ -11,6 +11,6 @@ public class DragoniteBerries extends ItemFood implements InventoryItemModel {
         super(1, 0.8F, false);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 }

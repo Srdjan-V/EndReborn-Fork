@@ -10,6 +10,6 @@ public class ItemBase extends Item implements InventoryItemModel {
     public ItemBase(String name) {
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 }

@@ -11,6 +11,6 @@ public class ToolShovel extends ItemSpade implements InventoryItemModel {
         super(material);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 }

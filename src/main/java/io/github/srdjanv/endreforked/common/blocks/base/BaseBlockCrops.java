@@ -20,7 +20,7 @@ public class BaseBlockCrops extends BlockCrops implements InventoryBlockModel {
     public BaseBlockCrops(String name) {
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     public List<Block> getSustainableBlocks() {

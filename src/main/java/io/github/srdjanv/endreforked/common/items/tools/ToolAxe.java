@@ -20,6 +20,6 @@ public class ToolAxe extends ItemAxe implements InventoryItemModel {
 
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 }

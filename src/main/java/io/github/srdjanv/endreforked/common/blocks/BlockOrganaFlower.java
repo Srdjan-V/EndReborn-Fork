@@ -55,6 +55,7 @@ public class BlockOrganaFlower extends BlockBase {
 
     @Override public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
         items.add(new ItemStack(this, 1, 0));
+        items.add(new ItemStack(this, 1, 8));
         items.add(new ItemStack(this, 1, 10));
     }
 

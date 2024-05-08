@@ -14,7 +14,7 @@ public class BlockColdFire extends BlockFire implements InventoryBlockModel {
         super();
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     @Override

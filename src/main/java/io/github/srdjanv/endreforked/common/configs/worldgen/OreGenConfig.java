@@ -66,7 +66,7 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                             ResourceLocationWrapper.of(ModBioms.ORGANA_BIOME.get().getRegistryName()));
                     return builder.build();
                 },
-                (world, biome, config) -> new WorldGenMinable(ModBlocks.XORCITE_BLOCK.get().getDefaultState(),
+                (world, biome, config) -> new WorldGenMinable(ModBlocks.ENTROPY_CROP_BLOCK.get().getDefaultState(),
                         config.amountModifier(), BlockMatcher.forBlock(Blocks.END_STONE)));
 
 

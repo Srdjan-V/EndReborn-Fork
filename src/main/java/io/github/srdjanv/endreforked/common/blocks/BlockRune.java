@@ -43,7 +43,7 @@ public class BlockRune extends Block implements InventoryBlockModel {
         setTranslationKey(name);
         setRegistryName(name);
         setHardness(5.0F);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     @Override

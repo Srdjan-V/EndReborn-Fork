@@ -15,7 +15,7 @@ public class ItemEndRecord extends ItemRecord implements InventoryItemModel {
         super(soundIn.name, soundIn);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     @SideOnly(Side.CLIENT)

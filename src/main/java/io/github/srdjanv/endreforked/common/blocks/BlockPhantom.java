@@ -20,7 +20,7 @@ public class BlockPhantom extends BlockBreakable implements InventoryBlockModel 
         super(material, ignoreSimilarity);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     @SideOnly(Side.CLIENT)

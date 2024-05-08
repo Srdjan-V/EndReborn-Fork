@@ -13,13 +13,13 @@ public class BlockBase extends Block implements InventoryBlockModel {
         super(material);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     public BlockBase(String name, Material material, MapColor blockMapColorIn) {
         super(material, blockMapColorIn);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 }

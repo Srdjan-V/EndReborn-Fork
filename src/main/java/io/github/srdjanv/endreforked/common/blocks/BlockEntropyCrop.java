@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import io.github.srdjanv.endreforked.common.tiles.EntropyCropTile;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
@@ -22,6 +23,7 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -39,17 +41,33 @@ import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockCrops;
 
-public class BlockXorciteCrop extends BaseBlockCrops {
+public class BlockEntropyCrop extends BaseBlockCrops {
 
     public static final EnumPlantType XORCITE = EnumPlantType.getPlantType("xorcite");
-    public static final PropertyInteger Age = PropertyInteger.create("age", 0, 3);
+    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 3);
     protected static final AxisAlignedBB ESSENCE_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
 
-    public BlockXorciteCrop(String name) {
-        super(name);
+    public BlockEntropyCrop() {
+        super("entropy_crop");
         setSoundType(SoundType.STONE);
         setHardness(3.0F);
         setHarvestLevel("pickaxe", 2);
+    }
+
+    @Override public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return switch (state.getValue(AGE)) {
+            default -> 0;
+            case 2 -> 1;
+            case 3 -> 2;
+        };
+    }
+
+    @Override public boolean hasTileEntity(IBlockState state) {
+        return state.equals(this.getDefaultState().withProperty(AGE, 3));
+    }
+
+    @org.jetbrains.annotations.Nullable @Override public TileEntity createTileEntity(World world, IBlockState state) {
+        return state.equals(this.getDefaultState().withProperty(AGE, 3)) ? new EntropyCropTile() : null;
     }
 
     @Override
@@ -59,23 +77,23 @@ public class BlockXorciteCrop extends BaseBlockCrops {
 
     @Override
     protected ItemStack getSilkTouchDrop(IBlockState state) {
-        return new ItemStack(ModItems.XORCITE_BLOCK.get(), 1, 0);
+        return new ItemStack(ModItems.ENTROPY_CROP_BLOCK.get(), 1, 0);
     }
 
     @Override
     public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
-        items.add(new ItemStack(ModItems.XORCITE_BLOCK.get(), 1, 0));
-        items.add(new ItemStack(ModItems.XORCITE_BLOCK.get(), 1, 3));
+        items.add(new ItemStack(ModItems.ENTROPY_CROP_BLOCK.get(), 1, 0));
+        items.add(new ItemStack(ModItems.ENTROPY_CROP_BLOCK.get(), 1, 3));
     }
 
     @Override
     protected Item getSeed() {
-        return ModItems.XORCITE_BLOCK.get();
+        return ModItems.ENTROPY_CROP_BLOCK.get();
     }
 
     @Override
     protected Item getCrop() {
-        return ModItems.XORCITE_SHARD.get();
+        return ModItems.ENTROPY_SHARD.get();
     }
 
     @Override
@@ -85,12 +103,12 @@ public class BlockXorciteCrop extends BaseBlockCrops {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, Age);
+        return new BlockStateContainer(this, AGE);
     }
 
     @Override
     protected PropertyInteger getAgeProperty() {
-        return Age;
+        return AGE;
     }
 
     @Override
@@ -121,7 +139,7 @@ public class BlockXorciteCrop extends BaseBlockCrops {
         var searchArea = BlockPos.getAllInBox(pos.add(2, 2, 2), pos.add(-2, -2, -2));
         for (BlockPos p : searchArea) {
             if (existingXBlock >= 6) break; // break early
-            if (worldIn.getBlockState(p).getBlock() == ModBlocks.XORCITE_BLOCK.get()) existingXBlock++;
+            if (worldIn.getBlockState(p).getBlock() == ModBlocks.ENTROPY_CROP_BLOCK.get()) existingXBlock++;
         }
 
         if (existingXBlock < 6) {
@@ -184,15 +202,15 @@ public class BlockXorciteCrop extends BaseBlockCrops {
 
     protected List<ItemStack> addAdditionalDrops(IBlockAccess world, BlockPos pos, int fortune, List<ItemStack> drops,
                                                  Random random) {
-        drops.add(new ItemStack(ModItems.XORCITE_SHARD.get(), 1));
-        if (random.nextInt(20) <= (1 + fortune)) drops.add(new ItemStack(ModItems.XORCITE_SHARD.get(), 1));
+        drops.add(new ItemStack(ModItems.ENTROPY_SHARD.get(), 1));
+        if (random.nextInt(20) <= (1 + fortune)) drops.add(new ItemStack(ModItems.ENTROPY_SHARD.get(), 1));
         return drops;
     }
 
     @Override
     public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction,
                                    IPlantable plantable) {
-        if (state.getBlock() == ModBlocks.XORCITE_BLOCK.get()) return true;
+        if (state.getBlock() == ModBlocks.ENTROPY_CROP_BLOCK.get()) return true;
         return super.canSustainPlant(state, world, pos, direction, plantable);
     }
 
@@ -234,7 +252,7 @@ public class BlockXorciteCrop extends BaseBlockCrops {
     }
 
     public int getAge(IBlockState state) {
-        return state.getValue(Age);
+        return state.getValue(AGE);
     }
 
     @Override
@@ -243,7 +261,7 @@ public class BlockXorciteCrop extends BaseBlockCrops {
     }
 
     public IBlockState withAge(int age) {
-        return this.getDefaultState().withProperty(Age, age);
+        return this.getDefaultState().withProperty(AGE, age);
     }
 
     @Override

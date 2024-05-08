@@ -31,7 +31,7 @@ public class ItemDragoniteTea extends ItemFood implements InventoryItemModel {
         setRegistryName(name);
         setAlwaysEdible();
         setMaxStackSize(16);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {

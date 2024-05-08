@@ -11,6 +11,6 @@ public class ToolPickaxe extends ItemPickaxe implements InventoryItemModel {
         super(material);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 }

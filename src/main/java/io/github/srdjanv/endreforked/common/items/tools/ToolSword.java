@@ -11,6 +11,6 @@ public class ToolSword extends ItemSword implements InventoryItemModel {
         super(material);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 }

@@ -8,7 +8,6 @@ import io.github.srdjanv.endreforked.compat.CompatManger;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -19,7 +18,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,7 +31,7 @@ import java.util.Objects;
 public class EndReforked {
 
     public static final Logger LOGGER = LogManager.getLogger(Tags.MODID);
-    public static final CreativeTabs endertab = new CreativeTabs("endertab") {
+    public static final CreativeTabs ENDERTAB = new CreativeTabs("endertab") {
 
         @Override
         public @NotNull ItemStack createIcon() {

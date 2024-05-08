@@ -26,7 +26,7 @@ public class FoodChorusSoup extends ItemFood implements InventoryItemModel {
         setTranslationKey(name);
         setRegistryName(name);
         this.setMaxStackSize(1);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
         setPotionEffect(new PotionEffect(MobEffects.GLOWING, 100, 0), 0.6F);
     }
 

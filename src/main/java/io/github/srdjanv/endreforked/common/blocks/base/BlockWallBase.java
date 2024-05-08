@@ -65,7 +65,7 @@ public class BlockWallBase extends Block implements InventoryBlockModel {
         this.setSoundType(main.getSoundType());
         setRegistryName(name);
         setTranslationKey(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     @Override

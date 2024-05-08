@@ -15,7 +15,9 @@ import io.github.srdjanv.endreforked.common.handlers.EventHandler;
 import io.github.srdjanv.endreforked.compat.CompatManger;
 import io.github.srdjanv.endreforked.utils.Initializer;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.*;
 
@@ -75,6 +77,7 @@ public class CommonProxy {
     public void onServerStarted(FMLServerStartedEvent event) {
         for (Initializer component : components) component.onServerStarted(event);
     }
+
     public void onServerStopped(FMLServerStoppedEvent event) {
         for (Initializer component : components) component.onServerStopped(event);
     }
@@ -90,4 +93,5 @@ public class CommonProxy {
     }
 
     public void registerItemRenderer(Item item, int meta, String id) {}
+    public void registerItemRenderer(Item item, int meta, String postfix, String id) {}
 }

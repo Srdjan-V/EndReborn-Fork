@@ -22,13 +22,13 @@ public class OrganaFlowerTile extends TileEntity implements ITickable {
     public OrganaFlowerTile() {
         this.tick = ThreadLocalRandom.current().nextInt(60);
         this.tileWrapper = new EntropyChunkDataWrapper.TileEntity(EntropyRange.TWO);
-        inducer = new EntropyChunkInducer<>(tileWrapper, 5 * 20, 10);
+        inducer = new EntropyChunkInducer<>(this, tileWrapper, 5 * 20, 10);
     }
 
     @Override
     public void update() {
         if (!world.isRemote) {
-            inducer.induce(this);
+            inducer.induce();
             //if (++tick % 80 == 0) addEffectToPlayers();
         } else if (++tick % 60 == 0) {
             int color = 0x5900b3;

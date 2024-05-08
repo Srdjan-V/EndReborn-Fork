@@ -13,7 +13,7 @@ public class BlockPillar extends BlockRotatedPillar implements InventoryBlockMod
         super(material);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
         setSoundType(SoundType.STONE);
         setHardness(3.0F);
         setHarvestLevel("pickaxe", 2);

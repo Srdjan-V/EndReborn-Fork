@@ -14,7 +14,7 @@ public class BlockStairsBase extends BlockStairs implements InventoryBlockModel 
         setHardness(block.getBlockHardness(block.getDefaultState(), null, null));
         setSoundType(block.getSoundType());
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
         useNeighborBrightness = true;
     }
 }

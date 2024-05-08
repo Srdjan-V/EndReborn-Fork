@@ -94,8 +94,8 @@ public final class ModBlocks {
 
     public static final Supplier<Block> DRAGONITE_CROP = maybeRegister(
             () -> new CropDragonite("dragonite_crop"));
-    public static final Supplier<Block> XORCITE_BLOCK = maybeRegister(
-            () -> new BlockXorciteCrop("xorcite_block"));
+    //todo data fix old:xorcite_block
+    public static final Supplier<Block> ENTROPY_CROP_BLOCK = register(BlockEntropyCrop::new);
 
     public static final Supplier<BlockEnderCrop> ENDER_FLOWER_CROP = register(BlockEnderCrop::new);
     public static final Supplier<BlockEnderCropDead> ENDER_FLOWER_CROP_DEAD = register(BlockEnderCropDead::new);

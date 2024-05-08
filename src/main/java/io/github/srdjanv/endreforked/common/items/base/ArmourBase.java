@@ -12,6 +12,6 @@ public class ArmourBase extends ItemArmor implements InventoryItemModel {
         super(materialIn, renderIndexIn, equipmentSlotIn);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 }

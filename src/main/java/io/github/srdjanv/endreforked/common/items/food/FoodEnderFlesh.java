@@ -23,7 +23,7 @@ public class FoodEnderFlesh extends ItemFood implements InventoryItemModel {
         super(4, 0.4F, false);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
         setPotionEffect(new PotionEffect(ModPotions.ENDER_EYES, 90 * 20, 0), 1F);
     }
 

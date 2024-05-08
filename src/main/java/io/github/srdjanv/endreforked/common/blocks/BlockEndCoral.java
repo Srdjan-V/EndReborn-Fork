@@ -1,24 +1,18 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -37,7 +31,7 @@ public class BlockEndCoral extends BaseBlockBush implements IShearable, IGrowabl
         sustainableBlocks.add(Blocks.END_BRICKS);
         sustainableBlocks.add(Blocks.END_STONE);
         sustainableBlocks.add(ModBlocks.END_STONE_ENTROPY_BLOCK.get());
-        sustainableBlocks.add(ModBlocks.XORCITE_BLOCK.get());
+        sustainableBlocks.add(ModBlocks.ENTROPY_CROP_BLOCK.get());
     }
 
     @Override

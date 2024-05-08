@@ -18,7 +18,7 @@ public class BaseBlockBush extends BlockBush implements InventoryBlockModel {
         super(material);
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     public List<Block> getSustainableBlocks() {

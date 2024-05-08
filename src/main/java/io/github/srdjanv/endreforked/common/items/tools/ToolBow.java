@@ -9,7 +9,7 @@ public class ToolBow extends ItemBow {
     public ToolBow(String name) {
         setTranslationKey(name);
         setRegistryName(name);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
         setMaxStackSize(1);
     }
 }

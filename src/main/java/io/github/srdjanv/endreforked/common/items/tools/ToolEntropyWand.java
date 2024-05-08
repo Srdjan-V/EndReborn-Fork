@@ -28,7 +28,7 @@ public class ToolEntropyWand extends ItemSword implements InventoryItemModel {
         setTranslationKey(name);
         setRegistryName(name);
         setMaxDamage(128);
-        setCreativeTab(EndReforked.endertab);
+        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     @Override

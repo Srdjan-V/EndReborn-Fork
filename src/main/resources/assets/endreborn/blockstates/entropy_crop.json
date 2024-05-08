@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "age=0": { "model": "endreborn:entropy_crop_0" },
+        "age=1": { "model": "endreborn:entropy_crop_1" },
+        "age=2": { "model": "endreborn:entropy_crop_1" },
+        "age=3": { "model": "endreborn:entropy_crop_2" }
+    }
+}
