@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
 import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 import io.github.srdjanv.endreforked.common.tiles.OrganaWeedTile;
 import net.minecraft.block.material.MapColor;
@@ -10,9 +11,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -22,6 +25,7 @@ import net.minecraftforge.common.IShearable;
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static io.github.srdjanv.endreforked.common.blocks.BlockEndCoral.END_BUSH_AABB;
 
@@ -71,8 +75,14 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
     }
 
     @Override
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
-                             @Nullable TileEntity te, ItemStack stack) {}
+    public int quantityDropped(Random random) {
+        return random.nextInt(100) < 20 ? 1 : 0;
+    }
+
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return ModItems.ORGANA_FLOWER_SEED.get();
+    }
 
     @Override
     public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos) {

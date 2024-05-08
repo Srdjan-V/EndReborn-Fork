@@ -5,8 +5,6 @@ import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.client.armor.ModelDArmor;
 import io.github.srdjanv.endreforked.client.armor.ModelEArmor;
-import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
-import io.github.srdjanv.endreforked.common.blocks.BlockOrganaPlant;
 import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
 import io.github.srdjanv.endreforked.common.items.*;
 import io.github.srdjanv.endreforked.common.items.base.*;
@@ -17,23 +15,16 @@ import io.github.srdjanv.endreforked.common.items.tools.*;
 import io.github.srdjanv.endreforked.utils.models.IHasModel;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemMultiTexture;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -201,6 +192,7 @@ public final class ModItems {
     public static final Supplier<ItemBlock> END_MOSS_GRASS_BLOCK = registerItemBlock(ModBlocks.END_MOSS_GRASS_BLOCK);
     public static final Supplier<ItemBlock> END_MOSS_BLOCK = registerItemBlock(ModBlocks.END_MOSS_BLOCK);
 
+    public static final Supplier<Item> ORGANA_FLOWER_SEED = register(ItemOrganaFlowerSeed::new);
     public static final Supplier<ItemBlock> ORGANA_PLANT_BLOCK = registerItemBlock(ModBlocks.ORGANA_PLANT_BLOCK);
     public static final Supplier<BaseMetaItemBlock> ORGANA_FLOWER = registerItemBlock(block ->
             new BaseMetaItemBlock(block, meta ->

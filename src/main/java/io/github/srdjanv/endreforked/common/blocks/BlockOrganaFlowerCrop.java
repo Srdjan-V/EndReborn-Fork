@@ -6,15 +6,11 @@ import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockCrops;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -23,19 +19,15 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockEnderCrop extends BaseBlockCrops {
-    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 3);
+public class BlockOrganaFlowerCrop extends BaseBlockCrops {
+    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 4);
 
-    public BlockEnderCrop() {
-        super("ender_flower_crop");
-        sustainableBlocks.add(Blocks.END_BRICKS);
-        sustainableBlocks.add(Blocks.END_STONE);
-        sustainableBlocks.add(ModBlocks.END_STONE_ENTROPY_BLOCK.get());
-        sustainableBlocks.add(ModBlocks.ENTROPY_CROP_BLOCK.get());
+    public BlockOrganaFlowerCrop() {
+        super("organa_flower_crop");
+        sustainableBlocks.add(ModBlocks.END_MOSS_GRASS_BLOCK.get());
     }
 
-    @Override
-    protected BlockStateContainer createBlockState() {
+    @Override protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, AGE);
     }
 
@@ -46,53 +38,33 @@ public class BlockEnderCrop extends BaseBlockCrops {
 
     @Override
     public int getMaxAge() {
-        return 3;
-    }
-
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-                                    EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (worldIn.isRemote) return false;
-        if (this.isMaxAge(state)) {
-            worldIn.spawnEntity(
-                    new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(),
-                            new ItemStack(Items.ENDER_PEARL, worldIn.rand.nextInt(3))));
-            worldIn.setBlockState(pos, ModBlocks.ENDER_FLOWER_CROP_DEAD.get().getDefaultState());
-            return true;
-        }
-        return false;
+        return 4;
     }
 
     @Override
     protected Item getSeed() {
-        return ModItems.ENDER_FLOWER_CROP.get();
+        return ModItems.ORGANA_FLOWER_SEED.get();
     }
 
     @Override
     protected Item getCrop() {
-        return Items.ENDER_PEARL;
+        return ModItems.ORGANA_FLOWER.get();
     }
 
     @Override
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
                              @Nullable TileEntity te, ItemStack stack) {
-        if (worldIn.isRemote) return;
-        if (!isMaxAge(state)) return;
-        worldIn.spawnEntity(
-                new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(),
-                        new ItemStack(Items.ENDER_PEARL, worldIn.rand.nextInt(3))));
     }
 
     @Override public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        if (getAge(state) >= getMaxAge()) drops.add(new ItemStack(getCrop()));
     }
 
     @Override public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return isMaxAge(state) ? getCrop() : Items.AIR;
+        return Items.AIR;
     }
 
     @Override public int quantityDropped(Random random) {
-        return 1;
+        return 0;
     }
 
     @Override
@@ -123,6 +95,9 @@ public class BlockEnderCrop extends BaseBlockCrops {
                 net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state,
                         worldIn.getBlockState(pos));
             }
+        } if (i == getMaxAge()) {
+            worldIn.setBlockState(pos, ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState());
         }
     }
+
 }
