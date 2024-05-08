@@ -123,9 +123,10 @@ public final class ModItems {
     public static final Supplier<Item> BOOTS_OBSIDIAN = maybeRegister(() -> {
         return new ArmourBase("armour_boots_obsidian", ARMOUR_OBSIDIAN.get(), 1, EntityEquipmentSlot.FEET);
     });
-    public static final Supplier<Item> HELMET_OBSIDIAN = maybeRegister(() -> {
-        return new CustomModelArmor("armour_helmet_helmet", ARMOUR_OBSIDIAN.get(), 1, EntityEquipmentSlot.HEAD, ModelEArmor::new);
-    });
+    //todo fix for server side
+/*    public static final Supplier<Item> HELMET_OBSIDIAN = maybeRegister(() -> {
+        return new CustomModelArmor("armour_helmet_helmet", ARMOUR_OBSIDIAN.get(), 1, EntityEquipmentSlot.HEAD, () -> new ModelEArmor());
+    });*/
     public static final Supplier<Item> CHESTPLATE_DRAGON = maybeRegister(() -> {
         return new ArmourBase("armour_chestplate_dragon", ARMOUR_DRAGON.get(), 1, EntityEquipmentSlot.CHEST);
     });
@@ -135,9 +136,10 @@ public final class ModItems {
     public static final Supplier<Item> BOOTS_DRAGON = maybeRegister(() -> {
         return new ArmourBase("armour_boots_dragon", ARMOUR_DRAGON.get(), 1, EntityEquipmentSlot.FEET);
     });
-    public static final Supplier<Item> HELMET_DRAGON = maybeRegister(() -> {
+    //todo fix for server side
+/*    public static final Supplier<Item> HELMET_DRAGON = maybeRegister(() -> {
         return new CustomModelArmor("armour_helmet_dragon", ARMOUR_DRAGON.get(), 1, EntityEquipmentSlot.HEAD, ModelDArmor::new);
-    });
+    });*/
 
     public static final Supplier<ItemEntropyReader> ENTROPY_READER = maybeRegister(ItemEntropyReader::new);
 

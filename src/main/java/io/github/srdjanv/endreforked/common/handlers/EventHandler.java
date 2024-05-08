@@ -52,10 +52,12 @@ public final class EventHandler {
         }
     }*/
 
+/*
     // TODO: 27/11/2023 remove
     public static ModularScreen createGUI() {
         ModularPanel panel = ModularPanel.defaultPanel("widgetTest");
-        /*
+        */
+/*
          * var page = new PagedWidget<>().size(160);
          * page.addPage(new BlockPatternWidget(
          * new IBlockState[][][]{{{Blocks.END_STONE.getDefaultState(), Blocks.END_STONE.getDefaultState()}}},
@@ -79,9 +81,11 @@ public final class EventHandler {
          * }
          * return false;
          * });
-         */
+         *//*
 
-        /*
+
+        */
+/*
          * IBlockState[][] z1;
          *
          * {
@@ -100,10 +104,12 @@ public final class EventHandler {
          * IBlockState[] x3 = new IBlockState[]{Blocks.SANDSTONE.getDefaultState(), Blocks.SANDSTONE.getDefaultState()};
          * z2 = new IBlockState[][]{x1, x2, x3};
          * }
-         */
+         *//*
+
 
         // panel.child(new BlockPatternWidget(new IBlockState[][][]{z1,z2}).size(160));
-        /*
+        */
+/*
          * panel.child(new BlockPatternWidget(Structure.builder()
          * .aisle("EEE", "EEE", "EEE")
          * .aisle("EEE", "EAE", "EEE")
@@ -112,10 +118,12 @@ public final class EventHandler {
          * .where('E', Blocks.COBBLESTONE.getDefaultState())
          * .where('A', Blocks.AIR.getDefaultState())
          * .build().getStructure()).size(160));
-         */
+         *//*
+
 
         return new ModularScreen(panel);
     }
+*/
 
     private EventHandler() {}
 }
