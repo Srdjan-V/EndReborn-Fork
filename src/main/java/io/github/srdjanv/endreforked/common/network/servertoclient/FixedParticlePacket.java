@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.common.network;
+package io.github.srdjanv.endreforked.common.network.servertoclient;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.EnumParticleTypes;

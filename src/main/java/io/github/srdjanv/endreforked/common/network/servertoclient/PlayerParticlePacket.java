@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.common.network;
+package io.github.srdjanv.endreforked.common.network.servertoclient;
 
 import io.github.srdjanv.endreforked.client.ParticleHandler;
 import net.minecraft.client.Minecraft;

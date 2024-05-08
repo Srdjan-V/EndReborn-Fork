@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
 import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 import net.minecraft.block.Block;
@@ -131,10 +132,9 @@ public class BlockOrganaPlant extends BlockBase {
         }
     }
 
-    //todo drop something different
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return Items.CHORUS_FRUIT;
+        return ModItems.ORGANA_FRUiT.get();
     }
 
     @Override

@@ -3,7 +3,8 @@ package io.github.srdjanv.endreforked;
 import io.github.srdjanv.endreforked.client.ClientProxy;
 import io.github.srdjanv.endreforked.common.CommonProxy;
 import io.github.srdjanv.endreforked.common.comands.EndRebornCommands;
-import io.github.srdjanv.endreforked.common.network.PlayerParticlePacket;
+import io.github.srdjanv.endreforked.common.network.servertoclient.PlayerParticlePacket;
+import io.github.srdjanv.endreforked.common.network.servertoclient.TpParticlePacket;
 import io.github.srdjanv.endreforked.compat.CompatManger;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -65,6 +66,7 @@ public class EndReforked {
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
         NET.registerMessage(PlayerParticlePacket.Handler.INSTANCE, PlayerParticlePacket.class, netId++, Side.CLIENT);
+        NET.registerMessage(TpParticlePacket.Handler.INSTANCE, TpParticlePacket.class, netId++, Side.CLIENT);
     }
 
     @EventHandler

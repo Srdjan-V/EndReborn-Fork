@@ -150,7 +150,7 @@ public final class ModItems {
     // TODO: 08/11/2023 implement fixer old:food_dragonite_berries
     public static final Supplier<Item> DRAGONITE_BERRIES = maybeRegister(() -> new DragoniteBerries("dragonite_berries"));
     public static final Supplier<Item> CHORUS_SOUP = maybeRegister(() -> new FoodChorusSoup(5, "food_chorus_soup"));
-
+    public static final Supplier<ItemOrganaFruit> ORGANA_FRUiT = register(ItemOrganaFruit::new);
 
     public static final Supplier<EntropyWings> ENTROPY_WINGS = register(EntropyWings::new);
 

@@ -38,10 +38,8 @@ public class EntropyWingsHandler implements Initializer {
         for (EntityPlayerMP player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
             if (!player.hasCapability(CapabilityTimedFlightHandler.INSTANCE, null)) continue;
             var cap = player.getCapability(CapabilityTimedFlightHandler.INSTANCE, null);
-            if (cap.getFlightDuration() > 0) {
-                cap.tickPlayer(player);
-                continue;
-            }
+            cap.tickPlayer(player);
+            if (cap.getFlightDuration() > 0) continue;
 
             for (ItemStack stack : PlayerUtils.getAllPlayerItems(player)) {
                 if (stack.isEmpty()) continue;

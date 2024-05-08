@@ -1,12 +1,10 @@
-package io.github.srdjanv.endreforked.common.network;
+package io.github.srdjanv.endreforked.common.network.servertoclient;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import org.jetbrains.annotations.Nullable;
-
-import java.nio.charset.Charset;
 
 public class ParticlePacket implements IMessage {
     private boolean remove;
