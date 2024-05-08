@@ -242,47 +242,50 @@ public class BlockOrganaFlower extends BlockBase {
         return new BlockStateContainer(this, AGE);
     }
 
-    public static void generatePlant(World worldIn, BlockPos pos, Random rand, int age) {
+    public static void generatePlant(World worldIn, BlockPos pos, Random rand, int plantSpace) {
         worldIn.setBlockState(pos, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
-        growPlantRecursive(worldIn, pos, rand, pos, age, 0);
+        growPlantRecursive(worldIn, pos, rand, pos, plantSpace, 0);
     }
 
-    private static void growPlantRecursive(World worldIn, BlockPos pos, Random rand, BlockPos pos2, int age, int iteration) {
-        int i = rand.nextInt(4) + 1;
-        if (iteration == 0) ++i;
+    private static void growPlantRecursive(World worldIn, BlockPos pos, Random rand, BlockPos pos2, int plantSpace, int iteration) {
+        int hight = rand.nextInt(3) + 1;
+        if (iteration == 0) ++hight;
 
-        for (int j = 0; j < i; ++j) {
-            BlockPos blockpos = pos.up(j + 1);
-
-            if (!areAllNeighborsEmpty(worldIn, blockpos, null)) {
-                return;
+        {
+            BlockPos upPos;
+            for (int j = 0; j < hight; ++j) {
+                upPos = pos.up(j + 1);
+                if (!areAllNeighborsEmpty(worldIn, upPos, null)) {
+                    hight = j;
+                    break;
+                }
+                worldIn.setBlockState(upPos, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
             }
-
-            worldIn.setBlockState(blockpos, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
         }
 
         boolean grown = false;
         if (iteration < 4) {
-            int l = rand.nextInt(4);
+            int bend = rand.nextInt(4);
+            if (iteration == 0) ++bend;
 
-            if (iteration == 0) {
-                ++l;
-            }
-
-            for (int k = 0; k < l; ++k) {
+            for (int k = 0; k < bend; ++k) {
                 EnumFacing enumfacing = EnumFacing.Plane.HORIZONTAL.random(rand);
-                BlockPos blockpos1 = pos.up(i).offset(enumfacing);
+                BlockPos genPos = pos.up(hight).offset(enumfacing);
 
-                if (Math.abs(blockpos1.getX() - pos2.getX()) < age && Math.abs(blockpos1.getZ() - pos2.getZ()) < age && worldIn.isAirBlock(blockpos1) && worldIn.isAirBlock(blockpos1.down()) && areAllNeighborsEmpty(worldIn, blockpos1, enumfacing.getOpposite())) {
+                if (Math.abs(genPos.getX() - pos2.getX()) < plantSpace
+                        && Math.abs(genPos.getZ() - pos2.getZ()) < plantSpace
+                        && worldIn.isAirBlock(genPos)
+                        && worldIn.isAirBlock(genPos.down())
+                        && areAllNeighborsEmpty(worldIn, genPos, enumfacing.getOpposite())) {
                     grown = true;
-                    worldIn.setBlockState(blockpos1, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
-                    growPlantRecursive(worldIn, blockpos1, rand, pos2, age, iteration + 1);
+                    worldIn.setBlockState(genPos, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
+                    growPlantRecursive(worldIn, genPos, rand, pos2, plantSpace, iteration + 1);
                 }
             }
         }
 
         if (!grown)
-            worldIn.setBlockState(pos.up(i), ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(AGE, 10), 2);
+            worldIn.setBlockState(pos.up(hight), ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(AGE, 10), 2);
     }
 
     @Override
@@ -300,9 +303,10 @@ public class BlockOrganaFlower extends BlockBase {
         return null;
     }
 
-    //todo remove
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        updateTick(worldIn, pos, state, worldIn.rand);
+/*    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        //updateTick(worldIn, pos, state, worldIn.rand);
+        if (!worldIn.isRemote) generatePlant(worldIn, pos, worldIn.rand, 8);
+
         return true;
-    }
+    }*/
 }
