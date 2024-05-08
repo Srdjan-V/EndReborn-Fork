@@ -21,6 +21,6 @@ public class EntropyWings extends ItemBase implements IEntropyWings {
     }
 
     @Override public int getFlightDuration() {
-        return 4 * 20;
+        return 25 * 20;
     }
 }

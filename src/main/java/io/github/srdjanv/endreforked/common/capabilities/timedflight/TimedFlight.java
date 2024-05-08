@@ -1,10 +1,9 @@
 package io.github.srdjanv.endreforked.common.capabilities.timedflight;
 
-import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.api.capabilities.timedflight.ITimedFlight;
-import io.github.srdjanv.endreforked.common.network.PlayerParticlePacket;
+import io.github.srdjanv.endreforked.common.ModPotions;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.potion.PotionEffect;
 
 public class TimedFlight implements ITimedFlight {
     private boolean sendStartUpdate;
@@ -47,6 +46,12 @@ public class TimedFlight implements ITimedFlight {
     }
 
     public void handleParticle(EntityPlayerMP playerMP, boolean flight) {
+        if (flight) {
+            playerMP.addPotionEffect(new PotionEffect(ModPotions.TIMED_FLIGHT.get(), flightDuration));
+        } else playerMP.removePotionEffect(ModPotions.TIMED_FLIGHT.get());
+    }
+
+/*    public void handleParticle(EntityPlayerMP playerMP, boolean flight) {
         final String id = "TimedFlight";
 
         if (flight) {
@@ -55,5 +60,5 @@ public class TimedFlight implements ITimedFlight {
         } else {
             EndReforked.NET.sendTo(PlayerParticlePacket.remove(id), playerMP);
         }
-    }
+    }*/
 }

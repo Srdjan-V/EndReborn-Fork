@@ -1,7 +1,8 @@
 package io.github.srdjanv.endreforked.common.items;
 
-import java.util.List;
-
+import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
+import io.github.srdjanv.endreforked.utils.models.InventoryItemModel;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,12 +17,9 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.Nullable;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
-import io.github.srdjanv.endreforked.utils.models.InventoryItemModel;
+import java.util.List;
 
 public class ItemDragoniteTea extends ItemFood implements InventoryItemModel {
 
@@ -38,10 +36,10 @@ public class ItemDragoniteTea extends ItemFood implements InventoryItemModel {
         super.onItemUseFinish(stack, worldIn, entityLiving);
 
         if (entityLiving instanceof EntityPlayer player) {
-            player.getCooldownTracker().setCooldown(this, 480);
-            player.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 500, 0));
+            player.getCooldownTracker().setCooldown(this, 40 * 20);
+            player.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 50 * 20, 0));
             if (!worldIn.isRemote)
-                player.getCapability(CapabilityTimedFlightHandler.INSTANCE, null).setFlightDuration(500);
+                player.getCapability(CapabilityTimedFlightHandler.INSTANCE, null).setFlightDuration(45 * 20);
         }
         return stack;
     }
