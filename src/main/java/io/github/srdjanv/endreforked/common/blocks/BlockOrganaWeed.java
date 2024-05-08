@@ -29,6 +29,7 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
 
     public BlockOrganaWeed() {
         super("ogana_weed", Material.VINE);
+        sustainableBlocks.add(ModBlocks.END_MOSS_GRASS_BLOCK.get());
     }
 
     @Override public boolean hasTileEntity(IBlockState state) {
@@ -42,12 +43,15 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
     @Override public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
         if (worldIn.isRemote) return;
         entityIn.fallDistance = 0;
-        if (entityIn instanceof EntityLivingBase livingBase) {
-            livingBase.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 10));
-        }
         if (entityIn instanceof EntityPlayer player) {
             if (player.isSneaking()) return;
             player.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 20, 2));
+            player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 80, 2));
+            return;
+        }
+        if (entityIn instanceof EntityLivingBase livingBase) {
+            livingBase.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 10));
+            livingBase.addPotionEffect(new PotionEffect(MobEffects.SPEED, 20));
         }
     }
 
@@ -59,11 +63,6 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return END_BUSH_AABB;
-    }
-
-    @Override
-    protected boolean canSustainBush(IBlockState state) {
-        return state.getBlock() == ModBlocks.END_MOSS_GRASS_BLOCK.get();
     }
 
     @Override
@@ -82,7 +81,7 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
 
     @Override
     public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos,
-                                               int fortune) {
+                                     int fortune) {
         return Collections.singletonList(new ItemStack(ModBlocks.ORGANA_WEED_BLOCK.get()));
     }
 }

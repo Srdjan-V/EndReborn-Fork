@@ -1,15 +1,11 @@
 package io.github.srdjanv.endreforked.common.bioms;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import git.jbredwards.nether_api.api.biome.IEndBiome;
 import git.jbredwards.nether_api.api.biome.INoSpawnBiome;
 import git.jbredwards.nether_api.api.world.INetherAPIChunkGenerator;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.BlockEndMossGrass;
 import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
-import net.minecraft.block.BlockChorusFlower;
-import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -18,7 +14,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeEnd;
-import net.minecraft.world.biome.BiomeEndDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
 import org.jetbrains.annotations.NotNull;
 
@@ -88,20 +83,17 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome {
             }
 
             final BlockPos pos = chunkPos;
-            final int amountInChunk = rand.nextInt(3);
-            for (int i = 0; i < amountInChunk; i++) {
-                final int xOffset = rand.nextInt(16) + 8;
-                final int zOffset = rand.nextInt(16) + 8;
-                final int y = world.getHeight(pos.add(xOffset, 0, zOffset)).getY();
+            final int xOffset = rand.nextInt(16) + 8;
+            final int zOffset = rand.nextInt(16) + 8;
+            final int y = world.getHeight(pos.add(xOffset, 0, zOffset)).getY();
 
-                if (y > 0 && world.isAirBlock(pos.add(xOffset, y, zOffset))) {
-                    final var currentPos = pos.add(xOffset, y - 1, zOffset);
-                    final var currentBlockState = world.getBlockState(currentPos);
-                    final var ground = currentBlockState.getBlock();
-                    if (ground instanceof BlockEndMossGrass grass) {
-                        if (grass.canGrow(world, currentPos, currentBlockState, false))
-                            grass.grow(world, rand, currentPos, currentBlockState);
-                    }
+            if (y > 0 && world.isAirBlock(pos.add(xOffset, y, zOffset))) {
+                final var currentPos = pos.add(xOffset, y - 1, zOffset);
+                final var currentBlockState = world.getBlockState(currentPos);
+                final var ground = currentBlockState.getBlock();
+                if (ground instanceof BlockEndMossGrass grass) {
+                    if (grass.canGrow(world, currentPos, currentBlockState, false))
+                        grass.grow(world, rand, currentPos, currentBlockState);
                 }
             }
         }

@@ -93,7 +93,9 @@ public class BlockEndMossGrass extends BlockBase implements IGrowable {
                         rand.nextInt(3) - 1);
 
                 var downPosBlock = worldIn.getBlockState(pos.down()).getBlock();
-                if (downPosBlock == this || downPosBlock == Blocks.END_STONE) {
+
+                //worldIn.getBlockState(blockpos1.down()).getBlock() != Blocks.GRASS ||
+                if (downPosBlock == this || !worldIn.getBlockState(pos).isNormalCube()) {
                     ++j;
                 } else break;
             }
