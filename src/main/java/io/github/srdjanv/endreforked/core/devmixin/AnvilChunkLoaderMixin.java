@@ -26,10 +26,10 @@ public abstract class AnvilChunkLoaderMixin {
 
     @Inject(method = "loadChunk__Async", at = @At("HEAD"), cancellable = true, remap = false)
     public void loadChunk(World worldIn, int x, int z, CallbackInfoReturnable<Object[]> info) {
-        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_SPACE))) {
             if (!dev_mixin_logged_region_waring) {
                 DEV_MIXIN_REGION_DATA_IGNORER_WARINING_LOGGER.warn(
-                        "Shift and Space was held while loading chunk data, ignoring chunk. Data dir {}. This is a dev mixin by {}",
+                        "LCONTROL and (Shift or Space) was held while loading chunk data, ignoring chunk. Data dir {}. This is a dev mixin by {}",
                         chunkSaveLocation, Tags.MODNAME);
                 dev_mixin_logged_region_waring = true;
             }
