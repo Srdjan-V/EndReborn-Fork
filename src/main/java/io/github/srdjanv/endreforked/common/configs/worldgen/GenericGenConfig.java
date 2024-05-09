@@ -3,6 +3,8 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 import java.util.Objects;
 import java.util.Random;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import io.github.srdjanv.endreforked.api.worldgen.features.FilledSphereGenerator;
 import io.github.srdjanv.endreforked.common.ModBioms;
 import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
@@ -14,8 +16,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
 import io.github.srdjanv.endreforked.api.worldgen.features.BushSurfaceGenerator;
 import io.github.srdjanv.endreforked.api.worldgen.features.RadiusSurfaceGenerator;
@@ -41,9 +41,9 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("Lormyte",
                 builder -> {
-                    builder.whiteListDim(1, DimConfig.builder()
+                    builder.whiteListDim(1, GenConfig.builder()
                             .setRarity(80)
-                            .setAmountModifier(12)
+                            .setRadius(12)
                             .setMaxHeight(45)
                             .setMinHeight(20).build());
 
@@ -62,9 +62,9 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("FuzzyEndMagma",
                 builder -> {
-                    builder.whiteListDim(1, DimConfig.builder()
+                    builder.whiteListDim(1, GenConfig.builder()
                             .setRarity(95)
-                            .setAmountModifier(12)
+                            .setRadius(12)
                             .setMaxHeight(25)
                             .setMinHeight(10).build());
                     return builder.build();
@@ -85,9 +85,9 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("FilledEndMagma",
                 builder -> {
-                    builder.whiteListBiome(DimConfig.builder()
+                    builder.whiteListBiome(GenConfig.builder()
                                     .setRarity(95)
-                                    .setAmountModifier(12)
+                                    .setRadius(12)
                                     .setMaxHeight(25)
                                     .setMinHeight(10).build(),
                             ResourceLocationWrapper.of(ModBioms.ORGANA_BIOME.get().getRegistryName()));
@@ -109,22 +109,22 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("EntropyEndStone",
                 builder -> {
-                    builder.whiteListDim(1, DimConfig.builder()
+                    builder.whiteListDim(1, GenConfig.builder()
                             .setRarity(25)
-                            .setAmountModifier(30)
+                            .setAmount(30)
                             .setMaxHeight(30)
                             .setMinHeight(10).build());
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(
-                        ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), config.amountModifier(),
+                        ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), config.amount(),
                         BlockMatcher.forBlock(Blocks.END_STONE)));
 
         registerGen("EndMossPatch",
                 builder -> {
-                    builder.whiteListDim(1, DimConfig.builder()
+                    builder.whiteListDim(1, GenConfig.builder()
                             .setRarity(25)
-                            .setAmountModifier(4)
+                            .setAmount(4)
                             .setMaxHeight(90)
                             .setMinHeight(50).build());
 
@@ -146,9 +146,9 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("EndCoral",
                 builder -> {
-                    builder.whiteListDim(1, DimConfig.builder()
+                    builder.whiteListDim(1, GenConfig.builder()
                             .setRarity(0)
-                            .setAmountModifier(20)
+                            .setAmount(20)
                             .setMaxHeight(90)
                             .setMinHeight(50).build());
                     return builder.build();
@@ -157,9 +157,9 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("EndFlower",
                 builder -> {
-                    builder.whiteListDim(1, DimConfig.builder()
+                    builder.whiteListDim(1, GenConfig.builder()
                             .setRarity(5)
-                            .setAmountModifier(6)
+                            .setAmount(6)
                             .setMaxHeight(90)
                             .setMinHeight(50).build());
                     return builder.build();
@@ -178,8 +178,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
     public void registerToHandler() {
         var instance = WorldGenHandler.getInstance();
         loadedDataData.forEach((name, worldGenConfiguration) -> {
-            GenConfig genConfig = worldGenConfiguration.parseConfig(name, nameToGenerator.get(name));
-            instance.registerGenericGenerator(genConfig);
+            Generator generator = worldGenConfiguration.parseConfig(name, nameToGenerator.get(name));
+            instance.registerGenericGenerator(generator);
         });
     }
 
@@ -187,7 +187,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
     public void unRegisterFromHandler() {
         var instance = WorldGenHandler.getInstance();
         defaultData.keySet().forEach(name -> {
-            instance.unregisterOreGenerator(genConfig -> genConfig.getGeneratorName().equals(name));
+            instance.unregisterOreGenerator(genConfig -> genConfig.getName().equals(name));
         });
     }
 }

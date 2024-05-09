@@ -2,23 +2,22 @@ package io.github.srdjanv.endreforked.api.worldgen.features;
 
 import java.util.Random;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 
 public class SphereGenerator extends PositionedFeature {
-
     protected final PositionGenerator positionGenerator;
     protected final PositionValidator startPosValidator;
     protected final PositionValidator positionValidator;
 
-    public SphereGenerator(DimConfig config, PositionValidator positionValidator, PositionGenerator positionGenerator) {
+    public SphereGenerator(GenConfig config, PositionValidator positionValidator, PositionGenerator positionGenerator) {
         this(config, PositionValidators.ALWAYS_TRUE, positionValidator, positionGenerator);
     }
 
-    public SphereGenerator(DimConfig config, PositionValidator startPosValidator, PositionValidator positionValidator,
+    public SphereGenerator(GenConfig config, PositionValidator startPosValidator, PositionValidator positionValidator,
                            PositionGenerator positionGenerator) {
         super(Locators.OFFSET_16.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), config);
         this.startPosValidator = startPosValidator;
@@ -28,7 +27,7 @@ public class SphereGenerator extends PositionedFeature {
 
     @Override
     protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
-        int radius = config.amountModifier();
+        int radius = config.radius();
         int startX = startPos.getX();
         int startY = startPos.getY();
         int startZ = startPos.getZ();

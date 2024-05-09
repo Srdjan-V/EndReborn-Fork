@@ -2,7 +2,6 @@ package io.github.srdjanv.endreforked.api.worldgen.features;
 
 import java.util.*;
 
-import net.minecraft.nbt.*;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -16,7 +15,7 @@ import org.jetbrains.annotations.ApiStatus;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.Locator;
 import io.github.srdjanv.endreforked.api.worldgen.base.Locators;
 import io.github.srdjanv.endreforked.api.worldgen.base.PositionedFeature;
@@ -29,23 +28,23 @@ public class WorldGenStructure extends PositionedFeature {
     protected final PlacementSettings settings;
 
     @ApiStatus.Internal
-    public WorldGenStructure(DimConfig dimConfig, String name) {
-        this(Locators.OFFSET_2.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), dimConfig, name, defaultSettings);
+    public WorldGenStructure(GenConfig genConfig, String name) {
+        this(Locators.OFFSET_2.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), genConfig, name, defaultSettings);
     }
 
     @ApiStatus.Internal
-    public WorldGenStructure(Locator locator, DimConfig dimConfig, String name) {
-        this(locator, dimConfig, name, defaultSettings);
+    public WorldGenStructure(Locator locator, GenConfig genConfig, String name) {
+        this(locator, genConfig, name, defaultSettings);
     }
 
     @ApiStatus.Internal
-    public WorldGenStructure(Locator locator, DimConfig dimConfig, String name, PlacementSettings settings) {
-        this(locator, dimConfig, new ResourceLocation(Tags.MODID, name), settings);
+    public WorldGenStructure(Locator locator, GenConfig genConfig, String name, PlacementSettings settings) {
+        this(locator, genConfig, new ResourceLocation(Tags.MODID, name), settings);
     }
 
-    public WorldGenStructure(Locator locator, DimConfig dimConfig, ResourceLocation location,
+    public WorldGenStructure(Locator locator, GenConfig genConfig, ResourceLocation location,
                              PlacementSettings settings) {
-        super(locator, dimConfig);
+        super(locator, genConfig);
         this.location = location;
         this.settings = settings;
     }

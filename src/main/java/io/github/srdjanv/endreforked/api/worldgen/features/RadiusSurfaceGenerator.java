@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 
 public class RadiusSurfaceGenerator extends PositionedFeature {
@@ -14,12 +14,12 @@ public class RadiusSurfaceGenerator extends PositionedFeature {
     protected final PositionValidator startPosValidator;
     protected final PositionValidator positionValidator;
 
-    public RadiusSurfaceGenerator(DimConfig config, PositionValidator positionValidator,
+    public RadiusSurfaceGenerator(GenConfig config, PositionValidator positionValidator,
                                   PositionGenerator positionGenerator) {
         this(config, PositionValidators.ALWAYS_TRUE, positionValidator, positionGenerator);
     }
 
-    public RadiusSurfaceGenerator(DimConfig config, PositionValidator startPosValidator,
+    public RadiusSurfaceGenerator(GenConfig config, PositionValidator startPosValidator,
                                   PositionValidator positionValidator, PositionGenerator positionGenerator) {
         super(Locators.OFFSET_16.andThenLocate(Locators.SURFACE_BLOCK), config);
         this.positionGenerator = positionGenerator;
@@ -29,7 +29,7 @@ public class RadiusSurfaceGenerator extends PositionedFeature {
 
     @Override
     protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
-        int radius = config.amountModifier();
+        int radius = config.radius();
         int startX = startPos.getX();
         int startZ = startPos.getZ();
 

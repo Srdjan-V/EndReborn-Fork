@@ -9,13 +9,13 @@ import net.minecraft.world.WorldServer;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 
 @FunctionalInterface
 public interface Locator {
 
     @Nullable
-    BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos, PositionValidator validator);
+    BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos, PositionValidator validator);
 
     default Locator andThenLocate(final Locator then) {
         Objects.requireNonNull(then);

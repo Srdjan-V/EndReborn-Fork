@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.api.worldgen.features;
 
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Modifier;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
@@ -16,13 +17,13 @@ public class FilledSphereGenerator extends PositionedFeature {
 
     protected final PositionValidator startPosValidator;
 
-    public FilledSphereGenerator(DimConfig config, PositionValidator positionValidator,
+    public FilledSphereGenerator(GenConfig config, PositionValidator positionValidator,
                                  PositionGenerator innerPosGenerator,
                                  PositionGenerator outerPosGenerator) {
         this(config, PositionValidators.ALWAYS_TRUE, positionValidator, innerPosGenerator, outerPosGenerator);
     }
 
-    public FilledSphereGenerator(DimConfig config, PositionValidator startPosValidator,
+    public FilledSphereGenerator(GenConfig config, PositionValidator startPosValidator,
                                  PositionValidator positionValidator,
                                  PositionGenerator innerPosGenerator, PositionGenerator outerPosGenerator) {
         this(config, startPosValidator,
@@ -30,7 +31,7 @@ public class FilledSphereGenerator extends PositionedFeature {
                 positionValidator, outerPosGenerator);
     }
 
-    public FilledSphereGenerator(DimConfig config,
+    public FilledSphereGenerator(GenConfig config,
                                  PositionValidator innerPositionValidator, PositionGenerator innerPosGenerator,
                                  PositionValidator outerPositionValidator, PositionGenerator outerPosGenerator) {
         this(config, PositionValidators.ALWAYS_TRUE,
@@ -38,7 +39,7 @@ public class FilledSphereGenerator extends PositionedFeature {
                 outerPositionValidator, outerPosGenerator);
     }
 
-    public FilledSphereGenerator(DimConfig config, PositionValidator startPosValidator,
+    public FilledSphereGenerator(GenConfig config, PositionValidator startPosValidator,
                                  PositionValidator innerPositionValidator, PositionGenerator innerPosGenerator,
                                  PositionValidator outerPositionValidator, PositionGenerator outerPosGenerator) {
         super(Locators.OFFSET_16.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), config);
@@ -53,7 +54,8 @@ public class FilledSphereGenerator extends PositionedFeature {
 
 
     @Override protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
-        int radius = config.amountModifier();
+        int radius = config.radius();
+        double fillRatio = config.sphereFillRatio();
         int startX = startPos.getX();
         int startY = startPos.getY();
         int startZ = startPos.getZ();
@@ -68,7 +70,7 @@ public class FilledSphereGenerator extends PositionedFeature {
                         double distance = startPos.getDistance(x, y, z);
 
                         // Check if the distance is less than or equal to the radius of the sphere
-                        if (distance <= (double) radius / 2) {
+                        if (distance <= fillRatio) {
                             if (innerPositionValidator.validate(server, config, rand, pos))
                                 innerPosGenerator.generate(server, rand, pos);
                         } else {

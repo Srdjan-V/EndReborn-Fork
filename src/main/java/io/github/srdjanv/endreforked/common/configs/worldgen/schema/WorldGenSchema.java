@@ -3,14 +3,14 @@ package io.github.srdjanv.endreforked.common.configs.worldgen.schema;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 
 import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.GeneratorBuilder;
 import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -20,7 +20,7 @@ public class WorldGenSchema {
 
     public final boolean enableGeneration;
     public final int weight;
-    public final DimConfig dimConfigFallback;
+    public final GenConfig genConfigFallback;
 
     public final Data<Integer> dimData;
     public final Data<ResourceLocationWrapper> biomeData;
@@ -29,9 +29,9 @@ public class WorldGenSchema {
 
         public final List<D> blackList;
         public final List<D> whiteList;
-        public final Map<D, DimConfig> whiteListMap;
+        public final Map<D, GenConfig> whiteListMap;
 
-        public Data(List<D> blackList, List<D> whiteList, Map<D, DimConfig> whiteListMap) {
+        public Data(List<D> blackList, List<D> whiteList, Map<D, GenConfig> whiteListMap) {
             this.blackList = blackList;
             this.whiteList = whiteList;
             this.whiteListMap = whiteListMap;
@@ -58,11 +58,11 @@ public class WorldGenSchema {
         }
     }
 
-    private WorldGenSchema(boolean enableGeneration, int weight, DimConfig dimConfigFallback, Data<Integer> dimData,
+    private WorldGenSchema(boolean enableGeneration, int weight, GenConfig genConfigFallback, Data<Integer> dimData,
                            Data<ResourceLocationWrapper> biomeData) {
         this.enableGeneration = enableGeneration;
         this.weight = weight;
-        this.dimConfigFallback = dimConfigFallback;
+        this.genConfigFallback = genConfigFallback;
         this.dimData = dimData;
         this.biomeData = biomeData;
     }
@@ -70,7 +70,7 @@ public class WorldGenSchema {
     private WorldGenSchema() {
         this.weight = 0;
         this.enableGeneration = false;
-        this.dimConfigFallback = null;
+        this.genConfigFallback = null;
         this.dimData = new Data<>();
         this.biomeData = new Data<>();
     }
@@ -83,7 +83,7 @@ public class WorldGenSchema {
 
         private Boolean enableGeneration;
         private Integer weight = 0;
-        private DimConfig dimConfigFallback;
+        private GenConfig genConfigFallback;
 
         private final DataWrapper<Integer> dimData = new DataWrapper<>();
         private final DataWrapper<ResourceLocationWrapper> biomeData = new DataWrapper<>();
@@ -98,8 +98,8 @@ public class WorldGenSchema {
             return this;
         }
 
-        public Builder dimConfigFallback(DimConfig dimConfigFallback) {
-            this.dimConfigFallback = dimConfigFallback;
+        public Builder dimConfigFallback(GenConfig genConfigFallback) {
+            this.genConfigFallback = genConfigFallback;
             return this;
         }
 
@@ -124,17 +124,17 @@ public class WorldGenSchema {
             return this;
         }
 
-        public Builder whiteListDim(int dim, DimConfig dimConfig) {
-            this.dimData.whiteListMap.put(dim, dimConfig);
+        public Builder whiteListDim(int dim, GenConfig genConfig) {
+            this.dimData.whiteListMap.put(dim, genConfig);
             return this;
         }
 
-        public Builder whiteListDim(DimConfig dimConfig, int... dim) {
-            return whiteListDim(dimConfig, Arrays.stream(dim).boxed().collect(Collectors.toList()));
+        public Builder whiteListDim(GenConfig genConfig, int... dim) {
+            return whiteListDim(genConfig, Arrays.stream(dim).boxed().collect(Collectors.toList()));
         }
 
-        public Builder whiteListDim(DimConfig dimConfig, List<Integer> dims) {
-            for (int dim : dims) this.dimData.whiteListMap.put(dim, dimConfig);
+        public Builder whiteListDim(GenConfig genConfig, List<Integer> dims) {
+            for (int dim : dims) this.dimData.whiteListMap.put(dim, genConfig);
             return this;
         }
 
@@ -191,28 +191,28 @@ public class WorldGenSchema {
             return this;
         }
 
-        public Builder whiteListBiome(String biome, DimConfig dimConfig) {
-            return whiteListBiome(ResourceLocationWrapper.of(biome), dimConfig);
+        public Builder whiteListBiome(String biome, GenConfig genConfig) {
+            return whiteListBiome(ResourceLocationWrapper.of(biome), genConfig);
         }
 
-        public Builder whiteListBiome(ResourceLocationWrapper wrapper, DimConfig dimConfig) {
-            this.biomeData.whiteListMap.put(wrapper, dimConfig);
+        public Builder whiteListBiome(ResourceLocationWrapper wrapper, GenConfig genConfig) {
+            this.biomeData.whiteListMap.put(wrapper, genConfig);
             return this;
         }
 
-        public Builder whiteListBiome(DimConfig dimConfig, String... biome) {
-            return whiteListBiome(dimConfig, Arrays.stream(biome)
+        public Builder whiteListBiome(GenConfig genConfig, String... biome) {
+            return whiteListBiome(genConfig, Arrays.stream(biome)
                     .map(ResourceLocationWrapper::of)
                     .collect(Collectors.toList()));
         }
 
-        public Builder whiteListBiome(DimConfig dimConfig, ResourceLocationWrapper... wrapper) {
-            return whiteListBiome(dimConfig, Arrays.stream(wrapper).collect(Collectors.toList()));
+        public Builder whiteListBiome(GenConfig genConfig, ResourceLocationWrapper... wrapper) {
+            return whiteListBiome(genConfig, Arrays.stream(wrapper).collect(Collectors.toList()));
         }
 
-        public Builder whiteListBiome(DimConfig dimConfig, List<ResourceLocationWrapper> wrappers) {
+        public Builder whiteListBiome(GenConfig genConfig, List<ResourceLocationWrapper> wrappers) {
             for (ResourceLocationWrapper locationWrapper : wrappers)
-                this.biomeData.whiteListMap.put(locationWrapper, dimConfig);
+                this.biomeData.whiteListMap.put(locationWrapper, genConfig);
             return this;
         }
 
@@ -220,7 +220,7 @@ public class WorldGenSchema {
             return new WorldGenSchema(
                     Objects.requireNonNull(enableGeneration),
                     Objects.requireNonNull(weight),
-                    dimConfigFallback,
+                    genConfigFallback,
                     dimData.build(), biomeData.build());
         }
 
@@ -228,7 +228,7 @@ public class WorldGenSchema {
 
             private final List<D> blackList = new ObjectArrayList<>(1);
             private final List<D> whiteList = new ObjectArrayList<>(1);
-            private final Map<D, DimConfig> whiteListMap = new Object2ObjectOpenHashMap<>(1);
+            private final Map<D, GenConfig> whiteListMap = new Object2ObjectOpenHashMap<>(1);
 
             private Data<D> build() {
                 return new Data<>(blackList, whiteList, whiteListMap);
@@ -236,18 +236,18 @@ public class WorldGenSchema {
         }
     }
 
-    public GenConfig parseConfig(String name, GeneratorBuilder generatorBuilder) {
-        GenConfig.Builder gen = GenConfig.builder();
-        gen.generatorName(name)
+    public Generator parseConfig(String name, GeneratorBuilder generatorBuilder) {
+        Generator.Builder gen = Generator.builder();
+        gen.name(name)
                 .weight(weight)
                 .generatorBuilder(generatorBuilder);
         parseBiomes(gen);
         parseDims(gen);
-        gen.defaultDimConfig(dimConfigFallback);
+        gen.defaultDimConfig(genConfigFallback);
         return gen.build();
     }
 
-    private void parseDims(GenConfig.Builder gen) {
+    private void parseDims(Generator.Builder gen) {
         for (Integer dim : dimData.blackList)
             gen.dimBlackList(dim);
 
@@ -258,7 +258,7 @@ public class WorldGenSchema {
             gen.dimWhiteList(configEntry.getKey(), configEntry.getValue());
     }
 
-    private void parseBiomes(GenConfig.Builder gen) {
+    private void parseBiomes(Generator.Builder gen) {
         for (ResourceLocationWrapper biome : biomeData.blackList) {
             final var res = resolveBiome(biome);
             if (Objects.isNull(res)) continue;
@@ -271,7 +271,7 @@ public class WorldGenSchema {
             gen.biomeWhiteList(res);
         }
 
-        for (Map.Entry<ResourceLocationWrapper, DimConfig> entry : biomeData.whiteListMap.entrySet()) {
+        for (Map.Entry<ResourceLocationWrapper, GenConfig> entry : biomeData.whiteListMap.entrySet()) {
             final var biomeRes = resolveBiome(entry.getKey());
             if (Objects.isNull(biomeRes)) continue;
             gen.biomeWhiteList(biomeRes, entry.getValue());
@@ -294,12 +294,12 @@ public class WorldGenSchema {
         if (o == null || getClass() != o.getClass()) return false;
         WorldGenSchema that = (WorldGenSchema) o;
         return enableGeneration == that.enableGeneration && weight == that.weight &&
-                Objects.equals(dimConfigFallback, that.dimConfigFallback) &&
+                Objects.equals(genConfigFallback, that.genConfigFallback) &&
                 Objects.equals(dimData, that.dimData) && Objects.equals(biomeData, that.biomeData);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(enableGeneration, weight, dimConfigFallback, dimData, biomeData);
+        return Objects.hash(enableGeneration, weight, genConfigFallback, dimData, biomeData);
     }
 }

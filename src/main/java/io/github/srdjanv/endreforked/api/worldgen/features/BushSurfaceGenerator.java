@@ -2,20 +2,21 @@ package io.github.srdjanv.endreforked.api.worldgen.features;
 
 import java.util.Random;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Modifier;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 
 public class BushSurfaceGenerator extends PositionedFeature {
 
     protected final BlockBush block;
 
-    public BushSurfaceGenerator(DimConfig config, BlockBush block) {
+    public BushSurfaceGenerator(GenConfig config, BlockBush block) {
         super(Locators.OFFSET_16.andThenLocate(Locators.SURFACE_AIR), config);
         this.block = block;
     }
@@ -23,8 +24,8 @@ public class BushSurfaceGenerator extends PositionedFeature {
     @Override
     protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
         int count = 0;
-        for (int i = 0; i < config.amountModifier() * 2; ++i) {
-            if (count > config.amountModifier()) break;
+        for (int i = 0; i < config.amount() * 2; ++i) {
+            if (count > config.amount()) break;
             BlockPos blockpos = startPos.add(
                     rand.nextInt(8) - rand.nextInt(8),
                     rand.nextInt(4) - rand.nextInt(4),
@@ -39,7 +40,7 @@ public class BushSurfaceGenerator extends PositionedFeature {
             }
         }
 
-        return count > config.amountModifier();
+        return count > config.amount();
     }
 
     public IBlockState getState(World world, Random random, BlockPos pos) {

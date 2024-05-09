@@ -2,6 +2,8 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 
 import java.util.Objects;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import io.github.srdjanv.endreforked.common.ModBioms;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.pattern.BlockMatcher;
@@ -9,8 +11,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
@@ -33,54 +33,54 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("EssenceOre",
                 builder -> {
-                    builder.whiteListDim(0, DimConfig.builder()
+                    builder.whiteListDim(0, GenConfig.builder()
                             .setRarity(80)
-                            .setAmountModifier(20)
+                            .setAmount(20)
                             .setMaxHeight(256)
                             .setMinHeight(0).build());
 
-                    builder.whiteListDim(1, DimConfig.builder()
+                    builder.whiteListDim(1, GenConfig.builder()
                             .setRarity(60)
-                            .setAmountModifier(40)
+                            .setAmount(40)
                             .setMaxHeight(256)
                             .setMinHeight(0).build());
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(),
-                        config.amountModifier(), BlockMatcher.forBlock(Blocks.OBSIDIAN)));
+                        config.amount(), BlockMatcher.forBlock(Blocks.OBSIDIAN)));
 
         registerGen("XorciteOre",
                 builder -> {
-                    builder.whiteListDim(1, DimConfig.builder()
+                    builder.whiteListDim(1, GenConfig.builder()
                             .setRarity(25)
-                            .setAmountModifier(20)
+                            .setAmount(20)
                             .setMaxHeight(60)
                             .setMinHeight(0).build());
 
                     builder.whiteListBiome(
-                            DimConfig.builder()
+                            GenConfig.builder()
                                     .setRarity(15)
-                                    .setAmountModifier(25)
+                                    .setAmount(25)
                                     .setMaxHeight(60)
                                     .setMinHeight(0).build(),
                             ResourceLocationWrapper.of(ModBioms.ORGANA_BIOME.get().getRegistryName()));
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.ENTROPY_CROP_BLOCK.get().getDefaultState(),
-                        config.amountModifier(), BlockMatcher.forBlock(Blocks.END_STONE)));
+                        config.amount(), BlockMatcher.forBlock(Blocks.END_STONE)));
 
 
         registerGen("TungstenOre",
                 builder -> {
-                    builder.whiteListDim(0, DimConfig.builder()
+                    builder.whiteListDim(0, GenConfig.builder()
                             .setRarity(15)
-                            .setAmountModifier(10)
+                            .setAmount(10)
                             .setMaxHeight(48)
                             .setMinHeight(0).build());
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(),
-                        config.amountModifier(), input -> {
+                        config.amount(), input -> {
                     if (input != null && input.getBlock() == Blocks.STONE) {
                         return input.getValue(BlockStone.VARIANT).equals(BlockStone.EnumType.DIORITE);
                     } else return false;
@@ -89,9 +89,9 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
         registerGen("TungstenEndOre",
                 builder -> {
                     builder.dimConfigFallback(
-                            DimConfig.builder()
+                            GenConfig.builder()
                                     .setRarity(5)
-                                    .setAmountModifier(25)
+                                    .setAmount(25)
                                     .setMaxHeight(48)
                                     .setMinHeight(0).build());
 
@@ -102,15 +102,15 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 ((world, biome, config) -> new WorldGenMinable(
                         ModBlocks.TUNGSTEN_END_ORE.get().getDefaultState(),
-                        config.amountModifier(), BlockMatcher.forBlock(Blocks.END_STONE))));
+                        config.amount(), BlockMatcher.forBlock(Blocks.END_STONE))));
     }
 
     @Override
     public void registerToHandler() {
         var instance = WorldGenHandler.getInstance();
         loadedDataData.forEach((name, worldGenConfiguration) -> {
-            GenConfig genConfig = worldGenConfiguration.parseConfig(name, nameToGenerator.get(name));
-            instance.registerOreGenerator(genConfig);
+            Generator generator = worldGenConfiguration.parseConfig(name, nameToGenerator.get(name));
+            instance.registerOreGenerator(generator);
         });
     }
 
@@ -118,7 +118,7 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
     public void unRegisterFromHandler() {
         var instance = WorldGenHandler.getInstance();
         defaultData.keySet().forEach(name -> {
-            instance.unregisterOreGenerator(genConfig -> genConfig.getGeneratorName().equals(name));
+            instance.unregisterOreGenerator(genConfig -> genConfig.getName().equals(name));
         });
     }
 }

@@ -14,15 +14,11 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class GeneratorWrapper extends WorldGenerator {
-    private final List<WorldGenerator> featureList = new ObjectArrayList<>();
+    private final WorldGenerator feature;
     private final List<WorldGeneratorBuilder> builders = new ObjectArrayList<>();
 
-    public GeneratorWrapper(WorldGenerator... featureList) {
-        this(Arrays.asList(featureList));
-    }
-
-    public GeneratorWrapper(List<WorldGenerator> featureList) {
-        this.featureList.addAll(featureList);
+    public GeneratorWrapper(WorldGenerator feature) {
+        this.feature = feature;
     }
 
     public GeneratorWrapper subGen(WorldGeneratorBuilder builder) {
@@ -41,14 +37,15 @@ public class GeneratorWrapper extends WorldGenerator {
             return false;
         }
 
-        featureList.addAll(builders.stream()
-                .map(builder-> builder.build(server, rand, position))
+        if (!feature.generate(worldIn, rand, position)) return false;
+        builders.stream()
+                .map(builder -> builder.build(server, rand, position))
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList()));
-        boolean flag = false;
-        for (var gen : featureList) {
-            flag |= gen.generate(worldIn, rand, position);
-        }
-        return flag;
+                .peek(gen -> {
+                    if (gen instanceof SpacedGen spacedGen) spacedGen.setDisabled(true);
+                })
+                .forEach(gen -> gen.generate(worldIn, rand, position));
+
+        return true;
     }
 }

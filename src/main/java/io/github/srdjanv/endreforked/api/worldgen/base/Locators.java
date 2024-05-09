@@ -7,12 +7,12 @@ import net.minecraft.world.WorldServer;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 
 public enum Locators implements Locator {
     EMPTY {
         @Override
-        public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
             if (validator.validate(server, config, rand, pos)) return pos;
             return null;
@@ -20,7 +20,7 @@ public enum Locators implements Locator {
     },
     VALIDATOR {
         @Override
-        public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
             pos = new BlockPos(pos.getX(), server.getHeight(), pos.getZ());
             boolean valid = validator.validate(server, config, rand, pos);
@@ -34,7 +34,7 @@ public enum Locators implements Locator {
     },
     SURFACE_BLOCK {
         @Override
-        public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
             pos = new BlockPos(pos.getX(), server.getHeight(), pos.getZ());
             boolean valid = !server.isAirBlock(pos) && validator.validate(server, config, rand, pos);
@@ -48,7 +48,7 @@ public enum Locators implements Locator {
     },
     SURFACE_AIR {
         @Override
-        public @Nullable BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
             pos = new BlockPos(pos.getX(), server.getHeight(), pos.getZ());
             boolean valid = server.isAirBlock(pos) && validator.validate(server, config, rand, pos);
@@ -62,56 +62,56 @@ public enum Locators implements Locator {
     },
     OFFSET_16 {
         @Override
-        public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
             return new BlockPos(pos.getX() + 16, pos.getY(), pos.getZ() + 16);
         }
     },
     OFFSET_14 {
         @Override
-        public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
             return new BlockPos(pos.getX() + 14, pos.getY(), pos.getZ() + 14);
         }
     },
     OFFSET_12 {
         @Override
-        public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
             return new BlockPos(pos.getX() + 12, pos.getY(), pos.getZ() + 12);
         }
     },
     OFFSET_10 {
         @Override
-        public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
             return new BlockPos(pos.getX() + 10, pos.getY(), pos.getZ() + 10);
         }
     },
     OFFSET_8 {
         @Override
-        public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
             return new BlockPos(pos.getX() + 8, pos.getY(), pos.getZ() + 8);
         }
     },
     OFFSET_4 {
         @Override
-        public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
             return new BlockPos(pos.getX() + 4, pos.getY(), pos.getZ() + 4);
         }
     },
     OFFSET_2 {
         @Override
-        public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
             return new BlockPos(pos.getX() + 2, pos.getY(), pos.getZ() + 2);
         }
     },
     DIM_CONFIG_MIN_MAX {
         @Override
-        public BlockPos compute(WorldServer server, Random rand, DimConfig config, BlockPos pos,
+        public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
             final int heightDiff = config.maxHeight() - config.minHeight();
             return new BlockPos(

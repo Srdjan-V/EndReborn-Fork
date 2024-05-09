@@ -10,24 +10,32 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 
-public abstract class PositionedFeature extends WorldGenerator {
+public abstract class PositionedFeature extends WorldGenerator implements SpacedGen {
+    protected final List<Locator> locators;
+    protected final GenConfig config;
+    protected boolean isSpacedGenDisabled = false;
 
-    private final List<Locator> locators;
-    protected final DimConfig config;
-
-    protected PositionedFeature(Locator locator, DimConfig config) {
+    protected PositionedFeature(Locator locator, GenConfig config) {
         this(Collections.singletonList(locator), config);
     }
 
-    protected PositionedFeature(DimConfig config, Locator... locators) {
+    protected PositionedFeature(GenConfig config, Locator... locators) {
         this(Arrays.asList(locators), config);
     }
 
-    protected PositionedFeature(List<Locator> locator, DimConfig config) {
+    protected PositionedFeature(List<Locator> locator, GenConfig config) {
         this.locators = locator;
         this.config = config;
+    }
+
+    @Override public void setDisabled(boolean flag) {
+        isSpacedGenDisabled = flag;
+    }
+
+    @Override public boolean isDisabled() {
+        return isSpacedGenDisabled;
     }
 
     @Nullable
@@ -47,9 +55,11 @@ public abstract class PositionedFeature extends WorldGenerator {
             return false;
         }
 
-        position = getStartPos(server, rand, position, getStartPosValidator());
-        if (Objects.isNull(position)) return false;
-        return doGenerate(server, rand, position);
+        BlockPos newPos = getStartPos(server, rand, position, getStartPosValidator());
+        if (Objects.isNull(newPos)) return false;
+        if (shouldSpacedGen(config) && !validSpacing(server, config, position))
+            return false;
+        return doGenerate(server, rand, newPos);
     }
 
     protected abstract boolean doGenerate(WorldServer server, Random rand, BlockPos startPos);

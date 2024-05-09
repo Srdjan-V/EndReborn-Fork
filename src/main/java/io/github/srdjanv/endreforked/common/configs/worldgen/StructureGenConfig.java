@@ -3,6 +3,7 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 import java.util.Objects;
 import java.util.Random;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
@@ -12,8 +13,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.api.worldgen.DimConfig;
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
 import io.github.srdjanv.endreforked.api.worldgen.features.WorldGenStructure;
 import io.github.srdjanv.endreforked.common.configs.worldgen.base.WorldGenBaseConfigReloadable;
@@ -36,49 +36,53 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
         registerGen("end_ruins",
                 builder -> {
                     builder.whiteListBiome("sky");
-                    builder.dimConfigFallback(DimConfig.builder()
-                            .setRarity(600)
-                            .setAmountModifier(1)
+                    builder.dimConfigFallback(GenConfig.builder()
+                            .setUniqueGeneratorId("end_ruins".hashCode())
+                            .setSpacing(16)
+                            .setSeparation(10)
                             .setMaxHeight(100)
                             .setMinHeight(85).build());
                     return builder.build();
                 },
-                (world, biome, config) -> new WorldGenStructure(config, "end_ruins"));
-
+                (world, biome, config) -> new WorldGenStructure(config, "end_ruins")
+        );
         registerGen("end_endermite_island",
                 builder -> {
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
 
-                    builder.dimConfigFallback(DimConfig.builder()
-                            .setRarity(600)
-                            .setAmountModifier(1)
+                    builder.dimConfigFallback(GenConfig.builder()
+                            .setUniqueGeneratorId("end_endermite_island".hashCode())
+                            .setSpacing(64)
+                            .setSeparation(50)
                             .setMaxHeight(115)
                             .setMinHeight(90).build());
 
                     return builder.build();
                 },
-                ((world, biome, config) -> new WorldGenStructure(config, "end_endermite_island")));
-
+                (world, biome, config) -> new WorldGenStructure(config, "end_endermite_island")
+        );
         registerGen("end_entropy_island",
                 builder -> {
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
 
-                    builder.dimConfigFallback(DimConfig.builder()
+                    builder.dimConfigFallback(GenConfig.builder()
                             .setRarity(600)
-                            .setAmountModifier(1)
                             .setMaxHeight(115)
                             .setMinHeight(90).build());
 
                     return builder.build();
                 },
-                ((world, biome, config) -> new WorldGenStructure(config, "end_endermite_island")));
+                (world, biome, config) -> new WorldGenStructure(config, "end_entropy_island")
+        );
         registerGen("end_moss_island",
                 builder -> {
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
 
-                    builder.dimConfigFallback(DimConfig.builder()
-                            .setRarity(600)
-                            .setAmountModifier(1)
+                    builder.dimConfigFallback(GenConfig.builder()
+                            .setRarity(20)
+                            .setUniqueGeneratorId("end_endermite_island".hashCode())
+                            .setSpacing(64)
+                            .setSeparation(50)
                             .setMaxHeight(115)
                             .setMinHeight(90).build());
 
@@ -86,11 +90,11 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> {
                     class OrganaFlowerFeature extends PositionedFeature {
-                        OrganaFlowerFeature(DimConfig config, Locator... locators) {
+                        OrganaFlowerFeature(GenConfig config, Locator... locators) {
                             super(config, locators);
                         }
 
-                        OrganaFlowerFeature(DimConfig config, int offset) {
+                        OrganaFlowerFeature(GenConfig config, int offset) {
                             super(config, Locators.offsetOf(offset).andThenLocate(Locators.SURFACE_BLOCK));
                         }
 
@@ -119,42 +123,44 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                             });
                 }
         );
-
-        registerGen("Observatory",
+        registerGen("observatory",
                 builder -> {
                     builder.whiteListBiome("desert", "ocean", "deep_ocean", "forest", "birch_forest", "swampland");
-                    builder.dimConfigFallback(DimConfig.builder()
-                            .setRarity(600)
-                            .setAmountModifier(1)
+                    builder.dimConfigFallback(GenConfig.builder()
+                            .setUniqueGeneratorId("observatory".hashCode())
+                            .setSpacing(64)
+                            .setSeparation(50)
                             .setMaxHeight(3)
                             .setMinHeight(3).build());
 
                     return builder.build();
                 },
-                (world, biome, config) -> new WorldGenStructure(config, "observ"));
-
-        registerGen("ShipWreck",
+                (world, biome, config) -> new WorldGenStructure(config, "observ")
+        );
+        registerGen("ship_wreck",
                 builder -> {
                     builder.whiteListBiome("sky");
-                    builder.dimConfigFallback(DimConfig.builder()
-                            .setRarity(600)
-                            .setAmountModifier(1)
+                    builder.dimConfigFallback(GenConfig.builder()
+                            .setUniqueGeneratorId("ship_wreck".hashCode())
+                            .setSpacing(64)
+                            .setSeparation(50)
                             .setMaxHeight(70)
                             .setMinHeight(50).build());
 
                     return builder.build();
                 },
-                ((world, biome, config) -> new WorldGenStructure(
+                (world, biome, config) -> new WorldGenStructure(
                         Locators.OFFSET_16.andThenLocate(Locators.SURFACE_BLOCK).andThenMove(pos -> pos.add(0, -2, 2)),
-                        config, new ResourceLocation(Tags.MODID, "end_shipwreck"), WorldGenStructure.defaultSettings)));
+                        config, new ResourceLocation(Tags.MODID, "end_shipwreck"), WorldGenStructure.defaultSettings)
+        );
     }
 
     @Override
     public void registerToHandler() {
         var instance = WorldGenHandler.getInstance();
         loadedDataData.forEach((name, worldGenConfiguration) -> {
-            GenConfig genConfig = worldGenConfiguration.parseConfig(name, nameToGenerator.get(name));
-            instance.registerStructureGenerator(genConfig);
+            Generator generator = worldGenConfiguration.parseConfig(name, nameToGenerator.get(name));
+            instance.registerStructureGenerator(generator);
         });
     }
 
@@ -162,7 +168,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
     public void unRegisterFromHandler() {
         var instance = WorldGenHandler.getInstance();
         defaultData.keySet().forEach(name -> {
-            instance.unregisterStructureGenerator(genConfig -> genConfig.getGeneratorName().equals(name));
+            instance.unregisterStructureGenerator(genConfig -> genConfig.getName().equals(name));
         });
     }
 }
