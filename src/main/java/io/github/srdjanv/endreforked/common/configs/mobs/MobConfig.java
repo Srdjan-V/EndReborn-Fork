@@ -35,7 +35,7 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
     private final Map<String, Function<EntityConfig.Builder, EntityConfig>> entityConfigs = new Object2ObjectOpenHashMap<>();
 
     private MobConfig() {
-        super("MobConfig", new TypeToken<Map<String, MobConfigSchema>>() {}.getType());
+        super("mobs", new TypeToken<Map<String, MobConfigSchema>>() {}.getType());
     }
 
     @Override

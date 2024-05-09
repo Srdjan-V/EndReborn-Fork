@@ -41,7 +41,7 @@ public class BiomesConfig extends ReloadableServerSideConfig<Map<String, BiomesS
     private Map<String, BiomesSchema> loadedDataData;
 
     private BiomesConfig() {
-        super("BiomesConfig", new TypeToken<Map<String, BiomesSchema>>() {}.getType());
+        super("biomes", new TypeToken<Map<String, BiomesSchema>>() {}.getType());
     }
 
     @Override public void registerEventBus() {

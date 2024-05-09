@@ -28,7 +28,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
     }
 
     public StructureGenConfig() {
-        super("StructureGenConfig");
+        super("structure");
     }
 
     @Override

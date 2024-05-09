@@ -33,7 +33,7 @@ public class DisabledContentConfig extends StaticServerSideConfig<DisabledConten
     private DisabledContentSchema loadedData;
 
     private DisabledContentConfig() {
-        super("DisabledContent", DisabledContentSchema.class);
+        super("disabled_content", DisabledContentSchema.class);
     }
 
     @Override
