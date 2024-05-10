@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.api.worldgen;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 
 import java.util.List;
 import java.util.Set;
@@ -39,6 +40,15 @@ public final class Utils {
 
         if (!config.getBiomeConfigs().isEmpty())
             return config.getBiomeConfigs().containsKey(biome);
+
+        for (var type : BiomeDictionary.getTypes(biome)) {
+            if (!config.getBiomeTypeBlackList().isEmpty())
+                if (config.getBiomeTypeBlackList().contains(type))
+                    return false;
+
+            if (!config.getBiomeTypeConfigs().isEmpty())
+                return config.getBiomeTypeConfigs().containsKey(type);
+        }
 
         return true;
     }

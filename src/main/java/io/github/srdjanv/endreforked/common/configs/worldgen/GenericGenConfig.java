@@ -41,11 +41,12 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("Lormyte",
                 builder -> {
-                    builder.whiteListDim(1, GenConfig.builder()
-                            .setRarity(80)
-                            .setRadius(12)
-                            .setMaxHeight(45)
-                            .setMinHeight(20).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(80)
+                                    .setRadius(12)
+                                    .setMaxHeight(45)
+                                    .setMinHeight(20).build(), 1);
 
                     return builder.build();
                 },
@@ -62,11 +63,12 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("FuzzyEndMagma",
                 builder -> {
-                    builder.whiteListDim(1, GenConfig.builder()
-                            .setRarity(95)
-                            .setRadius(12)
-                            .setMaxHeight(25)
-                            .setMinHeight(10).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(95)
+                                    .setRadius(12)
+                                    .setMaxHeight(25)
+                                    .setMinHeight(10).build(), 1);
                     return builder.build();
                 },
                 (world, biome, config) -> {
@@ -85,7 +87,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("FilledEndMagma",
                 builder -> {
-                    builder.whiteListBiome(GenConfig.builder()
+                    builder.whiteListBiome(
+                            GenConfig.builder()
                                     .setRarity(95)
                                     .setRadius(12)
                                     .setMaxHeight(25)
@@ -109,11 +112,12 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("EntropyEndStone",
                 builder -> {
-                    builder.whiteListDim(1, GenConfig.builder()
-                            .setRarity(25)
-                            .setAmount(30)
-                            .setMaxHeight(30)
-                            .setMinHeight(10).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(25)
+                                    .setAmount(30)
+                                    .setMaxHeight(30)
+                                    .setMinHeight(10).build(), 1);
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(
@@ -122,11 +126,12 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("EndMossPatch",
                 builder -> {
-                    builder.whiteListDim(1, GenConfig.builder()
-                            .setRarity(25)
-                            .setAmount(4)
-                            .setMaxHeight(90)
-                            .setMinHeight(50).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(25)
+                                    .setAmount(4)
+                                    .setMaxHeight(90)
+                                    .setMinHeight(50).build(), 1);
 
                     return builder.build();
                 },
@@ -146,22 +151,24 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("EndCoral",
                 builder -> {
-                    builder.whiteListDim(1, GenConfig.builder()
-                            .setRarity(0)
-                            .setAmount(20)
-                            .setMaxHeight(90)
-                            .setMinHeight(50).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(0)
+                                    .setAmount(20)
+                                    .setMaxHeight(90)
+                                    .setMinHeight(50).build(), 1);
                     return builder.build();
                 },
                 (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.END_CORAL.get()));
 
         registerGen("EndFlower",
                 builder -> {
-                    builder.whiteListDim(1, GenConfig.builder()
-                            .setRarity(5)
-                            .setAmount(6)
-                            .setMaxHeight(90)
-                            .setMinHeight(50).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(5)
+                                    .setAmount(6)
+                                    .setMaxHeight(90)
+                                    .setMinHeight(50).build(), 1);
                     return builder.build();
                 },
                 (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.ENDER_FLOWER_CROP.get()) {

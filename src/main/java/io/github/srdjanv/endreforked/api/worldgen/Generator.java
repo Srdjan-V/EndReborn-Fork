@@ -1,14 +1,12 @@
 package io.github.srdjanv.endreforked.api.worldgen;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import net.minecraftforge.common.BiomeDictionary;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -26,20 +24,27 @@ public class Generator implements Comparable<Generator> {
     private final Map<Biome, GenConfig> biomeConfigs;
     private final List<Biome> biomeBlackList;
 
-    private final IntList dimBlackList;
+    private final Map<BiomeDictionary.Type, GenConfig> biomeTypeConfigs;
+    private final List<BiomeDictionary.Type> biomeTypeBlackList;
+
     private final Int2ObjectMap<GenConfig> dimConfigs;
+    private final IntList dimBlackList;
+
     private final GenConfig defaultGenConfig;
 
     public Generator(String name, int weight, GeneratorBuilder builder,
                      Map<Biome, GenConfig> biomeConfigs, List<Biome> biomeBlackList,
-                     IntList dimBlackList, Int2ObjectMap<GenConfig> dimConfigs, GenConfig defaultGenConfig) {
+                     Map<BiomeDictionary.Type, GenConfig> biomeTypeConfigs, List<BiomeDictionary.Type> biomeTypeBlackList,
+                     Int2ObjectMap<GenConfig> dimConfigs, IntList dimBlackList, GenConfig defaultGenConfig) {
         this.name = name;
         this.weight = weight;
         this.builder = builder;
         this.biomeConfigs = Collections.unmodifiableMap(biomeConfigs);
         this.biomeBlackList = Collections.unmodifiableList(biomeBlackList);
-        this.dimBlackList = IntLists.unmodifiable(dimBlackList);
+        this.biomeTypeConfigs = Collections.unmodifiableMap(biomeTypeConfigs);
+        this.biomeTypeBlackList = Collections.unmodifiableList(biomeTypeBlackList);
         this.dimConfigs = Int2ObjectMaps.unmodifiable(dimConfigs);
+        this.dimBlackList = IntLists.unmodifiable(dimBlackList);
         this.defaultGenConfig = defaultGenConfig;
     }
 
@@ -53,8 +58,19 @@ public class Generator implements Comparable<Generator> {
 
         if (Objects.nonNull(dimGenConfig)) {
             if (Objects.nonNull(biomeGenConfig)) return biomeGenConfig;
+            for (var type : BiomeDictionary.getTypes(biome)) {
+                var resType = biomeTypeConfigs.get(type);
+                if (Objects.nonNull(resType)) return resType;
+            }
+
             return dimGenConfig;
-        } else if (Objects.nonNull(biomeGenConfig)) return biomeGenConfig;
+        } else if (Objects.nonNull(biomeGenConfig)) {
+            for (var type : BiomeDictionary.getTypes(biome)) {
+                var resType = biomeTypeConfigs.get(type);
+                if (Objects.nonNull(resType)) return resType;
+            }
+            return biomeGenConfig;
+        }
         return defaultGenConfig;
     }
 
@@ -86,13 +102,23 @@ public class Generator implements Comparable<Generator> {
     }
 
     @Unmodifiable
-    public IntList getDimBlackList() {
-        return dimBlackList;
+    public Map<BiomeDictionary.Type, GenConfig> getBiomeTypeConfigs() {
+        return biomeTypeConfigs;
+    }
+
+    @Unmodifiable
+    public List<BiomeDictionary.Type> getBiomeTypeBlackList() {
+        return biomeTypeBlackList;
     }
 
     @Unmodifiable
     public Int2ObjectMap<GenConfig> getDimConfigs() {
         return dimConfigs;
+    }
+
+    @Unmodifiable
+    public IntList getDimBlackList() {
+        return dimBlackList;
     }
 
     @Nullable
@@ -135,10 +161,15 @@ public class Generator implements Comparable<Generator> {
         private Integer weight;
         private GeneratorBuilder generatorBuilder;
 
-        private final Map<Biome, GenConfig> biomeWhiteList = new Object2ObjectOpenHashMap<>();
+        private final Map<Biome, GenConfig> biomeWhiteListMap = new Object2ObjectOpenHashMap<>();
         private final List<Biome> biomeBlackList = new ObjectArrayList<>();
+
+        private final Int2ObjectMap<GenConfig> dimWhiteListMap = new Int2ObjectOpenHashMap<>();
         private final IntList dimBlackList = new IntArrayList();
-        private final Int2ObjectMap<GenConfig> genConfigs = new Int2ObjectOpenHashMap<>();
+
+        private final Map<BiomeDictionary.Type, GenConfig> biomeTypeWhiteListMap = new Object2ObjectOpenHashMap<>();
+        private final List<BiomeDictionary.Type> biomeTypeBlackList = new ObjectArrayList<>();
+
         private GenConfig defaultGenConfig;
 
         private Builder() {}
@@ -160,35 +191,90 @@ public class Generator implements Comparable<Generator> {
 
         public Builder defaultDimConfig(GenConfig defaultGenConfig) {
             this.defaultGenConfig = defaultGenConfig;
-            genConfigs.defaultReturnValue(defaultGenConfig);
+            dimWhiteListMap.defaultReturnValue(defaultGenConfig);
             return this;
         }
 
-        public Builder biomeWhiteList(Biome biome) {
-            return biomeWhiteList(biome, null);
+        ////////////////////////////////////////////////////////////////////
+        public Builder biomeWhiteList(Biome... biome) {
+            return biomeWhiteList(null, biome);
         }
 
-        public Builder biomeWhiteList(Biome biome, @Nullable GenConfig config) {
-            biomeWhiteList.put(biome, config);
+        public Builder biomeWhiteList(List<Biome> biomes) {
+            return biomeWhiteList(null, biomes);
+        }
+
+        public Builder biomeWhiteList(@Nullable GenConfig config, Biome... biome) {
+            return biomeWhiteList(config, new ObjectArrayList<>(biome));
+        }
+
+        public Builder biomeWhiteList(@Nullable GenConfig config, List<Biome> biomes) {
+            for (Biome biome : biomes) biomeWhiteListMap.put(biome, config);
             return this;
         }
 
-        public Builder biomeBlackList(Biome biome) {
-            biomeBlackList.add(biome);
+        public Builder biomeBlackList(Biome... biome) {
+            return biomeBlackList(new ObjectArrayList<>(biome));
+        }
+
+        public Builder biomeBlackList(List<Biome> biome) {
+            biomeBlackList.addAll(biome);
             return this;
         }
 
-        public Builder dimBlackList(int dim) {
-            dimBlackList.add(dim);
+        ////////////////////////////////////////////////////////////////////
+
+        public Builder dimTypeWhiteList(BiomeDictionary.Type... types) {
+            return dimTypeWhiteList(null, types);
+        }
+
+        public Builder dimTypeWhiteList(List<BiomeDictionary.Type> types) {
+            return dimTypeWhiteList(null, types);
+        }
+
+        public Builder dimTypeWhiteList(@Nullable GenConfig config, BiomeDictionary.Type... types) {
+            return dimTypeWhiteList(config, new ObjectArrayList<>(types));
+        }
+
+        public Builder dimTypeWhiteList(@Nullable GenConfig config, List<BiomeDictionary.Type> types) {
+            for (var type : types) biomeTypeWhiteListMap.put(type, config);
             return this;
         }
 
-        public Builder dimWhiteList(int dim) {
-            return dimWhiteList(dim, null);
+        public Builder dimTypeBlackList(BiomeDictionary.Type... types) {
+            return dimTypeBlackList(new ObjectArrayList<>(types));
         }
 
-        public Builder dimWhiteList(int dim, @Nullable GenConfig config) {
-            genConfigs.put(dim, config);
+        public Builder dimTypeBlackList(List<BiomeDictionary.Type> types) {
+            biomeTypeBlackList.addAll(types);
+            return this;
+        }
+
+        ////////////////////////////////////////////////////////////////////
+
+        public Builder dimWhiteList(int... dims) {
+            return dimWhiteList(null, dims);
+        }
+
+        public Builder dimWhiteList(IntList dims) {
+            return dimWhiteList(null, dims);
+        }
+
+        public Builder dimWhiteList(@Nullable GenConfig config, int... dims) {
+            return dimWhiteList(config, new IntArrayList(dims));
+        }
+
+        public Builder dimWhiteList(@Nullable GenConfig config, IntList biomes) {
+            for (var dim : biomes) dimWhiteListMap.put(dim, config);
+            return this;
+        }
+
+        public Builder dimBlackList(int... dim) {
+            return dimBlackList(new IntArrayList(dim));
+        }
+
+        public Builder dimBlackList(IntList dim) {
+            dimBlackList.addAll(dim);
             return this;
         }
 
@@ -197,7 +283,10 @@ public class Generator implements Comparable<Generator> {
                     Objects.requireNonNull(name),
                     Objects.requireNonNull(weight),
                     Objects.requireNonNull(generatorBuilder),
-                    biomeWhiteList, biomeBlackList, dimBlackList, genConfigs, defaultGenConfig);
+                    biomeWhiteListMap, biomeBlackList,
+                    biomeTypeWhiteListMap, biomeTypeBlackList,
+                    dimWhiteListMap, dimBlackList,
+                    defaultGenConfig);
         }
     }
 }

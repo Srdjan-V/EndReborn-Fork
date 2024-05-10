@@ -33,17 +33,19 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("EssenceOre",
                 builder -> {
-                    builder.whiteListDim(0, GenConfig.builder()
-                            .setRarity(80)
-                            .setAmount(20)
-                            .setMaxHeight(256)
-                            .setMinHeight(0).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(80)
+                                    .setAmount(20)
+                                    .setMaxHeight(256)
+                                    .setMinHeight(0).build(), 0);
 
-                    builder.whiteListDim(1, GenConfig.builder()
-                            .setRarity(60)
-                            .setAmount(40)
-                            .setMaxHeight(256)
-                            .setMinHeight(0).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(60)
+                                    .setAmount(40)
+                                    .setMaxHeight(256)
+                                    .setMinHeight(0).build(), 1);
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(),
@@ -51,11 +53,12 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("XorciteOre",
                 builder -> {
-                    builder.whiteListDim(1, GenConfig.builder()
-                            .setRarity(25)
-                            .setAmount(20)
-                            .setMaxHeight(60)
-                            .setMinHeight(0).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(25)
+                                    .setAmount(20)
+                                    .setMaxHeight(60)
+                                    .setMinHeight(0).build(), 1);
 
                     builder.whiteListBiome(
                             GenConfig.builder()
@@ -72,11 +75,12 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
 
         registerGen("TungstenOre",
                 builder -> {
-                    builder.whiteListDim(0, GenConfig.builder()
-                            .setRarity(15)
-                            .setAmount(10)
-                            .setMaxHeight(48)
-                            .setMinHeight(0).build());
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(15)
+                                    .setAmount(10)
+                                    .setMaxHeight(48)
+                                    .setMinHeight(0).build(), 0);
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(),
@@ -100,9 +104,9 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
 
                     return builder.build();
                 },
-                ((world, biome, config) -> new WorldGenMinable(
+                (world, biome, config) -> new WorldGenMinable(
                         ModBlocks.TUNGSTEN_END_ORE.get().getDefaultState(),
-                        config.amount(), BlockMatcher.forBlock(Blocks.END_STONE))));
+                        config.amount(), BlockMatcher.forBlock(Blocks.END_STONE)));
     }
 
     @Override

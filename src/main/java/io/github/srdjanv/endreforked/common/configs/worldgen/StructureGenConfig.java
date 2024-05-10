@@ -7,6 +7,7 @@ import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
+import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
@@ -35,7 +36,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("end_ruins",
                 builder -> {
-                    builder.whiteListBiome("sky");
+                    builder.whiteListBiome(ResourceLocationWrapper.of("sky"));
                     builder.dimConfigFallback(GenConfig.builder()
                             .setUniqueGeneratorId("end_ruins".hashCode())
                             .setSpacing(16)

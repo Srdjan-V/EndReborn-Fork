@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
 import io.github.srdjanv.endreforked.common.bioms.OrganaBiome;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -29,6 +30,14 @@ public final class ModBioms {
                 .map(Supplier::get)
                 .filter(Objects::nonNull)
                 .forEach(registry::register);
+
+        BiomeDictionary.addTypes(
+                ORGANA_BIOME.get(),
+                BiomeDictionary.Type.DENSE,
+                BiomeDictionary.Type.LUSH,
+                BiomeDictionary.Type.END,
+                BiomeDictionary.Type.MAGICAL,
+                BiomeDictionary.Type.RARE);
     }
 
 /*    @SubscribeEvent
