@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.api.worldgen;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -17,8 +18,6 @@ import org.jetbrains.annotations.Unmodifiable;
 import io.github.srdjanv.endreforked.EndReforked;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-
-import static io.github.srdjanv.endreforked.api.worldgen.Utils.getApplicableGeneratorsForChunk;
 
 public final class WorldGenHandler implements IWorldGenerator {
 
@@ -130,24 +129,18 @@ public final class WorldGenHandler implements IWorldGenerator {
                          IChunkProvider chunkProvider) {
         mutate();
 
-        // deterministic worldgen
-        //final long seed = random.nextLong();
         final var biome = world.getBiome(new BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8));
-
-        for (var gen : getApplicableGeneratorsForChunk(oreGenerators, world, biome)) {
-            //random.setSeed(seed);
+        getApplicableGenerators(oreGenerators, world, biome).forEach(gen -> {
             runChunkGenerator(gen, biome, world, random, chunkX, chunkZ);
-        }
+        });
 
-        for (var gen : getApplicableGeneratorsForChunk(genericGenerators, world, biome)) {
-            //random.setSeed(seed);
+        getApplicableGenerators(genericGenerators, world, biome).forEach(gen -> {
             runChunkGenerator(gen, biome, world, random, chunkX, chunkZ);
-        }
+        });
 
-        for (var gen : getApplicableGeneratorsForChunk(structureGenerators, world, biome)) {
-            //random.setSeed(seed);
+        getApplicableGenerators(structureGenerators, world, biome).forEach(gen -> {
             runChunkGenerator(gen, biome, world, random, chunkX, chunkZ);
-        }
+        });
     }
 
     private void runChunkGenerator(Generator config, Biome biome, World world,
@@ -168,12 +161,19 @@ public final class WorldGenHandler implements IWorldGenerator {
                     dimConfig.minHeight() + rand.nextInt(Math.max(1, heightDiff)),
                     chunkZ >> 4);
             gen.generate(world, rand, pos.add(8, 0, 8));
-        } else {
-            gen.generate(world, rand, new BlockPos(
+        } else gen.generate(world, rand, new BlockPos(
                     chunkX >> 4,
                     world.getSeaLevel(),
                     chunkZ >> 4));
-        }
     }
 
+    public static Stream<Generator> getApplicableGenerators(
+            final Set<Generator> generatorMap,
+            final World world,
+            final Biome biome) {
+        final var dim = world.provider.getDimension();
+        return generatorMap.stream()
+                .filter(entry -> entry.isValidDimension(dim))
+                .filter(entry -> entry.isValidBiome(biome));
+    }
 }

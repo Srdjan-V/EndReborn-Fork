@@ -3,7 +3,6 @@ package io.github.srdjanv.endreforked.api.worldgen.features;
 import java.util.Random;
 
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
-import io.github.srdjanv.endreforked.api.worldgen.Modifier;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;

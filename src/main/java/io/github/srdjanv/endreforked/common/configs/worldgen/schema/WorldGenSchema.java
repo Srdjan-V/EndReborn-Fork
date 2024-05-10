@@ -1,23 +1,17 @@
 package io.github.srdjanv.endreforked.common.configs.worldgen.schema;
 
 import java.util.*;
-import java.util.function.IntFunction;
-import java.util.stream.Collectors;
 
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.DimensionManager;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.worldgen.GeneratorBuilder;
+import io.github.srdjanv.endreforked.api.worldgen.WorldGeneratorBuilder;
 import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -234,11 +228,11 @@ public class WorldGenSchema {
         }
     }
 
-    public Generator parseConfig(String name, GeneratorBuilder generatorBuilder) {
+    public Generator parseConfig(String name, WorldGeneratorBuilder worldGeneratorBuilder) {
         Generator.Builder gen = Generator.builder();
         gen.name(name)
                 .weight(weight)
-                .generatorBuilder(generatorBuilder);
+                .generatorBuilder(worldGeneratorBuilder);
         parseBiomes(gen);
         parseDims(gen);
         parseBiomeTypes(gen);

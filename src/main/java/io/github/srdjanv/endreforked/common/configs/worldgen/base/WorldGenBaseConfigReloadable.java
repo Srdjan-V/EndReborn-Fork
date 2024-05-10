@@ -10,7 +10,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.gson.reflect.TypeToken;
 
-import io.github.srdjanv.endreforked.api.worldgen.GeneratorBuilder;
+import io.github.srdjanv.endreforked.api.worldgen.WorldGeneratorBuilder;
 import io.github.srdjanv.endreforked.common.configs.base.ReloadableServerSideConfig;
 import io.github.srdjanv.endreforked.common.configs.worldgen.schema.WorldGenSchema;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -18,7 +18,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 public abstract class WorldGenBaseConfigReloadable extends ReloadableServerSideConfig<Map<String, WorldGenSchema>> {
 
     protected final Map<String, Function<WorldGenSchema.Builder, WorldGenSchema>> defaultData = new Object2ObjectOpenHashMap<>();
-    protected final Map<String, GeneratorBuilder> nameToGenerator = new Object2ObjectOpenHashMap<>();
+    protected final Map<String, WorldGeneratorBuilder> nameToGenerator = new Object2ObjectOpenHashMap<>();
     protected Map<String, WorldGenSchema> loadedDataData;
 
     protected WorldGenBaseConfigReloadable(String configName) {
@@ -27,7 +27,7 @@ public abstract class WorldGenBaseConfigReloadable extends ReloadableServerSideC
 
     protected void registerGen(String name,
                                Function<WorldGenSchema.Builder, WorldGenSchema> worldGenConfig,
-                               GeneratorBuilder builder) {
+                               WorldGeneratorBuilder builder) {
         defaultData.put(name, worldGenConfig);
         nameToGenerator.put(name, builder);
     }

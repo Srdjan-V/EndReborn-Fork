@@ -1,7 +1,6 @@
 package io.github.srdjanv.endreforked.api.worldgen.base;
 
 import io.github.srdjanv.endreforked.api.worldgen.Generator;
-import io.github.srdjanv.endreforked.api.worldgen.Utils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -32,12 +31,12 @@ public class SimpleMapGenStructure extends MapGenStructure {
     }
 
     @Override public boolean generateStructure(World worldIn, Random randomIn, ChunkPos chunkCoord) {
-        final var biome = worldIn.getBiome(chunkCoord.getBlock(8, 0, 8));
+/*        final var biome = worldIn.getBiome(chunkCoord.getBlock(8, 0, 8));
         if (Utils.isValidGen(worldIn.provider.getDimension(), biome, generator)) {
             var gen = generator.getGenerator(world, biome, worldIn.provider.getDimension());
             if (gen == null) return false;
             return gen.generate(worldIn, rand, chunkCoord.getBlock(0, 0, 0));
-        }
+        }*/
         return false;
     }
 
@@ -53,7 +52,7 @@ public class SimpleMapGenStructure extends MapGenStructure {
     }
 
     @Override protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
-        final var biome = world.getBiome(new BlockPos(chunkX << 4, 0, chunkZ << 4).add(8, 0, 8));
+/*        final var biome = world.getBiome(new BlockPos(chunkX << 4, 0, chunkZ << 4).add(8, 0, 8));
         if (!Utils.isValidGen(world.provider.getDimension(), biome, generator)) return false;
 
         var generator = this.generator.getGenerator(world, biome, world.provider.getDimension());
@@ -63,7 +62,7 @@ public class SimpleMapGenStructure extends MapGenStructure {
                     .getStartPos((WorldServer) world, rand,
                             new BlockPos(chunkX << 4, 0, chunkZ << 4),
                             positionedFeature.getStartPosValidator()) != null;
-        }
+        }*/
         return false;
     }
 

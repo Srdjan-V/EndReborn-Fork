@@ -8,6 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @FunctionalInterface
-public interface GeneratorBuilder {
+public interface WorldGeneratorBuilder {
     @Nullable WorldGenerator build(@NotNull World world, @Nullable Biome biome, @NotNull GenConfig config);
 }

@@ -19,7 +19,7 @@ public class Generator implements Comparable<Generator> {
 
     private final String name;
     private final int weight;
-    private final GeneratorBuilder builder;
+    private final WorldGeneratorBuilder builder;
 
     private final Map<Biome, GenConfig> biomeConfigs;
     private final List<Biome> biomeBlackList;
@@ -32,7 +32,7 @@ public class Generator implements Comparable<Generator> {
 
     private final GenConfig defaultGenConfig;
 
-    public Generator(String name, int weight, GeneratorBuilder builder,
+    public Generator(String name, int weight, WorldGeneratorBuilder builder,
                      Map<Biome, GenConfig> biomeConfigs, List<Biome> biomeBlackList,
                      Map<BiomeDictionary.Type, GenConfig> biomeTypeConfigs, List<BiomeDictionary.Type> biomeTypeBlackList,
                      Int2ObjectMap<GenConfig> dimConfigs, IntList dimBlackList, GenConfig defaultGenConfig) {
@@ -52,26 +52,32 @@ public class Generator implements Comparable<Generator> {
         return name;
     }
 
+    public int getWeight() {
+        return weight;
+    }
+
+    //Search config from most specific to least
     public @Nullable GenConfig getDimConfig(@Nullable Integer dim, @Nullable Biome biome) {
-        final var dimGenConfig = Objects.isNull(dim) ? null : dimConfigs.get(dim);
+        var biomeTypeConfig = getBiomeTypeConfig(biome);
+        if (Objects.nonNull(biomeTypeConfig)) return biomeTypeConfig;
+
         final var biomeGenConfig = Objects.isNull(biome) ? null : biomeConfigs.get(biome);
+        if (Objects.nonNull(biomeGenConfig)) return biomeGenConfig;
 
-        if (Objects.nonNull(dimGenConfig)) {
-            if (Objects.nonNull(biomeGenConfig)) return biomeGenConfig;
-            for (var type : BiomeDictionary.getTypes(biome)) {
-                var resType = biomeTypeConfigs.get(type);
-                if (Objects.nonNull(resType)) return resType;
-            }
+        final var dimGenConfig = Objects.isNull(dim) ? null : dimConfigs.get(dim);
+        if (Objects.nonNull(dimGenConfig)) return dimGenConfig;
 
-            return dimGenConfig;
-        } else if (Objects.nonNull(biomeGenConfig)) {
-            for (var type : BiomeDictionary.getTypes(biome)) {
-                var resType = biomeTypeConfigs.get(type);
-                if (Objects.nonNull(resType)) return resType;
-            }
-            return biomeGenConfig;
-        }
+        //Use default if no specific gen is available
         return defaultGenConfig;
+    }
+
+    private @Nullable GenConfig getBiomeTypeConfig(@Nullable Biome biome) {
+        if (Objects.isNull(biomeConfigs.get(biome))) return null;
+        for (var type : BiomeDictionary.getTypes(biome)) {
+            var resType = biomeTypeConfigs.get(type);
+            if (Objects.nonNull(resType)) return resType;
+        }
+        return null;
     }
 
     public @Nullable WorldGenerator getDefaultGenerator(@NotNull World world) {
@@ -89,6 +95,37 @@ public class Generator implements Comparable<Generator> {
             return builder.build(world, biome, defaultGenConfig);
         }
         return builder.build(world, biome, config);
+    }
+
+    public boolean isValidDimension(int dim) {
+        if (!getDimBlackList().isEmpty())
+            if (getDimBlackList().contains(dim))
+                return false;
+
+        if (!getDimConfigs().isEmpty())
+            return getDimConfigs().containsKey(dim);
+
+        return true;
+    }
+
+    public boolean isValidBiome(Biome biome) {
+        if (!getBiomeBlackList().isEmpty())
+            if (getBiomeBlackList().contains(biome))
+                return false;
+
+        if (!getBiomeConfigs().isEmpty())
+            return getBiomeConfigs().containsKey(biome);
+
+        for (var type : BiomeDictionary.getTypes(biome)) {
+            if (!getBiomeTypeBlackList().isEmpty())
+                if (getBiomeTypeBlackList().contains(type))
+                    return false;
+
+            if (!getBiomeTypeConfigs().isEmpty())
+                return getBiomeTypeConfigs().containsKey(type);
+        }
+
+        return true;
     }
 
     @Unmodifiable
@@ -132,8 +169,8 @@ public class Generator implements Comparable<Generator> {
 
     @Override public String toString() {
         return "Generator{" +
-                "name='" + name + '\'' +
-                ", weight=" + weight +
+                "name='" + getName() + '\'' +
+                ", weight=" + getWeight() +
                 '}';
     }
 
@@ -142,24 +179,24 @@ public class Generator implements Comparable<Generator> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Generator generator = (Generator) o;
-        return Objects.equals(name, generator.name);
+        return Objects.equals(getName(), generator.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(getName());
     }
 
     @Override
     public int compareTo(@NotNull Generator o) {
-        return o.weight - weight;
+        return o.getWeight() - getWeight();
     }
 
     public static class Builder {
 
         private String name;
         private Integer weight;
-        private GeneratorBuilder generatorBuilder;
+        private WorldGeneratorBuilder worldGeneratorBuilder;
 
         private final Map<Biome, GenConfig> biomeWhiteListMap = new Object2ObjectOpenHashMap<>();
         private final List<Biome> biomeBlackList = new ObjectArrayList<>();
@@ -179,13 +216,13 @@ public class Generator implements Comparable<Generator> {
             return this;
         }
 
-        public Builder weight(int generatorWeight) {
-            this.weight = generatorWeight;
+        public Builder weight(int weight) {
+            this.weight = weight;
             return this;
         }
 
-        public Builder generatorBuilder(GeneratorBuilder generatorBuilder) {
-            this.generatorBuilder = generatorBuilder;
+        public Builder generatorBuilder(WorldGeneratorBuilder worldGeneratorBuilder) {
+            this.worldGeneratorBuilder = worldGeneratorBuilder;
             return this;
         }
 
@@ -282,7 +319,7 @@ public class Generator implements Comparable<Generator> {
             return new Generator(
                     Objects.requireNonNull(name),
                     Objects.requireNonNull(weight),
-                    Objects.requireNonNull(generatorBuilder),
+                    Objects.requireNonNull(worldGeneratorBuilder),
                     biomeWhiteListMap, biomeBlackList,
                     biomeTypeWhiteListMap, biomeTypeBlackList,
                     dimWhiteListMap, dimBlackList,
