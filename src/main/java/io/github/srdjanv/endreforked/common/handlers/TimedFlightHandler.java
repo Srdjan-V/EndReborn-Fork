@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.common.handlers;
 
+import io.github.srdjanv.endreforked.api.capabilities.timedflight.ITimedFlight;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyWings;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import io.github.srdjanv.endreforked.common.entropy.chunks.ChunkEntropyView;
@@ -17,11 +18,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import java.util.Map;
 import java.util.UUID;
 
-public class EntropyWingsHandler implements Initializer {
-    private static EntropyWingsHandler instance;
+public class TimedFlightHandler implements Initializer {
+    private static TimedFlightHandler instance;
 
-    public static EntropyWingsHandler getInstance() {
-        if (instance == null) instance = new EntropyWingsHandler();
+    public static TimedFlightHandler getInstance() {
+        if (instance == null) instance = new TimedFlightHandler();
         return instance;
     }
 
@@ -40,20 +41,23 @@ public class EntropyWingsHandler implements Initializer {
             var cap = player.getCapability(CapabilityTimedFlightHandler.INSTANCE, null);
             cap.tickPlayer(player);
             if (cap.getFlightDuration() > 0) continue;
+            handelEntropyWings(player, cap);
+        }
+    }
 
-            for (ItemStack stack : PlayerUtils.getAllPlayerItems(player)) {
-                if (stack.isEmpty()) continue;
-                if (!(stack.getItem() instanceof IEntropyWings wings)) continue;
-                var wrapper = cachedEntropyChunks.get(player);
-                if (wrapper == null || !wrapper.getRadius().equals(wings.getEntropyRange())) {
-                    wrapper = new EntropyChunkDataWrapper.EntityPlayer(wings.getEntropyRange());
-                    cachedEntropyChunks.put(player.getUniqueID(), wrapper);
-                }
-                ChunkEntropyView data = wrapper.getEntropyView(player);
-                if (data.drainEntropy(wings.getEntropyCost(), true) == wings.getEntropyCost()) {
-                    data.drainEntropy(wings.getEntropyCost(), false);
-                    cap.setFlightDuration(wings.getFlightDuration());
-                }
+    private void handelEntropyWings(EntityPlayerMP player, ITimedFlight cap) {
+        for (ItemStack stack : PlayerUtils.getAllPlayerItems(player)) {
+            if (stack.isEmpty()) continue;
+            if (!(stack.getItem() instanceof IEntropyWings wings)) continue;
+            var wrapper = cachedEntropyChunks.get(player);
+            if (wrapper == null || !wrapper.getRadius().equals(wings.getEntropyRange())) {
+                wrapper = new EntropyChunkDataWrapper.EntityPlayer(wings.getEntropyRange());
+                cachedEntropyChunks.put(player.getUniqueID(), wrapper);
+            }
+            ChunkEntropyView data = wrapper.getEntropyView(player);
+            if (data.drainEntropy(wings.getEntropyCost(), true) == wings.getEntropyCost()) {
+                data.drainEntropy(wings.getEntropyCost(), false);
+                cap.setFlightDuration(wings.getFlightDuration());
             }
         }
     }

@@ -10,14 +10,12 @@ import io.github.srdjanv.endreforked.common.configs.worldgen.GenericGenConfig;
 import io.github.srdjanv.endreforked.common.configs.worldgen.OreGenConfig;
 import io.github.srdjanv.endreforked.common.configs.worldgen.StructureGenConfig;
 import io.github.srdjanv.endreforked.common.datafixers.Fixer;
-import io.github.srdjanv.endreforked.common.handlers.EntropyWingsHandler;
+import io.github.srdjanv.endreforked.common.handlers.TimedFlightHandler;
 import io.github.srdjanv.endreforked.common.handlers.EventHandler;
 import io.github.srdjanv.endreforked.compat.CompatManger;
 import io.github.srdjanv.endreforked.utils.Initializer;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.*;
 
@@ -35,7 +33,7 @@ public class CommonProxy {
         components.add(new Registration());
         components.add(new LootHandler());
         components.addAll(JsonConfigs.getConfigs());
-        components.add(EntropyWingsHandler.getInstance());
+        components.add(TimedFlightHandler.getInstance());
     }
 
     protected void loadStaticCLasses() {
