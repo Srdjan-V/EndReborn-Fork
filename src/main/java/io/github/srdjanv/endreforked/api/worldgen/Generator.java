@@ -58,11 +58,11 @@ public class Generator implements Comparable<Generator> {
 
     //Search config from most specific to least
     public @Nullable GenConfig getDimConfig(@Nullable Integer dim, @Nullable Biome biome) {
-        var biomeTypeConfig = getBiomeTypeConfig(biome);
-        if (Objects.nonNull(biomeTypeConfig)) return biomeTypeConfig;
-
         final var biomeGenConfig = Objects.isNull(biome) ? null : biomeConfigs.get(biome);
         if (Objects.nonNull(biomeGenConfig)) return biomeGenConfig;
+
+        var biomeTypeConfig = getBiomeTypeConfig(biome);
+        if (Objects.nonNull(biomeTypeConfig)) return biomeTypeConfig;
 
         final var dimGenConfig = Objects.isNull(dim) ? null : dimConfigs.get(dim);
         if (Objects.nonNull(dimGenConfig)) return dimGenConfig;
@@ -72,7 +72,7 @@ public class Generator implements Comparable<Generator> {
     }
 
     private @Nullable GenConfig getBiomeTypeConfig(@Nullable Biome biome) {
-        if (Objects.isNull(biomeConfigs.get(biome))) return null;
+        if (Objects.isNull(biome)) return null;
         for (var type : BiomeDictionary.getTypes(biome)) {
             var resType = biomeTypeConfigs.get(type);
             if (Objects.nonNull(resType)) return resType;
@@ -113,19 +113,20 @@ public class Generator implements Comparable<Generator> {
             if (getBiomeBlackList().contains(biome))
                 return false;
 
+        boolean valid = false;
         if (!getBiomeConfigs().isEmpty())
-            return getBiomeConfigs().containsKey(biome);
+            valid = getBiomeConfigs().containsKey(biome);
 
-        for (var type : BiomeDictionary.getTypes(biome)) {
+        if (!valid) for (var type : BiomeDictionary.getTypes(biome)) {
             if (!getBiomeTypeBlackList().isEmpty())
                 if (getBiomeTypeBlackList().contains(type))
                     return false;
 
             if (!getBiomeTypeConfigs().isEmpty())
-                return getBiomeTypeConfigs().containsKey(type);
+                valid |= getBiomeTypeConfigs().containsKey(type);
         }
 
-        return true;
+        return valid;
     }
 
     @Unmodifiable

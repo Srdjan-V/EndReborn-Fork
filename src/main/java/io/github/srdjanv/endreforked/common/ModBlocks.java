@@ -50,7 +50,7 @@ public final class ModBlocks {
     public static final Supplier<Block> PURPUR_LAMP = maybeRegister(
             () -> new BlockPurpurLamp("purpur_lamp_block"));
 
-    public static final Supplier<Block> ESSENCE_ORE = register(BlockObsidianEssence::new);
+    public static final Supplier<Block> OBSIDIAN_ESSENCE_ORE = register(BlockObsidianEssence::new);
     public static final Supplier<Block> PHANTOM_BLOCK = maybeRegister(
             () -> new BlockPhantom("phantom_block", Material.BARRIER, false));
 

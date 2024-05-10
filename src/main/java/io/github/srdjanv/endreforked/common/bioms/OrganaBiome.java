@@ -57,6 +57,10 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome {
         return false;
     }
 
+    @Override public boolean generateIslands(@NotNull INetherAPIChunkGenerator chunkGenerator, int chunkX, int chunkZ, float islandHeight) {
+        return false;
+    }
+
     public static class Decorator extends BiomeDecorator {
         public Decorator() {
         }

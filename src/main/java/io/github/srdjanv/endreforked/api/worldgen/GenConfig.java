@@ -16,39 +16,39 @@ public class GenConfig {
     }
 
     public int maxHeight() {
-        return modifier(Modifier.MAX_HEIGHT).orElseThrow(() -> new NoSuchElementException("GenConfig: Max height was not set"));
+        return modifier(Modifier.MAX_HEIGHT).orElseThrow(() -> new MissingModifierException(Modifier.MAX_HEIGHT));
     }
 
     public int minHeight() {
-        return modifier(Modifier.MIN_HEIGHT).orElseThrow(() -> new NoSuchElementException("GenConfig: Min height was not set"));
+        return modifier(Modifier.MIN_HEIGHT).orElseThrow(() -> new MissingModifierException(Modifier.MIN_HEIGHT));
     }
 
     public int rarity() {
-        return modifier(Modifier.RARITY).orElseThrow(() -> new NoSuchElementException("GenConfig: Rarity was not set"));
+        return modifier(Modifier.RARITY).orElseThrow(() -> new MissingModifierException(Modifier.RARITY));
     }
 
     public int amount() {
-        return modifier(Modifier.AMOUNT).orElseThrow(() -> new NoSuchElementException("GenConfig: Amount was not set"));
+        return modifier(Modifier.AMOUNT).orElseThrow(() -> new MissingModifierException(Modifier.AMOUNT));
     }
 
     public int radius() {
-        return modifier(Modifier.RADIUS).orElseThrow(() -> new NoSuchElementException("GenConfig: Radius was not set"));
+        return modifier(Modifier.RADIUS).orElseThrow(() -> new MissingModifierException(Modifier.RADIUS));
     }
 
     public int sphereFillRatio() {
-        return modifier(Modifier.SPHERE_FILL_RATIO).orElseThrow(() -> new NoSuchElementException("GenConfig: Sphere fill ratio was not set"));
+        return modifier(Modifier.SPHERE_FILL_RATIO).orElseThrow(() -> new MissingModifierException(Modifier.SPHERE_FILL_RATIO));
     }
 
     public int uniqueGeneratorId() {
-        return modifier(Modifier.UNIQUE_GENERATOR_ID).orElseThrow(() -> new NoSuchElementException("GenConfig: Unique generator id was not set"));
+        return modifier(Modifier.UNIQUE_GENERATOR_ID).orElseThrow(() -> new MissingModifierException(Modifier.UNIQUE_GENERATOR_ID));
     }
 
     public int spacing() {
-        return modifier(Modifier.SPACING).orElseThrow(() -> new NoSuchElementException("GenConfig: Spacing was not set"));
+        return modifier(Modifier.SPACING).orElseThrow(() -> new MissingModifierException(Modifier.SPACING));
     }
 
     public int separation() {
-        return modifier(Modifier.SEPARATION).orElseThrow(() -> new NoSuchElementException("GenConfig: Separation was not set"));
+        return modifier(Modifier.SEPARATION).orElseThrow(() -> new MissingModifierException(Modifier.SEPARATION));
     }
 
     public OptionalInt modifier(Modifier modifier) {

@@ -37,7 +37,8 @@ public final class ModBioms {
                 BiomeDictionary.Type.LUSH,
                 BiomeDictionary.Type.END,
                 BiomeDictionary.Type.MAGICAL,
-                BiomeDictionary.Type.RARE);
+                BiomeDictionary.Type.RARE,
+                BiomeDictionary.Type.getType("ORGANA"));
     }
 
 /*    @SubscribeEvent

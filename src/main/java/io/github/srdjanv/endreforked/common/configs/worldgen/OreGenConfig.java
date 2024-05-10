@@ -26,12 +26,12 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
     }
 
     private OreGenConfig() {
-        super("OreGenConfig");
+        super("ore_gen_cfg");
     }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        registerGen("EssenceOre",
+        registerGen("obsidian_essence_ore",
                 builder -> {
                     builder.whiteListDim(
                             GenConfig.builder()
@@ -48,10 +48,10 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                                     .setMinHeight(0).build(), 1);
                     return builder.build();
                 },
-                (world, biome, config) -> new WorldGenMinable(ModBlocks.ESSENCE_ORE.get().getDefaultState(),
+                (world, biome, config) -> new WorldGenMinable(ModBlocks.OBSIDIAN_ESSENCE_ORE.get().getDefaultState(),
                         config.amount(), BlockMatcher.forBlock(Blocks.OBSIDIAN)));
 
-        registerGen("XorciteOre",
+        registerGen("entropy_ore_crop",
                 builder -> {
                     builder.whiteListDim(
                             GenConfig.builder()
@@ -72,8 +72,7 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.ENTROPY_CROP_BLOCK.get().getDefaultState(),
                         config.amount(), BlockMatcher.forBlock(Blocks.END_STONE)));
 
-
-        registerGen("TungstenOre",
+        registerGen("tungsten_ore",
                 builder -> {
                     builder.whiteListDim(
                             GenConfig.builder()
@@ -90,7 +89,7 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                     } else return false;
                 }));
 
-        registerGen("TungstenEndOre",
+        registerGen("tungsten_end",
                 builder -> {
                     builder.dimConfigFallback(
                             GenConfig.builder()

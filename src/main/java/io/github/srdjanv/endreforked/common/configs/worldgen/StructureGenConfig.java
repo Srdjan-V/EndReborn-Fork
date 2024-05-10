@@ -11,6 +11,7 @@ import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import io.github.srdjanv.endreforked.Tags;
@@ -29,20 +30,22 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
     }
 
     public StructureGenConfig() {
-        super("structure");
+        super("structure_gen_cfg");
     }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         registerGen("end_ruins",
                 builder -> {
-                    builder.whiteListBiome(ResourceLocationWrapper.of("sky"));
-                    builder.dimConfigFallback(GenConfig.builder()
-                            .setUniqueGeneratorId("end_ruins".hashCode())
-                            .setSpacing(16)
-                            .setSeparation(10)
-                            .setMaxHeight(100)
-                            .setMinHeight(85).build());
+                    builder.whiteListBiome("sky");
+                    builder.whiteListBiomeType(BiomeDictionary.Type.END);
+                    builder.dimConfigFallback(
+                            GenConfig.builder()
+                                    .setUniqueGeneratorId("end_ruins".hashCode())
+                                    .setSpacing(16)
+                                    .setSeparation(10)
+                                    .setMaxHeight(100)
+                                    .setMinHeight(85).build());
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenStructure(config, "end_ruins")
@@ -50,13 +53,14 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
         registerGen("end_endermite_island",
                 builder -> {
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
-
-                    builder.dimConfigFallback(GenConfig.builder()
-                            .setUniqueGeneratorId("end_endermite_island".hashCode())
-                            .setSpacing(64)
-                            .setSeparation(50)
-                            .setMaxHeight(115)
-                            .setMinHeight(90).build());
+                    builder.dimConfigFallback(
+                            GenConfig.builder()
+                                    .setUniqueGeneratorId("end_endermite_island".hashCode())
+                                    .setSpacing(64)
+                                    .setSeparation(50)
+                                    .setMaxHeight(115)
+                                    .setMinHeight(90)
+                                    .build());
 
                     return builder.build();
                 },
@@ -65,27 +69,35 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
         registerGen("end_entropy_island",
                 builder -> {
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
-
                     builder.dimConfigFallback(GenConfig.builder()
                             .setRarity(600)
                             .setMaxHeight(115)
-                            .setMinHeight(90).build());
-
+                            .setMinHeight(90)
+                            .build());
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenStructure(config, "end_entropy_island")
         );
         registerGen("end_moss_island",
                 builder -> {
-                    builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
+                    builder.whiteListBiomeType(
+                            GenConfig.builder()
+                                    .setRarity(120)
+                                    .setMaxHeight(115)
+                                    .setMinHeight(90)
+                                    .build(),
+                            "ORGANA"
+                    );
 
-                    builder.dimConfigFallback(GenConfig.builder()
-                            .setRarity(20)
-                            .setUniqueGeneratorId("end_endermite_island".hashCode())
-                            .setSpacing(64)
-                            .setSeparation(50)
-                            .setMaxHeight(115)
-                            .setMinHeight(90).build());
+                    builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
+                    builder.dimConfigFallback(
+                            GenConfig.builder()
+                                    .setUniqueGeneratorId("end_endermite_island".hashCode())
+                                    .setSpacing(64)
+                                    .setSeparation(50)
+                                    .setMaxHeight(115)
+                                    .setMinHeight(90)
+                                    .build());
 
                     return builder.build();
                 },
@@ -132,7 +144,8 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                             .setSpacing(64)
                             .setSeparation(50)
                             .setMaxHeight(3)
-                            .setMinHeight(3).build());
+                            .setMinHeight(3)
+                            .build());
 
                     return builder.build();
                 },
@@ -141,12 +154,15 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
         registerGen("ship_wreck",
                 builder -> {
                     builder.whiteListBiome("sky");
-                    builder.dimConfigFallback(GenConfig.builder()
-                            .setUniqueGeneratorId("ship_wreck".hashCode())
-                            .setSpacing(64)
-                            .setSeparation(50)
-                            .setMaxHeight(70)
-                            .setMinHeight(50).build());
+                    builder.whiteListBiomeType(BiomeDictionary.Type.END);
+
+                    builder.dimConfigFallback(
+                            GenConfig.builder()
+                                    .setUniqueGeneratorId("ship_wreck".hashCode())
+                                    .setSpacing(64)
+                                    .setSeparation(50)
+                                    .setMaxHeight(70)
+                                    .setMinHeight(50).build());
 
                     return builder.build();
                 },

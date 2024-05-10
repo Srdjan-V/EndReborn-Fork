@@ -34,12 +34,12 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
     }
 
     private GenericGenConfig() {
-        super("GenericGenConfig");
+        super("generic_gen");
     }
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        registerGen("Lormyte",
+        registerGen("lormyte",
                 builder -> {
                     builder.whiteListDim(
                             GenConfig.builder()
@@ -61,7 +61,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     });
                 });
 
-        registerGen("FuzzyEndMagma",
+        registerGen("fuzzy_end_magma",
                 builder -> {
                     builder.whiteListDim(
                             GenConfig.builder()
@@ -85,12 +85,13 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     });
                 });
 
-        registerGen("FilledEndMagma",
+        registerGen("filled_end_magma",
                 builder -> {
                     builder.whiteListBiome(
                             GenConfig.builder()
                                     .setRarity(95)
                                     .setRadius(12)
+                                    .setSphereFillRatio(6)
                                     .setMaxHeight(25)
                                     .setMinHeight(10).build(),
                             ResourceLocationWrapper.of(ModBioms.ORGANA_BIOME.get().getRegistryName()));
@@ -110,7 +111,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     });
                 });
 
-        registerGen("EntropyEndStone",
+        registerGen("entropy_end_stone",
                 builder -> {
                     builder.whiteListDim(
                             GenConfig.builder()
@@ -124,12 +125,12 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                         ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), config.amount(),
                         BlockMatcher.forBlock(Blocks.END_STONE)));
 
-        registerGen("EndMossPatch",
+        registerGen("end_moss_patch",
                 builder -> {
                     builder.whiteListDim(
                             GenConfig.builder()
                                     .setRarity(25)
-                                    .setAmount(4)
+                                    .setRadius(4)
                                     .setMaxHeight(90)
                                     .setMinHeight(50).build(), 1);
 
@@ -149,7 +150,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                             return true;
                         }));
 
-        registerGen("EndCoral",
+        registerGen("end_coral",
                 builder -> {
                     builder.whiteListDim(
                             GenConfig.builder()
@@ -161,7 +162,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.END_CORAL.get()));
 
-        registerGen("EndFlower",
+        registerGen("end_flower",
                 builder -> {
                     builder.whiteListDim(
                             GenConfig.builder()

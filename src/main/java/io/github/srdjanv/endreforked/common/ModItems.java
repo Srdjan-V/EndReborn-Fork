@@ -3,8 +3,6 @@ package io.github.srdjanv.endreforked.common;
 import com.google.common.base.Suppliers;
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.client.armor.ModelDArmor;
-import io.github.srdjanv.endreforked.client.armor.ModelEArmor;
 import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
 import io.github.srdjanv.endreforked.common.items.*;
 import io.github.srdjanv.endreforked.common.items.base.*;
@@ -162,7 +160,7 @@ public final class ModItems {
     public static final Supplier<ItemBlock> PURPUR_LAMP = registerItemBlock(ModBlocks.PURPUR_LAMP);
     public static final Supplier<ItemBlock> ENDER_FLOWER_CROP = registerItemBlock(ModBlocks.ENDER_FLOWER_CROP);
     public static final Supplier<ItemBlock> DRAGON_BUSH = registerItemBlock(ModBlocks.DRAGONITE_CROP);
-    public static final Supplier<ItemBlock> ESSENCE_ORE = registerItemBlock(ModBlocks.ESSENCE_ORE);
+    public static final Supplier<ItemBlock> OBSIDIAN_ESSENCE_ORE = registerItemBlock(ModBlocks.OBSIDIAN_ESSENCE_ORE);
     public static final Supplier<ItemBlock> PHANTOM_BLOCK = registerItemBlock(ModBlocks.PHANTOM_BLOCK);
     public static final Supplier<ItemBlock> ENTROPY_END_STONE = registerItemBlock(ModBlocks.END_STONE_ENTROPY_BLOCK);
     public static final Supplier<ItemBlock> LORMYTE_CRYSTAL = registerItemBlock(ModBlocks.LORMYTE_CRYSTAL_BLOCK);

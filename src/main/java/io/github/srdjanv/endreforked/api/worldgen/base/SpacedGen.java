@@ -16,7 +16,7 @@ public interface SpacedGen {
     }
 
     default boolean validSpacing(WorldServer server, GenConfig config, BlockPos position) {
-        return validSpacing(server, config, position.getX() << 4, position.getZ() << 4);
+        return validSpacing(server, config, position.getX() >> 4, position.getZ() >> 4);
     }
 
     default boolean validSpacing(WorldServer server, GenConfig config, int chunkX, int chunkZ) {

@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.api.worldgen;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -154,17 +155,26 @@ public final class WorldGenHandler implements IWorldGenerator {
         final var gen = config.getGenerator(world, biome, dimConfig);
         if (Objects.isNull(gen)) return;
 
-        if (gen instanceof WorldGenMinable) {
-            int heightDiff = dimConfig.maxHeight() - dimConfig.minHeight();
-            var pos = new BlockPos(
-                    chunkX >> 4,
-                    dimConfig.minHeight() + rand.nextInt(Math.max(1, heightDiff)),
-                    chunkZ >> 4);
-            gen.generate(world, rand, pos.add(8, 0, 8));
-        } else gen.generate(world, rand, new BlockPos(
-                    chunkX >> 4,
-                    world.getSeaLevel(),
-                    chunkZ >> 4));
+        try {
+            if (gen instanceof WorldGenMinable) {
+                int heightDiff = dimConfig.maxHeight() - dimConfig.minHeight();
+                var pos = new BlockPos(
+                        chunkX << 4,
+                        dimConfig.minHeight() + rand.nextInt(Math.max(1, heightDiff)),
+                        chunkZ << 4);
+                gen.generate(world, rand, pos.add(8, 0, 8));
+            } else {
+                gen.generate(world, rand, new BlockPos(
+                        chunkX << 4,
+                        world.getSeaLevel(),
+                        chunkZ << 4));
+
+            }
+        } catch (Exception e) {
+            throw new WorldGeneratorException(
+                    MessageFormat.format("Failed to run chunk generator: {0}", config.getName()),
+                    e);
+        }
     }
 
     public static Stream<Generator> getApplicableGenerators(
