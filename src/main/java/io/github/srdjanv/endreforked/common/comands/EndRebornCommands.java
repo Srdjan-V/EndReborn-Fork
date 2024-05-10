@@ -1,8 +1,11 @@
 package io.github.srdjanv.endreforked.common.comands;
 
+import io.github.srdjanv.endreforked.common.comands.dev.DevCommands;
+import net.minecraft.command.CommandHelp;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
 import net.minecraftforge.server.command.CommandTreeBase;
 
 import io.github.srdjanv.endreforked.Tags;
@@ -12,6 +15,9 @@ public class EndRebornCommands extends CommandTreeBase {
 
     public EndRebornCommands() {
         super.addSubcommand(new ConfigCommands());
+
+        if (FMLLaunchHandler.isDeobfuscatedEnvironment())
+            super.addSubcommand(new DevCommands());
     }
 
     @Override
