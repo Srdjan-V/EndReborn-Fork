@@ -15,6 +15,7 @@ public class TimedFlight implements ITimedFlight {
     }
 
     @Override public void setFlightDuration(int flightDuration) {
+        if (flightDuration <= 0) return;
         this.flightDuration = flightDuration;
         sendStopUpdate = true;
         sendStartUpdate = true;
