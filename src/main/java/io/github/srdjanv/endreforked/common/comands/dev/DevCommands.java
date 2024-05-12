@@ -5,7 +5,7 @@ import net.minecraftforge.server.command.CommandTreeBase;
 
 public class DevCommands extends CommandTreeBase {
     public DevCommands() {
-        addSubcommand(new DisableRegionLoading());
+        //addSubcommand(new DisableRegionLoading());
     }
 
     @Override public String getName() {

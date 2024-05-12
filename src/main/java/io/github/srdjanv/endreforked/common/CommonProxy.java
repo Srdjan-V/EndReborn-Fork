@@ -34,6 +34,7 @@ public class CommonProxy {
         components.add(new LootHandler());
         components.addAll(JsonConfigs.getConfigs());
         components.add(TimedFlightHandler.getInstance());
+        components.add(new ModGameRules());
     }
 
     protected void loadStaticCLasses() {
