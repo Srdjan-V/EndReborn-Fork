@@ -1,7 +1,6 @@
 package io.github.srdjanv.endreforked.api.worldgen.features;
 
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
-import io.github.srdjanv.endreforked.api.worldgen.Modifier;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
@@ -39,10 +38,10 @@ public class FilledSphereGenerator extends PositionedFeature {
                 outerPositionValidator, outerPosGenerator);
     }
 
-    public FilledSphereGenerator(GenConfig config, PositionValidator startPosValidator,
+    public FilledSphereGenerator(GenConfig genConfig, PositionValidator startPosValidator,
                                  PositionValidator innerPositionValidator, PositionGenerator innerPosGenerator,
                                  PositionValidator outerPositionValidator, PositionGenerator outerPosGenerator) {
-        super(Locators.OFFSET_16.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), config);
+        super(genConfig, Locators.OFFSET_16.andThenLocate(Locators.GEN_CONFIG_MIN_MAX));
         this.startPosValidator = startPosValidator;
 
         this.innerPositionValidator = innerPositionValidator;

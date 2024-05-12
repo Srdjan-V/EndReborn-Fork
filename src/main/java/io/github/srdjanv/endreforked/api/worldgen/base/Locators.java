@@ -109,7 +109,7 @@ public enum Locators implements Locator {
             return new BlockPos(pos.getX() + 2, pos.getY(), pos.getZ() + 2);
         }
     },
-    DIM_CONFIG_MIN_MAX {
+    GEN_CONFIG_MIN_MAX {
         @Override
         public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {

@@ -5,9 +5,9 @@ import java.util.Random;
 
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
+import io.github.srdjanv.endreforked.api.worldgen.features.TemplateGenerator;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
-import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
@@ -17,7 +17,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
-import io.github.srdjanv.endreforked.api.worldgen.features.WorldGenStructure;
 import io.github.srdjanv.endreforked.common.configs.worldgen.base.WorldGenBaseConfigReloadable;
 
 public class StructureGenConfig extends WorldGenBaseConfigReloadable {
@@ -48,7 +47,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                                     .setMinHeight(85).build());
                     return builder.build();
                 },
-                (world, biome, config) -> new WorldGenStructure(config, "end_ruins")
+                (world, biome, config) -> new TemplateGenerator(config, "end_ruins")
         );
         registerGen("end_endermite_island",
                 builder -> {
@@ -64,7 +63,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
                     return builder.build();
                 },
-                (world, biome, config) -> new WorldGenStructure(config, "end_endermite_island")
+                (world, biome, config) -> new TemplateGenerator(config, "end_endermite_island")
         );
         registerGen("end_entropy_island",
                 builder -> {
@@ -76,7 +75,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                             .build());
                     return builder.build();
                 },
-                (world, biome, config) -> new WorldGenStructure(config, "end_entropy_island")
+                (world, biome, config) -> new TemplateGenerator(config, "end_entropy_island")
         );
         registerGen("end_moss_island",
                 builder -> {
@@ -120,7 +119,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                             return (server, config, rand, pos) -> server.getBlockState(pos).getBlock() == ModBlocks.END_MOSS_GRASS_BLOCK.get();
                         }
                     }
-                    return new GeneratorWrapper(new WorldGenStructure(config, "end_moss_island"))
+                    return new GeneratorWrapper(new TemplateGenerator(config, "end_moss_island"))
                             .subGen((server, rand, position) -> new OrganaFlowerFeature(config, 7))
                             .subGen((server, rand, position) -> {
                                 if (rand.nextInt(100) > 30) return null;
@@ -149,7 +148,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
                     return builder.build();
                 },
-                (world, biome, config) -> new WorldGenStructure(config, "observ")
+                (world, biome, config) -> new TemplateGenerator(config, "observ")
         );
         registerGen("ship_wreck",
                 builder -> {
@@ -166,9 +165,9 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
                     return builder.build();
                 },
-                (world, biome, config) -> new WorldGenStructure(
-                        Locators.OFFSET_16.andThenLocate(Locators.SURFACE_BLOCK).andThenMove(pos -> pos.add(0, -2, 2)),
-                        config, new ResourceLocation(Tags.MODID, "end_shipwreck"), WorldGenStructure.defaultSettings)
+                (world, biome, config) -> new TemplateGenerator(
+                        Locators.OFFSET_10.andThenLocate(Locators.SURFACE_BLOCK).andThenMove(pos -> pos.add(0, -2, 2)),
+                        config, new ResourceLocation(Tags.MODID, "end_shipwreck"), TemplateGenerator.DEFAULT_SETTINGS)
         );
     }
 

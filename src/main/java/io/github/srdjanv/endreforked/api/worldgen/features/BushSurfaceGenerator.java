@@ -15,8 +15,8 @@ public class BushSurfaceGenerator extends PositionedFeature {
 
     protected final BlockBush block;
 
-    public BushSurfaceGenerator(GenConfig config, BlockBush block) {
-        super(Locators.OFFSET_16.andThenLocate(Locators.SURFACE_AIR), config);
+    public BushSurfaceGenerator(GenConfig genConfig, BlockBush block) {
+        super(genConfig, Locators.OFFSET_16.andThenLocate(Locators.SURFACE_AIR));
         this.block = block;
     }
 

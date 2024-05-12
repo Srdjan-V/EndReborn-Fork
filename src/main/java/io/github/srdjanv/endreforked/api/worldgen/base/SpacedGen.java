@@ -8,18 +8,18 @@ import net.minecraft.world.WorldServer;
 import java.util.Random;
 
 public interface SpacedGen {
-    void setDisabled(boolean flag);
-    boolean isDisabled();
+    void setSpacedGenState(boolean disabled);
+    boolean isSpacedGenDisabled();
 
-    default boolean shouldSpacedGen(GenConfig config) {
-        return !isDisabled() && config.modifier(Modifier.UNIQUE_GENERATOR_ID).isPresent();
+    default boolean shouldGenSpaced(GenConfig config) {
+        return !isSpacedGenDisabled() && config.modifier(Modifier.UNIQUE_GENERATOR_ID).isPresent();
     }
 
-    default boolean validSpacing(WorldServer server, GenConfig config, BlockPos position) {
-        return validSpacing(server, config, position.getX() >> 4, position.getZ() >> 4);
+    default boolean validateGenSpacing(WorldServer server, GenConfig config, BlockPos position) {
+        return validateGenSpacing(server, config, position.getX() >> 4, position.getZ() >> 4);
     }
 
-    default boolean validSpacing(WorldServer server, GenConfig config, int chunkX, int chunkZ) {
+    default boolean validateGenSpacing(WorldServer server, GenConfig config, int chunkX, int chunkZ) {
         int orgX = chunkX;
         int orgZ = chunkZ;
         final int uniqueGeneratorId = config.uniqueGeneratorId();

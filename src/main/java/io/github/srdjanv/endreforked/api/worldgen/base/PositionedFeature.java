@@ -2,6 +2,7 @@ package io.github.srdjanv.endreforked.api.worldgen.base;
 
 import java.util.*;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -13,28 +14,34 @@ import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 
 public abstract class PositionedFeature extends WorldGenerator implements SpacedGen {
-    protected final List<Locator> locators;
     protected final GenConfig config;
+    protected final PositionValidator validator;
+    protected final List<Locator> locators;
     protected boolean isSpacedGenDisabled = false;
 
-    protected PositionedFeature(Locator locator, GenConfig config) {
-        this(Collections.singletonList(locator), config);
-    }
-
     protected PositionedFeature(GenConfig config, Locator... locators) {
-        this(Arrays.asList(locators), config);
+        this(config, new ObjectArrayList<>(locators));
     }
 
-    protected PositionedFeature(List<Locator> locator, GenConfig config) {
-        this.locators = locator;
+    protected PositionedFeature(GenConfig config, PositionValidator validator, Locator... locators) {
+        this(config, validator, new ObjectArrayList<>(locators));
+    }
+
+    protected PositionedFeature(GenConfig config, List<Locator> locator) {
+        this(config, null, new ObjectArrayList<>(locator));
+    }
+
+    protected PositionedFeature(GenConfig config, @Nullable PositionValidator validator, List<Locator> locator) {
         this.config = config;
+        this.validator = validator == null ? PositionValidators.ALWAYS_TRUE : validator;
+        this.locators = locator;
     }
 
-    @Override public void setDisabled(boolean flag) {
-        isSpacedGenDisabled = flag;
+    @Override public void setSpacedGenState(boolean disabled) {
+        isSpacedGenDisabled = disabled;
     }
 
-    @Override public boolean isDisabled() {
+    @Override public boolean isSpacedGenDisabled() {
         return isSpacedGenDisabled;
     }
 
@@ -57,7 +64,7 @@ public abstract class PositionedFeature extends WorldGenerator implements Spaced
 
         BlockPos newPos = getStartPos(server, rand, position, getStartPosValidator());
         if (Objects.isNull(newPos)) return false;
-        if (shouldSpacedGen(config) && !validSpacing(server, config, position))
+        if (shouldGenSpaced(config) && !validateGenSpacing(server, config, position))
             return false;
         return doGenerate(server, rand, newPos);
     }
@@ -65,6 +72,6 @@ public abstract class PositionedFeature extends WorldGenerator implements Spaced
     protected abstract boolean doGenerate(WorldServer server, Random rand, BlockPos startPos);
 
     protected PositionValidator getStartPosValidator() {
-        return PositionValidators.ALWAYS_TRUE;
+        return validator;
     }
 }

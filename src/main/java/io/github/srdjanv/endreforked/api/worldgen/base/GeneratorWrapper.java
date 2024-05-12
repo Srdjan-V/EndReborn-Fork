@@ -7,11 +7,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class GeneratorWrapper extends WorldGenerator {
     private final WorldGenerator feature;
@@ -42,7 +40,7 @@ public class GeneratorWrapper extends WorldGenerator {
                 .map(builder -> builder.build(server, rand, position))
                 .filter(Objects::nonNull)
                 .peek(gen -> {
-                    if (gen instanceof SpacedGen spacedGen) spacedGen.setDisabled(true);
+                    if (gen instanceof SpacedGen spacedGen) spacedGen.setSpacedGenState(true);
                 })
                 .forEach(gen -> gen.generate(worldIn, rand, position));
 

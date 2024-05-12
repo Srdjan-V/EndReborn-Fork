@@ -14,14 +14,15 @@ public class RadiusSurfaceGenerator extends PositionedFeature {
     protected final PositionValidator startPosValidator;
     protected final PositionValidator positionValidator;
 
-    public RadiusSurfaceGenerator(GenConfig config, PositionValidator positionValidator,
+    public RadiusSurfaceGenerator(GenConfig genConfig,
+                                  PositionValidator positionValidator,
                                   PositionGenerator positionGenerator) {
-        this(config, PositionValidators.ALWAYS_TRUE, positionValidator, positionGenerator);
+        this(genConfig, PositionValidators.ALWAYS_TRUE, positionValidator, positionGenerator);
     }
 
-    public RadiusSurfaceGenerator(GenConfig config, PositionValidator startPosValidator,
+    public RadiusSurfaceGenerator(GenConfig genConfig, PositionValidator startPosValidator,
                                   PositionValidator positionValidator, PositionGenerator positionGenerator) {
-        super(Locators.OFFSET_16.andThenLocate(Locators.SURFACE_BLOCK), config);
+        super(genConfig, Locators.OFFSET_16.andThenLocate(Locators.SURFACE_BLOCK));
         this.positionGenerator = positionGenerator;
         this.positionValidator = positionValidator;
         this.startPosValidator = startPosValidator;

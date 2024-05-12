@@ -13,13 +13,13 @@ public class SphereGenerator extends PositionedFeature {
     protected final PositionValidator startPosValidator;
     protected final PositionValidator positionValidator;
 
-    public SphereGenerator(GenConfig config, PositionValidator positionValidator, PositionGenerator positionGenerator) {
-        this(config, PositionValidators.ALWAYS_TRUE, positionValidator, positionGenerator);
+    public SphereGenerator(GenConfig genConfig, PositionValidator positionValidator, PositionGenerator positionGenerator) {
+        this(genConfig, PositionValidators.ALWAYS_TRUE, positionValidator, positionGenerator);
     }
 
-    public SphereGenerator(GenConfig config, PositionValidator startPosValidator, PositionValidator positionValidator,
+    public SphereGenerator(GenConfig genConfig, PositionValidator startPosValidator, PositionValidator positionValidator,
                            PositionGenerator positionGenerator) {
-        super(Locators.OFFSET_16.andThenLocate(Locators.DIM_CONFIG_MIN_MAX), config);
+        super(genConfig, Locators.OFFSET_16.andThenLocate(Locators.GEN_CONFIG_MIN_MAX));
         this.startPosValidator = startPosValidator;
         this.positionValidator = positionValidator;
         this.positionGenerator = positionGenerator;
