@@ -6,9 +6,9 @@ import net.minecraftforge.fluids.Fluid;
 
 public class FluidEndMagma extends Fluid {
     public FluidEndMagma() {
-        super("endMagma",
-                new ResourceLocation("endMagmaStill"),
-                new ResourceLocation("endMagmaFlowing"),
+        super("end_magma",
+                FluidUtils.getStill("end_magma"),
+                FluidUtils.getFlowing("end_magma"),
                 0xff321782);
 
         setLuminosity(15).setDensity(3500).setViscosity(4500).setTemperature(1600);

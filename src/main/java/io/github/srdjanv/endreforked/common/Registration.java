@@ -54,14 +54,19 @@ final class Registration implements Initializer {
                 new ResourceLocation(Tags.MODID, "materializer_tile"));
         GameRegistry.registerTileEntity(EndForgeTile.class,
                 new ResourceLocation(Tags.MODID, "endforge_Tile"));
+        GameRegistry.registerTileEntity(SmallEntropyBatteryTile.class,
+                new ResourceLocation(Tags.MODID, "small_entropy_battery_tile"));
         GameRegistry.registerTileEntity(EntropyChamberTile.class,
                 new ResourceLocation(Tags.MODID, "entropy_chamber_tile"));
+
         GameRegistry.registerTileEntity(OrganaFlowerTile.class,
                 new ResourceLocation(Tags.MODID, "organa_flower_tile"));
         GameRegistry.registerTileEntity(OrganaWeedTile.class,
                 new ResourceLocation(Tags.MODID, "organa_weed_tile"));
-        GameRegistry.registerTileEntity(SmallEntropyBatteryTile.class,
-                new ResourceLocation(Tags.MODID, "small_entropy_battery_tile"));
+        GameRegistry.registerTileEntity(FluidEntropyTile.class,
+                new ResourceLocation(Tags.MODID, "fluid_entropy_tile"));
+        GameRegistry.registerTileEntity(FluidOrganaTile.class,
+                new ResourceLocation(Tags.MODID, "fluid_organa_tile"));
     }
 
     public void init(FMLInitializationEvent event) {

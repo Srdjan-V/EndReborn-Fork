@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.common.blocks;
+package io.github.srdjanv.endreforked.common.fluids.blocks;
 
 import io.github.srdjanv.endreforked.common.ModFluids;
 import net.minecraft.block.material.Material;
