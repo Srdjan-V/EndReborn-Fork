@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.common.items.food;
+package io.github.srdjanv.endreforked.common.items;
 
 import java.util.List;
 
@@ -10,19 +10,15 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.utils.models.InventoryItemModel;
+public class ItemChorusSoup extends ItemFoodBase {
 
-public class FoodChorusSoup extends ItemFoodBase {
-
-    public FoodChorusSoup() {
+    public ItemChorusSoup() {
         super("chorus_soup",5, 5, false);
         this.setMaxStackSize(1);
         setPotionEffect(new PotionEffect(MobEffects.GLOWING, 100, 0), 0.6F);

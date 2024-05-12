@@ -7,8 +7,8 @@ import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfi
 import io.github.srdjanv.endreforked.common.items.*;
 import io.github.srdjanv.endreforked.common.items.base.*;
 import io.github.srdjanv.endreforked.common.items.ItemDragoniteBerries;
-import io.github.srdjanv.endreforked.common.items.food.FoodChorusSoup;
-import io.github.srdjanv.endreforked.common.items.food.FoodEnderFlesh;
+import io.github.srdjanv.endreforked.common.items.ItemChorusSoup;
+import io.github.srdjanv.endreforked.common.items.ItemEnderFlesh;
 import io.github.srdjanv.endreforked.common.items.tools.*;
 import io.github.srdjanv.endreforked.utils.models.IHasModel;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -138,14 +138,14 @@ public final class ModItems {
     });*/
 
     public static final Supplier<ItemEntropyReader> ENTROPY_READER = register(ItemEntropyReader::new);
-    public static final Supplier<EntropyWings> ENTROPY_WINGS = register(EntropyWings::new);
+    public static final Supplier<ItemEntropyWings> ENTROPY_WINGS = register(ItemEntropyWings::new);
 
     // Food
-    public static final Supplier<FoodEnderFlesh> ENDER_FLESH = register(FoodEnderFlesh::new);
+    public static final Supplier<ItemEnderFlesh> ENDER_FLESH = register(ItemEnderFlesh::new);
     public static final Supplier<ItemDragoniteBerries> DRAGONITE_BERRIES = register(ItemDragoniteBerries::new);
     public static final Supplier<ItemDragoniteTea> DRAGONITE_TEA = register(ItemDragoniteTea::new);
     public static final Supplier<ItemOrganaFruit> ORGANA_FRUIT = register(ItemOrganaFruit::new);
-    public static final Supplier<FoodChorusSoup> CHORUS_SOUP = register(FoodChorusSoup::new);
+    public static final Supplier<ItemChorusSoup> CHORUS_SOUP = register(ItemChorusSoup::new);
 
 
 

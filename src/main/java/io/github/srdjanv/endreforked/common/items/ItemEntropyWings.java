@@ -4,11 +4,11 @@ import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyWings;
 import io.github.srdjanv.endreforked.common.items.base.ItemBase;
 
-public class EntropyWings extends ItemBase implements IEntropyWings {
-    public EntropyWings() {
+public class ItemEntropyWings extends ItemBase implements IEntropyWings {
+    public ItemEntropyWings() {
         super("entropy_wings");
     }
-    public EntropyWings(String name) {
+    public ItemEntropyWings(String name) {
         super(name);
     }
 
