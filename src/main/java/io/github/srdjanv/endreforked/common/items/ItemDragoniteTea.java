@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.common.items;
 
-import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
+import io.github.srdjanv.endreforked.common.items.base.ItemFoodBase;
 import io.github.srdjanv.endreforked.utils.models.InventoryItemModel;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
@@ -21,15 +20,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ItemDragoniteTea extends ItemFood implements InventoryItemModel {
+public class ItemDragoniteTea extends ItemFoodBase implements InventoryItemModel {
 
-    public ItemDragoniteTea(String name) {
-        super(2, 1, false);
-        setTranslationKey(name);
-        setRegistryName(name);
+    public ItemDragoniteTea() {
+        super("dragonite_tea",2, 1, false);
         setAlwaysEdible();
         setMaxStackSize(16);
-        setCreativeTab(EndReforked.ENDERTAB);
     }
 
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {

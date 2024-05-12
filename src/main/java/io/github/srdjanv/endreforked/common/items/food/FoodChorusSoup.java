@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import io.github.srdjanv.endreforked.common.items.base.ItemFoodBase;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,14 +20,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.utils.models.InventoryItemModel;
 
-public class FoodChorusSoup extends ItemFood implements InventoryItemModel {
+public class FoodChorusSoup extends ItemFoodBase {
 
-    public FoodChorusSoup(int healAmount, String name) {
-        super(healAmount, false);
-        setTranslationKey(name);
-        setRegistryName(name);
+    public FoodChorusSoup() {
+        super("chorus_soup",5, 5, false);
         this.setMaxStackSize(1);
-        setCreativeTab(EndReforked.ENDERTAB);
         setPotionEffect(new PotionEffect(MobEffects.GLOWING, 100, 0), 0.6F);
     }
 

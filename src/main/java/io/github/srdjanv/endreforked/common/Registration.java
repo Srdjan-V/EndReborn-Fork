@@ -24,7 +24,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.tileentity.BannerPattern;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
@@ -35,6 +38,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistry;
 
 final class Registration implements Initializer {
 
@@ -134,7 +138,7 @@ final class Registration implements Initializer {
                         10 * 20,
                         2,
                         fluidStack -> new FluidStack(ModFluids.END_MAGMA.get(), 1_000))
-                );
+        );
 
         item.registerRecipe(
                 new ItemChamberRecipe(
@@ -248,10 +252,29 @@ final class Registration implements Initializer {
 
     @SubscribeEvent
     public void registerRecipes(RegistryEvent.Register<IRecipe> register) {
-        var reg = register.getRegistry();
-        //reg.register();
-    }
+        class RegistryHandler {
+            final IForgeRegistry<IRecipe> reg = register.getRegistry();
 
+            private void register(String id, IRecipe recipe) {
+                recipe.setRegistryName(new ResourceLocation(Tags.MODID, id));
+                reg.register(recipe);
+            }
+
+            private NonNullList<Ingredient> ingOf(ItemStack... stacks) {
+                NonNullList<Ingredient> list = NonNullList.create();
+                for (ItemStack stack : stacks) list.add(Ingredient.fromStacks(stack));
+                return list;
+            }
+        }
+        var handler = new RegistryHandler();
+        var path = ModItems.DRAGONITE_TEA.get().getRegistryName().getPath();
+        handler.register(path, new ShapelessRecipes(path,
+                new ItemStack(ModItems.DRAGONITE_TEA.get(), 2),
+                handler.ingOf(
+                        new ItemStack(Items.GLASS_BOTTLE, 2),
+                        new ItemStack(ModItems.DRAGONITE_BERRIES.get()),
+                        new ItemStack(ModItems.ORGANA_FRUIT.get()))));
+    }
 
     private static void registerBannerPatterns() {
         Class<? extends Enum<?>> clazz = BannerPattern.class;

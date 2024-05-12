@@ -59,7 +59,7 @@ public final class ModItems {
     public static final Supplier<Item> TUNGSTEN_INGOT = maybeRegister(() -> new ItemBase("tungsten_ingot"));
     public static final Supplier<Item> ENDER_STRING = maybeRegister(() -> new ItemLegendary("item_ender_string"));
     public static final Supplier<Item> WORLD_MIRROR = maybeRegister(() -> new ItemWorldMirror("item_world_mirror"));
-    public static final Supplier<Item> DRAGONITE_TEA = maybeRegister(() -> new ItemDragoniteTea("item_dragonite_tea"));
+
     public static final Supplier<Item> ANGEL_FEATHER = maybeRegister(() -> new ItemBase("item_angel_feather"));
     public static final Supplier<Item> DRAGON_SCALES = maybeRegister(() -> new ItemBase("dragon_scales"));
     //todo data fix old:xorcite_shard
@@ -137,18 +137,16 @@ public final class ModItems {
         return new CustomModelArmor("armour_helmet_dragon", ARMOUR_DRAGON.get(), 1, EntityEquipmentSlot.HEAD, ModelDArmor::new);
     });*/
 
-    public static final Supplier<ItemEntropyReader> ENTROPY_READER = maybeRegister(ItemEntropyReader::new);
+    public static final Supplier<ItemEntropyReader> ENTROPY_READER = register(ItemEntropyReader::new);
+    public static final Supplier<EntropyWings> ENTROPY_WINGS = register(EntropyWings::new);
 
     // Food
-    public static final Supplier<Item> ENDER_FLESH = maybeRegister(() -> new FoodEnderFlesh("ender_flesh"));// TODO:
-    // 04/11/2023 add
-    // fixer
-    // TODO: 08/11/2023 implement fixer old:food_dragonite_berries
-    public static final Supplier<Item> DRAGONITE_BERRIES = register(ItemDragoniteBerries::new);
-    public static final Supplier<Item> CHORUS_SOUP = maybeRegister(() -> new FoodChorusSoup(5, "food_chorus_soup"));
-    public static final Supplier<ItemOrganaFruit> ORGANA_FRUiT = register(ItemOrganaFruit::new);
+    public static final Supplier<FoodEnderFlesh> ENDER_FLESH = register(FoodEnderFlesh::new);
+    public static final Supplier<ItemDragoniteBerries> DRAGONITE_BERRIES = register(ItemDragoniteBerries::new);
+    public static final Supplier<ItemDragoniteTea> DRAGONITE_TEA = register(ItemDragoniteTea::new);
+    public static final Supplier<ItemOrganaFruit> ORGANA_FRUIT = register(ItemOrganaFruit::new);
+    public static final Supplier<FoodChorusSoup> CHORUS_SOUP = register(FoodChorusSoup::new);
 
-    public static final Supplier<EntropyWings> ENTROPY_WINGS = register(EntropyWings::new);
 
 
     // TODO: 22/10/2023 rename itemBlocks

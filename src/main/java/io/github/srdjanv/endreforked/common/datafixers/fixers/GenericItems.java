@@ -20,6 +20,9 @@ public class GenericItems implements ItemMappingProvider {
     public @NotNull Map<ResourceLocation, ResourceLocation> getItemMappings() {
         Map<ResourceLocation, ResourceLocation> mappings = new Object2ObjectOpenHashMap<>();
         mappings.put(resLoc("item_dragonite_seeds"), resLoc("dragonite_berries"));
+        mappings.put(resLoc("food_dragonite_berries"), resLoc("dragonite_berries"));
+        mappings.put(resLoc("item_dragonite_tea"), resLoc("dragonite_tea"));
+        mappings.put(resLoc("food_chorus_soup"), resLoc("chorus_soup"));
 
         return mappings;
     }
