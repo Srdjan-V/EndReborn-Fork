@@ -21,17 +21,17 @@ import org.jetbrains.annotations.Nullable;
 public class CapabilityEntropyHandler {
     @CapabilityInject(EntropyStorage.class)
     public static Capability<EntropyStorage> INSTANCE;
-    public static final ResourceLocation ENTROPY_STORAGE_LOC = new ResourceLocation(Tags.MODID, "entropy_storage");
 
     @CapabilityInject(WeekEntropyStorage.class)
     public static Capability<WeekEntropyStorage> WEEK_INSTANCE;
-    public static final ResourceLocation WEEK_ENTROPY_STORAGE_LOC = new ResourceLocation(Tags.MODID, "week_entropy_storage");
 
+
+    public static final ResourceLocation CHUNK_ENTROPY_STORAGE_LOC = new ResourceLocation(Tags.MODID, "chunk_entropy_storage");
 
     @SubscribeEvent
     public static void attachChunkEntropyCap(AttachCapabilitiesEvent<Chunk> event) {
         if (!event.getObject().getWorld().isRemote) {
-            event.addCapability(ENTROPY_STORAGE_LOC, new ChunkEntropyProvider(event.getObject()));
+            event.addCapability(CHUNK_ENTROPY_STORAGE_LOC, new ChunkEntropyProvider(event.getObject()));
         }
     }
 
