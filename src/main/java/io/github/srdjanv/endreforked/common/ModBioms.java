@@ -1,7 +1,9 @@
 package io.github.srdjanv.endreforked.common;
 
 import com.google.common.base.Suppliers;
+import io.github.srdjanv.endreforked.common.bioms.EntropyBiome;
 import io.github.srdjanv.endreforked.common.bioms.OrganaBiome;
+import io.github.srdjanv.endreforked.common.bioms.base.BiomeDictionaryHandler;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -16,6 +18,7 @@ public final class ModBioms {
     public static final List<Supplier<? extends Biome>> END_BIOMES = new ObjectArrayList<>();
 
     public static final Supplier<OrganaBiome> ORGANA_BIOME = regEnd(OrganaBiome::new);
+    public static final Supplier<EntropyBiome> ENTROPY_BIOME = regEnd(EntropyBiome::new);
 
     private static <B extends Biome> Supplier<B> regEnd(com.google.common.base.Supplier<B> sup) {
         sup = Suppliers.memoize(sup);
@@ -29,28 +32,12 @@ public final class ModBioms {
         END_BIOMES.stream()
                 .map(Supplier::get)
                 .filter(Objects::nonNull)
-                .forEach(registry::register);
-
-        BiomeDictionary.addTypes(
-                ORGANA_BIOME.get(),
-                BiomeDictionary.Type.DENSE,
-                BiomeDictionary.Type.LUSH,
-                BiomeDictionary.Type.END,
-                BiomeDictionary.Type.MAGICAL,
-                BiomeDictionary.Type.RARE,
-                BiomeDictionary.Type.getType("ORGANA"));
-    }
-
-/*    @SubscribeEvent
-    public static void registerNetherAPIEnd(@Nonnull NetherAPIRegistryEvent.End event) {
-        END_BIOMES.stream()
-                .map(Supplier::get)
-                .filter(Objects::nonNull)
+                .peek(registry::register)
                 .forEach(biome -> {
-                    BiomesConfig.getInstance().get
+                    if (biome instanceof BiomeDictionaryHandler handler)
+                        handler.registerToBiomeDictionary();
                 });
 
-        event.registry.registerBiome(Biomes.HELL, NetherAPIConfig.hellWeight);
-    }*/
+    }
 
 }

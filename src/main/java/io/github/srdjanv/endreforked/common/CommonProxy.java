@@ -3,7 +3,7 @@ package io.github.srdjanv.endreforked.common;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
-import io.github.srdjanv.endreforked.common.configs.bioms.BiomesConfig;
+import io.github.srdjanv.endreforked.common.configs.bioms.EndBiomesConfig;
 import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
 import io.github.srdjanv.endreforked.common.configs.mobs.MobConfig;
 import io.github.srdjanv.endreforked.common.configs.worldgen.GenericGenConfig;
@@ -40,7 +40,7 @@ public class CommonProxy {
     protected void loadStaticCLasses() {
         MobConfig.getInstance();
         DisabledContentConfig.getInstance();
-        BiomesConfig.getInstance();
+        EndBiomesConfig.getInstance();
         GenericGenConfig.getInstance();
         OreGenConfig.getInstance();
         StructureGenConfig.getInstance();

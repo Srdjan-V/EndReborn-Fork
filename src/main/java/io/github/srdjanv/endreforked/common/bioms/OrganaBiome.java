@@ -4,6 +4,7 @@ import git.jbredwards.nether_api.api.biome.IEndBiome;
 import git.jbredwards.nether_api.api.biome.INoSpawnBiome;
 import git.jbredwards.nether_api.api.world.INetherAPIChunkGenerator;
 import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.bioms.base.BiomeDictionaryHandler;
 import io.github.srdjanv.endreforked.common.blocks.BlockEndMossGrass;
 import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
 import net.minecraft.block.material.Material;
@@ -15,19 +16,25 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeEnd;
 import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraftforge.common.BiomeDictionary;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome {
+public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome, BiomeDictionaryHandler {
     public OrganaBiome() {
         super(new BiomeProperties("Organa").setRainDisabled());
-        setRegistryName("Organa");
+        setRegistryName("organa");
 
         topBlock = ModBlocks.END_MOSS_GRASS_BLOCK.get().getDefaultState();
         fillerBlock = ModBlocks.END_MOSS_BLOCK.get().getDefaultState();
-        decorator = new Decorator();
+        flowers.clear();
+        decorator = createBiomeDecorator();
+    }
+
+    @Override public @NotNull BiomeDecorator createBiomeDecorator() {
+        return new Decorator();
     }
 
     public void buildSurface(
@@ -61,12 +68,24 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome {
         return false;
     }
 
+    @Override public void registerToBiomeDictionary() {
+        BiomeDictionary.addTypes(
+                this,
+                BiomeDictionary.Type.DENSE,
+                BiomeDictionary.Type.LUSH,
+                BiomeDictionary.Type.END,
+                BiomeDictionary.Type.MAGICAL,
+                BiomeDictionary.Type.RARE,
+                BiomeDictionary.Type.getType("ORGANA"));
+    }
+
     public static class Decorator extends BiomeDecorator {
         public Decorator() {
         }
 
+        //todo gen mushrooms
         @Override protected void genDecorations(Biome biomeIn, World world, Random rand) {
-            super.genDecorations(biomeIn, world, rand);
+            super.generateOres(world, rand);
 
             //chunkPos is player pos
             var realChunkPos = new BlockPos(chunkPos.getX() >> 4, 0, chunkPos.getY() >> 4);

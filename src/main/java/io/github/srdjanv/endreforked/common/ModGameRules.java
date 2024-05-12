@@ -13,7 +13,8 @@ public final class ModGameRules implements Initializer {
         var rules = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0).getGameRules();
 
         if (FMLLaunchHandler.isDeobfuscatedEnvironment()) {
-            rules.addGameRule(Tags.MODID + "_dev_disable_region_loading", String.valueOf(false), GameRules.ValueType.BOOLEAN_VALUE);
+            var key = Tags.MODID + "_dev_disable_region_loading";
+            if (!rules.hasRule(key)) rules.addGameRule(key, String.valueOf(false), GameRules.ValueType.BOOLEAN_VALUE);
         }
     }
 }

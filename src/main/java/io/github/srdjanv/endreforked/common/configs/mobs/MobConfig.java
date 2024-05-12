@@ -5,6 +5,9 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import io.github.srdjanv.endreforked.common.ModBioms;
+import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
+import io.github.srdjanv.endreforked.common.entity.*;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -14,9 +17,6 @@ import com.google.gson.reflect.TypeToken;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.configs.base.StaticServerSideConfig;
-import io.github.srdjanv.endreforked.common.entity.EntityColdFireball;
-import io.github.srdjanv.endreforked.common.entity.EntityEndGuard;
-import io.github.srdjanv.endreforked.common.entity.EntityWatcher;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchema>> {
@@ -42,7 +42,13 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
     public void preInit(FMLPreInitializationEvent event) {
         registerMob("endguard", builder -> {
             builder.registerSpawn(true);
-            builder.biomeSpawn("sky").fallbackSpawnConfig(4, 3, 1);
+            builder.biomeSpawn("sky").fallbackSpawnConfig(4, 2, 1);
+            builder.biomeSpawn(
+                    ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ORGANA_BIOME.get().getRegistryName())),
+                    5, 4, 2);
+            builder.biomeSpawn(
+                    ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ENTROPY_BIOME.get().getRegistryName())),
+                    5, 4, 2);
             return builder.build();
         }, builder -> {
             builder.entityClass(EntityEndGuard.class).id(0)
@@ -67,7 +73,10 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
 
         registerMob("watcher", builder -> {
             builder.registerSpawn(true);
-            builder.biomeSpawn("sky", 10, 3, 1);
+            var endConf = new MobConfigSchema.SpawnConfig(10, 3, 1);
+            builder.biomeSpawn(ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ORGANA_BIOME.get().getRegistryName())), endConf);
+            builder.biomeSpawn(ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ENTROPY_BIOME.get().getRegistryName())), endConf);
+            builder.biomeSpawn("sky", endConf);
             builder.biomeSpawn("plains", 4, 1, 1);
 
             return builder.build();
@@ -81,30 +90,32 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
             return builder.build();
         });
 
-        registerMob("endlord", builder -> {
-            return builder.registerSpawn(false).build();
-        }, builder -> {
-            builder.entityClass(EntityWatcher.class).id(3)
-                    .creatureType(EnumCreatureType.MONSTER)
-                    .trackingRange(64)
-                    .updateFrequency(3)
-                    .sendsVelocityUpdates(false)
-                    .registerEgg(true).eggPrimary(461076).eggSecondary(681365);
-            return builder.build();
-        });
-
         registerMob("chronologist", builder -> {
             builder.registerSpawn(true);
-            builder.biomeSpawn("sky");
-            builder.fallbackSpawnConfig(4, 3, 1);
+            var endConf = new MobConfigSchema.SpawnConfig(5, 4, 1);
+            builder.biomeSpawn(ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ORGANA_BIOME.get().getRegistryName())), endConf);
+            builder.biomeSpawn(ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ENTROPY_BIOME.get().getRegistryName())), endConf);
+            builder.biomeSpawn("sky").fallbackSpawnConfig(4, 3, 1);
             return builder.build();
         }, builder -> {
-            builder.entityClass(EntityWatcher.class).id(4)
+            builder.entityClass(EntityChronologist.class).id(4)
                     .creatureType(EnumCreatureType.MONSTER)
                     .trackingRange(64)
                     .updateFrequency(3)
                     .sendsVelocityUpdates(false)
                     .registerEgg(true).eggPrimary(461076).eggSecondary(13680725);
+            return builder.build();
+        });
+
+        registerMob("endlord", builder -> {
+            return builder.registerSpawn(false).build();
+        }, builder -> {
+            builder.entityClass(EntityLord.class).id(3)
+                    .creatureType(EnumCreatureType.MONSTER)
+                    .trackingRange(64)
+                    .updateFrequency(3)
+                    .sendsVelocityUpdates(false)
+                    .registerEgg(true).eggPrimary(461076).eggSecondary(681365);
             return builder.build();
         });
     }
@@ -119,8 +130,8 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
     @Override
     protected Map<String, MobConfigSchema> getDefaultData() {
         return defaultData.entrySet().stream().map(
-                stringFunctionEntry -> Pair.of(stringFunctionEntry.getKey(),
-                        stringFunctionEntry.getValue().apply(MobConfigSchema.builder().register(true))))
+                        stringFunctionEntry -> Pair.of(stringFunctionEntry.getKey(),
+                                stringFunctionEntry.getValue().apply(MobConfigSchema.builder().register(true))))
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 

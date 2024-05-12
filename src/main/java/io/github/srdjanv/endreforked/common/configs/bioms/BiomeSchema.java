@@ -2,16 +2,16 @@ package io.github.srdjanv.endreforked.common.configs.bioms;
 
 import java.util.Objects;
 
-public class BiomesSchema {
+public class BiomeSchema {
     private final boolean enabled;
     private final int weight;
 
-    private BiomesSchema(boolean enabled, int weight) {
+    private BiomeSchema(boolean enabled, int weight) {
         this.enabled = enabled;
         this.weight = weight;
     }
 
-    private BiomesSchema() {
+    private BiomeSchema() {
         this.enabled = false;
         this.weight = 0;
     }
@@ -45,8 +45,8 @@ public class BiomesSchema {
             return this;
         }
 
-        public BiomesSchema build() {
-            return new BiomesSchema(Objects.requireNonNull(enabled), Objects.requireNonNull(weight));
+        public BiomeSchema build() {
+            return new BiomeSchema(Objects.requireNonNull(enabled), Objects.requireNonNull(weight));
         }
     }
 }
