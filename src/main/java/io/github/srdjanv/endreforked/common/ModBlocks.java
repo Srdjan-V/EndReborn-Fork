@@ -92,8 +92,7 @@ public final class ModBlocks {
     public static final Supplier<Block> RUNE_BLOCK = maybeRegister(
             () -> new BlockRune("rune_block", Material.ROCK));
 
-    public static final Supplier<Block> DRAGONITE_CROP = maybeRegister(
-            () -> new CropDragonite("dragonite_crop"));
+    public static final Supplier<BlockDragoniteCrop> DRAGONITE_CROP = maybeRegister(BlockDragoniteCrop::new);
     //todo data fix old:xorcite_block
     public static final Supplier<Block> ENTROPY_CROP_BLOCK = register(BlockEntropyCrop::new);
 

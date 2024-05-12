@@ -6,7 +6,7 @@ import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
 import io.github.srdjanv.endreforked.common.items.*;
 import io.github.srdjanv.endreforked.common.items.base.*;
-import io.github.srdjanv.endreforked.common.items.food.DragoniteBerries;
+import io.github.srdjanv.endreforked.common.items.ItemDragoniteBerries;
 import io.github.srdjanv.endreforked.common.items.food.FoodChorusSoup;
 import io.github.srdjanv.endreforked.common.items.food.FoodEnderFlesh;
 import io.github.srdjanv.endreforked.common.items.tools.*;
@@ -51,8 +51,6 @@ public final class ModItems {
     public static final Supplier<Item> INGOT_ENDORIUM = maybeRegister(() -> new ItemBase("item_ingot_endorium"));
     public static final Supplier<Item> SHARD_OBSIDIAN = maybeRegister(() -> new ItemBase("item_shard_obsidian"));
     public static final Supplier<Item> RAW_ENDORIUM = maybeRegister(() -> new ItemBase("item_raw_endorium"));
-    // TODO: 08/11/2023 implement fixer old:item_dragonite_seeds
-    public static final Supplier<Item> DRAGONITE_SEEDS = maybeRegister(() -> new ItemDragoniteSeeds("dragonite_seeds"));
     public static final Supplier<Item> ADVANCED_PEARL = maybeRegister(() -> new ItemAdvancedEnderPearl("item_advanced_ender_pearl"));
     public static final Supplier<Item> END_ESSENCE = maybeRegister(() -> new ItemBase("item_end_essence"));
     public static final Supplier<Item> END_SHARD = maybeRegister(() -> new ItemBase("item_end_shard"));
@@ -146,7 +144,7 @@ public final class ModItems {
     // 04/11/2023 add
     // fixer
     // TODO: 08/11/2023 implement fixer old:food_dragonite_berries
-    public static final Supplier<Item> DRAGONITE_BERRIES = maybeRegister(() -> new DragoniteBerries("dragonite_berries"));
+    public static final Supplier<Item> DRAGONITE_BERRIES = register(ItemDragoniteBerries::new);
     public static final Supplier<Item> CHORUS_SOUP = maybeRegister(() -> new FoodChorusSoup(5, "food_chorus_soup"));
     public static final Supplier<ItemOrganaFruit> ORGANA_FRUiT = register(ItemOrganaFruit::new);
 

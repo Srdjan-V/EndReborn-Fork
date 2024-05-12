@@ -7,6 +7,7 @@ import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import io.github.srdjanv.endreforked.api.worldgen.features.FilledSphereGenerator;
 import io.github.srdjanv.endreforked.common.ModBioms;
+import io.github.srdjanv.endreforked.common.blocks.BlockDragoniteCrop;
 import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
@@ -162,6 +163,18 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.END_CORAL.get()));
 
+        registerGen("dragonite_crop",
+                builder -> {
+                    builder.whiteListDim(
+                            GenConfig.builder()
+                                    .setRarity(5)
+                                    .setAmount(6)
+                                    .setMaxHeight(90)
+                                    .setMinHeight(50).build(), 1);
+                    return builder.build();
+                },
+                (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.END_CORAL.get()));
+
         registerGen("end_flower",
                 builder -> {
                     builder.whiteListDim(
@@ -172,12 +185,12 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                                     .setMinHeight(50).build(), 1);
                     return builder.build();
                 },
-                (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.ENDER_FLOWER_CROP.get()) {
+                (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.DRAGONITE_CROP.get()) {
 
                     @Override
                     public IBlockState getState(World world, Random random, BlockPos pos) {
-                        return block.getDefaultState().withProperty(BlockEnderCrop.AGE,
-                                random.nextInt(BlockEnderCrop.AGE.getAllowedValues().size() - 1));
+                        return block.getDefaultState().withProperty(BlockDragoniteCrop.AGE,
+                                random.nextInt(BlockDragoniteCrop.AGE.getAllowedValues().size() - 1));
                     }
                 });
     }

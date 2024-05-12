@@ -48,6 +48,7 @@ public final class Fixer implements Initializer {
         registerFix(new Materializer());
         registerFix(new EndForge());
         registerFix(new GenericBlocks());
+        registerFix(new GenericItems());
     }
 
     private void registerFix(CommonMappingProvider mappingProvider) {
