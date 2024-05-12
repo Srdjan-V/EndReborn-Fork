@@ -9,6 +9,8 @@ import com.cleanroommc.modularui.value.sync.BooleanSyncValue;
 import com.cleanroommc.modularui.value.sync.GuiSyncManager;
 import com.cleanroommc.modularui.value.sync.IntSyncValue;
 import com.cleanroommc.modularui.widgets.ButtonWidget;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
+import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorage;
@@ -22,7 +24,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.Nullable;
 
-public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<PosGuiData>, ITickable {
+import java.util.Optional;
+
+public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<PosGuiData>, ITickable, IEntropyDataProvider {
     private final EntropyChunkDataWrapper<TileEntity> wrapper;
     private final DefaultEntropyStorage storage;
     private boolean linkDirty = true;
@@ -38,6 +42,10 @@ public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<Po
     public SmallEntropyBatteryTile() {
         wrapper = new EntropyChunkDataWrapper.TileEntity();
         storage = new DefaultEntropyStorage(250);
+    }
+
+    @Override public Optional<EntropyStorage> getEntropyStorage() {
+        return Optional.of(storage);
     }
 
     @Override public void update() {

@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.common.entropy.chunks;
 
 import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -12,7 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ChunkEntropyView implements WeekEntropyStorage {
+public class ChunkEntropyView implements WeekEntropyStorage, IEntropyDataProvider {
     private final EntropyRange radius;
     private ChunkEntropy centerEntropy = null;
     private final List<ChunkEntropy> sortedEntropies = new ObjectArrayList<>();

@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.common.capabilities.entropy;
 
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
+import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorageReference;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorageReference;
@@ -12,7 +13,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.Optional;
 
-public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntropyStorage, EntropyStorageReference {
+public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntropyStorage, EntropyStorageReference, IEntropyDataProvider {
     private final ChunkPos chunkPos;
     private final DefaultWeekEntropyStorage storage;
     private final DefaultEntropyStorageReference storageReference;
@@ -92,11 +93,7 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntro
         storage.deserializeNBT(nbt);
     }
 
-    @Override public String toString() {
-        return "ChunkEntropy{" +
-                "maxEntropy=" + storage.getMaxEntropy() +
-                ", currentEntropy=" + storage.getCurrentEntropy() +
-                ", decay=" + storage.getDecay() +
-                '}';
+    @Override public Optional<EntropyStorage> getEntropyStorage() {
+        return Optional.of(storage);
     }
 }

@@ -16,6 +16,10 @@ public enum EntropyRange {
         this.radius = radius;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
     public List<ChunkPos> getChunksInRadius(ChunkPos center) {
         List<ChunkPos> chunks = new ObjectArrayList<>();
 

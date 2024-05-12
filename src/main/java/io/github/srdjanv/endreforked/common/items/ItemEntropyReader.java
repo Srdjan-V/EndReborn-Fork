@@ -14,18 +14,19 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class ItemEntropyReader extends ItemBase {
-    private final EntropyChunkDataWrapper<EntityPlayer> reader;
-
     public ItemEntropyReader() {
         super("entropy_reader");
-        reader = new EntropyChunkDataWrapper.EntityPlayer();
     }
 
     @Override public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (!worldIn.isRemote) {
-            var block = worldIn.getBlockState(pos).getBlock();
-            if (block instanceof IEntropyDataProvider provider) {
-                player.sendMessage(new TextComponentString(provider.getFormattedEntropyData()));
+        if (!worldIn.isRemote && player.isSneaking()) {
+            var tile = worldIn.getTileEntity(pos);
+            if (tile instanceof IEntropyDataProvider provider) {
+                provider.getFormatedEntropyData().ifPresent(strings -> {
+                    for (String message : strings) {
+                        player.sendMessage(new TextComponentString(message));
+                    }
+                });
             }
         }
 
@@ -33,9 +34,15 @@ public class ItemEntropyReader extends ItemBase {
     }
 
     @Override public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        if (!worldIn.isRemote) {
+        if (!worldIn.isRemote && !playerIn.isSneaking()) {
+            var reader = new EntropyChunkDataWrapper.EntityPlayer();
             for (var entry : reader.getEntropyView(playerIn).getView()) {
-                playerIn.sendMessage(new TextComponentString(entry.toString()));
+                entry.getFormatedEntropyData().ifPresent(strings -> {
+                    playerIn.sendMessage(new TextComponentString(entry.toString()));
+                    for (String message : strings) {
+                        playerIn.sendMessage(new TextComponentString(message));
+                    }
+                });
             }
         }
 

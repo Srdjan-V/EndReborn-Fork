@@ -1,6 +1,20 @@
 # Tab -
 itemGroup.endertab=End: Reborn
 
+#Entropy
+entropy.radius=Radius of chunks to interact with entropy
+entropy.storage.max_entropy=Maximum amount entropy stored
+entropy.storage.current_entropy=Current amount entropy stored
+
+entropy.inducer.active=Amount of induced entropy per operation
+entropy.drainer.active=Amount of drained entropy per operation
+
+entropy.inducer.passive=Amount of induced entropy per operation
+entropy.inducer.passive.frequency=Ticks per operation
+
+entropy.drainer.passive=Amount of drained entropy per operation
+entropy.drainer.passive.frequency=Ticks per operation
+
 # Items -
 item.item_ingot_endorium.name=Endorium Ingot
 item.tungsten_ingot.name=Tungsten Ingot
@@ -102,7 +116,7 @@ material.endorium.name=Endorium
 material.wolframium.name=Tungsten
 
 #JEI
-endreborn.jei.entropy_wand.item_cost=Damage to item to conve
+endreborn.jei.entropy_wand.item_cost=Damage to item to convert
 
 
 #Book

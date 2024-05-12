@@ -17,6 +17,7 @@ import io.github.srdjanv.endreforked.api.entropy.chamber.*;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
+import io.github.srdjanv.endreforked.common.entropy.chunks.PassiveEntropyChunkDrainer;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
 import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
 import io.github.srdjanv.endreforked.common.widgets.BasicTextWidget;
@@ -30,9 +31,11 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEntropyDataProvider, IGuiHolder<PosGuiData> {
     private final EntropyChunkDataWrapper<TileEntity> reader;
+    private final PassiveEntropyChunkDrainer<TileEntity> drainer;
 
     private TileStatus itemStatus = TileStatus.Idle;
     private double itemProgress = 0;
@@ -50,6 +53,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEn
 
     public EntropyChamberTile() {
         reader = new EntropyChunkDataWrapper.TileEntity(EntropyRange.TWO);
+        drainer = new PassiveEntropyChunkDrainer<>(this, reader, 10 * 20, 10);
     }
 
     @Override
@@ -78,19 +82,27 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEn
         return super.writeToNBT(compound);
     }
 
-    @Override public int getPassiveEntropyCost() {
-        return 10;
+    @Override public Optional<EntropyRange> getEntropyRange() {
+        return Optional.of(reader.getRadius());
     }
 
-    @Override public boolean hasActiveEntropyCost() {
-        return itemProcessor.hasRecipe() || fluidProcessor.hasRecipe();
+    @Override public Optional<PassiveDrainer> getPassiveDrainer() {
+        return Optional.of(drainer.getPassiveDrainer());
     }
 
-    @Override public int getActiveEntropyCost() {
-        int cost = 0;
-        if (itemProcessor.hasRecipe()) cost = itemProcessor.getRecipe().getEntropyCost();
-        if (fluidProcessor.hasRecipe()) cost += fluidProcessor.getRecipe().getEntropyCost();
-        return cost;
+    @Override public Optional<ActiveDrainer> getActiveDrainer() {
+        if (itemProcessor.hasRecipe() || fluidProcessor.hasRecipe()) {
+            return Optional.of(new ActiveDrainer() {
+                @Override public int getDrained() {
+                    int cost = 0;
+                    if (itemProcessor.hasRecipe()) cost = itemProcessor.getRecipe().getEntropyCost();
+                    if (fluidProcessor.hasRecipe()) cost += fluidProcessor.getRecipe().getEntropyCost();
+                    return cost;
+                }
+            });
+        }
+
+        return Optional.empty();
     }
 
     @Override public ModularPanel buildUI(PosGuiData data, GuiSyncManager syncManager) {
@@ -237,6 +249,8 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEn
     }
 
     @Override public void update() {
+        drainer.drain();
+
         if (!world.isRemote) {
             if (prepareItems()) updateItems();
             if (prepareFluids()) updateFluids();

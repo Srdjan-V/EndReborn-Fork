@@ -1,18 +1,85 @@
 package io.github.srdjanv.endreforked.api.entropy;
 
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
+import io.github.srdjanv.endreforked.utils.LangUtil;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
+import net.minecraft.util.Util;
+import org.apache.commons.codec.language.bm.Lang;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
 public interface IEntropyDataProvider {
-    default boolean hasPassiveEntropyCost() {
-        return true;
+    default Optional<EntropyRange> getEntropyRange() {
+        return Optional.empty();
     }
-    default int getPassiveEntropyCost(){return 0;}
 
-    default boolean hasActiveEntropyCost() {
-        return true;
+    default Optional<EntropyStorage> getEntropyStorage() {
+        return Optional.empty();
     }
-    default int getActiveEntropyCost(){return 0;}
 
-    //todo return translatable component
-    default String getFormattedEntropyData() {
-        return getActiveEntropyCost() + "%";
+    default Optional<ActiveInducer> getActiveInducer() {
+        return Optional.empty();
+    }
+
+    default Optional<ActiveDrainer> getActiveDrainer() {
+        return Optional.empty();
+    }
+
+    default Optional<PassiveInducer> getPassiveInducer() {
+        return Optional.empty();
+    }
+
+    default Optional<PassiveDrainer> getPassiveDrainer() {
+        return Optional.empty();
+    }
+
+    default Optional<List<String>> getFormatedEntropyData() {
+        final ObjectList<String> list = new ObjectArrayList<>();
+        getEntropyRange().ifPresent(entropyRange -> list.add(LangUtil.translateToLocal("entropy.radius") + " " + (entropyRange.getRadius() + 1)));
+
+        getEntropyStorage().ifPresent(entropyStorage -> {
+            list.add(LangUtil.translateToLocal("entropy.storage.max_entropy") + " " + entropyStorage.getMaxEntropy());
+            list.add(LangUtil.translateToLocal("entropy.storage.current_entropy") + " " + entropyStorage.getCurrentEntropy());
+        });
+
+        getActiveInducer().ifPresent(activeInducer -> {
+            list.add(LangUtil.translateToLocal("entropy.inducer.active") + " " + activeInducer.getInduced());
+        });
+        getActiveDrainer().ifPresent(activeDrainer -> {
+            list.add(LangUtil.translateToLocal("entropy.drainer.active") + " " + activeDrainer.getDrained());
+        });
+
+        getPassiveInducer().ifPresent(passiveInducer -> {
+            list.add(LangUtil.translateToLocal("entropy.inducer.passive") + " " + passiveInducer.getInduced());
+            list.add(LangUtil.translateToLocal("entropy.inducer.passive.frequency") + " " + passiveInducer.getFrequency());
+        });
+
+        getPassiveDrainer().ifPresent(passiveInducer -> {
+            list.add(LangUtil.translateToLocal("entropy.drainer.passive") + " " + passiveInducer.getDrained());
+            list.add(LangUtil.translateToLocal("entropy.drainer.passive.frequency") + " " + passiveInducer.getFrequency());
+        });
+
+        return list.isEmpty() ? Optional.empty() : Optional.of(list);
+    }
+
+
+    interface ActiveInducer {
+        int getInduced();
+    }
+
+    interface ActiveDrainer {
+        int getDrained();
+    }
+
+    interface PassiveInducer extends ActiveInducer {
+        int getFrequency();
+    }
+
+    interface PassiveDrainer extends ActiveDrainer {
+        int getFrequency();
     }
 }

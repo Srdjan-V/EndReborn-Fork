@@ -7,7 +7,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import io.github.srdjanv.endreforked.common.tiles.EntropyCropTile;
+import io.github.srdjanv.endreforked.common.tiles.passiveinducers.EntropyCropTile;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;

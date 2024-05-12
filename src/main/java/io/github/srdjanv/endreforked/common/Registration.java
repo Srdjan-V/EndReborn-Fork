@@ -18,6 +18,10 @@ import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntro
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import io.github.srdjanv.endreforked.common.configs.Configs;
 import io.github.srdjanv.endreforked.common.tiles.*;
+import io.github.srdjanv.endreforked.common.tiles.passiveinducers.FluidEntropyTile;
+import io.github.srdjanv.endreforked.common.tiles.passiveinducers.FluidOrganaTile;
+import io.github.srdjanv.endreforked.common.tiles.passiveinducers.OrganaFlowerTile;
+import io.github.srdjanv.endreforked.common.tiles.passiveinducers.OrganaWeedTile;
 import io.github.srdjanv.endreforked.common.village.EndVillagerHandler;
 import io.github.srdjanv.endreforked.utils.Initializer;
 import net.minecraft.init.Blocks;

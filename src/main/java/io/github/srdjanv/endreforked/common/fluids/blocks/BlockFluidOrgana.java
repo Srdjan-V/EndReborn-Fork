@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.common.fluids.blocks;
 
 import io.github.srdjanv.endreforked.common.ModFluids;
-import io.github.srdjanv.endreforked.common.tiles.FluidEntropyTile;
+import io.github.srdjanv.endreforked.common.tiles.passiveinducers.FluidEntropyTile;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
