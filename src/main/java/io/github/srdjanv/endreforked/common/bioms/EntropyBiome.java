@@ -5,12 +5,9 @@ import git.jbredwards.nether_api.api.biome.INoSpawnBiome;
 import git.jbredwards.nether_api.api.world.INetherAPIChunkGenerator;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.bioms.base.BiomeDictionaryHandler;
-import io.github.srdjanv.endreforked.common.blocks.BlockEndMossGrass;
-import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
@@ -28,7 +25,7 @@ public class EntropyBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome, 
         setRegistryName("entropy");
 
         topBlock = Blocks.END_STONE.getDefaultState();
-        fillerBlock = ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState();
+        fillerBlock = ModBlocks.ENTROPY_END_STONE.get().getDefaultState();
         flowers.clear();
         decorator = createBiomeDecorator();
     }

@@ -96,7 +96,7 @@ final class Registration implements Initializer {
     }
 
     private static void registerEntropyWandRecipes() {
-        EntropyWandHandler.registerDefaultStateConversion(Blocks.END_STONE, ModBlocks.END_STONE_ENTROPY_BLOCK.get());
+        EntropyWandHandler.registerDefaultStateConversion(Blocks.END_STONE, ModBlocks.ENTROPY_END_STONE.get());
         EntropyWandHandler.registerDefaultStateConversion(Blocks.STONE, Blocks.COBBLESTONE);
         EntropyWandHandler.registerDefaultStateConversion(Blocks.COBBLESTONE, Blocks.GRAVEL);
         EntropyWandHandler.registerDefaultStateConversion(Blocks.GRAVEL, Blocks.SAND);

@@ -158,7 +158,7 @@ public final class ModItems {
     public static final Supplier<ItemBlock> DRAGON_BUSH = registerItemBlock(ModBlocks.DRAGONITE_CROP);
     public static final Supplier<ItemBlock> OBSIDIAN_ESSENCE_ORE = registerItemBlock(ModBlocks.OBSIDIAN_ESSENCE_ORE);
     public static final Supplier<ItemBlock> PHANTOM_BLOCK = registerItemBlock(ModBlocks.PHANTOM_BLOCK);
-    public static final Supplier<ItemBlock> ENTROPY_END_STONE = registerItemBlock(ModBlocks.END_STONE_ENTROPY_BLOCK);
+    public static final Supplier<ItemBlock> ENTROPY_END_STONE = registerItemBlock(ModBlocks.ENTROPY_END_STONE);
     public static final Supplier<ItemBlock> LORMYTE_CRYSTAL = registerItemBlock(ModBlocks.LORMYTE_CRYSTAL_BLOCK);
     public static final Supplier<ItemBlock> DECORATIVE_LORMYTE = registerItemBlock(ModBlocks.DECORATIVE_LORMYTE_BLOCK);
     public static final Supplier<ItemBlock> TUNGSTEN_BLOCK = registerItemBlock(ModBlocks.TUNGSTEN_BLOCK);

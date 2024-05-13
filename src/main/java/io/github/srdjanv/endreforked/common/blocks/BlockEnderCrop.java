@@ -30,7 +30,7 @@ public class BlockEnderCrop extends BaseBlockCrops {
         super("ender_flower_crop");
         sustainableBlocks.add(Blocks.END_BRICKS);
         sustainableBlocks.add(Blocks.END_STONE);
-        sustainableBlocks.add(ModBlocks.END_STONE_ENTROPY_BLOCK.get());
+        sustainableBlocks.add(ModBlocks.ENTROPY_END_STONE.get());
         sustainableBlocks.add(ModBlocks.ENTROPY_CROP_BLOCK.get());
     }
 

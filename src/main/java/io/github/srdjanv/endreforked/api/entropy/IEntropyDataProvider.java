@@ -4,13 +4,11 @@ import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import io.github.srdjanv.endreforked.utils.LangUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
-import net.minecraft.util.Util;
-import org.apache.commons.codec.language.bm.Lang;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import java.util.OptionalInt;
+import java.util.function.IntConsumer;
 
 public interface IEntropyDataProvider {
     default Optional<EntropyRange> getEntropyRange() {
@@ -55,12 +53,14 @@ public interface IEntropyDataProvider {
 
         getPassiveInducer().ifPresent(passiveInducer -> {
             list.add(LangUtil.translateToLocal("entropy.inducer.passive") + " " + passiveInducer.getInduced());
-            list.add(LangUtil.translateToLocal("entropy.inducer.passive.frequency") + " " + passiveInducer.getFrequency());
+            passiveInducer.getFrequency()
+                    .ifPresent(value -> list.add(LangUtil.translateToLocal("entropy.inducer.passive.frequency") + " " + value));
         });
 
         getPassiveDrainer().ifPresent(passiveInducer -> {
             list.add(LangUtil.translateToLocal("entropy.drainer.passive") + " " + passiveInducer.getDrained());
-            list.add(LangUtil.translateToLocal("entropy.drainer.passive.frequency") + " " + passiveInducer.getFrequency());
+            passiveInducer.getFrequency()
+                    .ifPresent(value -> list.add(LangUtil.translateToLocal("entropy.drainer.passive.frequency") + " " + value));
         });
 
         return list.isEmpty() ? Optional.empty() : Optional.of(list);
@@ -76,10 +76,10 @@ public interface IEntropyDataProvider {
     }
 
     interface PassiveInducer extends ActiveInducer {
-        int getFrequency();
+        OptionalInt getFrequency();
     }
 
     interface PassiveDrainer extends ActiveDrainer {
-        int getFrequency();
+        OptionalInt getFrequency();
     }
 }

@@ -22,7 +22,6 @@ import io.github.srdjanv.endreforked.api.worldgen.features.BushSurfaceGenerator;
 import io.github.srdjanv.endreforked.api.worldgen.features.RadiusSurfaceGenerator;
 import io.github.srdjanv.endreforked.api.worldgen.features.SphereGenerator;
 import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.blocks.BlockEnderCrop;
 import io.github.srdjanv.endreforked.common.configs.worldgen.base.WorldGenBaseConfigReloadable;
 
 public class GenericGenConfig extends WorldGenBaseConfigReloadable {
@@ -123,7 +122,7 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(
-                        ModBlocks.END_STONE_ENTROPY_BLOCK.get().getDefaultState(), config.amount(),
+                        ModBlocks.ENTROPY_END_STONE.get().getDefaultState(), config.amount(),
                         BlockMatcher.forBlock(Blocks.END_STONE)));
 
         registerGen("end_moss_patch",

@@ -2,6 +2,8 @@ package io.github.srdjanv.endreforked.common.entropy.chunks;
 
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 
+import java.util.OptionalInt;
+
 public class PassiveEntropyChunkInducer<D>  extends PassiveEntropyChunkHandler<D>{
     private final IEntropyDataProvider.PassiveInducer passiveInducer;
 
@@ -14,8 +16,8 @@ public class PassiveEntropyChunkInducer<D>  extends PassiveEntropyChunkHandler<D
                 return entropy;
             }
 
-            @Override public int getFrequency() {
-                return frequency;
+            @Override public OptionalInt getFrequency() {
+                return OptionalInt.of(frequency);
             }
         };
     }

@@ -2,9 +2,10 @@ package io.github.srdjanv.endreforked.common.capabilities.entropy;
 
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
-import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.WeakEntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorage;
-import io.github.srdjanv.endreforked.common.entropy.storage.DefaultWeekEntropyStorage;
+import io.github.srdjanv.endreforked.common.entropy.storage.DefaultWeakEntropyStorage;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
@@ -20,18 +21,19 @@ import org.jetbrains.annotations.Nullable;
 
 public class CapabilityEntropyHandler {
     @CapabilityInject(EntropyStorage.class)
-    public static Capability<EntropyStorage> INSTANCE;
+    public static Capability<EntropyStorage> STORAGE;
 
-    @CapabilityInject(WeekEntropyStorage.class)
-    public static Capability<WeekEntropyStorage> WEEK_INSTANCE;
+    @CapabilityInject(WeakEntropyStorage.class)
+    public static Capability<WeakEntropyStorage> WEEK_STORAGE;
 
-
-    public static final ResourceLocation CHUNK_ENTROPY_STORAGE_LOC = new ResourceLocation(Tags.MODID, "chunk_entropy_storage");
+    @CapabilityInject(EntropyChunk.class)
+    public static Capability<EntropyChunk> ENTROPY_CHUNK;
+    public static final ResourceLocation ENTROPY_CHUNK_STORAGE_LOC = new ResourceLocation(Tags.MODID, "chunk_entropy_storage");
 
     @SubscribeEvent
     public static void attachChunkEntropyCap(AttachCapabilitiesEvent<Chunk> event) {
         if (!event.getObject().getWorld().isRemote) {
-            event.addCapability(CHUNK_ENTROPY_STORAGE_LOC, new ChunkEntropyProvider(event.getObject()));
+            event.addCapability(ENTROPY_CHUNK_STORAGE_LOC, new ChunkEntropyProvider(event.getObject()));
         }
     }
 
@@ -48,21 +50,32 @@ public class CapabilityEntropyHandler {
             }
         }, () -> new DefaultEntropyStorage(1_000));
 
-        CapabilityManager.INSTANCE.register(WeekEntropyStorage.class, new Capability.IStorage<>() {
-            @Nullable @Override public NBTBase writeNBT(Capability<WeekEntropyStorage> capability, WeekEntropyStorage instance, EnumFacing side) {
+        CapabilityManager.INSTANCE.register(WeakEntropyStorage.class, new Capability.IStorage<>() {
+            @Nullable @Override public NBTBase writeNBT(Capability<WeakEntropyStorage> capability, WeakEntropyStorage instance, EnumFacing side) {
                 var tag = new NBTTagCompound();
                 tag.setInteger("entropy", instance.getCurrentEntropy());
                 tag.setInteger("decay", instance.getDecay());
                 return tag;
             }
 
-            @Override public void readNBT(Capability<WeekEntropyStorage> capability, WeekEntropyStorage instance, EnumFacing side, NBTBase nbt) {
-                if (!(instance instanceof DefaultWeekEntropyStorage defInst))
+            @Override public void readNBT(Capability<WeakEntropyStorage> capability, WeakEntropyStorage instance, EnumFacing side, NBTBase nbt) {
+                if (!(instance instanceof DefaultWeakEntropyStorage defInst))
                     throw new IllegalArgumentException("Can not deserialize to an instance that isn't the default implementation");
                 var tag = (NBTTagCompound) nbt;
                 defInst.setEntropy(tag.getInteger("entropy"));
                 defInst.setDecay(tag.getInteger("decay"));
             }
-        }, () -> new DefaultWeekEntropyStorage(1_000, 10));
+        }, () -> new DefaultWeakEntropyStorage(1_000, 10));
+
+        CapabilityManager.INSTANCE.register(EntropyChunk.class, new Capability.IStorage<>() {
+
+            @Nullable @Override public NBTBase writeNBT(Capability<EntropyChunk> capability, EntropyChunk instance, EnumFacing side) {
+                return instance.serializeNBT();
+            }
+
+            @Override public void readNBT(Capability<EntropyChunk> capability, EntropyChunk instance, EnumFacing side, NBTBase nbt) {
+                instance.deserializeNBT((NBTTagCompound) nbt);
+            }
+        }, () -> null);
     }
 }

@@ -1,27 +1,24 @@
 package io.github.srdjanv.endreforked.common.capabilities.entropy;
 
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
-import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
-import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorageReference;
-import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorageReference;
-import io.github.srdjanv.endreforked.common.entropy.storage.DefaultWeekEntropyStorage;
+import io.github.srdjanv.endreforked.common.entropy.storage.DefaultWeakEntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.Optional;
 
-public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntropyStorage, EntropyStorageReference, IEntropyDataProvider {
+public class DefaultEntropyChunk implements EntropyChunk {
     private final ChunkPos chunkPos;
-    private final DefaultWeekEntropyStorage storage;
+    private final DefaultWeakEntropyStorage storage;
     private final DefaultEntropyStorageReference storageReference;
 
-    public ChunkEntropy(Chunk chunk) {
+    public DefaultEntropyChunk(Chunk chunk) {
         this.chunkPos = chunk.getPos();
         var rand = chunk.getWorld().rand;
-        storage = new DefaultWeekEntropyStorage(
+        storage = new DefaultWeakEntropyStorage(
                 Math.max(1000, rand.nextInt(1200)),
                 Math.max(5, rand.nextInt(10)));
         storageReference = new DefaultEntropyStorageReference();
@@ -35,6 +32,7 @@ public class ChunkEntropy implements INBTSerializable<NBTTagCompound>, WeekEntro
         return storageReference.setEntropyStorageReference(reference, force);
     }
 
+    @Override
     public ChunkPos getChunkPos() {
         return chunkPos;
     }

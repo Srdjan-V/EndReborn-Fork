@@ -9,21 +9,25 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ChunkEntropyProvider implements ICapabilitySerializable<NBTTagCompound> {
-    private final ChunkEntropy instance;
+    private final DefaultEntropyChunk instance;
 
     public ChunkEntropyProvider(Chunk chunk) {
-        instance = new ChunkEntropy(chunk);
+        instance = new DefaultEntropyChunk(chunk);
     }
 
     @Override public boolean hasCapability(@NotNull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityEntropyHandler.INSTANCE || capability == CapabilityEntropyHandler.WEEK_INSTANCE;
+        return capability == CapabilityEntropyHandler.STORAGE
+                || capability == CapabilityEntropyHandler.WEEK_STORAGE
+                || capability == CapabilityEntropyHandler.ENTROPY_CHUNK;
     }
 
     @Nullable @Override public <T> T getCapability(@NotNull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEntropyHandler.INSTANCE) {
-            return CapabilityEntropyHandler.INSTANCE.cast(instance);
-        } else if (capability == CapabilityEntropyHandler.WEEK_INSTANCE) {
-            return CapabilityEntropyHandler.WEEK_INSTANCE.cast(instance);
+        if (capability == CapabilityEntropyHandler.STORAGE) {
+            return CapabilityEntropyHandler.STORAGE.cast(instance);
+        } else if (capability == CapabilityEntropyHandler.WEEK_STORAGE) {
+            return CapabilityEntropyHandler.WEEK_STORAGE.cast(instance);
+        } else if (CapabilityEntropyHandler.ENTROPY_CHUNK != null) {
+            return CapabilityEntropyHandler.ENTROPY_CHUNK.cast(instance);
         } else return null;
     }
 

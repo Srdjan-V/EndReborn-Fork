@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.common;
 
+import io.github.srdjanv.endreforked.api.entropy.world.EntropyWorldHandler;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
@@ -58,6 +59,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(ModPotions.class);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         MinecraftForge.EVENT_BUS.register(ModBioms.class);
+        MinecraftForge.EVENT_BUS.register(EntropyWorldHandler.class);
     }
 
     public void preInit(FMLPreInitializationEvent event) {

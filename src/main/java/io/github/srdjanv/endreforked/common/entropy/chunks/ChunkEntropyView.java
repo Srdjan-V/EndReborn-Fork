@@ -1,23 +1,24 @@
 package io.github.srdjanv.endreforked.common.entropy.chunks;
 
-import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.WeakEntropyStorage;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
-import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.world.WorldServer;
+import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
-public class ChunkEntropyView implements WeekEntropyStorage, IEntropyDataProvider {
+public class ChunkEntropyView implements WeakEntropyStorage, IEntropyDataProvider {
     private final EntropyRange radius;
-    private ChunkEntropy centerEntropy = null;
-    private final List<ChunkEntropy> sortedEntropies = new ObjectArrayList<>();
-    private final List<ChunkEntropy> unmodifiableSortedEntropies = Collections.unmodifiableList(sortedEntropies);
+    private EntropyChunk centerEntropy = null;
+    private final List<EntropyChunk> sortedEntropies = new ObjectArrayList<>();
+    private final List<EntropyChunk> unmodifiableSortedEntropies = Collections.unmodifiableList(sortedEntropies);
 
     public ChunkEntropyView(EntropyRange radius) {
         this.radius = radius;
@@ -28,12 +29,12 @@ public class ChunkEntropyView implements WeekEntropyStorage, IEntropyDataProvide
     }
 
     @UnmodifiableView
-    public List<ChunkEntropy> getView() {
+    public List<EntropyChunk> getView() {
         return unmodifiableSortedEntropies;
     }
 
     @Override public double getLoadFactor() {
-        return sortedEntropies.stream().mapToDouble(WeekEntropyStorage::getLoadFactor).average().orElse(0);
+        return sortedEntropies.stream().mapToDouble(WeakEntropyStorage::getLoadFactor).average().orElse(0);
     }
 
     @Override public void setLoadFactor(double loadFactor) {
@@ -41,36 +42,36 @@ public class ChunkEntropyView implements WeekEntropyStorage, IEntropyDataProvide
     }
 
     @Override public boolean isOverLoaded() {
-        return sortedEntropies.stream().anyMatch(WeekEntropyStorage::isOverLoaded);
+        return sortedEntropies.stream().anyMatch(WeakEntropyStorage::isOverLoaded);
     }
 
     @Override public int getDecay() {
-        return (int) sortedEntropies.stream().mapToInt(WeekEntropyStorage::getDecay).average().orElse(0);
+        return (int) sortedEntropies.stream().mapToInt(WeakEntropyStorage::getDecay).average().orElse(0);
     }
 
     @Override public void setDecay(int decay) {
-        for (ChunkEntropy chunkEntropy : sortedEntropies) {
-            chunkEntropy.setDecay(decay);
+        for (EntropyChunk defaultChunkEntropy : sortedEntropies) {
+            defaultChunkEntropy.setDecay(decay);
         }
     }
 
     @Override public int getMaxEntropy() {
-        return sortedEntropies.stream().mapToInt(ChunkEntropy::getMaxEntropy).sum();
+        return sortedEntropies.stream().mapToInt(EntropyChunk::getMaxEntropy).sum();
     }
 
     @Override public int getCurrentEntropy() {
-        return sortedEntropies.stream().mapToInt(WeekEntropyStorage::getCurrentEntropy).sum();
+        return sortedEntropies.stream().mapToInt(EntropyChunk::getCurrentEntropy).sum();
     }
 
     @Override public int induceEntropy(int entropy, boolean simulate) {
         int accepted = entropy;
-        for (ChunkEntropy chunkEntropy : sortedEntropies) {
+        for (EntropyChunk defaultChunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
-            accepted -= chunkEntropy.induceEntropy(accepted, simulate);
+            accepted -= defaultChunkEntropy.induceEntropy(accepted, simulate);
         }
-        for (ChunkEntropy chunkEntropy : sortedEntropies) {
+        for (EntropyChunk defaultChunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
-            var ref = chunkEntropy.getEntropyStorageReference();
+            var ref = defaultChunkEntropy.getEntropyStorageReference();
             if (!ref.isPresent()) continue;
             accepted -= ref.get().drainEntropy(accepted, simulate);
         }
@@ -79,20 +80,20 @@ public class ChunkEntropyView implements WeekEntropyStorage, IEntropyDataProvide
 
     @Override public int drainEntropy(int entropy, boolean simulate) {
         int accepted = entropy;
-        for (ChunkEntropy chunkEntropy : sortedEntropies) {
+        for (EntropyChunk defaultChunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
-            accepted -= chunkEntropy.drainEntropy(accepted, simulate);
+            accepted -= defaultChunkEntropy.drainEntropy(accepted, simulate);
         }
-        for (ChunkEntropy chunkEntropy : sortedEntropies) {
+        for (EntropyChunk defaultChunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
-            var ref = chunkEntropy.getEntropyStorageReference();
+            var ref = defaultChunkEntropy.getEntropyStorageReference();
             if (!ref.isPresent()) continue;
             accepted -= ref.get().drainEntropy(accepted, simulate);
         }
         return entropy - accepted;
     }
 
-    public void buildView(WorldServer server, EntropyChunkDataWrapper<?> reader, @Nullable ChunkEntropy centerEntropy) {
+    public void buildView(Function<BlockPos, EntropyChunk> resolver, @Nullable EntropyChunk centerEntropy) {
         if (centerEntropy == null) return;
         if (this.centerEntropy != null && this.centerEntropy.getChunkPos().equals(centerEntropy.getChunkPos()))
             return;
@@ -100,13 +101,13 @@ public class ChunkEntropyView implements WeekEntropyStorage, IEntropyDataProvide
         var chunks = radius.getChunksInRadius(centerEntropy.getChunkPos());
         sortedEntropies.clear();
         for (var chunk : chunks) {
-            var chunkEntropy = reader.resolveChunkEntropy(server, chunk.getBlock(8, 0, 8));
+            var chunkEntropy = resolver.apply(chunk.getBlock(8, 0, 8));
             if (chunkEntropy == null) continue;
             sortedEntropies.add(chunkEntropy);
         }
         sortedEntropies.sort(Comparator
-                .comparing(ChunkEntropy::isOverLoaded)
-                .thenComparingInt(ChunkEntropy::getCurrentEntropy));
+                .comparing(EntropyChunk::isOverLoaded)
+                .thenComparingInt(EntropyChunk::getCurrentEntropy));
     }
 
 }

@@ -141,12 +141,12 @@ public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<Po
     }
 
     @Override public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEntropyHandler.INSTANCE) return true;
+        if (capability == CapabilityEntropyHandler.STORAGE) return true;
         return super.hasCapability(capability, facing);
     }
 
     @Nullable @Override public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEntropyHandler.INSTANCE) return CapabilityEntropyHandler.INSTANCE.cast(storage);
+        if (capability == CapabilityEntropyHandler.STORAGE) return CapabilityEntropyHandler.STORAGE.cast(storage);
         return super.getCapability(capability, facing);
     }
 }

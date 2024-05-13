@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.api.capabilities.entropy;
 
-public interface WeekEntropyStorage extends EntropyStorage {
+public interface WeakEntropyStorage extends EntropyStorage {
     double getLoadFactor();
     void setLoadFactor(double loadFactor);
     boolean isOverLoaded();

@@ -1,11 +1,11 @@
 package io.github.srdjanv.endreforked.common.entropy.chunks;
 
-import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
-import io.github.srdjanv.endreforked.common.capabilities.entropy.ChunkEntropy;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
+import io.github.srdjanv.endreforked.api.entropy.world.EntropyWorldHandler;
+import io.github.srdjanv.endreforked.common.capabilities.entropy.DefaultEntropyChunk;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.WorldServer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +14,7 @@ import java.util.function.Function;
 public abstract class EntropyChunkDataWrapper<D> {
     private final Function<D, BlockPos> posFunction;
     private final ChunkEntropyView entropyView;
-    private ChunkEntropy centerEntropy = null;
+    private EntropyChunk centerEntropy = null;
 
     public EntropyChunkDataWrapper(Function<D, BlockPos> posFunction) {
         this(posFunction, EntropyRange.ONE);
@@ -31,13 +31,13 @@ public abstract class EntropyChunkDataWrapper<D> {
 
     @NotNull
     public ChunkEntropyView getEntropyView(D data) {
-        var resData = resolveData(data);
-        if (resData != null) entropyView.buildView(resData, this, getCenterEntropy(data));
+        final var dim = resolveDim(data);
+        entropyView.buildView(blockPos -> resolveChunkEntropy(dim, blockPos), getCenterEntropy(data));
         return entropyView;
     }
 
     @Nullable
-    public ChunkEntropy getCenterEntropy(D data) {
+    public EntropyChunk getCenterEntropy(D data) {
         final var pos = posFunction.apply(data);
 
         if (centerEntropy != null && (!centerEntropy.getChunkPos().equals(new ChunkPos(pos))))
@@ -49,24 +49,17 @@ public abstract class EntropyChunkDataWrapper<D> {
         return centerEntropy;
     }
 
-    @Nullable
-    public abstract WorldServer resolveData(D data);
+    public abstract int resolveDim(D data);
 
     @Nullable
-    public ChunkEntropy resolveChunkEntropy(D data, BlockPos pos) {
-        var resData = resolveData(data);
-        if (resData == null) return null;
+    public EntropyChunk resolveChunkEntropy(D data, BlockPos pos) {
+        var resData = resolveDim(data);
         return resolveChunkEntropy(resData, pos);
     }
 
     @Nullable
-    public ChunkEntropy resolveChunkEntropy(WorldServer server, BlockPos pos) {
-        var chunk = server.getChunk(pos);
-        if (chunk.hasCapability(CapabilityEntropyHandler.INSTANCE, null)) {
-            var cap = chunk.getCapability(CapabilityEntropyHandler.INSTANCE, null);
-            if (cap instanceof ChunkEntropy) return (ChunkEntropy) cap;
-        }
-        return null;
+    public EntropyChunk resolveChunkEntropy(int dim, BlockPos pos) {
+        return EntropyWorldHandler.getEntropyChunkWorld(dim, pos).orElse(null);
     }
 
     public static final class TileEntity extends EntropyChunkDataWrapper<net.minecraft.tileentity.TileEntity> {
@@ -78,9 +71,8 @@ public abstract class EntropyChunkDataWrapper<D> {
             super(net.minecraft.tileentity.TileEntity::getPos, radius);
         }
 
-        @Override public WorldServer resolveData(net.minecraft.tileentity.TileEntity data) {
-            if (!data.getWorld().isRemote) return (WorldServer) data.getWorld();
-            return null;
+        @Override public int resolveDim(net.minecraft.tileentity.TileEntity data) {
+            return data.getWorld().provider.getDimension();
         }
     }
 
@@ -93,9 +85,8 @@ public abstract class EntropyChunkDataWrapper<D> {
             super(net.minecraft.entity.player.EntityPlayer::getPosition, radius);
         }
 
-        @Override public @Nullable WorldServer resolveData(net.minecraft.entity.player.EntityPlayer data) {
-            if (!data.world.isRemote) return (WorldServer) data.world;
-            return null;
+        @Override public int resolveDim(net.minecraft.entity.player.EntityPlayer data) {
+            return data.world.provider.getDimension();
         }
     }
 

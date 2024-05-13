@@ -3,12 +3,8 @@ package io.github.srdjanv.endreforked.common.items;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.BlockDragoniteCrop;
 import io.github.srdjanv.endreforked.common.items.base.ItemSeedFoodBase;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemFood;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.utils.models.InventoryItemModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -19,8 +15,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 public class ItemDragoniteBerries extends ItemSeedFoodBase {
     public static final EnumPlantType DRAGONITE = EnumPlantType.getPlantType("dragonite");
     protected final BlockDragoniteCrop crop;
@@ -28,7 +22,7 @@ public class ItemDragoniteBerries extends ItemSeedFoodBase {
     public ItemDragoniteBerries() {
         super("dragonite_berries", 1, 0.8F,
                 ModBlocks.DRAGONITE_CROP.get(),
-                ModBlocks.END_STONE_ENTROPY_BLOCK.get());
+                ModBlocks.ENTROPY_END_STONE.get());
         crop = ModBlocks.DRAGONITE_CROP.get();
         setAlwaysEdible();
     }

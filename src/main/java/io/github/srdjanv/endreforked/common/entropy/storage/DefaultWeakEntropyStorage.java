@@ -1,18 +1,18 @@
 package io.github.srdjanv.endreforked.common.entropy.storage;
 
-import io.github.srdjanv.endreforked.api.capabilities.entropy.WeekEntropyStorage;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.WeakEntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class DefaultWeekEntropyStorage extends DefaultEntropyStorage implements WeekEntropyStorage {
+public class DefaultWeakEntropyStorage extends DefaultEntropyStorage implements WeakEntropyStorage {
     private double loadFactor;
     private int decay;
 
-    public DefaultWeekEntropyStorage(int capacity, int entropy, int decay) {
+    public DefaultWeakEntropyStorage(int capacity, int entropy, int decay) {
         super(capacity, entropy);
         this.decay = decay;
     }
 
-    public DefaultWeekEntropyStorage(int capacity, int decay) {
+    public DefaultWeakEntropyStorage(int capacity, int decay) {
         super(capacity);
         this.decay = decay;
     }
