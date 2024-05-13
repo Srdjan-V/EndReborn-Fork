@@ -21,4 +21,8 @@ public record DimPos(int dim, int chunkPosX, int chunkPosZ) {
     public ChunkPos asChunkPos() {
         return new ChunkPos(chunkPosX, chunkPosZ);
     }
+
+    public BlockPos asBlockPos() {
+        return new BlockPos(chunkPosX << 4, 0, chunkPosZ << 4);
+    }
 }

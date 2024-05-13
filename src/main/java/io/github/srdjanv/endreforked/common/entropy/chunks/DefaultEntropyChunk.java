@@ -6,17 +6,25 @@ import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorageReference;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultWeakEntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.Optional;
 
 public class DefaultEntropyChunk implements EntropyChunk {
+    private final World world;
     private final DimPos dimPos;
     private final DefaultWeakEntropyStorage storage;
     private final DefaultEntropyStorageReference storageReference;
+    private int tickValidated;
+    private boolean isLoaded = true;
 
     public DefaultEntropyChunk(Chunk chunk) {
-        this.dimPos = new DimPos(chunk.getWorld().provider.getDimension(), chunk.getPos());
+        world = chunk.getWorld();
+        this.dimPos = new DimPos(world.provider.getDimension(), chunk.getPos());
         var rand = chunk.getWorld().rand;
         storage = new DefaultWeakEntropyStorage(
                 Math.max(1000, rand.nextInt(1200)),
@@ -30,6 +38,15 @@ public class DefaultEntropyChunk implements EntropyChunk {
 
     @Override public boolean setEntropyStorageReference(EntropyStorage reference, boolean force) {
         return storageReference.setEntropyStorageReference(reference, force);
+    }
+
+    @Override public boolean isLoaded() {
+        var counter = FMLCommonHandler.instance().getMinecraftServerInstance().getTickCounter();
+        if (counter != tickValidated) {
+            tickValidated = counter;
+            return isLoaded = world.isAreaLoaded(dimPos.asBlockPos(), 0);
+        }
+        return isLoaded;
     }
 
     @Override

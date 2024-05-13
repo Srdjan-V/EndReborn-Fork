@@ -7,5 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public interface EntropyChunk extends INBTSerializable<NBTTagCompound>, WeakEntropyStorage, EntropyStorageReference, IEntropyDataProvider {
+    boolean isLoaded();
     DimPos getDimPos();
 }

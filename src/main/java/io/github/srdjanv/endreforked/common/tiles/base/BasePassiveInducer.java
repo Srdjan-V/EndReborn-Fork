@@ -16,7 +16,7 @@ public abstract class BasePassiveInducer extends BaseTileEntity implements ITick
 
     public BasePassiveInducer(EntropyRange range, int frequency, int entropy) {
         this.range = range;
-        this.tileWrapper = EntropyChunkReader.ofTileEntity(this);
+        this.tileWrapper = EntropyChunkReader.ofTileEntity(this, range);
         this.inducer = new PassiveEntropyChunkInducer(tileWrapper, new Ticker(frequency), entropy);
     }
 

@@ -43,11 +43,14 @@ public final class ChunkEntropyView implements WeakEntropyStorage, IEntropyDataP
         if (pos == null) return;
         if (this.centerEntropy != null)
             if (this.centerEntropy.getDimPos().equals(pos)
-                    && sortedEntropies.size() == radius.getChunks()) return;
-
+                    && sortedEntropies.size() == radius.getChunks()
+            && !validateView()) return;
 
         var entropyChunkOptional = resolver.apply(pos);
-        if (!entropyChunkOptional.isPresent()) return;
+        if (!entropyChunkOptional.isPresent()) {
+            sortedEntropies.clear();
+            return;
+        }
         final var centerEntropy = entropyChunkOptional.get();
 
         this.centerEntropy = centerEntropy;
@@ -59,8 +62,13 @@ public final class ChunkEntropyView implements WeakEntropyStorage, IEntropyDataP
                 .thenComparingInt(EntropyChunk::getCurrentEntropy));
     }
 
+    public boolean validateView() {
+        return sortedEntropies.stream().allMatch(EntropyChunk::isLoaded);
+    }
+
     @UnmodifiableView
     public List<EntropyChunk> getView() {
+        buildView();
         return unmodifiableSortedEntropies;
     }
 
@@ -70,36 +78,44 @@ public final class ChunkEntropyView implements WeakEntropyStorage, IEntropyDataP
     }
 
     @Override public double getLoadFactor() {
+        buildView();
         return sortedEntropies.stream().mapToDouble(WeakEntropyStorage::getLoadFactor).average().orElse(0);
     }
 
     @Override public void setLoadFactor(double loadFactor) {
+        buildView();
         sortedEntropies.forEach(e -> e.setLoadFactor(loadFactor));
     }
 
     @Override public boolean isOverLoaded() {
+        buildView();
         return sortedEntropies.stream().anyMatch(WeakEntropyStorage::isOverLoaded);
     }
 
     @Override public int getDecay() {
+        buildView();
         return (int) sortedEntropies.stream().mapToInt(WeakEntropyStorage::getDecay).average().orElse(0);
     }
 
     @Override public void setDecay(int decay) {
+        buildView();
         for (EntropyChunk defaultChunkEntropy : sortedEntropies) {
             defaultChunkEntropy.setDecay(decay);
         }
     }
 
     @Override public int getMaxEntropy() {
+        buildView();
         return sortedEntropies.stream().mapToInt(EntropyChunk::getMaxEntropy).sum();
     }
 
     @Override public int getCurrentEntropy() {
+        buildView();
         return sortedEntropies.stream().mapToInt(EntropyChunk::getCurrentEntropy).sum();
     }
 
     @Override public int induceEntropy(int entropy, boolean simulate) {
+        buildView();
         int accepted = entropy;
         for (EntropyChunk defaultChunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
@@ -115,6 +131,7 @@ public final class ChunkEntropyView implements WeakEntropyStorage, IEntropyDataP
     }
 
     @Override public int drainEntropy(int entropy, boolean simulate) {
+        buildView();
         int accepted = entropy;
         for (EntropyChunk defaultChunkEntropy : sortedEntropies) {
             if (accepted <= 0) break;
