@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.common.items;
 
+import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.common.items.base.ItemBase;
@@ -35,10 +36,10 @@ public class ItemEntropyReader extends ItemBase {
 
     @Override public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         if (!worldIn.isRemote && !playerIn.isSneaking()) {
-            var reader = EntropyChunkReader.ofEntity(playerIn);
+            var reader = EntropyChunkReader.ofEntity(playerIn, EntropyRange.ONE);
             for (var entry : reader.getEntropyView().getView()) {
+                playerIn.sendMessage(new TextComponentString(entry.getDimPos().toString()));
                 entry.getFormatedEntropyData().ifPresent(strings -> {
-                    playerIn.sendMessage(new TextComponentString(entry.toString()));
                     for (String message : strings) {
                         playerIn.sendMessage(new TextComponentString(message));
                     }

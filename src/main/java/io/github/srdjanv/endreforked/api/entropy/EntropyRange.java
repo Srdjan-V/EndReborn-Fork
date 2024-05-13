@@ -8,8 +8,8 @@ import java.util.List;
 public enum EntropyRange {
     ONE(0),
     TWO(1),
-    THREE(3),
-    FOR(4);
+    THREE(2),
+    FOR(3);
 
     private final int radius;
     private final int chunks;

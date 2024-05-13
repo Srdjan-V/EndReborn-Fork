@@ -48,7 +48,7 @@ public final class EntropyWorldHandler {
     static void onWorldLoad(WorldEvent.Load event) {
         if (!event.getWorld().isRemote) {
             final var dim = event.getWorld().provider.getDimension();
-            worlds.put(dim, new EntropyWorld());
+            worlds.put(dim, new EntropyWorld(event.getWorld()));
         }
     }
 
@@ -68,7 +68,7 @@ public final class EntropyWorldHandler {
             } else {
                 EndReforked.LOGGER.warn("Chunk was loaded before world was loaded????");
                 final var dim = event.getWorld().provider.getDimension();
-                world = worlds.put(dim, new EntropyWorld());
+                world = worlds.put(dim, new EntropyWorld(event.getWorld()));
             }
 
             if (world != null) {
@@ -87,7 +87,7 @@ public final class EntropyWorldHandler {
             } else {
                 EndReforked.LOGGER.warn("Chunk was unloaded after world was unloaded????");
                 final var dim = event.getWorld().provider.getDimension();
-                world = worlds.put(dim, new EntropyWorld());
+                world = worlds.put(dim, new EntropyWorld(event.getWorld()));
             }
 
             if (world != null) {
