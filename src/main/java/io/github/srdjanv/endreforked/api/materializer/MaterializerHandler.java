@@ -2,7 +2,7 @@ package io.github.srdjanv.endreforked.api.materializer;
 
 import net.minecraft.item.ItemStack;
 
-import io.github.srdjanv.endreforked.api.base.HandlerGroupingRegistry;
+import io.github.srdjanv.endreforked.api.base.crafting.HandlerGroupingRegistry;
 import io.github.srdjanv.endreforked.api.util.ItemStackHashStrategy;
 import it.unimi.dsi.fastutil.Hash;
 

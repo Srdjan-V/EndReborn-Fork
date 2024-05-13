@@ -37,8 +37,8 @@ import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.base.groupings.Fluid2ItemGrouping;
-import io.github.srdjanv.endreforked.api.base.processors.FluidItemRecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.crafting.groupings.Fluid2ItemGrouping;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.FluidItemRecipeProcessor;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;

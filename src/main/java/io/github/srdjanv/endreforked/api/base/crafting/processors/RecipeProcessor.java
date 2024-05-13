@@ -1,7 +1,7 @@
-package io.github.srdjanv.endreforked.api.base.processors;
+package io.github.srdjanv.endreforked.api.base.crafting.processors;
 
-import io.github.srdjanv.endreforked.api.base.HandlerRegistry;
-import io.github.srdjanv.endreforked.api.base.Recipe;
+import io.github.srdjanv.endreforked.api.base.crafting.HandlerRegistry;
+import io.github.srdjanv.endreforked.api.base.crafting.Recipe;
 
 import java.util.Objects;
 

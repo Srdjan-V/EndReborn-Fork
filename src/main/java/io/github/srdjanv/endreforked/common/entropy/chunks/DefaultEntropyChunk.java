@@ -1,22 +1,22 @@
-package io.github.srdjanv.endreforked.common.capabilities.entropy;
+package io.github.srdjanv.endreforked.common.entropy.chunks;
 
+import io.github.srdjanv.endreforked.api.base.util.DimPos;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorageReference;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultWeakEntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
 
 import java.util.Optional;
 
 public class DefaultEntropyChunk implements EntropyChunk {
-    private final ChunkPos chunkPos;
+    private final DimPos dimPos;
     private final DefaultWeakEntropyStorage storage;
     private final DefaultEntropyStorageReference storageReference;
 
     public DefaultEntropyChunk(Chunk chunk) {
-        this.chunkPos = chunk.getPos();
+        this.dimPos = new DimPos(chunk.getWorld().provider.getDimension(), chunk.getPos());
         var rand = chunk.getWorld().rand;
         storage = new DefaultWeakEntropyStorage(
                 Math.max(1000, rand.nextInt(1200)),
@@ -33,8 +33,8 @@ public class DefaultEntropyChunk implements EntropyChunk {
     }
 
     @Override
-    public ChunkPos getChunkPos() {
-        return chunkPos;
+    public DimPos getDimPos() {
+        return dimPos;
     }
 
     @Override public double getLoadFactor() {

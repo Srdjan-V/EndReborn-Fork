@@ -1,17 +1,19 @@
 package io.github.srdjanv.endreforked.common.entropy.chunks;
 
+import io.github.srdjanv.endreforked.api.base.util.Ticker;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
+import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 
 import java.util.OptionalInt;
 
-public class PassiveEntropyChunkDrainer<D> extends PassiveEntropyChunkHandler<D> {
+public class PassiveEntropyChunkDrainer extends PassiveEntropyChunk {
     private final IEntropyDataProvider.PassiveDrainer passiveDrainer;
 
-    public PassiveEntropyChunkDrainer(D data, EntropyChunkDataWrapper<D> wrapper, int frequency, int entropy) {
-        super(data, wrapper, frequency, entropy);
+    public PassiveEntropyChunkDrainer(EntropyChunkReader reader, Ticker ticker, int entropy) {
+        super(reader, ticker, entropy);
         this.passiveDrainer = new IEntropyDataProvider.PassiveDrainer() {
             @Override public OptionalInt getFrequency() {
-                return OptionalInt.of(frequency);
+                return OptionalInt.of(ticker.getFrequency());
             }
 
             @Override public int getDrained() {
@@ -21,12 +23,9 @@ public class PassiveEntropyChunkDrainer<D> extends PassiveEntropyChunkHandler<D>
     }
 
     public void drain() {
-        drain(data);
-    }
-
-    public void drain(D data) {
-        if (++tick % frequency != 0) return;
-        wrapper.getEntropyView(data).drainEntropy(entropy, false);
+        if (ticker.tick()) {
+            wrapper.getEntropyView().drainEntropy(entropy, false);
+        }
     }
 
     public IEntropyDataProvider.PassiveDrainer getPassiveDrainer() {

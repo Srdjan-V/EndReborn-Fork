@@ -1,10 +1,10 @@
-package io.github.srdjanv.endreforked.api.base.processors;
+package io.github.srdjanv.endreforked.api.base.crafting.processors;
 
 import java.util.Objects;
 
-import io.github.srdjanv.endreforked.api.base.HandlerGroupingRegistry;
-import io.github.srdjanv.endreforked.api.base.BiRecipe;
-import io.github.srdjanv.endreforked.api.base.groupings.RecipeGrouping;
+import io.github.srdjanv.endreforked.api.base.crafting.HandlerGroupingRegistry;
+import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.groupings.RecipeGrouping;
 
 public abstract class BiRecipeProcessor<IN1, IN2, OUT,
         RG extends RecipeGrouping<IN1, IN2, R>,

@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.api.base;
+package io.github.srdjanv.endreforked.api.base.crafting;
 
 import java.util.function.BiFunction;
 

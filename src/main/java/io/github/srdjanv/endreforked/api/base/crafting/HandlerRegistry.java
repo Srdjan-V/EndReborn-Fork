@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.api.base;
+package io.github.srdjanv.endreforked.api.base.crafting;
 
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;

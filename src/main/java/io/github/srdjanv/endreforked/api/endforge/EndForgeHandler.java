@@ -3,8 +3,8 @@ package io.github.srdjanv.endreforked.api.endforge;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-import io.github.srdjanv.endreforked.api.base.HandlerGroupingRegistry;
-import io.github.srdjanv.endreforked.api.base.groupings.Fluid2ItemGrouping;
+import io.github.srdjanv.endreforked.api.base.crafting.HandlerGroupingRegistry;
+import io.github.srdjanv.endreforked.api.base.crafting.groupings.Fluid2ItemGrouping;
 import io.github.srdjanv.endreforked.api.util.FluidStackHashStrategy;
 
 public class EndForgeHandler extends

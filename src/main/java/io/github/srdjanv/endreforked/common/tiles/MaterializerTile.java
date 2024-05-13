@@ -50,8 +50,8 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.google.common.collect.Lists;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.base.processors.ItemRecipeProcessor;
-import io.github.srdjanv.endreforked.api.base.processors.BiRecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.ItemRecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.BiRecipeProcessor;
 import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;

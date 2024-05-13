@@ -5,7 +5,7 @@ import java.util.function.BiFunction;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-import io.github.srdjanv.endreforked.api.base.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
 
 public class EndForgeRecipe extends BiRecipe<FluidStack, ItemStack, ItemStack> {
 

@@ -6,7 +6,6 @@ import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -16,7 +15,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class EntropyWorld {
-    static final Map<Long, Pair<WeakReference<Chunk>, EntropyChunk>> chunks = new ConcurrentHashMap<>();
+    private static final Map<Long, Pair<WeakReference<Chunk>, EntropyChunk>> chunks = new ConcurrentHashMap<>();
 
     public Optional<EntropyChunk> getEntropyChunk(ChunkPos pos) {
         return getEntropyChunk(ChunkPos.asLong(pos.x, pos.z));

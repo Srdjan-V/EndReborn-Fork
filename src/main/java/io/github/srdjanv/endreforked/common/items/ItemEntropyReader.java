@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.common.items;
 
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
-import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
+import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.common.items.base.ItemBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -35,8 +35,8 @@ public class ItemEntropyReader extends ItemBase {
 
     @Override public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         if (!worldIn.isRemote && !playerIn.isSneaking()) {
-            var reader = new EntropyChunkDataWrapper.EntityPlayer();
-            for (var entry : reader.getEntropyView(playerIn).getView()) {
+            var reader = EntropyChunkReader.ofEntity(playerIn);
+            for (var entry : reader.getEntropyView().getView()) {
                 entry.getFormatedEntropyData().ifPresent(strings -> {
                     playerIn.sendMessage(new TextComponentString(entry.toString()));
                     for (String message : strings) {

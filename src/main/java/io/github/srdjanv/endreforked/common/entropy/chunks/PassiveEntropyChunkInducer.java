@@ -1,34 +1,31 @@
 package io.github.srdjanv.endreforked.common.entropy.chunks;
 
+import io.github.srdjanv.endreforked.api.base.util.Ticker;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
+import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 
 import java.util.OptionalInt;
 
-public class PassiveEntropyChunkInducer<D>  extends PassiveEntropyChunkHandler<D>{
+public class PassiveEntropyChunkInducer extends PassiveEntropyChunk {
     private final IEntropyDataProvider.PassiveInducer passiveInducer;
 
-
-    public PassiveEntropyChunkInducer(D data, EntropyChunkDataWrapper<D> wrapper, int frequency, int entropy) {
-        super(data, wrapper, frequency, entropy);
+    public PassiveEntropyChunkInducer(EntropyChunkReader wrapper, Ticker ticker, int entropy) {
+        super(wrapper, ticker, entropy);
         passiveInducer = new IEntropyDataProvider.PassiveInducer() {
+            @Override public OptionalInt getFrequency() {
+                return OptionalInt.of(ticker.getFrequency());
+            }
 
             @Override public int getInduced() {
                 return entropy;
-            }
-
-            @Override public OptionalInt getFrequency() {
-                return OptionalInt.of(frequency);
             }
         };
     }
 
     public void induce() {
-        induce(data);
-    }
-
-    public void induce(D data) {
-        if (++tick % frequency != 0) return;
-        wrapper.getEntropyView(data).induceEntropy(entropy, false);
+        if (ticker.tick()) {
+            wrapper.getEntropyView().induceEntropy(entropy, false);
+        }
     }
 
     public IEntropyDataProvider.PassiveInducer getPassiveInducer() {

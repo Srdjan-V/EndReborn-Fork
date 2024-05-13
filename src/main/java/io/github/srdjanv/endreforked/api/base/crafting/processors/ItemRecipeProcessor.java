@@ -1,12 +1,12 @@
-package io.github.srdjanv.endreforked.api.base.processors;
+package io.github.srdjanv.endreforked.api.base.crafting.processors;
 
 import java.util.Objects;
 
 import net.minecraft.item.ItemStack;
 
-import io.github.srdjanv.endreforked.api.base.HandlerGroupingRegistry;
-import io.github.srdjanv.endreforked.api.base.BiRecipe;
-import io.github.srdjanv.endreforked.api.base.groupings.RecipeGrouping;
+import io.github.srdjanv.endreforked.api.base.crafting.HandlerGroupingRegistry;
+import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.groupings.RecipeGrouping;
 
 public class ItemRecipeProcessor<OUT,
         RG extends RecipeGrouping<ItemStack, ItemStack, R>,

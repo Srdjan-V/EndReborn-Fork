@@ -1,8 +1,8 @@
-package io.github.srdjanv.endreforked.api.base.groupings;
+package io.github.srdjanv.endreforked.api.base.crafting.groupings;
 
 import net.minecraft.item.ItemStack;
 
-import io.github.srdjanv.endreforked.api.base.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
 import io.github.srdjanv.endreforked.api.util.ItemStackHashStrategy;
 
 public class Item2ItemGrouping<R extends BiRecipe<ItemStack, ItemStack, ?>>

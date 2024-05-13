@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.srdjanv.endreforked.api.base.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 

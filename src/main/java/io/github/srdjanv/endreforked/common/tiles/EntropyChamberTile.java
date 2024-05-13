@@ -12,10 +12,11 @@ import com.cleanroommc.modularui.widgets.FluidSlot;
 import com.cleanroommc.modularui.widgets.ItemSlot;
 import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
-import io.github.srdjanv.endreforked.api.base.processors.RecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.RecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.util.Ticker;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
-import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
+import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.common.entropy.chunks.PassiveEntropyChunkDrainer;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
@@ -24,7 +25,6 @@ import io.github.srdjanv.endreforked.common.widgets.BasicTextWidget;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
@@ -34,8 +34,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEntropyDataProvider, IGuiHolder<PosGuiData> {
-    private final EntropyChunkDataWrapper<TileEntity> reader;
-    private final PassiveEntropyChunkDrainer<TileEntity> drainer;
+    private final EntropyChunkReader reader;
+    private final PassiveEntropyChunkDrainer drainer;
 
     private TileStatus itemStatus = TileStatus.Idle;
     private double itemProgress = 0;
@@ -52,8 +52,8 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEn
     private final RecipeProcessor<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessor = new RecipeProcessor<>(EntropyFluidChamberHandler.INSTANCE);
 
     public EntropyChamberTile() {
-        reader = new EntropyChunkDataWrapper.TileEntity(EntropyRange.TWO);
-        drainer = new PassiveEntropyChunkDrainer<>(this, reader, 10 * 20, 10);
+        reader = EntropyChunkReader.ofTileEntity(this, EntropyRange.TWO);
+        drainer = new PassiveEntropyChunkDrainer(reader, new Ticker(10 * 20), 10);
     }
 
     @Override
@@ -261,7 +261,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEn
         var processingItem = itemIn.getStackInSlot(0);
         boolean valid = false;
         if (itemProcessor.validateRecipe(processingItem)) {
-            var data = reader.getCenterEntropy(this);
+            var data = reader.getCenterEntropy();
             if (data != null
                     && data.getCurrentEntropy() > itemProcessor.getRecipe().getEntropyCost())
                 valid = true;
@@ -300,7 +300,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEn
         var processingFluid = fluidIn.getFluid();
         boolean valid = false;
         if (fluidProcessor.validateRecipe(processingFluid)) {
-            var data = reader.getCenterEntropy(this);
+            var data = reader.getCenterEntropy();
             if (data != null
                     && data.getCurrentEntropy() > fluidProcessor.getRecipe().getEntropyCost())
                 valid = true;
@@ -336,8 +336,8 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEn
         }
     }
 
-    protected <R extends ChamberRecipe<?, ?>> boolean drainEntropy(EntropyChunkDataWrapper<TileEntity> reader, RecipeProcessor<?, ?, R> processor) {
-        var data = reader.getCenterEntropy(this);
+    protected <R extends ChamberRecipe<?, ?>> boolean drainEntropy(EntropyChunkReader reader, RecipeProcessor<?, ?, R> processor) {
+        var data = reader.getCenterEntropy();
         if (data == null) throw new IllegalStateException("This should never happen");
         if (data.drainEntropy(processor.getRecipe().getEntropyCost(), true)
                 == processor.getRecipe().getEntropyCost()) {

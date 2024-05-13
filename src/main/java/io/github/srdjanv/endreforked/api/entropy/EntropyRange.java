@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.api.entropy;
 
+import io.github.srdjanv.endreforked.api.base.util.DimPos;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.util.math.ChunkPos;
 
 import java.util.List;
 
@@ -12,23 +12,39 @@ public enum EntropyRange {
     FOR(4);
 
     private final int radius;
+    private final int chunks;
     EntropyRange(int radius) {
         this.radius = radius;
+        this.chunks = chunksInRadius(radius);
+    }
+
+    public int getChunks() {
+        return chunks;
     }
 
     public int getRadius() {
         return radius;
     }
 
-    public List<ChunkPos> getChunksInRadius(ChunkPos center) {
-        List<ChunkPos> chunks = new ObjectArrayList<>();
+    public List<DimPos> getChunksInRadius(DimPos center) {
+        List<DimPos> chunks = new ObjectArrayList<>();
 
-        for (int x = center.x - radius; x <= center.x + radius; x++) {
-            for (int z = center.z - radius; z <= center.z + radius; z++) {
-                chunks.add(new ChunkPos(x, z));
+        for (int x = center.chunkPosX() - radius; x <= center.chunkPosX() + radius; x++) {
+            for (int z = center.chunkPosZ() - radius; z <= center.chunkPosZ() + radius; z++) {
+                chunks.add(new DimPos(center.dim(), x, z));
             }
         }
         return chunks;
     }
 
+
+    private static int chunksInRadius(int radius) {
+        int chunks = 0;
+        for (int x = -radius; x <= radius; x++) {
+            for (int z = -radius; z <= radius; z++) {
+                chunks++;
+            }
+        }
+        return chunks;
+    }
 }

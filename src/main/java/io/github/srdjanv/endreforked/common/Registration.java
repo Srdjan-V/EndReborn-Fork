@@ -2,7 +2,7 @@ package io.github.srdjanv.endreforked.common;
 
 import com.google.common.collect.Lists;
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.api.base.groupings.Fluid2ItemGrouping;
+import io.github.srdjanv.endreforked.api.base.crafting.groupings.Fluid2ItemGrouping;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;

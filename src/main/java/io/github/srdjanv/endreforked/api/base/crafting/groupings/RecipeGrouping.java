@@ -1,11 +1,11 @@
-package io.github.srdjanv.endreforked.api.base.groupings;
+package io.github.srdjanv.endreforked.api.base.crafting.groupings;
 
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.srdjanv.endreforked.api.base.HashStrategyTranslator;
-import io.github.srdjanv.endreforked.api.base.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.HashStrategyTranslator;
+import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
 

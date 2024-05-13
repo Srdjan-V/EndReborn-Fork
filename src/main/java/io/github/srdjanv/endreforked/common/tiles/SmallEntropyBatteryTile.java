@@ -12,7 +12,7 @@ import com.cleanroommc.modularui.widgets.ButtonWidget;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
-import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
+import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorage;
 import io.github.srdjanv.endreforked.common.widgets.BasicTextWidget;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<PosGuiData>, ITickable, IEntropyDataProvider {
-    private final EntropyChunkDataWrapper<TileEntity> wrapper;
+    private final EntropyChunkReader wrapper;
     private final DefaultEntropyStorage storage;
     private boolean linkDirty = true;
     private boolean forcedLink = false;
@@ -40,7 +40,7 @@ public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<Po
     private boolean linked = false;
 
     public SmallEntropyBatteryTile() {
-        wrapper = new EntropyChunkDataWrapper.TileEntity();
+        wrapper = EntropyChunkReader.ofTileEntity(this);
         storage = new DefaultEntropyStorage(250);
     }
 
@@ -67,7 +67,7 @@ public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<Po
                 storage::getCurrentEntropy,
                 battery_entropy -> this.battery_entropy = battery_entropy));
         syncManager.syncValue("chunk_entropy", new IntSyncValue(
-                () -> wrapper.getEntropyView(this).getCurrentEntropy(),
+                () -> wrapper.getEntropyView().getCurrentEntropy(),
                 chunkEntropy -> this.chunkEntropy = chunkEntropy));
 
         if (data.isClient()) {
@@ -113,7 +113,7 @@ public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<Po
 
     public boolean linkToChunk(boolean force) {
         boolean linked = false;
-        var data = wrapper.getCenterEntropy(this);
+        var data = wrapper.getCenterEntropy();
         if (data != null) linked = data.setEntropyStorageReference(storage, force);
         if (linked) {
             this.forcedLink = force;
@@ -123,7 +123,7 @@ public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<Po
     }
 
     public boolean isLinked() {
-        var data = wrapper.getCenterEntropy(this);
+        var data = wrapper.getCenterEntropy();
         if (data == null) return false;
         return data.getEntropyStorageReference().map(storageRef -> storageRef == storage).orElse(false);
     }

@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.api.entropy.world;
 
 import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.api.base.util.DimPos;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -16,6 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class EntropyWorldHandler {
     private static final Map<Integer, EntropyWorld> worlds = new ConcurrentHashMap<>();
 
+    public static Optional<EntropyChunk> getEntropyChunkWorld(DimPos pos) {
+        return getEntropyWorld(pos.dim()).flatMap(entropyWorld -> entropyWorld.getEntropyChunk(pos.chunkPosX(), pos.chunkPosZ()));
+    }
+
     public static Optional<EntropyChunk> getEntropyChunkWorld(int dim, ChunkPos pos) {
         return getEntropyWorld(dim).flatMap(entropyWorld -> entropyWorld.getEntropyChunk(pos));
     }
@@ -24,8 +29,8 @@ public final class EntropyWorldHandler {
         return getEntropyWorld(dim).flatMap(entropyWorld -> entropyWorld.getEntropyChunk(pos));
     }
 
-    public static Optional<EntropyChunk> getEntropyChunkWorld(int dim, int x, int z) {
-        return getEntropyWorld(dim).flatMap(entropyWorld -> entropyWorld.getEntropyChunk(x, z));
+    public static Optional<EntropyChunk> getEntropyChunkWorld(int dim, int chunkX, int chunkZ) {
+        return getEntropyWorld(dim).flatMap(entropyWorld -> entropyWorld.getEntropyChunk(chunkX, chunkZ));
     }
 
     public static Optional<EntropyWorld> getEntropyWorld(int dim) {

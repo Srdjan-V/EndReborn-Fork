@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.common.capabilities.entropy;
 
+import io.github.srdjanv.endreforked.common.entropy.chunks.DefaultEntropyChunk;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.chunk.Chunk;

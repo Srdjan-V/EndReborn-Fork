@@ -3,8 +3,8 @@ package io.github.srdjanv.endreforked.common.handlers;
 import io.github.srdjanv.endreforked.api.capabilities.timedflight.ITimedFlight;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyWings;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
-import io.github.srdjanv.endreforked.common.entropy.chunks.ChunkEntropyView;
-import io.github.srdjanv.endreforked.common.entropy.chunks.EntropyChunkDataWrapper;
+import io.github.srdjanv.endreforked.api.entropy.world.ChunkEntropyView;
+import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.utils.Initializer;
 import io.github.srdjanv.endreforked.utils.PlayerUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -26,7 +26,7 @@ public class TimedFlightHandler implements Initializer {
         return instance;
     }
 
-    private final Map<UUID, EntropyChunkDataWrapper.EntityPlayer> cachedEntropyChunks = new Object2ObjectOpenHashMap<>();
+    private final Map<UUID, EntropyChunkReader> cachedEntropyChunks = new Object2ObjectOpenHashMap<>();
 
     @Override public void registerEventBus() {
         registerThisToEventBus();
@@ -51,10 +51,10 @@ public class TimedFlightHandler implements Initializer {
             if (!(stack.getItem() instanceof IEntropyWings wings)) continue;
             var wrapper = cachedEntropyChunks.get(player);
             if (wrapper == null || !wrapper.getRadius().equals(wings.getEntropyRange())) {
-                wrapper = new EntropyChunkDataWrapper.EntityPlayer(wings.getEntropyRange());
+                wrapper = EntropyChunkReader.ofEntity(player, wings.getEntropyRange());
                 cachedEntropyChunks.put(player.getUniqueID(), wrapper);
             }
-            ChunkEntropyView data = wrapper.getEntropyView(player);
+            ChunkEntropyView data = wrapper.getEntropyView();
             if (data.drainEntropy(wings.getEntropyCost(), true) == wings.getEntropyCost()) {
                 data.drainEntropy(wings.getEntropyCost(), false);
                 cap.setFlightDuration(wings.getFlightDuration());

@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.api.entropy.chamber;
 
-import io.github.srdjanv.endreforked.api.base.Recipe;
+import io.github.srdjanv.endreforked.api.base.crafting.Recipe;
 
 import java.util.function.Function;
 

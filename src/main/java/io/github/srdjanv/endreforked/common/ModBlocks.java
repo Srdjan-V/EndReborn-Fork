@@ -56,8 +56,7 @@ public final class ModBlocks {
     public static final Supplier<Block> PHANTOM_BLOCK = maybeRegister(
             () -> new BlockPhantom("phantom_block", Material.BARRIER, false));
 
-    public static final Supplier<Block> END_STONE_ENTROPY_BLOCK = maybeRegister(
-            () -> new BlockEndBase("end_stone_entropy_block", Material.ROCK));
+    public static final Supplier<BlockEntropyEndStone> ENTROPY_END_STONE = register(BlockEntropyEndStone::new);
 
     public static final Supplier<BaseBlockBush> END_CORAL = maybeRegister(
             () -> new BlockEndCoral("end_coral"));

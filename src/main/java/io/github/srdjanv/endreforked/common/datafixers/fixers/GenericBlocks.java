@@ -26,7 +26,8 @@ public class GenericBlocks implements BlockMappingProvider {
         mapping.put(resLoc("chiseled_end_bricks"), resLoc("end_bricks_chiseled"));
         mapping.put(resLoc("e_end_bricks_stairs"), resLoc("end_bricks_stairs"));
         mapping.put(resLoc("e_end_bricks_wall"), resLoc("end_bricks_wall"));
-        mapping.put(resLoc("block_entropy_end_stone"), resLoc("end_stone_entropy_block"));
+
+        mapping.put(resLoc("block_entropy_end_stone"), resLoc("entropy_end_stone"));
 
         mapping.put(resLoc("block_endorium"), resLoc("endorium_block"));
         mapping.put(resLoc("block_purpur_lamp"), resLoc("purpur_lamp_block"));
