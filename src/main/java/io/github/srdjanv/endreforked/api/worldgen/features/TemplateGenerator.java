@@ -130,24 +130,25 @@ public class TemplateGenerator extends PositionedFeature {
         if (Objects.nonNull(conf)) conf.accept(settings);
         var rot = settings.getRotation();
         final var posY = startPos.getY();
+        //using an offest of 1 to not trigger block updates if placed on chunk border
         startPos = switch (settings.getMirror()) {
             case NONE -> switch (rot) {
-                case NONE -> chunkStart.getBlock(0, posY, 0);
-                case CLOCKWISE_90 -> chunkEast.getBlock(16, posY, 0);
-                case CLOCKWISE_180 -> chunkSouth.getBlock(16, posY, 16);
-                case COUNTERCLOCKWISE_90 -> chunkSouth.getBlock(0, posY, 16);
+                case NONE -> chunkStart.getBlock(1, posY, 1);
+                case CLOCKWISE_90 -> chunkEast.getBlock(15, posY, 1);
+                case CLOCKWISE_180 -> chunkSouth.getBlock(15, posY, 15);
+                case COUNTERCLOCKWISE_90 -> chunkSouth.getBlock(1, posY, 15);
             };
             case LEFT_RIGHT -> switch (rot) {
-                case CLOCKWISE_90 -> chunkStart.getBlock(0, posY, 0);
-                case CLOCKWISE_180 -> chunkEast.getBlock(16, posY, 0);
-                case COUNTERCLOCKWISE_90 -> chunkSouth.getBlock(16, posY, 16);
-                case NONE -> chunkSouth.getBlock(0, posY, 16);
+                case CLOCKWISE_90 -> chunkStart.getBlock(1, posY, 1);
+                case CLOCKWISE_180 -> chunkEast.getBlock(15, posY, 1);
+                case COUNTERCLOCKWISE_90 -> chunkSouth.getBlock(15, posY, 15);
+                case NONE -> chunkSouth.getBlock(1, posY, 15);
             };
             case FRONT_BACK -> switch (rot) {
-                case COUNTERCLOCKWISE_90 -> chunkStart.getBlock(0, posY, 0);
-                case NONE -> chunkEast.getBlock(16, posY, 0);
-                case CLOCKWISE_90 -> chunkSouth.getBlock(16, posY, 16);
-                case CLOCKWISE_180 -> chunkSouth.getBlock(0, posY, 16);
+                case COUNTERCLOCKWISE_90 -> chunkStart.getBlock(1, posY, 1);
+                case NONE -> chunkEast.getBlock(15, posY, 1);
+                case CLOCKWISE_90 -> chunkSouth.getBlock(15, posY, 15);
+                case CLOCKWISE_180 -> chunkSouth.getBlock(1, posY, 15);
             };
         };
 
