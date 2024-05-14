@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.common.tiles.passiveinducers;
 
-import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
 import io.github.srdjanv.endreforked.common.tiles.base.BasePassiveInducer;
 import net.minecraft.util.EnumParticleTypes;
 
@@ -10,7 +10,7 @@ public class OrganaFlowerTile extends BasePassiveInducer {
     private int tick;
 
     public OrganaFlowerTile() {
-        super(EntropyRange.TWO, 5 * 20, 10);
+        super(EntropyRadius.TWO, 5 * 20, 10);
         this.tick = ThreadLocalRandom.current().nextInt(60);
     }
 

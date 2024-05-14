@@ -144,8 +144,8 @@ final class Registration implements Initializer {
         fluid.registerRecipe(
                 new FluidChamberRecipe(
                         new FluidStack(FluidRegistry.LAVA, 2_000),
-                        10 * 20,
-                        2,
+                        25 * 20,
+                        150,
                         fluidStack -> new FluidStack(ModFluids.END_MAGMA.get(), 1_000))
         );
 

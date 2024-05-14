@@ -4,20 +4,18 @@ import io.github.srdjanv.endreforked.api.base.util.DimPos;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.WeakEntropyStorage;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
-import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class ChunkEntropyView implements WeakEntropyStorage, IEntropyDataProvider {
-    private final EntropyRange radius;
+    private final EntropyRadius radius;
     private final List<EntropyChunk> sortedEntropies = new ObjectArrayList<>();
     private final List<EntropyChunk> unmodifiableSortedEntropies = Collections.unmodifiableList(sortedEntropies);
     private final Supplier<DimPos> centerPosSup;
@@ -25,17 +23,25 @@ public final class ChunkEntropyView implements WeakEntropyStorage, IEntropyDataP
     private EntropyChunk centerEntropy = null;
 
     public ChunkEntropyView(
-            Supplier<DimPos> centerPosSup,
-            Function<DimPos, Optional<EntropyChunk>> resolver,
-            EntropyRange radius) {
-        this.centerPosSup = centerPosSup;
-        this.resolver = resolver;
-        this.radius = radius;
+            @NotNull Supplier<DimPos> centerPosSup,
+            @NotNull Function<DimPos, Optional<EntropyChunk>> resolver,
+            @NotNull EntropyRadius radius) {
+        this.centerPosSup = Objects.requireNonNull(centerPosSup);
+        this.resolver = Objects.requireNonNull(resolver);
+        this.radius = Objects.requireNonNull(radius);
         buildView();
     }
 
-    public EntropyRange getRadius() {
-        return radius;
+    @Override public Optional<EntropyRadius> getEntropyRadius() {
+        return Optional.of(radius);
+    }
+
+    public Supplier<DimPos> getCenterPosSup() {
+        return centerPosSup;
+    }
+
+    public Function<DimPos, Optional<EntropyChunk>> getResolver() {
+        return resolver;
     }
 
     public void buildView() {
@@ -44,7 +50,7 @@ public final class ChunkEntropyView implements WeakEntropyStorage, IEntropyDataP
         if (this.centerEntropy != null)
             if (this.centerEntropy.getDimPos().equals(pos)
                     && sortedEntropies.size() == radius.getChunks()
-            && !validateView()) return;
+                    && !validateView()) return;
 
         var entropyChunkOptional = resolver.apply(pos);
         if (!entropyChunkOptional.isPresent()) {

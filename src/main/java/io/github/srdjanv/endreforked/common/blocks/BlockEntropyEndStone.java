@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import io.github.srdjanv.endreforked.api.entropy.EntropyRange;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
 import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyWorldHandler;
 import io.github.srdjanv.endreforked.common.ModItems;
@@ -39,8 +39,8 @@ public class BlockEntropyEndStone extends BlockBase implements IEntropyDataProvi
         return ModItems.END_MOSS_BLOCK.get();
     }
 
-    @Override public Optional<EntropyRange> getEntropyRange() {
-        return Optional.of(EntropyRange.ONE);
+    @Override public Optional<EntropyRadius> getEntropyRadius() {
+        return Optional.of(EntropyRadius.ONE);
     }
 
     @Override public Optional<IEntropyDataProvider.PassiveInducer> getPassiveInducer() {

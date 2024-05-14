@@ -2,6 +2,6 @@ package io.github.srdjanv.endreforked.api.entropy;
 
 public interface IEntropyWings {
     int getEntropyCost();
-    EntropyRange getEntropyRange();
+    EntropyRadius getEntropyRange();
     int getFlightDuration();
 }

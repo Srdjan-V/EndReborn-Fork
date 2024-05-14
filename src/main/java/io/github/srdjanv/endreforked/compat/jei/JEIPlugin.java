@@ -37,6 +37,6 @@ public class JEIPlugin implements IModPlugin {
         registry.addRecipeCatalyst(new ItemStack(ModItems.ENTROPY_WAND.get()), EntropyWandCategory.UID);
 
         registry.addRecipes(EntropyChamberCategory.getRecipes(), EntropyChamberCategory.UID);
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.ENTROPY_CHAMBER_BLOCK.get()), EntropyChamberCategory.UID);
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.ENTROPY_CHAMBER.get()), EntropyChamberCategory.UID);
     }
 }

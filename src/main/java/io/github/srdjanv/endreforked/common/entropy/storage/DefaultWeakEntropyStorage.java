@@ -10,11 +10,13 @@ public class DefaultWeakEntropyStorage extends DefaultEntropyStorage implements 
     public DefaultWeakEntropyStorage(int capacity, int entropy, int decay) {
         super(capacity, entropy);
         this.decay = decay;
+        this.loadFactor = 0.8;
     }
 
     public DefaultWeakEntropyStorage(int capacity, int decay) {
         super(capacity);
         this.decay = decay;
+        this.loadFactor = 0.8;
     }
 
     @Override public int induceEntropy(int entropy, boolean simulate) {
@@ -52,11 +54,13 @@ public class DefaultWeakEntropyStorage extends DefaultEntropyStorage implements 
     @Override public NBTTagCompound serializeNBT() {
         var tag = super.serializeNBT();
         tag.setInteger("decay", decay);
+        tag.setDouble("load_factor", loadFactor);
         return tag;
     }
 
     @Override public void deserializeNBT(NBTTagCompound nbt) {
         super.deserializeNBT(nbt);
         decay = nbt.getInteger("decay");
+        loadFactor = nbt.getDouble("load_factor");
     }
 }

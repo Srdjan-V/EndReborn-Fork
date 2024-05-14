@@ -8,10 +8,9 @@ import it.unimi.dsi.fastutil.objects.ObjectList;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
-import java.util.function.IntConsumer;
 
 public interface IEntropyDataProvider {
-    default Optional<EntropyRange> getEntropyRange() {
+    default Optional<EntropyRadius> getEntropyRadius() {
         return Optional.empty();
     }
 
@@ -37,7 +36,7 @@ public interface IEntropyDataProvider {
 
     default Optional<List<String>> getFormatedEntropyData() {
         final ObjectList<String> list = new ObjectArrayList<>();
-        getEntropyRange().ifPresent(entropyRange -> list.add(LangUtil.translateToLocal("entropy.radius") + " " + (entropyRange.getRadius() + 1)));
+        getEntropyRadius().ifPresent(entropyRange -> list.add(LangUtil.translateToLocal("entropy.radius") + " " + (entropyRange.getRadius() + 1)));
 
         getEntropyStorage().ifPresent(entropyStorage -> {
             list.add(LangUtil.translateToLocal("entropy.storage.max_entropy") + " " + entropyStorage.getMaxEntropy());

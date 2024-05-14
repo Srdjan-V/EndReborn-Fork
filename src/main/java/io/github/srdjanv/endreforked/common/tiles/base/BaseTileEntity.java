@@ -45,6 +45,10 @@ public class BaseTileEntity extends TileEntity {
             super(fluid, amount, capacity);
         }
 
+        public int fillTileInternal(FluidStack resource, boolean doFill) {
+            return super.fill(resource, doFill);
+        }
+
         @Override
         protected void onContentsChanged() {
             markDirty();

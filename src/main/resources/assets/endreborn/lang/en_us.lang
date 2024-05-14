@@ -191,7 +191,13 @@ tile.materializer.render.toggleFullRender=Toggle full structure rendering
 tile.materializer.render.nextLayer=Show next layer
 tile.materializer.render.prevLayer=Show previous layer
 
+#EntropyChamber
+tile.entropy_chamber.name=Entropy Chamber
+
 #Entropy
+entropy.range.chunks=Number of chunks it has access to
+entropy.range.radius=Radius of chunks it has access to
+
 entropy.chunk.available=Available entropy in chunk
 entropy.chunk.max=Max entropy in chunk
 

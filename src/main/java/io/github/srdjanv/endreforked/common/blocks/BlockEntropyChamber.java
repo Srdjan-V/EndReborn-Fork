@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BlockEntropyChamber extends BlockBase {
     public BlockEntropyChamber() {
-        super("entropy_chamber_block", Material.IRON);
+        super("entropy_chamber", Material.IRON);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class BlockEntropyChamber extends BlockBase {
 
     @Override
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-        return new ItemStack(ModBlocks.ENTROPY_CHAMBER_BLOCK.get());
+        return new ItemStack(ModBlocks.ENTROPY_CHAMBER.get());
     }
 
     @Override

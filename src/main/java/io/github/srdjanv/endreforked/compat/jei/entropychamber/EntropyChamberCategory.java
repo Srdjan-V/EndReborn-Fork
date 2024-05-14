@@ -31,7 +31,7 @@ public class EntropyChamberCategory implements IRecipeCategory<EntropyChamberRec
     }
 
     @Override public String getTitle() {
-        return LangUtil.translateToLocal("item.entropy_wand.name");
+        return LangUtil.translateToLocal("tile.entropy_chamber.name");
     }
 
     @Override public String getModName() {

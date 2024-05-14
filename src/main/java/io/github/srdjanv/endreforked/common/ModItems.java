@@ -3,6 +3,7 @@ package io.github.srdjanv.endreforked.common;
 import com.google.common.base.Suppliers;
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
 import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
 import io.github.srdjanv.endreforked.common.items.*;
 import io.github.srdjanv.endreforked.common.items.base.*;
@@ -69,6 +70,9 @@ public final class ModItems {
     public static final Supplier<Item> CATALYST = maybeRegister(() -> new ItemCatalyst("catalyst"));
     public static final Supplier<Item> RECORD = maybeRegister(() -> new ItemEndRecord("end_record", ModSounds.THE_VOID));
     public static final Supplier<Item> TUNGSTEN_NUGGET = maybeRegister(() -> new ItemBase("tungsten_nugget"));
+
+    public static final Supplier<ItemEntropyRadiusUpgrade> ENTROPY_RANGE_UPGRADE_TWO = register(() -> new ItemEntropyRadiusUpgrade(EntropyRadius.TWO));
+    public static final Supplier<ItemEntropyRadiusUpgrade> ENTROPY_RANGE_UPGRADE_THREE = register(() -> new ItemEntropyRadiusUpgrade(EntropyRadius.THREE));
 
     // public static final XorcitePlantBlockItem plantItem = new XorcitePlantBlockItem(ModBlocks.DRAGON_ESSENCE);
 
@@ -167,6 +171,7 @@ public final class ModItems {
     public static final Supplier<ItemBlock> BLOCK_RUNE = registerItemBlock(ModBlocks.RUNE_BLOCK);
     public static final Supplier<ItemBlock> BLOCK_END_MAGMA = registerItemBlock(ModBlocks.END_MAGMA_BLOCK);
     public static final Supplier<ItemBlock> BLOCK_END_FORGE = registerItemBlock(ModBlocks.BLOCK_END_FORGE);
+    public static final Supplier<ItemBlock> ENTROPY_CHAMBER = registerItemBlock(ModBlocks.ENTROPY_CHAMBER);
     public static final Supplier<BaseMetaItemBlock> ENTROPY_CROP_BLOCK = registerItemBlock(block ->
             new BaseMetaItemBlock(block, meta -> switch (meta) {
                 case 3 -> "mature";
@@ -198,13 +203,13 @@ public final class ModItems {
                         default -> null;
                     }), ModBlocks.ORGANA_FLOWER_BLOCK);
 
-    public static <I extends Item> Supplier<I> register(final com.google.common.base.Supplier<I> supplier) {
+    private static <I extends Item> Supplier<I> register(final com.google.common.base.Supplier<I> supplier) {
         var memorized = Suppliers.memoize(supplier);
         ITEMS.add(memorized);
         return memorized;
     }
 
-    public static <I extends Item> Supplier<I> register(final BooleanSupplier enableCondition, final com.google.common.base.Supplier<I> supplier) {
+    static <I extends Item> Supplier<I> register(final BooleanSupplier enableCondition, final com.google.common.base.Supplier<I> supplier) {
         var memorized = Suppliers.memoize(() -> {
             if (enableCondition.getAsBoolean()) return supplier.get();
             return null;
@@ -213,7 +218,7 @@ public final class ModItems {
         return memorized;
     }
 
-    public static <I extends Item> Supplier<I> maybeRegister(final com.google.common.base.Supplier<I> supplier) {
+    static <I extends Item> Supplier<I> maybeRegister(final com.google.common.base.Supplier<I> supplier) {
         var memorized = Suppliers.memoize(() -> {
             var item = supplier.get();
             var blackList = DisabledContentConfig.getInstance().getLoadedData();
@@ -228,11 +233,11 @@ public final class ModItems {
         return memorized;
     }
 
-    public static <B extends Block> Supplier<ItemBlock> registerItemBlock(Supplier<B> supplier) {
+    static <B extends Block> Supplier<ItemBlock> registerItemBlock(Supplier<B> supplier) {
         return registerItemBlock(ItemBlock::new, supplier);
     }
 
-    public static <I extends ItemBlock, B extends Block> Supplier<I> registerItemBlock(Function<B, I> blockIngot, Supplier<B> supplier) {
+    static <I extends ItemBlock, B extends Block> Supplier<I> registerItemBlock(Function<B, I> blockIngot, Supplier<B> supplier) {
         var memorized = Suppliers.memoize(() -> {
             var block = supplier.get();
             if (Objects.isNull(block)) return null;
@@ -244,12 +249,12 @@ public final class ModItems {
         return memorized;
     }
 
-    @SubscribeEvent public static void onItemRegister(RegistryEvent.Register<Item> event) {
+    @SubscribeEvent static void onItemRegister(RegistryEvent.Register<Item> event) {
         var registry = event.getRegistry();
         ITEMS.stream().map(Supplier::get).filter(Objects::nonNull).forEach(registry::register);
     }
 
-    @SubscribeEvent public static void registerModels(ModelRegistryEvent event) {
+    @SubscribeEvent static void registerModels(ModelRegistryEvent event) {
         ITEMS.stream().map(Supplier::get).filter(Objects::nonNull).filter(item -> item instanceof IHasModel).map(item -> (IHasModel) item).forEach(IHasModel::registerModels);
     }
 }
