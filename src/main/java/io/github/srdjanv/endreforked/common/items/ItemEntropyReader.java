@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.common.items;
 
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
-import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
+import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.common.items.base.ItemBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +22,7 @@ public class ItemEntropyReader extends ItemBase {
     @Override public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote && player.isSneaking()) {
             var tile = worldIn.getTileEntity(pos);
-            if (tile instanceof IEntropyDataProvider provider) {
+            if (tile instanceof EntropyDataProvider provider) {
                 provider.getFormatedEntropyData().ifPresent(strings -> {
                     for (String message : strings) {
                         player.sendMessage(new TextComponentString(message));

@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
-import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
+import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyWorldHandler;
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
@@ -16,8 +16,8 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Random;
 
-public class BlockEntropyEndStone extends BlockBase implements IEntropyDataProvider {
-    private static final IEntropyDataProvider.PassiveInducer PASSIVE_INDUCER = new IEntropyDataProvider.PassiveInducer() {
+public class BlockEntropyEndStone extends BlockBase implements EntropyDataProvider {
+    private static final EntropyDataProvider.PassiveInducer PASSIVE_INDUCER = new EntropyDataProvider.PassiveInducer() {
         @Override public OptionalInt getFrequency() {
             return OptionalInt.empty();
         }
@@ -43,7 +43,7 @@ public class BlockEntropyEndStone extends BlockBase implements IEntropyDataProvi
         return Optional.of(EntropyRadius.ONE);
     }
 
-    @Override public Optional<IEntropyDataProvider.PassiveInducer> getPassiveInducer() {
+    @Override public Optional<EntropyDataProvider.PassiveInducer> getPassiveInducer() {
         return Optional.of(PASSIVE_INDUCER);
     }
 

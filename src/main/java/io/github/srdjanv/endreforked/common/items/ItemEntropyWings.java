@@ -1,10 +1,10 @@
 package io.github.srdjanv.endreforked.common.items;
 
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
-import io.github.srdjanv.endreforked.api.entropy.IEntropyWings;
+import io.github.srdjanv.endreforked.api.entropy.EntropyWings;
 import io.github.srdjanv.endreforked.common.items.base.ItemBase;
 
-public class ItemEntropyWings extends ItemBase implements IEntropyWings {
+public class ItemEntropyWings extends ItemBase implements EntropyWings {
     public ItemEntropyWings() {
         super("entropy_wings");
     }
@@ -16,7 +16,7 @@ public class ItemEntropyWings extends ItemBase implements IEntropyWings {
         return 250;
     }
 
-    @Override public EntropyRadius getEntropyRange() {
+    @Override public EntropyRadius getEntropyRadius() {
         return EntropyRadius.TWO;
     }
 

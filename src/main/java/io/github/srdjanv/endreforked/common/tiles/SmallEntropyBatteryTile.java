@@ -10,7 +10,7 @@ import com.cleanroommc.modularui.value.sync.GuiSyncManager;
 import com.cleanroommc.modularui.value.sync.IntSyncValue;
 import com.cleanroommc.modularui.widgets.ButtonWidget;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
-import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
+import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorage;
@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<PosGuiData>, ITickable, IEntropyDataProvider {
+public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<PosGuiData>, ITickable, EntropyDataProvider {
     private final EntropyChunkReader wrapper;
     private final DefaultEntropyStorage storage;
     private boolean linkDirty = true;

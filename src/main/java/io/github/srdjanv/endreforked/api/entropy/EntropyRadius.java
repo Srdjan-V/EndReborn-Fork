@@ -37,7 +37,6 @@ public enum EntropyRadius {
         return chunks;
     }
 
-
     private static int chunksInRadius(int radius) {
         int chunks = 0;
         for (int x = -radius; x <= radius; x++) {

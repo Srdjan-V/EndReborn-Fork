@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.common.handlers;
 
 import io.github.srdjanv.endreforked.api.capabilities.timedflight.ITimedFlight;
-import io.github.srdjanv.endreforked.api.entropy.IEntropyWings;
+import io.github.srdjanv.endreforked.api.entropy.EntropyWings;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
 import io.github.srdjanv.endreforked.api.entropy.world.ChunkEntropyView;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
@@ -48,10 +48,10 @@ public class TimedFlightHandler implements Initializer {
     private void handelEntropyWings(EntityPlayerMP player, ITimedFlight cap) {
         for (ItemStack stack : PlayerUtils.getAllPlayerItems(player)) {
             if (stack.isEmpty()) continue;
-            if (!(stack.getItem() instanceof IEntropyWings wings)) continue;
+            if (!(stack.getItem() instanceof EntropyWings wings)) continue;
             var wrapper = cachedEntropyChunks.get(player);
-            if (wrapper == null || !wrapper.getRadius().equals(wings.getEntropyRange())) {
-                wrapper = EntropyChunkReader.ofEntity(player, wings.getEntropyRange());
+            if (wrapper == null || !wrapper.getRadius().equals(wings.getEntropyRadius())) {
+                wrapper = EntropyChunkReader.ofEntity(player, wings.getEntropyRadius());
                 cachedEntropyChunks.put(player.getUniqueID(), wrapper);
             }
             ChunkEntropyView data = wrapper.getEntropyView();

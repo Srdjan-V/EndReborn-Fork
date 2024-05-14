@@ -18,7 +18,7 @@ import io.github.srdjanv.endreforked.api.entropy.EntropyRadiusUpgrade;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
-import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
+import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
 import io.github.srdjanv.endreforked.common.entropy.chunks.PassiveEntropyChunkDrainer;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
 import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
@@ -40,7 +40,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.util.Optional;
 
-public class EntropyChamberTile extends BaseTileEntity implements ITickable, IEntropyDataProvider, IGuiHolder<PosGuiData> {
+public class EntropyChamberTile extends BaseTileEntity implements ITickable, EntropyDataProvider, IGuiHolder<PosGuiData> {
     private final EntropyChunkReader reader;
     private final PassiveEntropyChunkDrainer drainer;
     private int availableEntropy;

@@ -3,7 +3,7 @@ package io.github.srdjanv.endreforked.api.entropy.world;
 import io.github.srdjanv.endreforked.api.base.util.DimPos;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.WeakEntropyStorage;
-import io.github.srdjanv.endreforked.api.entropy.IEntropyDataProvider;
+import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public final class ChunkEntropyView implements WeakEntropyStorage, IEntropyDataProvider {
+public final class ChunkEntropyView implements WeakEntropyStorage, EntropyDataProvider {
     private final EntropyRadius radius;
     private final List<EntropyChunk> sortedEntropies = new ObjectArrayList<>();
     private final List<EntropyChunk> unmodifiableSortedEntropies = Collections.unmodifiableList(sortedEntropies);
