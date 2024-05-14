@@ -22,7 +22,7 @@ public enum Locators implements Locator {
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
-            pos = new BlockPos(pos.getX(), server.getHeight(), pos.getZ());
+            pos = new BlockPos(pos.getX(), server.getActualHeight(), pos.getZ());
             boolean valid = validator.validate(server, config, rand, pos);
             while (!valid) {
                 pos = pos.down();
@@ -36,7 +36,7 @@ public enum Locators implements Locator {
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
-            pos = new BlockPos(pos.getX(), server.getHeight(), pos.getZ());
+            pos = new BlockPos(pos.getX(), server.getActualHeight(), pos.getZ());
             boolean valid = !server.isAirBlock(pos) && validator.validate(server, config, rand, pos);
             while (!valid) {
                 pos = pos.down();
@@ -50,7 +50,7 @@ public enum Locators implements Locator {
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
-            pos = new BlockPos(pos.getX(), server.getHeight(), pos.getZ());
+            pos = new BlockPos(pos.getX(), server.getActualHeight(), pos.getZ());
             boolean valid = server.isAirBlock(pos) && validator.validate(server, config, rand, pos);
             while (!valid) {
                 pos = pos.down();
