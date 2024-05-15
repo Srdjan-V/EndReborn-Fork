@@ -6,6 +6,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
+import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -120,9 +121,7 @@ public class BlockMaterializer extends BlockBase {
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        if (world.getTileEntity(pos) instanceof MaterializerTile tile) {
-            tile.dopItems();
-        }
+        if (world.getTileEntity(pos) instanceof BaseTileEntity tile) tile.dopItems();
         super.breakBlock(world, pos, state);
     }
 
@@ -149,13 +148,13 @@ public class BlockMaterializer extends BlockBase {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
-        tooltip.add(I18n.format("tile.user.tooltip"));
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(FACING).getIndex();
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(FACING).getIndex();
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced) {
+        tooltip.add(I18n.format("tile.user.tooltip"));
     }
 }

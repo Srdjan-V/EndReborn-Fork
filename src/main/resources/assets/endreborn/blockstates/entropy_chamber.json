@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north,working_fluid=false,working_item=false": { "model": "endreborn:entropy_chamber" },
+    "facing=east,working_fluid=false,working_item=false": { "model": "endreborn:entropy_chamber", "y": 90 },
+    "facing=south,working_fluid=false,working_item=false": { "model": "endreborn:entropy_chamber", "y": 180 },
+    "facing=west,working_fluid=false,working_item=false": { "model": "endreborn:entropy_chamber", "y": 270 },
+
+    "facing=north,working_fluid=true,working_item=false": { "model": "endreborn:entropy_chamber" },
+    "facing=east,working_fluid=true,working_item=false": { "model": "endreborn:entropy_chamber", "y": 90 },
+    "facing=south,working_fluid=true,working_item=false": { "model": "endreborn:entropy_chamber", "y": 180 },
+    "facing=west,working_fluid=true,working_item=false": { "model": "endreborn:entropy_chamber", "y": 270 },
+
+    "facing=north,working_fluid=false,working_item=true": { "model": "endreborn:entropy_chamber" },
+    "facing=east,working_fluid=false,working_item=true": { "model": "endreborn:entropy_chamber", "y": 90 },
+    "facing=south,working_fluid=false,working_item=true": { "model": "endreborn:entropy_chamber", "y": 180 },
+    "facing=west,working_fluid=false,working_item=true": { "model": "endreborn:entropy_chamber", "y": 270 },
+
+    "facing=north,working_fluid=true,working_item=true": { "model": "endreborn:entropy_chamber" },
+    "facing=east,working_fluid=true,working_item=true": { "model": "endreborn:entropy_chamber", "y": 90 },
+    "facing=south,working_fluid=true,working_item=true": { "model": "endreborn:entropy_chamber", "y": 180 },
+    "facing=west,working_fluid=true,working_item=true": { "model": "endreborn:entropy_chamber", "y": 270 }
+  }
+}

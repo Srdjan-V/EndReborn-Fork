@@ -112,6 +112,8 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
 
     public MaterializerTile() {
         biRecipeProcessor = new ItemRecipeProcessor<>(MaterializerHandler.getInstance());
+        inventoriesToDrop.add(inputInventory);
+        inventoriesToDrop.add(outInventory);
     }
 
     @Override
@@ -243,7 +245,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                 if (event == null) return null;
 
                 return Pair.of("tile.materializer.render.info",
-                        new Object[] { event.getValue().getChance(), event.getIntKey() });
+                        new Object[]{event.getValue().getChance(), event.getIntKey()});
             });
 
             render.child(renderText);
@@ -522,18 +524,6 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
         ticksRun = 0;
         lastTriggeredWorldEventIndex = 0;
         markDirty();
-    }
-
-    public void dopItems() {
-        for (ItemStackHandler itemStackHandler : Arrays.asList(inputInventory, outInventory)) {
-            for (int i = 0; i < itemStackHandler.getSlots(); ++i) {
-                ItemStack itemstack = itemStackHandler.getStackInSlot(i);
-
-                if (!itemstack.isEmpty()) {
-                    InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemstack);
-                }
-            }
-        }
     }
 
     @Override
