@@ -352,15 +352,14 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
         boolean valid = false;
         if (itemProcessor.validateRecipe(processingItem)) {
             var data = reader.getEntropyView();
-            if (data.getCurrentEntropy() >= itemProcessor.getRecipe().getEntropyCost())
+            if (data.getCurrentEntropy() >= itemProcessor.getRecipe().getEntropyCost()) {
                 valid = true;
-        }
-
-        if (valid) {
-            updateItemStatus(TileStatus.Running);
+                updateItemStatus(TileStatus.Running);
+            } else updateItemStatus(TileStatus.NotEnoughEntropy);
         } else if (processingItem.isEmpty()) {
             updateItemStatus(TileStatus.Idle);
         } else updateItemStatus(TileStatus.Invalid);
+
         return valid;
     }
 
@@ -396,17 +395,15 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
         boolean valid = false;
         if (fluidProcessor.validateRecipe(processingFluid)) {
             var data = reader.getEntropyView();
-            if (data.getCurrentEntropy() >= fluidProcessor.getRecipe().getEntropyCost())
+            if (data.getCurrentEntropy() >= fluidProcessor.getRecipe().getEntropyCost()) {
                 valid = true;
-        }
-
-        if (valid) {
-            updateFluidStatus(TileStatus.Running);
+                updateFluidStatus(TileStatus.Running);
+            } else updateFluidStatus(TileStatus.NotEnoughEntropy);
         } else if (processingFluid == null) {
             updateFluidStatus(TileStatus.Idle);
         } else updateFluidStatus(TileStatus.Invalid);
-        return valid;
 
+        return valid;
     }
 
     private void updateFluids() {
