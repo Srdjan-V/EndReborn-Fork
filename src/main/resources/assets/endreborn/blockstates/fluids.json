@@ -1,0 +1,29 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "forge:fluid"
+  },
+  "variants": {
+    "entropy": [
+      {
+        "custom": {
+          "fluid": "entropy"
+        }
+      }
+    ],
+    "end_magma": [
+      {
+        "custom": {
+          "fluid": "end_magma"
+        }
+      }
+    ],
+    "organa": [
+      {
+        "custom": {
+          "fluid": "organa"
+        }
+      }
+    ]
+  }
+}

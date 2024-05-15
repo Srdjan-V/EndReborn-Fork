@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.utils.models;
 
-public interface IHasModel {
+public interface IAsset {
 
-    void registerModels();
+    void handleAssets();
 }

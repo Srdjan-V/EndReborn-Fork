@@ -1,5 +1,6 @@
 package io.github.srdjanv.endreforked.common;
 
+import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyWorldHandler;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
@@ -16,9 +17,14 @@ import io.github.srdjanv.endreforked.common.handlers.EventHandler;
 import io.github.srdjanv.endreforked.compat.CompatManger;
 import io.github.srdjanv.endreforked.utils.Initializer;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 import java.util.List;
@@ -95,4 +101,13 @@ public class CommonProxy {
 
     public void registerItemRenderer(Item item, int meta, String id) {}
     public void registerItemRenderer(Item item, int meta, String postfix, String id) {}
+    public void registerToTextureAtlas(ResourceLocation location) {}
+    public void registerStateMapper(Block block, String file, String variantName) {
+        registerStateMapper(block, Item.getItemFromBlock(block), file, variantName);
+    }
+    public void registerStateMapper(Item item, String file, String variantName) {
+        registerStateMapper(Block.getBlockFromItem(item), file, variantName);
+    }
+    public void registerStateMapper(@Nullable Block block, @Nullable Item item, String file, String variantName) {}
+
 }

@@ -11,7 +11,7 @@ import io.github.srdjanv.endreforked.common.items.ItemDragoniteBerries;
 import io.github.srdjanv.endreforked.common.items.ItemChorusSoup;
 import io.github.srdjanv.endreforked.common.items.ItemEnderFlesh;
 import io.github.srdjanv.endreforked.common.items.tools.*;
-import io.github.srdjanv.endreforked.utils.models.IHasModel;
+import io.github.srdjanv.endreforked.utils.models.IAsset;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.init.SoundEvents;
@@ -255,6 +255,6 @@ public final class ModItems {
     }
 
     @SubscribeEvent static void registerModels(ModelRegistryEvent event) {
-        ITEMS.stream().map(Supplier::get).filter(Objects::nonNull).filter(item -> item instanceof IHasModel).map(item -> (IHasModel) item).forEach(IHasModel::registerModels);
+        ITEMS.stream().map(Supplier::get).filter(Objects::nonNull).filter(item -> item instanceof IAsset).map(item -> (IAsset) item).forEach(IAsset::handleAssets);
     }
 }

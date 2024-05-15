@@ -7,7 +7,7 @@ import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.compat.CompatManger;
 import io.github.srdjanv.endreforked.utils.PlayerUtils;
-import io.github.srdjanv.endreforked.utils.models.IHasModel;
+import io.github.srdjanv.endreforked.utils.models.IAsset;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -69,9 +69,9 @@ public class BaublesCompat implements CompatManger.ModCompat {
         Stream.of(ENTROPY_WINGS_RING)
                 .map(Supplier::get)
                 .filter(Objects::nonNull)
-                .filter(item -> item instanceof IHasModel)
-                .map(item -> (IHasModel) item)
-                .forEach(IHasModel::registerModels);
+                .filter(item -> item instanceof IAsset)
+                .map(item -> (IAsset) item)
+                .forEach(IAsset::handleAssets);
     }
 
     @Override public void registerEventBus() {

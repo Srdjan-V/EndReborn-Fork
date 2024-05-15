@@ -10,7 +10,7 @@ import io.github.srdjanv.endreforked.common.blocks.base.BlockWallBase;
 import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
 import io.github.srdjanv.endreforked.common.fluids.blocks.BlockFluidEndMagma;
 import io.github.srdjanv.endreforked.common.fluids.blocks.BlockFluidEntropy;
-import io.github.srdjanv.endreforked.utils.models.IHasModel;
+import io.github.srdjanv.endreforked.utils.models.IAsset;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -146,8 +146,8 @@ public final class ModBlocks {
     public static void registerModels(ModelRegistryEvent event) {
         BLOCKS.stream().map(Supplier::get)
                 .filter(Objects::nonNull)
-                .filter(item -> item instanceof IHasModel)
-                .map(item -> (IHasModel) item)
-                .forEach(IHasModel::registerModels);
+                .filter(item -> item instanceof IAsset)
+                .map(item -> (IAsset) item)
+                .forEach(IAsset::handleAssets);
     }
 }

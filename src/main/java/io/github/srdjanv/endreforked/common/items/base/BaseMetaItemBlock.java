@@ -32,7 +32,7 @@ public class BaseMetaItemBlock extends ItemBlock implements InventoryItemModel {
         return super.getTranslationKey() + (post != null ? "." + post.replace('$', '.') : "");
     }
 
-    @Override public void registerModels() {
+    @Override public void handleAssets() {
         NonNullList<ItemStack> items = NonNullList.create();
         this.getSubItems(EndReforked.ENDERTAB, items);
         for (var item : items) {

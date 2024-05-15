@@ -4,10 +4,10 @@ import net.minecraft.item.Item;
 
 import io.github.srdjanv.endreforked.EndReforked;
 
-public interface InventoryItemModel extends IHasModel {
+public interface InventoryItemModel extends IAsset {
 
     @Override
-    default void registerModels() {
+    default void handleAssets() {
         EndReforked.getProxy().registerItemRenderer((Item) this, 0, "inventory");
     }
 }

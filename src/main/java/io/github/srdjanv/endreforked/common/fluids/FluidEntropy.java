@@ -1,14 +1,13 @@
 package io.github.srdjanv.endreforked.common.fluids;
 
-import io.github.srdjanv.endreforked.Tags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
+import io.github.srdjanv.endreforked.common.fluids.base.BaseFluid;
+import io.github.srdjanv.endreforked.common.fluids.base.FluidTextures;
 
-public class FluidEntropy extends Fluid {
+public class FluidEntropy extends BaseFluid {
     public FluidEntropy() {
         super("entropy",
-                FluidUtils.getStill("entropy"),
-                FluidUtils.getFlowing("entropy"),
+                FluidTextures.STILL,
+                FluidTextures.FLOWING,
                 0xff321782);
     }
 }

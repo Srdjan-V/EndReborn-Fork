@@ -292,7 +292,7 @@ public class BlockEntropyCrop extends BaseBlockCrops {
     }
 
     @Override
-    public void registerModels() {
+    public void handleAssets() {
         var item = Item.getItemFromBlock(this);
         EndReforked.getProxy().registerItemRenderer(item, 0, "inventory");
         EndReforked.getProxy().registerItemRenderer(item, 3, "inventory");

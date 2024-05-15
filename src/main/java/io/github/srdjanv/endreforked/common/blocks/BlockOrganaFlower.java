@@ -43,7 +43,7 @@ public class BlockOrganaFlower extends BlockBase {
         setHardness(1.25f);
     }
 
-    @Override public void registerModels() {
+    @Override public void handleAssets() {
         EndReforked.getProxy().registerItemRenderer(ModItems.ORGANA_FLOWER.get(), 0, "inventory");
         EndReforked.getProxy().registerItemRenderer(ModItems.ORGANA_FLOWER.get(), 10, "inventory");
     }
