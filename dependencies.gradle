@@ -55,7 +55,7 @@ dependencies {
     //runtimeOnly rfg.deobf('curse.maven:configanytime-870276:4576653')
     //runtimeOnly rfg.deobf('curse.maven:universal_tweaks-705000:4704976')
 
-    implementation rfg.deobf('curse.maven:codechicken_lib_1_8-242818:2779848')
+    implementation 'codechicken:codechickenlib:3.2.3.358'
     implementation rfg.deobf('curse.maven:redstone_flux-270789:2920436')
 
     implementation rfg.deobf('curse.maven:cofh_core-69162:2920433')
