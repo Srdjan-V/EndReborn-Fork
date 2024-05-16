@@ -3,7 +3,7 @@ package io.github.srdjanv.endreforked.api.base.crafting.processors;
 import io.github.srdjanv.endreforked.api.base.crafting.EntropyRecipe;
 import io.github.srdjanv.endreforked.api.base.crafting.Recipe;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
-import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
+import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -69,13 +69,13 @@ public class ProcessorValidator<IN, OUT, R extends Recipe<IN, OUT>> {
             if (rec instanceof EntropyRecipe entropyRecipe) {
                 var data = Objects.requireNonNull(readerSupplier.get()).getEntropyView();
                 if (data.getCurrentEntropy() >= entropyRecipe.getEntropyCost()) {
-                    statusUpdater.accept(TileStatus.Running);
+                    statusUpdater.accept(TileStatus.RUNNING);
                     return true;
-                } else statusUpdater.accept(TileStatus.NotEnoughEntropy);
+                } else statusUpdater.accept(TileStatus.NOT_ENOUGH_ENTROPY);
             } else return true;
         } else if (!inputExistValidator.test(input)) {
-            statusUpdater.accept(TileStatus.Idle);
-        } else statusUpdater.accept(TileStatus.Invalid);
+            statusUpdater.accept(TileStatus.IDLE);
+        } else statusUpdater.accept(TileStatus.INVALID);
 
         return false;
     }

@@ -42,7 +42,7 @@ import io.github.srdjanv.endreforked.api.base.crafting.processors.FluidItemRecip
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
-import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
+import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
 
 public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolder<PosGuiData> {
 
@@ -66,7 +66,7 @@ public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolde
     private final FluidTank inputTank = new InternalFluidTank(1600);
     private final FluidTank processingFluid = new InternalFluidTank(1600);
 
-    private TileStatus status = TileStatus.Idle;
+    private TileStatus status = TileStatus.IDLE;
     private final FluidItemRecipeProcessor<ItemStack, Fluid2ItemGrouping<EndForgeRecipe>, EndForgeRecipe> recipeProcessor;
     private int ticksRun;
 
@@ -125,7 +125,7 @@ public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolde
             if (!(processingItemStack.isEmpty() && Objects.isNull(processingFluidStack)))
                 EndReforked.LOGGER.warn("Clearing processing items in {} at {}, items {}, {}",
                         this.getClass(), this.pos, processingItemStack, processingFluidStack);
-            updateStatus(TileStatus.Idle);
+            updateStatus(TileStatus.IDLE);
             resetProcessingInvAndFluid();
             validProcessingRecipe = false;
         }
@@ -145,8 +145,8 @@ public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolde
 
             if (invalid) {
                 if ((Objects.nonNull(inputFluidStack) && inputFluidStack.amount == 0) && inputItem.isEmpty()) {
-                    updateStatus(TileStatus.Idle);
-                } else updateStatus(TileStatus.Invalid);
+                    updateStatus(TileStatus.IDLE);
+                } else updateStatus(TileStatus.INVALID);
                 return false;
             }
 
@@ -161,7 +161,7 @@ public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolde
 
                 processingFluid.fill(inputTank.drain(fluidStackToMatch, true), true);
             } else {
-                updateStatus(TileStatus.Invalid);
+                updateStatus(TileStatus.INVALID);
                 return false;
             }
         }
@@ -179,9 +179,9 @@ public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolde
                 world.playSound(null, pos, SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 resetProcessingInvAndFluid();
                 reset();
-            } else updateStatus(TileStatus.OutFull);
+            } else updateStatus(TileStatus.OUT_FULL);
         } else {
-            updateStatus(TileStatus.Running);
+            updateStatus(TileStatus.RUNNING);
             ticksRun++;
         }
     }

@@ -4,7 +4,6 @@ import static net.minecraft.util.EnumParticleTypes.FLAME;
 import static net.minecraft.util.EnumParticleTypes.PORTAL;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +12,6 @@ import com.cleanroommc.modularui.factory.PosGuiData;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
@@ -59,7 +57,7 @@ import io.github.srdjanv.endreforked.api.materializer.WorldEvent;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.BlockMaterializer;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
-import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
+import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
 import io.github.srdjanv.endreforked.common.widgets.BasicTextWidget;
 import io.github.srdjanv.endreforked.common.widgets.BlockStateRendereWidget;
 
@@ -98,7 +96,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
 
     // Dynamic
     ////////////////////
-    private TileStatus status = TileStatus.Idle;
+    private TileStatus status = TileStatus.IDLE;
     private double percent;
     private final BiRecipeProcessor<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> biRecipeProcessor;
 
@@ -210,7 +208,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
         if (data.isClient()) {
             var textBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.MC_BACKGROUND);
             textBox.setKey(() -> {
-                if (failed) return TileStatus.Failed.getLangKey();
+                if (failed) return TileStatus.FAILED.getLangKey();
                 return status.getLangKey();
             });
             panel.child(textBox);
@@ -344,7 +342,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
         if (!world.isRemote) {
             updateBlockState();
             if (prepare()) progress();
-        } else if (status == TileStatus.Failed || failTick > 0) {
+        } else if (status == TileStatus.FAILED || failTick > 0) {
             if (failTick == 0) failed = true;
             if (failTick > 20 * 3) {
                 failed = false;
@@ -362,7 +360,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
             if (!(processingItem.isEmpty() && processingCatalyst.isEmpty()))
                 EndReforked.LOGGER.warn("Clearing processing items in {} at {}, items {}, {}",
                         this.getClass(), this.pos, processingItem, processingCatalyst);
-            updateStatus(TileStatus.Idle);
+            updateStatus(TileStatus.IDLE);
             resetProcessingInv();
             validProcessingRecipe = false;
         }
@@ -381,8 +379,8 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
 
             if (invalid) {
                 if (inputCatalyst.isEmpty() && inputItem.isEmpty()) {
-                    updateStatus(TileStatus.Idle);
-                } else updateStatus(TileStatus.Invalid);
+                    updateStatus(TileStatus.IDLE);
+                } else updateStatus(TileStatus.INVALID);
                 return false;
             }
 
@@ -393,7 +391,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                         false);
                 processingInventory.insertItem(1, inputInventory.extractItem(1, 1, false), false);
             } else {
-                updateStatus(TileStatus.Invalid);
+                updateStatus(TileStatus.INVALID);
                 return false;
             }
         }
@@ -412,7 +410,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                 spawnSpawnSuccessfulCraft();
                 resetProcessingInv();
                 reset();
-            } else updateStatus(TileStatus.OutFull);
+            } else updateStatus(TileStatus.OUT_FULL);
         } else {
             progressWorldEvents();
             ticksRun++;
@@ -420,13 +418,13 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
     }
 
     private void progressWorldEvents() {
-        updateStatus(TileStatus.Running);
+        updateStatus(TileStatus.RUNNING);
         final double ratio = (double) ticksRun / biRecipeProcessor.getRecipe().getTicksToComplete();
         percent = (ratio * 100);
         for (int i : biRecipeProcessor.getRecipe().getWorldEvents().keySet()) {
             if ((int) percent >= i && (lastTriggeredWorldEventIndex < i || lastTriggeredWorldEventIndex == 0)) {
                 if (!triggerWorldEvent(i)) {
-                    updateStatus(TileStatus.Failed);
+                    updateStatus(TileStatus.FAILED);
                     spawnFailedCraftParticles();
                     resetProcessingInv();
                     reset();
@@ -480,7 +478,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
         if (++blockStateChangeBuffer % (20 * 2) == 0) {
             IBlockState state = world.getBlockState(pos);
             var working = state.getValue(BlockMaterializer.WORKING);
-            if (status == TileStatus.Running && !working) {
+            if (status == TileStatus.RUNNING && !working) {
                 world.playSound(null, pos, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.BLOCKS, 0.5F,
                         2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 
@@ -488,7 +486,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                         .withProperty(BlockMaterializer.FACING, state.getValue(BlockMaterializer.FACING))
                         .withProperty(BlockMaterializer.WORKING, true), 3);
 
-            } else if (status != TileStatus.Running && working) {
+            } else if (status != TileStatus.RUNNING && working) {
                 world.setBlockState(pos, ModBlocks.MATERIALIZER_BLOCK.get().getDefaultState()
                         .withProperty(BlockMaterializer.FACING, state.getValue(BlockMaterializer.FACING))
                         .withProperty(BlockMaterializer.WORKING, false), 3);

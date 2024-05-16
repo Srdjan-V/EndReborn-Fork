@@ -3,8 +3,8 @@ package io.github.srdjanv.endreforked.api.base.crafting.processors;
 import io.github.srdjanv.endreforked.api.base.crafting.EntropyRecipe;
 import io.github.srdjanv.endreforked.api.base.crafting.Recipe;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
-import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
-import net.minecraft.nbt.NBTTagInt;
+import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.Objects;
@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class ProcessorExecutor<IN, OUT, R extends Recipe<IN, OUT>> implements INBTSerializable<NBTTagInt> {
+public class ProcessorExecutor<IN, OUT, R extends Recipe<IN, OUT>> implements INBTSerializable<NBTTagCompound> {
     protected final RecipeProcessor<IN, OUT, R> processor;
     protected final Supplier<IN> recipeFunctionSupplier;
     protected final Predicate<OUT> isOutputFull;
@@ -45,19 +45,19 @@ public class ProcessorExecutor<IN, OUT, R extends Recipe<IN, OUT>> implements IN
         // finished
         if (ticksRun >= processor.getRecipe().getTicksToComplete()) {
             if (!drainEntropy(true)) {
-                statusUpdater.accept(TileStatus.NotEnoughEntropy);
+                statusUpdater.accept(TileStatus.NOT_ENOUGH_ENTROPY);
                 return;
             }
 
             var input = processor.getRecipe().getInput();
             if (!canExtractInput.test(input)) {
-                statusUpdater.accept(TileStatus.Invalid);
+                statusUpdater.accept(TileStatus.INVALID);
                 return;
             }
 
             var outputStack = processor.getRecipe().getRecipeFunction().apply(recipeFunctionSupplier.get());
             if (!isOutputFull.test(outputStack)) {
-                statusUpdater.accept(TileStatus.OutFull);
+                statusUpdater.accept(TileStatus.OUT_FULL);
                 return;
             }
 
@@ -87,11 +87,13 @@ public class ProcessorExecutor<IN, OUT, R extends Recipe<IN, OUT>> implements IN
         return true;
     }
 
-    @Override public NBTTagInt serializeNBT() {
-        return new NBTTagInt(ticksRun);
+    @Override public NBTTagCompound serializeNBT() {
+        var tag = new NBTTagCompound();
+        tag.setInteger("ticks_run", ticksRun);
+        return tag;
     }
 
-    @Override public void deserializeNBT(NBTTagInt nbt) {
-        ticksRun = nbt.getInt();
+    @Override public void deserializeNBT(NBTTagCompound nbt) {
+        ticksRun = nbt.getInteger("ticks_run");
     }
 }

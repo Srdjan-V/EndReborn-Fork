@@ -23,7 +23,7 @@ import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
 import io.github.srdjanv.endreforked.common.entropy.chunks.PassiveEntropyChunkDrainer;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
-import io.github.srdjanv.endreforked.common.tiles.base.TileStatus;
+import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
 import io.github.srdjanv.endreforked.common.widgets.BasicTextWidget;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -46,6 +46,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
     private final EntropyChunkReader reader;
     private final PassiveEntropyChunkDrainer drainer;
     private int availableEntropy;
+    private int passiveEntropyDrain;
 
     private final InternalItemStackHandler upgradeSlot = new InternalItemStackHandler(1) {
         @NotNull @Override public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
@@ -54,7 +55,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
         }
     };
 
-    private TileStatus itemStatus = TileStatus.Idle;
+    private TileStatus itemStatus = TileStatus.IDLE;
     private double itemPercentage;
     private final InternalItemStackHandler itemIn = new InternalItemStackHandler(1) {
         @NotNull @Override public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
@@ -77,7 +78,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
     private final ProcessorValidator<ItemStack, ItemStack, ItemChamberRecipe> itemProcessorValidator;
     private final ProcessorExecutor<ItemStack, ItemStack, ItemChamberRecipe> itemProcessorExecutor;
 
-    private TileStatus fluidStatus = TileStatus.Idle;
+    private TileStatus fluidStatus = TileStatus.IDLE;
     private double fluidPercentage;
     private final InternalFluidTank fluidIn = new InternalFluidTank(20_000) {
         @Override public int fill(FluidStack resource, boolean doFill) {
@@ -97,7 +98,10 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
 
     public EntropyChamberTile() {
         reader = EntropyChunkReader.ofTileEntity(this, EntropyRadius.ONE);
-        drainer = new PassiveEntropyChunkDrainer(reader, new Ticker(10 * 20), 150);
+        drainer = new PassiveEntropyChunkDrainer(
+                reader, new Ticker(10 * 20),
+                150,
+                reader::getRadius);
 
         itemProcessor = new RecipeProcessor<>(EntropyItemChamberHandler.INSTANCE);
         itemProcessorValidator = ProcessorValidator.item2ItemOf(
@@ -152,11 +156,16 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
             itemIn.deserializeNBT(compound.getCompoundTag("item_in"));
         if (compound.hasKey("item_out"))
             itemOut.deserializeNBT(compound.getCompoundTag("item_out"));
+        if (compound.hasKey("item_executor"))
+            itemProcessorExecutor.deserializeNBT(compound.getCompoundTag("item_executor"));
 
         if (compound.hasKey("fluid_in"))
             fluidIn.readFromNBT(compound.getCompoundTag("fluid_in"));
         if (compound.hasKey("fluid_out"))
             fluidOut.readFromNBT(compound.getCompoundTag("fluid_out"));
+        if (compound.hasKey("fluid_executor"))
+            itemProcessorExecutor.deserializeNBT(compound.getCompoundTag("fluid_executor"));
+
 
         if (compound.hasKey("upgrade_slot"))
             upgradeSlot.deserializeNBT(compound.getCompoundTag("upgrade_slot"));
@@ -166,9 +175,11 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setTag("item_in", itemIn.serializeNBT());
         compound.setTag("item_out", itemOut.serializeNBT());
+        compound.setTag("item_executor", itemProcessorExecutor.serializeNBT());
 
         compound.setTag("fluid_in", fluidIn.writeToNBT(new NBTTagCompound()));
         compound.setTag("fluid_out", fluidOut.writeToNBT(new NBTTagCompound()));
+        compound.setTag("fluid_executor", fluidProcessorExecutor.serializeNBT());
 
         compound.setTag("upgrade_slot", upgradeSlot.serializeNBT());
 
@@ -196,7 +207,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
     @Override public ModularPanel buildUI(PosGuiData data, GuiSyncManager syncManager) {
         ModularPanel panel = ModularPanel.defaultPanel("entropy_chamber_gui", 176, 190).bindPlayerInventory();
 
-        syncManager.syncValue("inv_sync", new SyncHandler() {
+        syncManager.syncValue("item_inv_sync", new SyncHandler() {
 
             @Override
             public void readOnClient(int id, PacketBuffer buf) throws IOException {
@@ -237,7 +248,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
                 return changed;
             }
         });
-        syncManager.syncValue("fluid_sync", new SyncHandler() {
+        syncManager.syncValue("fluid_inv_sync", new SyncHandler() {
 
             @Override
             public void readOnClient(int id, PacketBuffer buf) throws IOException {
@@ -292,6 +303,11 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
                 new IntSyncValue(
                         () -> reader.getEntropyView().getCurrentEntropy(),
                         availableEntropy -> this.availableEntropy = availableEntropy));
+        syncManager.syncValue("passive_entropy_drain",
+                new IntSyncValue(
+                        () -> drainer.getPassiveDrainer().getDrained(),
+                        passiveEntropyDrain -> this.passiveEntropyDrain = passiveEntropyDrain));
+
 
         if (data.isClient()) {
             var itemTextBox = new BasicTextWidget().left(20).top(3).right(20).background(GuiTextures.MC_BACKGROUND);
@@ -345,6 +361,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
 
         if (data.isClient()) {
             var entropyLevel = new BasicTextWidget().left(20).right(20).top(85).background(GuiTextures.MC_BACKGROUND);
+            entropyLevel.tooltip().tooltipBuilder(tooltip -> tooltip.addLine(new LangKey("entropy.drainer.passive").get() + ": " + passiveEntropyDrain));
             entropyLevel.setKey(() -> String.valueOf(availableEntropy));
             panel.child(entropyLevel);
         }
@@ -382,7 +399,10 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
 
     private void updateRange() {
         ItemStack stackInSlot = upgradeSlot.getStackInSlot(0);
-        if (stackInSlot.isEmpty()) return;
+        if (stackInSlot.isEmpty()) {
+            reader.updateRadius(EntropyRadius.ONE);
+            return;
+        }
         if (stackInSlot.getItem() instanceof EntropyRadiusUpgrade upgrade) {
             reader.updateRadius(upgrade.getEntropyRadius());
         }

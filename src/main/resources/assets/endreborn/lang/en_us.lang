@@ -9,10 +9,10 @@ entropy.storage.current_entropy=Current amount entropy stored
 entropy.inducer.active=Amount of induced entropy per operation
 entropy.drainer.active=Amount of drained entropy per operation
 
-entropy.inducer.passive=Amount of induced entropy per operation
+entropy.inducer.passive=Passive entropy induction
 entropy.inducer.passive.frequency=Ticks per operation
 
-entropy.drainer.passive=Amount of drained entropy per operation
+entropy.drainer.passive=Passive entropy drain
 entropy.drainer.passive.frequency=Ticks per operation
 
 # Items -
@@ -218,6 +218,7 @@ tile.status.gui.idle=Idle
 tile.status.gui.running=Running
 tile.status.gui.invalid_recipe=Invalid recipe
 tile.status.gui.failed=Failed to craft recipe
+tile.status.gui.not_enough_entropy=Not enough entropy
 
 #Banners
 item.banner.endreborn_rune.white=White Rune 
