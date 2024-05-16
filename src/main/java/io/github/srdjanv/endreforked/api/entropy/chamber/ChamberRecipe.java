@@ -1,10 +1,11 @@
 package io.github.srdjanv.endreforked.api.entropy.chamber;
 
+import io.github.srdjanv.endreforked.api.base.crafting.EntropyRecipe;
 import io.github.srdjanv.endreforked.api.base.crafting.Recipe;
 
 import java.util.function.Function;
 
-public class ChamberRecipe<IN, OUT> extends Recipe<IN, OUT> {
+public class ChamberRecipe<IN, OUT> extends Recipe<IN, OUT> implements EntropyRecipe {
     private final int entropyCost;
 
     public ChamberRecipe(IN input, int ticksToComplete, int entropyCost, Function<IN, OUT> recipeFunction) {
@@ -12,6 +13,7 @@ public class ChamberRecipe<IN, OUT> extends Recipe<IN, OUT> {
         this.entropyCost = entropyCost;
     }
 
+    @Override
     public int getEntropyCost() {
         return entropyCost;
     }

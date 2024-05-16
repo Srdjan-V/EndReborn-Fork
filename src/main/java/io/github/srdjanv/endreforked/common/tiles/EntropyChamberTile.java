@@ -12,6 +12,8 @@ import com.cleanroommc.modularui.widgets.ItemSlot;
 import com.cleanroommc.modularui.widgets.ProgressWidget;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.cleanroommc.modularui.widgets.slot.SlotGroup;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.ProcessorExecutor;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.ProcessorValidator;
 import io.github.srdjanv.endreforked.api.base.crafting.processors.RecipeProcessor;
 import io.github.srdjanv.endreforked.api.base.util.Ticker;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadiusUpgrade;
@@ -53,7 +55,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
     };
 
     private TileStatus itemStatus = TileStatus.Idle;
-    private int itemsTicksRun;
+    private double itemPercentage;
     private final InternalItemStackHandler itemIn = new InternalItemStackHandler(1) {
         @NotNull @Override public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             if (slot == 0) {
@@ -71,10 +73,12 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
             return super.insertItem(slot, stack, simulate);
         }
     };
-    private final RecipeProcessor<ItemStack, ItemStack, ItemChamberRecipe> itemProcessor = new RecipeProcessor<>(EntropyItemChamberHandler.INSTANCE);
+    private final RecipeProcessor<ItemStack, ItemStack, ItemChamberRecipe> itemProcessor;
+    private final ProcessorValidator<ItemStack, ItemStack, ItemChamberRecipe> itemProcessorValidator;
+    private final ProcessorExecutor<ItemStack, ItemStack, ItemChamberRecipe> itemProcessorExecutor;
 
     private TileStatus fluidStatus = TileStatus.Idle;
-    private int fluidsTicksRun;
+    private double fluidPercentage;
     private final InternalFluidTank fluidIn = new InternalFluidTank(20_000) {
         @Override public int fill(FluidStack resource, boolean doFill) {
             if (fluidProcessor.validateRecipe(resource))
@@ -87,11 +91,57 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
             return 0;
         }
     };
-    private final RecipeProcessor<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessor = new RecipeProcessor<>(EntropyFluidChamberHandler.INSTANCE);
+    private final RecipeProcessor<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessor;
+    private final ProcessorValidator<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessorValidator;
+    private final ProcessorExecutor<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessorExecutor;
 
     public EntropyChamberTile() {
         reader = EntropyChunkReader.ofTileEntity(this, EntropyRadius.ONE);
         drainer = new PassiveEntropyChunkDrainer(reader, new Ticker(10 * 20), 150);
+
+        itemProcessor = new RecipeProcessor<>(EntropyItemChamberHandler.INSTANCE);
+        itemProcessorValidator = ProcessorValidator.item2ItemOf(
+                itemProcessor,
+                this::updateItemStatus,
+                () -> reader,
+                () -> itemIn.getStackInSlot(0));
+
+        itemProcessorExecutor = new ProcessorExecutor<>(
+                itemProcessor,
+                this::updateItemStatus,
+                () -> reader,
+                () -> itemIn.getStackInSlot(0),
+                stack -> itemOut.insertItem(-1, stack, true).isEmpty(),
+                stack -> itemIn.extractItem(0, stack.getCount(), true).getCount() == stack.getCount(),
+                (itemInput, outputStack) -> {
+                    itemIn.extractItem(0, itemInput.getCount(), false);
+                    itemOut.insertItem(-1, outputStack, false);
+                }
+        );
+
+
+        fluidProcessor = new RecipeProcessor<>(EntropyFluidChamberHandler.INSTANCE);
+        fluidProcessorValidator = ProcessorValidator.fluid2FluidOf(
+                fluidProcessor,
+                this::updateFluidStatus,
+                () -> reader,
+                fluidIn::getFluid);
+
+        fluidProcessorExecutor = new ProcessorExecutor<>(
+                fluidProcessor,
+                this::updateFluidStatus,
+                () -> reader,
+                fluidIn::getFluid,
+                fluid -> fluidOut.fillTileInternal(fluid, false) == fluid.amount,
+                fluid -> {
+                    var drainIn = fluidIn.drain(fluid.amount, false);
+                    return drainIn != null && drainIn.amount == fluid.amount;
+                },
+                (fluidInput, fluidOut) -> {
+                    fluidIn.drain(fluidInput.amount, true);
+                    this.fluidOut.fillTileInternal(fluidOut, true);
+                }
+        );
     }
 
     @Override
@@ -134,18 +184,13 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
     }
 
     @Override public Optional<ActiveDrainer> getActiveDrainer() {
-        if (itemProcessor.hasRecipe() || fluidProcessor.hasRecipe()) {
-            return Optional.of(new ActiveDrainer() {
-                @Override public int getDrained() {
-                    int cost = 0;
-                    if (itemProcessor.hasRecipe()) cost = itemProcessor.getRecipe().getEntropyCost();
-                    if (fluidProcessor.hasRecipe()) cost += fluidProcessor.getRecipe().getEntropyCost();
-                    return cost;
-                }
-            });
-        }
-
-        return Optional.empty();
+        if (!itemProcessor.hasRecipe() && !fluidProcessor.hasRecipe()) return Optional.empty();
+        return Optional.of(() -> {
+            int cost = 0;
+            if (itemProcessor.hasRecipe()) cost = itemProcessor.getRecipe().getEntropyCost();
+            if (fluidProcessor.hasRecipe()) cost += fluidProcessor.getRecipe().getEntropyCost();
+            return cost;
+        });
     }
 
     @Override public ModularPanel buildUI(PosGuiData data, GuiSyncManager syncManager) {
@@ -235,13 +280,13 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
 
         syncManager.syncValue("item_status",
                 SyncHandlers.enumValue(TileStatus.class, () -> itemStatus, status -> this.itemStatus = status));
-        syncManager.syncValue("item_ticks",
-                new IntSyncValue(() -> itemsTicksRun, itemsTicksRun -> this.itemsTicksRun = itemsTicksRun));
+        syncManager.syncValue("item_percentage",
+                new DoubleSyncValue(itemProcessorExecutor::getPercentage, percentage -> itemPercentage = percentage));
 
         syncManager.syncValue("fluid_status",
                 SyncHandlers.enumValue(TileStatus.class, () -> fluidStatus, status -> this.fluidStatus = status));
-        syncManager.syncValue("fluid_ticks",
-                new IntSyncValue(() -> fluidsTicksRun, fluidsTicksRun -> this.fluidsTicksRun = fluidsTicksRun));
+        syncManager.syncValue("fluid_percentage",
+                new DoubleSyncValue(fluidProcessorExecutor::getPercentage, percentage -> fluidPercentage = percentage));
 
         syncManager.syncValue("available_entropy",
                 new IntSyncValue(
@@ -256,9 +301,8 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
                     .size(18).left(77).top(23)
                     .texture(GuiTextures.PROGRESS_ARROW, 25)
                     .progress(() -> {
-                        if (itemProcessor.validateRecipe(this.itemIn.getStackInSlot(0))) {
-                            return (double) itemsTicksRun / itemProcessor.getRecipe().getTicksToComplete();
-                        }
+                        if (itemProcessor.validateRecipe(this.itemIn.getStackInSlot(0)))
+                            return itemPercentage;
                         return 0;
                     }));
         }
@@ -284,9 +328,8 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
                     .size(18).left(77).top(64)
                     .texture(GuiTextures.PROGRESS_ARROW, 25)
                     .progress(() -> {
-                        if (fluidProcessor.validateRecipe(fluidIn.getFluid())) {
-                            return (double) fluidsTicksRun / fluidProcessor.getRecipe().getTicksToComplete();
-                        }
+                        if (fluidProcessor.validateRecipe(fluidIn.getFluid()))
+                            return fluidPercentage;
                         return 0;
                     }));
         }
@@ -330,13 +373,11 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
     }
 
     @Override public void update() {
+        if (world.isRemote) return;
         drainer.drain();
-
-        if (!world.isRemote) {
-            updateRange();
-            if (prepareItems()) updateItems();
-            if (prepareFluids()) updateFluids();
-        }
+        updateRange();
+        if (itemProcessorValidator.prepare()) itemProcessorExecutor.execute();
+        if (fluidProcessorValidator.prepare()) fluidProcessorExecutor.execute();
     }
 
     private void updateRange() {
@@ -347,96 +388,16 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
         }
     }
 
-    private boolean prepareItems() {
-        var processingItem = itemIn.getStackInSlot(0);
-        boolean valid = false;
-        if (itemProcessor.validateRecipe(processingItem)) {
-            var data = reader.getEntropyView();
-            if (data.getCurrentEntropy() >= itemProcessor.getRecipe().getEntropyCost()) {
-                valid = true;
-                updateItemStatus(TileStatus.Running);
-            } else updateItemStatus(TileStatus.NotEnoughEntropy);
-        } else if (processingItem.isEmpty()) {
-            updateItemStatus(TileStatus.Idle);
-        } else updateItemStatus(TileStatus.Invalid);
-
-        return valid;
-    }
-
-    private void updateItems() {
-        // finished
-        if (itemsTicksRun >= itemProcessor.getRecipe().getTicksToComplete()) {
-            if (!drainEntropy(reader, itemProcessor, true)) {
-                updateItemStatus(TileStatus.NotEnoughEntropy);
-                return;
-            }
-
-            var outputStack = itemProcessor.getRecipe().getRecipeFunction().apply(itemOut.getStackInSlot(0));
-            if (itemOut.insertItem(-1, outputStack, true).isEmpty()) {
-                var itemInput = itemProcessor.getRecipe().getInput();
-                if (itemIn.extractItem(0, itemInput.getCount(), true).getCount() == itemInput.getCount()) {
-                    drainEntropy(reader, itemProcessor, false);
-                    itemIn.extractItem(0, itemInput.getCount(), false);
-                    itemOut.insertItem(-1, outputStack, false);
-                    itemsTicksRun = 0;
-                } else updateItemStatus(TileStatus.Invalid);
-            } else updateItemStatus(TileStatus.OutFull);
-        } else itemsTicksRun++;
-    }
-
     private void updateItemStatus(TileStatus status) {
         if (this.itemStatus != status) {
             this.itemStatus = status;
         }
     }
 
-    private boolean prepareFluids() {
-        var processingFluid = fluidIn.getFluid();
-        boolean valid = false;
-        if (fluidProcessor.validateRecipe(processingFluid)) {
-            var data = reader.getEntropyView();
-            if (data.getCurrentEntropy() >= fluidProcessor.getRecipe().getEntropyCost()) {
-                valid = true;
-                updateFluidStatus(TileStatus.Running);
-            } else updateFluidStatus(TileStatus.NotEnoughEntropy);
-        } else if (processingFluid == null) {
-            updateFluidStatus(TileStatus.Idle);
-        } else updateFluidStatus(TileStatus.Invalid);
-
-        return valid;
-    }
-
-    private void updateFluids() {
-        // finished
-        if (fluidsTicksRun >= fluidProcessor.getRecipe().getTicksToComplete()) {
-            if (!drainEntropy(reader, fluidProcessor, true)) {
-                updateItemStatus(TileStatus.NotEnoughEntropy);
-                return;
-            }
-
-            var outputFluid = fluidProcessor.getRecipe().getRecipeFunction().apply(fluidOut.getFluid());
-            var inFluidStack = fluidProcessor.getRecipe().getInput();
-            if (fluidOut.fillTileInternal(outputFluid, false) == outputFluid.amount) {
-                var drainIn = fluidIn.drain(inFluidStack.amount, false);
-                if (drainIn != null && drainIn.amount == inFluidStack.amount) {
-                    drainEntropy(reader, fluidProcessor, false);
-                    fluidIn.drain(inFluidStack.amount, true);
-                    fluidOut.fillTileInternal(outputFluid, true);
-                    fluidsTicksRun = 0;
-                } else updateFluidStatus(TileStatus.Invalid);
-            } else updateFluidStatus(TileStatus.OutFull);
-        } else fluidsTicksRun++;
-    }
-
     private void updateFluidStatus(TileStatus status) {
         if (this.fluidStatus != status) {
             this.fluidStatus = status;
         }
-    }
-
-    protected <R extends ChamberRecipe<?, ?>> boolean drainEntropy(EntropyChunkReader reader, RecipeProcessor<?, ?, R> processor, boolean simulate) {
-        var data = reader.getEntropyView();
-        return data.drainEntropy(processor.getRecipe().getEntropyCost(), simulate) == processor.getRecipe().getEntropyCost();
     }
 
     @Override public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
