@@ -57,7 +57,7 @@ public class EndReforked {
 
     public EndReforked() {
         instance = this;
-        proxy = FMLCommonHandler.instance().getSide().isClient() ? new ClientProxy() : new CommonProxy();
+        proxy = FMLCommonHandler.instance().getSide().isClient() ? new ClientProxy(Side.CLIENT) : new CommonProxy(Side.SERVER);
         proxy.registerEventBus();
         MinecraftForge.EVENT_BUS.register(EndReforked.class);
     }

@@ -6,10 +6,10 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.ItemStack;
 
-public final class StateMapper extends StateMapperBase implements ItemMeshDefinition {
+public final class FileStateMapper extends StateMapperBase implements ItemMeshDefinition {
     public final ModelResourceLocation location;
 
-    public StateMapper(String modName, String fileName, String modelName) {
+    public FileStateMapper(String modName, String fileName, String modelName) {
         this.location = new ModelResourceLocation(modName + ":" + fileName, modelName);
     }
 

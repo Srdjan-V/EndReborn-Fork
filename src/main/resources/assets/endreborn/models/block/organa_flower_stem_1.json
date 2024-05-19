@@ -1,0 +1,6 @@
+{
+    "parent": "block/stem_growth1",
+    "textures": {
+        "stem": "endreborn:blocks/organa_flower_stem_disconnected"
+    }
+}

@@ -10,11 +10,14 @@ import net.minecraftforge.client.model.ModelLoader;
 
 import io.github.srdjanv.endreforked.common.CommonProxy;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import org.jetbrains.annotations.Nullable;
 
 public class ClientProxy extends CommonProxy {
 
-    public ClientProxy() {
+    public ClientProxy(Side side) {
+        super(side);
         components.add(new Registration());
     }
 
@@ -29,19 +32,24 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
     }
 
+    @Override public void postInit(FMLPostInitializationEvent event) {
+        super.postInit(event);
+        ColorsHandler.init();
+    }
+
     @Override public void registerItemRenderer(Item item, int meta, String postfix, String id) {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName() + postfix, id));
     }
 
     @Override public void registerToTextureAtlas(ResourceLocation location) {
-        TextureHandler.registerFluidTexture(location);
+        TextureHandler.registerTexture(location);
     }
 
-    @Override public void registerStateMapper(
+    @Override public void registerFileStateMapper(
             @Nullable Block block,
             @Nullable Item item,
             String file, String variantName) {
-        StateMapper mapper = new StateMapper(Tags.MODID, file, variantName);
+        FileStateMapper mapper = new FileStateMapper(Tags.MODID, file, variantName);
         if (item != null) {
             ModelBakery.registerItemVariants(item);
             ModelLoader.setCustomMeshDefinition(item, mapper);

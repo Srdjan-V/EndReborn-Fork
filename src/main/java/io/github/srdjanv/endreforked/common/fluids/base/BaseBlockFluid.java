@@ -22,7 +22,7 @@ public class BaseBlockFluid extends BlockFluidClassic implements IAsset {
 
     @Override public void handleAssets() {
         EndReforked.getProxy()
-                .registerStateMapper(
+                .registerFileStateMapper(
                         this,
                         "fluids",
                         getRegistryName().getPath());

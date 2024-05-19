@@ -255,6 +255,12 @@ public final class ModItems {
     }
 
     @SubscribeEvent static void registerModels(ModelRegistryEvent event) {
-        ITEMS.stream().map(Supplier::get).filter(Objects::nonNull).filter(item -> item instanceof IAsset).map(item -> (IAsset) item).forEach(IAsset::handleAssets);
+        ITEMS.stream()
+                .map(Supplier::get)
+                .filter(Objects::nonNull)
+                .filter(item -> item instanceof IAsset)
+                .map(item -> (IAsset) item)
+                .filter(IAsset::shouldBind)
+                .forEach(IAsset::handleAssets);
     }
 }

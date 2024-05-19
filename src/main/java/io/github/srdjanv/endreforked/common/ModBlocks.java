@@ -113,6 +113,8 @@ public final class ModBlocks {
     public static final Supplier<BlockOrganaFlower> ORGANA_FLOWER_BLOCK = register(BlockOrganaFlower::new);
     public static final Supplier<BlockOrganaPlant> ORGANA_PLANT_BLOCK = register(BlockOrganaPlant::new);
 
+    public static final Supplier<BlockOrganaFlowerStem> ORGANA_FLOWER_STEM_BLOCK = register(BlockOrganaFlowerStem::new);
+    public static final Supplier<BlockOrganaFlowerStemDead> ORGANA_FLOWER_STEM_DEAD_BLOCK = register(BlockOrganaFlowerStemDead::new);
 
     public static <B extends Block> Supplier<B> register(com.google.common.base.Supplier<B> supplier) {
         Supplier<B> memorized = Suppliers.memoize(supplier);
@@ -148,6 +150,7 @@ public final class ModBlocks {
                 .filter(Objects::nonNull)
                 .filter(item -> item instanceof IAsset)
                 .map(item -> (IAsset) item)
+                .filter(IAsset::shouldBind)
                 .forEach(IAsset::handleAssets);
     }
 }

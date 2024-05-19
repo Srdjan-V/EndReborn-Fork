@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "age=0,facing=up": { "model": "endreborn:organa_flower_stem_0" },
+    "age=1,facing=up": { "model": "endreborn:organa_flower_stem_1" },
+    "age=2,facing=up": { "model": "endreborn:organa_flower_stem_2" },
+    "age=3,facing=up": { "model": "endreborn:organa_flower_stem_3" },
+    "age=4,facing=up": { "model": "endreborn:organa_flower_stem_4" },
+    "age=5,facing=up": { "model": "endreborn:organa_flower_stem_5" },
+    "age=6,facing=up": { "model": "endreborn:organa_flower_stem_6" },
+    "age=7,facing=up": { "model": "endreborn:organa_flower_stem_7" },
+    "age=8,facing=up": { "model": "endreborn:organa_flower_stem_7" },
+    "age=9,facing=up": { "model": "endreborn:organa_flower_stem_7" },
+    "facing=west": { "model": "endreborn:organa_flower_stem_fruit" },
+    "facing=east": { "model": "endreborn:organa_flower_stem_fruit", "y": 180 },
+    "facing=north": { "model": "endreborn:organa_flower_stem_fruit", "y": 90 },
+    "facing=south": { "model": "endreborn:organa_flower_stem_fruit", "y": 270 }
+  }
+}

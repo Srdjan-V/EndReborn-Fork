@@ -41,6 +41,7 @@ public final class ModFluids {
                 .filter(Objects::nonNull)
                 .filter(item -> item instanceof IAsset)
                 .map(item -> (IAsset) item)
+                .filter(IAsset::shouldBind)
                 .forEach(IAsset::handleAssets);
     }
 
