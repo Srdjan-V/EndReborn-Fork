@@ -3,6 +3,9 @@ package io.github.srdjanv.endreforked.common.configs;
 import net.minecraftforge.common.config.Config;
 
 import io.github.srdjanv.endreforked.Tags;
+import net.minecraftforge.common.config.Config.Comment;
+import net.minecraftforge.common.config.Config.Name;
+import net.minecraftforge.common.config.Config.RequiresMcRestart;
 
 @Config(modid = Tags.MODID, name = Tags.MODID + "/BasicConfigs", category = "")
 public final class Configs {
@@ -11,12 +14,12 @@ public final class Configs {
 
     public static class ClientSideConfigs {
 
-        @Config.Name("Show broken textures in jei for the EntropyWand")
+        @Name("Show broken textures in jei for the EntropyWand")
         public boolean entropyWandRenderBrokenTextures = false;
 
-        @Config.Name("Panorama")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Main menu panorama" })
+        @Name("Panorama")
+        @RequiresMcRestart
+        @Comment({"Main menu panorama"})
         public boolean panorama = true;
     }
 
@@ -24,32 +27,53 @@ public final class Configs {
 
     public static class ServerSideConfigs {
 
-        @Config.Name("ender")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "EnchantBoost" })
-        public int[] enchantBoost = { 1 };
+        public final EntityConfigs ENTITY_CONFIGS = new EntityConfigs();
 
-        @Config.Name("EntropyWand tool damage per conversion")
-        @Config.RequiresMcRestart
+        public static class EntityConfigs {
+            public final WatcherConfigs WATCHER = new WatcherConfigs();
+
+            public static class WatcherConfigs {
+                @Name("Max escapes")
+                @Comment("Max escapes from payer before getting hunted")
+                @RequiresMcRestart
+                public int max_escapes = 3;
+
+                @Name("Hunt cooldown")
+                @Comment("Time in ticks to forget last hunted player")
+                @RequiresMcRestart
+                public int hunt_cooldown = 4 * 60 * 20;
+            }
+
+        }
+
+
+        //todo fixup configs
+        @Name("ender")
+        @RequiresMcRestart
+        @Comment({"EnchantBoost"})
+        public int[] enchantBoost = {1};
+
+        @Name("EntropyWand tool damage per conversion")
+        @RequiresMcRestart
         public int entropyWandUseDamage = 2;
 
-        @Config.Name("New Villagers")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to spawn" })
+        @Name("New Villagers")
+        @RequiresMcRestart
+        @Comment({"Allows to spawn"})
         public boolean spawnNewVillagers = true;
 
-        @Config.Name("Chest Loot")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "Allows to fill." })
+        @Name("Chest Loot")
+        @RequiresMcRestart
+        @Comment({"Allows to fill."})
         public boolean chestLoot = true;
 
-        @Config.Name("Entity Loot")
-        @Config.RequiresMcRestart
+        @Name("Entity Loot")
+        @RequiresMcRestart
         public boolean entityLoot = true;
 
-        @Config.Name("End Void Teleporter")
-        @Config.RequiresMcRestart
-        @Config.Comment({ "When player falls to void in The End, he teleports to the Overworld" })
+        @Name("End Void Teleporter")
+        @RequiresMcRestart
+        @Comment({"When player falls to void in The End, he teleports to the Overworld"})
         public boolean teleporterEnd = true;
 
         private ServerSideConfigs() {}
