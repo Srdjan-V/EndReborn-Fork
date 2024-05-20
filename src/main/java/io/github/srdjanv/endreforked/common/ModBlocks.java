@@ -153,7 +153,6 @@ public final class ModBlocks {
                 .filter(Objects::nonNull)
                 .filter(item -> item instanceof IAsset)
                 .map(item -> (IAsset) item)
-                .filter(IAsset::shouldBind)
                 .forEach(IAsset::handleAssets);
     }
 }
