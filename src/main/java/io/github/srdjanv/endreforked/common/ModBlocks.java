@@ -10,6 +10,7 @@ import io.github.srdjanv.endreforked.common.blocks.base.BlockWallBase;
 import io.github.srdjanv.endreforked.common.configs.content.DisabledContentConfig;
 import io.github.srdjanv.endreforked.common.fluids.blocks.BlockFluidEndMagma;
 import io.github.srdjanv.endreforked.common.fluids.blocks.BlockFluidEntropy;
+import io.github.srdjanv.endreforked.common.fluids.blocks.BlockFluidOrgana;
 import io.github.srdjanv.endreforked.utils.models.IAsset;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -104,8 +105,10 @@ public final class ModBlocks {
     // todo fixup
     public static final Supplier<BlockOrganaWeed> ORGANA_WEED_BLOCK = register(BlockOrganaWeed::new);
 
+    //fluids
     public static final Supplier<BlockFluidEndMagma> FLUID_END_MAGMA_BLOCK = register(BlockFluidEndMagma::new);
     public static final Supplier<BlockFluidEntropy> FLUID_ENTROPY_BLOCK = register(BlockFluidEntropy::new);
+    public static final Supplier<BlockFluidOrgana> FLUID_ORGANA_BLOCK = register(BlockFluidOrgana::new);
 
     public static final Supplier<BlockEndMossGrass> END_MOSS_GRASS_BLOCK = register(BlockEndMossGrass::new);
     public static final Supplier<BlockEndMoss> END_MOSS_BLOCK = register(BlockEndMoss::new);
