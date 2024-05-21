@@ -12,20 +12,20 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 import io.github.srdjanv.endreforked.common.ModBlocks;
 
-public class EntityColdFireball extends EntityFireball {
+public class EntityEntropyFireball extends EntityFireball {
 
-    public EntityColdFireball(World worldIn) {
+    public EntityEntropyFireball(World worldIn) {
         super(worldIn);
         this.setSize(0.3125F, 0.3125F);
     }
 
-    public EntityColdFireball(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+    public EntityEntropyFireball(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
         super(worldIn, shooter, accelX, accelY, accelZ);
         this.setSize(0.3125F, 0.3125F);
     }
 
-    public EntityColdFireball(World worldIn, double x, double y, double z, double accelX, double accelY,
-                              double accelZ) {
+    public EntityEntropyFireball(World worldIn, double x, double y, double z, double accelX, double accelY,
+                                 double accelZ) {
         super(worldIn, x, y, z, accelX, accelY, accelZ);
         this.setSize(0.3125F, 0.3125F);
     }
@@ -52,7 +52,7 @@ public class EntityColdFireball extends EntityFireball {
                 if (flag) {
                     BlockPos blockpos = result.getBlockPos().offset(result.sideHit);
                     if (this.world.isAirBlock(blockpos)) {
-                        this.world.setBlockState(blockpos, ModBlocks.END_FIRE.get().getDefaultState());
+                        this.world.setBlockState(blockpos, ModBlocks.ENTROPY_FIRE.get().getDefaultState());
                     }
                 }
             }

@@ -273,7 +273,7 @@ public class EntityEndGuard extends EntityMob {
                                 new BlockPos((int) this.blaze.posX, (int) this.blaze.posY, (int) this.blaze.posZ), 0);
 
                         for (int i = 0; i < 1; ++i) {
-                            EntityColdFireball entitysmallfireball = new EntityColdFireball(this.blaze.world,
+                            EntityEntropyFireball entitysmallfireball = new EntityEntropyFireball(this.blaze.world,
                                     this.blaze, d1 + this.blaze.getRNG().nextGaussian() * (double) f, d2,
                                     d3 + this.blaze.getRNG().nextGaussian() * (double) f);
                             entitysmallfireball.posY = this.blaze.posY + (double) (this.blaze.height / 2.0F) + 0.5D;

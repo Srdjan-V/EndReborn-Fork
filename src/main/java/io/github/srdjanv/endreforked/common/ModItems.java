@@ -181,7 +181,7 @@ public final class ModItems {
     public static final Supplier<ItemBlock> SMALL_ENTROPY_BATTERY_BLOCK = registerItemBlock(ModBlocks.SMALL_ENTROPY_BATTERY_BLOCK);
 
     public static final Supplier<ItemBlock> END_STONE_CHISELED = registerItemBlock(ModBlocks.END_BRICKS_CHISELED);
-    public static final Supplier<ItemBlock> COLD_FIRE = registerItemBlock(ModBlocks.END_FIRE);
+    public static final Supplier<ItemBlock> COLD_FIRE = registerItemBlock(ModBlocks.ENTROPY_FIRE);
     public static final Supplier<ItemBlock> STAIRS_END_BRICKS = registerItemBlock(ModBlocks.END_BRICKS_STAIRS);
     public static final Supplier<ItemBlock> STAIRS_SMOOTH_END_STONE = registerItemBlock(ModBlocks.END_STONE_SMOOTH_STAIRS);
     public static final Supplier<ItemBlock> WALL_END_BRICKS = registerItemBlock(ModBlocks.END_BRICKS_WALL);

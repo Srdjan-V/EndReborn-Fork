@@ -9,9 +9,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.common.entity.EntityColdFireball;
+import io.github.srdjanv.endreforked.common.entity.EntityEntropyFireball;
 
-public class RenderColdFireball extends Render<EntityColdFireball> {
+public class RenderColdFireball extends Render<EntityEntropyFireball> {
 
     public static final ResourceLocation TEXTURES = new ResourceLocation(Tags.MODID,
             "textures/entity/cold_fireball.png");
@@ -20,7 +20,7 @@ public class RenderColdFireball extends Render<EntityColdFireball> {
         super(renderManagerIn);
     }
 
-    public void doRender(EntityColdFireball entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(EntityEntropyFireball entity, double x, double y, double z, float entityYaw, float partialTicks) {
         GlStateManager.pushMatrix();
         bindEntityTexture(entity);
         GlStateManager.translate((float) x, (float) y, (float) z);
@@ -53,7 +53,7 @@ public class RenderColdFireball extends Render<EntityColdFireball> {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-    protected ResourceLocation getEntityTexture(EntityColdFireball entity) {
+    protected ResourceLocation getEntityTexture(EntityEntropyFireball entity) {
         return TEXTURES;
     }
 }

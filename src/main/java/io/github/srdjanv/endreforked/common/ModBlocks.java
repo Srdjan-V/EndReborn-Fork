@@ -28,9 +28,6 @@ public final class ModBlocks {
 
     private static final List<Supplier<? extends Block>> BLOCKS = new ArrayList<>();
 
-    public static final Supplier<Block> END_FIRE = maybeRegister(
-            () -> new BlockColdFire("end_fire"));
-
     public static final Supplier<Block> END_STONE_SMOOTH_BLOCK = maybeRegister(
             () -> new BlockEndBase("end_stone_smooth_block", Material.ROCK));
     public static final Supplier<Block> END_STONE_SMOOTH_STAIRS = maybeRegister(
@@ -58,12 +55,9 @@ public final class ModBlocks {
             () -> new BlockPhantom("phantom_block", Material.BARRIER, false));
 
     public static final Supplier<BlockEntropyEndStone> ENTROPY_END_STONE = register(BlockEntropyEndStone::new);
-
-    public static final Supplier<BaseBlockBush> END_CORAL = maybeRegister(
-            () -> new BlockEndCoral("end_coral"));
-
-    public static final Supplier<Block> END_MAGMA_BLOCK = maybeRegister(
-            () -> new BlockEndMagma("end_magma_block"));
+    public static final Supplier<BlockEntropyFire> ENTROPY_FIRE = register(BlockEntropyFire::new);
+    public static final Supplier<BaseBlockBush> END_CORAL = register(BlockEndCoral::new);
+    public static final Supplier<Block> END_MAGMA_BLOCK = register(BlockEndMagma::new);
 
     public static final Supplier<Block> LORMYTE_CRYSTAL_BLOCK = maybeRegister(
             () -> new BlockEndBase("lormyte_crystal_block", Material.ROCK));

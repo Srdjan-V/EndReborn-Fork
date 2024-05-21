@@ -60,10 +60,10 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
             return builder.build();
         });
 
-        registerMob("end_cold_ball", builder -> {
+        registerMob("entropy_fireball", builder -> {
             return builder.registerSpawn(false).build();
         }, builder -> {
-            builder.entityClass(EntityColdFireball.class).id(1)
+            builder.entityClass(EntityEntropyFireball.class).id(1)
                     .registerEgg(false)
                     .trackingRange(30)
                     .updateFrequency(1)

@@ -29,8 +29,8 @@ import io.github.srdjanv.endreforked.utils.models.InventoryBlockModel;
 
 public class BlockEndMagma extends BlockBase implements InventoryBlockModel {
 
-    public BlockEndMagma(String name) {
-        super(name, Material.ROCK);
+    public BlockEndMagma() {
+        super("end_magma_block", Material.ROCK);
         setTickRandomly(true);
         setSoundType(SoundType.STONE);
         setHardness(3.0F);
