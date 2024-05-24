@@ -1,8 +1,16 @@
 package io.github.srdjanv.endreforked.common.fluids.blocks;
 
+import io.github.srdjanv.endreforked.api.base.crafting.HandlerRegistry;
+import io.github.srdjanv.endreforked.api.fluids.CollisionRecipe;
+import io.github.srdjanv.endreforked.api.fluids.IFluidInteractable;
+import io.github.srdjanv.endreforked.api.fluids.organa.OrganaFluidAnyStateCollisionHandler;
+import io.github.srdjanv.endreforked.api.fluids.organa.OrganaFluidCollisionHandler;
+import io.github.srdjanv.endreforked.api.fluids.organa.OrganaFluidEntityCollisionHandler;
 import io.github.srdjanv.endreforked.common.ModFluids;
 import io.github.srdjanv.endreforked.common.fluids.base.BaseBlockFluid;
 import io.github.srdjanv.endreforked.common.tiles.passiveinducers.FluidEntropyTile;
+import io.github.srdjanv.endreforked.utils.WorldUtils;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -16,9 +24,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockFluidOrgana extends BaseBlockFluid {
+import java.util.Random;
+
+public class BlockFluidOrgana extends BaseBlockFluid implements IFluidInteractable {
     public BlockFluidOrgana() {
         super("organa", ModFluids.ORGANA.get(), Material.WATER, MapColor.PURPLE);
+        setTickRandomly(true);
+        setTickRate(10);
+        setHardness(800);
+        setLightOpacity(2);
+        enableStats = false;
     }
 
     @Override public boolean hasTileEntity(IBlockState state) {
@@ -30,7 +45,8 @@ public class BlockFluidOrgana extends BaseBlockFluid {
     }
 
     @Override public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-        if (worldIn.isRemote) return;
+        onEntityCollisionIFluidInteractable(worldIn, pos, state, entityIn);
+        if (WorldUtils.isClientWorld(worldIn)) return;
         entityIn.fallDistance = 0;
         if (entityIn instanceof EntityPlayer player) {
             if (player.isSneaking()) return;
@@ -42,5 +58,21 @@ public class BlockFluidOrgana extends BaseBlockFluid {
             livingBase.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 40));
             livingBase.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60));
         }
+    }
+
+    @Override public void randomTick(World world, BlockPos pos, IBlockState state, Random random) {
+        randomTickIFluidInteractable(world, pos, state, random);
+    }
+
+    @Override public @Nullable HandlerRegistry<IBlockState, CollisionRecipe<IBlockState, IBlockState>> getFluidCollisionRegistry() {
+        return OrganaFluidCollisionHandler.INSTANCE;
+    }
+
+    @Override public @Nullable HandlerRegistry<Block, CollisionRecipe<Block, IBlockState>> getAnyFluidCollisionRegistry() {
+        return OrganaFluidAnyStateCollisionHandler.INSTANCE;
+    }
+
+    @Override public @Nullable HandlerRegistry<Entity, CollisionRecipe<Entity, Entity>> getEntityFluidCollisionRegistry() {
+        return OrganaFluidEntityCollisionHandler.INSTANCE;
     }
 }
