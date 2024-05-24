@@ -1,8 +1,10 @@
 package io.github.srdjanv.endreforked.common.fluids.blocks;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HandlerRegistry;
-import io.github.srdjanv.endreforked.api.fluids.CollisionRecipe;
+import io.github.srdjanv.endreforked.api.fluids.base.CollisionRecipe;
 import io.github.srdjanv.endreforked.api.fluids.IFluidInteractable;
+import io.github.srdjanv.endreforked.api.fluids.base.EntityFluidRecipe;
+import io.github.srdjanv.endreforked.api.fluids.base.FluidEntityCollisionHandler;
 import io.github.srdjanv.endreforked.api.fluids.organa.OrganaFluidAnyStateCollisionHandler;
 import io.github.srdjanv.endreforked.api.fluids.organa.OrganaFluidCollisionHandler;
 import io.github.srdjanv.endreforked.api.fluids.organa.OrganaFluidEntityCollisionHandler;
@@ -72,7 +74,7 @@ public class BlockFluidOrgana extends BaseBlockFluid implements IFluidInteractab
         return OrganaFluidAnyStateCollisionHandler.INSTANCE;
     }
 
-    @Override public @Nullable HandlerRegistry<Entity, CollisionRecipe<Entity, Entity>> getEntityFluidCollisionRegistry() {
+    @Override public @Nullable FluidEntityCollisionHandler getEntityFluidCollisionRegistry() {
         return OrganaFluidEntityCollisionHandler.INSTANCE;
     }
 }

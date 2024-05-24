@@ -1,6 +1,9 @@
 package io.github.srdjanv.endreforked.api.fluids;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HandlerRegistry;
+import io.github.srdjanv.endreforked.api.fluids.base.CollisionRecipe;
+import io.github.srdjanv.endreforked.api.fluids.base.EntityFluidRecipe;
+import io.github.srdjanv.endreforked.api.fluids.base.FluidEntityCollisionHandler;
 import io.github.srdjanv.endreforked.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyInteger;
@@ -28,7 +31,7 @@ public interface IFluidInteractable {
         return null;
     }
 
-    @Nullable default HandlerRegistry<Entity, CollisionRecipe<Entity, Entity>> getEntityFluidCollisionRegistry() {
+    @Nullable default FluidEntityCollisionHandler getEntityFluidCollisionRegistry() {
         return null;
     }
 
@@ -45,10 +48,14 @@ public interface IFluidInteractable {
         if (reg == null) return;
         var recipe = reg.findRecipe(entityIn);
         if (recipe == null) return;
-        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()) != 15) return;
+        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()).intValue()
+                != fluidState.getBlock().getDefaultState().getValue(getFluidLevel())) return;
         if (random.nextInt(recipe.getChance()) != 0) return;
 
-        var result = recipe.getRecipeFunction().apply(entityIn);
+        var result = recipe.getRecipeFunction().apply(world, entityIn);
+        if (result == null) return;
+        world.removeEntity(entityIn);
+        result.setPosition(entityIn.posX, entityIn.posY, entityIn.posZ);
         world.spawnEntity(result);
         if (recipe.isConsumeSource()) world.setBlockToAir(fluidPos);
         recipe.getInteractionCallback().accept(world, fluidPos);
@@ -78,7 +85,8 @@ public interface IFluidInteractable {
         if (reg == null) return;
         var recipe = reg.findRecipe(posState);
         if (recipe == null) return;
-        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()) != 15) return;
+        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()).intValue()
+                != fluidState.getBlock().getDefaultState().getValue(getFluidLevel())) return;
         if (random.nextInt(recipe.getChance()) != 0) return;
 
         IBlockState result = recipe.getRecipeFunction().apply(posState);
@@ -93,7 +101,8 @@ public interface IFluidInteractable {
         if (reg == null) return;
         var recipe = reg.findRecipe(posState.getBlock());
         if (recipe == null) return;
-        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()) != 15) return;
+        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()).intValue()
+                != fluidState.getBlock().getDefaultState().getValue(getFluidLevel())) return;
         if (random.nextInt(recipe.getChance()) != 0) return;
 
         IBlockState result = recipe.getRecipeFunction().apply(posState.getBlock());

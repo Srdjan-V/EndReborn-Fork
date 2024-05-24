@@ -5,6 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 
+import java.util.Objects;
+
 public class HashStrategies {
     private HashStrategies() {}
 
@@ -28,14 +30,16 @@ public class HashStrategies {
         }
     };
 
-    public static final Hash.Strategy<Entity> ENTITY_FLUID_HASH_STRATEGY = new Hash.Strategy<>() {
+    public static final Hash.Strategy<Class<? extends Entity>> ENTITY_FLUID_HASH_STRATEGY = new Hash.Strategy<>() {
 
-        @Override public int hashCode(Entity o) {
-            return o.getClass().getCanonicalName().hashCode();
+        @Override public int hashCode(Class<? extends Entity> o) {
+            return o.getName().hashCode();
         }
 
-        @Override public boolean equals(Entity a, Entity b) {
-            return a.equals(b);
+        @Override public boolean equals(Class<? extends Entity> a, Class<? extends Entity> b) {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
+            return Objects.equals(a.getName(), b.getName());
         }
     };
 }

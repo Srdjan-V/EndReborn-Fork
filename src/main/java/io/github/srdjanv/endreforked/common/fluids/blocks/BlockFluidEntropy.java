@@ -1,8 +1,10 @@
 package io.github.srdjanv.endreforked.common.fluids.blocks;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HandlerRegistry;
-import io.github.srdjanv.endreforked.api.fluids.CollisionRecipe;
+import io.github.srdjanv.endreforked.api.fluids.base.CollisionRecipe;
 import io.github.srdjanv.endreforked.api.fluids.IFluidInteractable;
+import io.github.srdjanv.endreforked.api.fluids.base.EntityFluidRecipe;
+import io.github.srdjanv.endreforked.api.fluids.base.FluidEntityCollisionHandler;
 import io.github.srdjanv.endreforked.api.fluids.entropy.EntropyFluidAnyStateCollisionHandler;
 import io.github.srdjanv.endreforked.api.fluids.entropy.EntropyFluidCollisionHandler;
 import io.github.srdjanv.endreforked.api.fluids.entropy.EntropyFluidEntityCollisionHandler;
@@ -12,7 +14,6 @@ import io.github.srdjanv.endreforked.common.tiles.passiveinducers.FluidEntropyTi
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -60,7 +61,7 @@ public class BlockFluidEntropy extends BaseBlockFluid implements IFluidInteracta
         return EntropyFluidAnyStateCollisionHandler.INSTANCE;
     }
 
-    @Override public @Nullable HandlerRegistry<Entity, CollisionRecipe<Entity, Entity>> getEntityFluidCollisionRegistry() {
+    @Override public @Nullable FluidEntityCollisionHandler getEntityFluidCollisionRegistry() {
         return EntropyFluidEntityCollisionHandler.INSTANCE;
     }
 }

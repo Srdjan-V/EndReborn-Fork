@@ -6,11 +6,12 @@ import io.github.srdjanv.endreforked.api.base.crafting.groupings.Fluid2ItemGroup
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;
-import io.github.srdjanv.endreforked.api.fluids.CollisionRecipe;
-import io.github.srdjanv.endreforked.api.fluids.base.FluidAnyStateCollisionHandler;
+import io.github.srdjanv.endreforked.api.fluids.base.CollisionRecipe;
 import io.github.srdjanv.endreforked.api.entropy.wand.EntropyWandHandler;
 import io.github.srdjanv.endreforked.api.entropy.wand.WorldConversion;
+import io.github.srdjanv.endreforked.api.fluids.base.EntityFluidRecipe;
 import io.github.srdjanv.endreforked.api.fluids.entropy.EntropyFluidAnyStateCollisionHandler;
+import io.github.srdjanv.endreforked.api.fluids.entropy.EntropyFluidEntityCollisionHandler;
 import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
@@ -27,8 +28,10 @@ import io.github.srdjanv.endreforked.common.tiles.passiveinducers.OrganaFlowerTi
 import io.github.srdjanv.endreforked.common.tiles.passiveinducers.OrganaWeedTile;
 import io.github.srdjanv.endreforked.common.village.EndVillagerHandler;
 import io.github.srdjanv.endreforked.utils.Initializer;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
@@ -101,6 +104,18 @@ final class Registration implements Initializer {
                 (world, pos) -> {
                 },
                 (world, pos) -> {
+                }
+        ));
+
+        EntropyFluidEntityCollisionHandler.INSTANCE.registerRecipe(new EntityFluidRecipe<>(
+                EntityItem.class,
+                2,
+                true,
+                (world, entity) -> {
+                    if (entity.getItem().getItem() != Item.getItemFromBlock(Blocks.CHORUS_FLOWER)) return null;
+                    var item = new EntityItem(world);
+                    item.setItem(new ItemStack(ModBlocks.ORGANA_FLOWER_BLOCK.get()));
+                    return item;
                 }
         ));
     }
