@@ -6,8 +6,11 @@ import io.github.srdjanv.endreforked.api.base.crafting.groupings.Fluid2ItemGroup
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;
+import io.github.srdjanv.endreforked.api.fluids.CollisionRecipe;
+import io.github.srdjanv.endreforked.api.fluids.base.FluidAnyStateCollisionHandler;
 import io.github.srdjanv.endreforked.api.entropy.wand.EntropyWandHandler;
 import io.github.srdjanv.endreforked.api.entropy.wand.WorldConversion;
+import io.github.srdjanv.endreforked.api.fluids.entropy.EntropyFluidAnyStateCollisionHandler;
 import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
@@ -88,6 +91,18 @@ final class Registration implements Initializer {
 
         GameRegistry.addSmelting(ModBlocks.TUNGSTEN_ORE.get(), new ItemStack(ModItems.TUNGSTEN_INGOT.get(), 1), 1.5f);
         handleOreDictionary();
+
+
+        EntropyFluidAnyStateCollisionHandler.INSTANCE.registerRecipe(new CollisionRecipe<>(
+                Blocks.END_STONE,
+                2,
+                false,
+                block -> ModBlocks.ENTROPY_END_STONE.get().getDefaultState(),
+                (world, pos) -> {
+                },
+                (world, pos) -> {
+                }
+        ));
     }
 
     @Override

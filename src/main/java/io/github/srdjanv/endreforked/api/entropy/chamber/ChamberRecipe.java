@@ -1,11 +1,11 @@
 package io.github.srdjanv.endreforked.api.entropy.chamber;
 
 import io.github.srdjanv.endreforked.api.base.crafting.EntropyRecipe;
-import io.github.srdjanv.endreforked.api.base.crafting.Recipe;
+import io.github.srdjanv.endreforked.api.base.crafting.TimedRecipe;
 
 import java.util.function.Function;
 
-public class ChamberRecipe<IN, OUT> extends Recipe<IN, OUT> implements EntropyRecipe {
+public class ChamberRecipe<IN, OUT> extends TimedRecipe<IN, OUT> implements EntropyRecipe {
     private final int entropyCost;
 
     public ChamberRecipe(IN input, int ticksToComplete, int entropyCost, Function<IN, OUT> recipeFunction) {

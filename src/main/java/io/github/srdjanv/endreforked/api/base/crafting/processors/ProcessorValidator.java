@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.api.base.crafting.processors;
 
 import io.github.srdjanv.endreforked.api.base.crafting.EntropyRecipe;
-import io.github.srdjanv.endreforked.api.base.crafting.Recipe;
+import io.github.srdjanv.endreforked.api.base.crafting.TimedRecipe;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class ProcessorValidator<IN, OUT, R extends Recipe<IN, OUT>> {
+public class ProcessorValidator<IN, OUT, R extends TimedRecipe<IN, OUT>> {
     public static final Predicate<ItemStack> ITEM_INPUT_EXIST_VALIDATOR = stack -> !stack.isEmpty();
     public static final Predicate<FluidStack> FLUID_INPUT_EXIST_VALIDATOR = Objects::nonNull;
 
@@ -23,7 +23,7 @@ public class ProcessorValidator<IN, OUT, R extends Recipe<IN, OUT>> {
     protected final Supplier<EntropyChunkReader> readerSupplier;
     protected final Consumer<TileStatus> statusUpdater;
 
-    public static <R extends Recipe<ItemStack, ItemStack>> ProcessorValidator<ItemStack, ItemStack, R> item2ItemOf(
+    public static <R extends TimedRecipe<ItemStack, ItemStack>> ProcessorValidator<ItemStack, ItemStack, R> item2ItemOf(
             RecipeProcessor<ItemStack, ItemStack, R> processor,
             Consumer<TileStatus> statusUpdater,
             Supplier<EntropyChunkReader> readerSupplier,
@@ -36,7 +36,7 @@ public class ProcessorValidator<IN, OUT, R extends Recipe<IN, OUT>> {
                 ITEM_INPUT_EXIST_VALIDATOR);
     }
 
-    public static <R extends Recipe<FluidStack, FluidStack>> ProcessorValidator<FluidStack, FluidStack, R> fluid2FluidOf(
+    public static <R extends TimedRecipe<FluidStack, FluidStack>> ProcessorValidator<FluidStack, FluidStack, R> fluid2FluidOf(
             RecipeProcessor<FluidStack, FluidStack, R> processor,
             Consumer<TileStatus> statusUpdater,
             Supplier<EntropyChunkReader> readerSupplier,
