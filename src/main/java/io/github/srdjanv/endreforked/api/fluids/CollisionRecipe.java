@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.api.fluids;
 
-import io.github.srdjanv.endreforked.api.base.crafting.Recipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BaseRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.Recipe;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 

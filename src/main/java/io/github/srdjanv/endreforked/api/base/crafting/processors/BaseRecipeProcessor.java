@@ -1,15 +1,15 @@
 package io.github.srdjanv.endreforked.api.base.crafting.processors;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HandlerRegistry;
-import io.github.srdjanv.endreforked.api.base.crafting.TimedRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.Recipe;
 
 import java.util.Objects;
 
-public class RecipeProcessor<IN, OUT, R extends TimedRecipe<IN, OUT>> {
+public class BaseRecipeProcessor<IN, OUT, R extends Recipe<IN, OUT>> {
     protected final HandlerRegistry<IN, R> handlerRegistry;
     protected R recipe;
 
-    public RecipeProcessor(HandlerRegistry<IN, R> handlerRegistry) {
+    public BaseRecipeProcessor(HandlerRegistry<IN, R> handlerRegistry) {
         this.handlerRegistry = handlerRegistry;
     }
 

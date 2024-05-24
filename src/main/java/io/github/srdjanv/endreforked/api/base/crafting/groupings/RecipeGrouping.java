@@ -1,11 +1,13 @@
 package io.github.srdjanv.endreforked.api.base.crafting.groupings;
 
 import java.util.Map;
+import java.util.function.Function;
+
 
 import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HashStrategyTranslator;
-import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
 
@@ -22,8 +24,10 @@ public abstract class RecipeGrouping<IN1, IN2, R extends BiRecipe<IN1, IN2, ?>>
         this.recipes = new Object2ObjectOpenCustomHashMap<>(hashStrategy);
     }
 
-    public void registerRecipe(R recipe) {
-        recipes.put(recipe.getInput(), recipe);
+    public R registerRecipe(Function<IN1, R> recipeFunction) {
+        var recipe = recipeFunction.apply(grouping);
+        recipes.put(recipe.getInput2(), recipe);
+        return recipe;
     }
 
     @Nullable

@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.api.base.crafting.processors;
 
 import io.github.srdjanv.endreforked.api.base.crafting.EntropyRecipe;
-import io.github.srdjanv.endreforked.api.base.crafting.TimedRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.timed.TimedRecipe;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ProcessorExecutor<IN, OUT, R extends TimedRecipe<IN, OUT>> implements INBTSerializable<NBTTagCompound> {
-    protected final RecipeProcessor<IN, OUT, R> processor;
+    protected final BaseRecipeProcessor<IN, OUT, R> processor;
     protected final Supplier<IN> recipeFunctionSupplier;
     protected final Predicate<OUT> isOutputFull;
     protected final Predicate<IN> canExtractInput;
@@ -25,7 +25,7 @@ public class ProcessorExecutor<IN, OUT, R extends TimedRecipe<IN, OUT>> implemen
     protected int ticksRun;
 
     public ProcessorExecutor(
-            RecipeProcessor<IN, OUT, R> processor,
+            BaseRecipeProcessor<IN, OUT, R> processor,
             Consumer<TileStatus> statusUpdater,
             Supplier<EntropyChunkReader> readerSupplier,
             Supplier<IN> recipeFunctionSupplier,

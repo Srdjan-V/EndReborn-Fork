@@ -89,11 +89,11 @@ public class EndForgeCategory implements IRecipeCategory<EndForgeRecipe> {
         for (var recipeGroping : EndForgeHandler.getInstance().getRecipeGroupings()) {
             for (var rec : recipeGroping.getRecipes().values()) {
                 jeiRecipes.add(new EndForgeRecipe(
-                        recipeGroping.getGrouping(),
-                        EndForgeHandler.getInstance().translateHashStrategy(),
                         rec.getInput(),
+                        EndForgeHandler.getInstance().translateHashStrategy(),
+                        rec.getInput2(),
                         recipeGroping.translateHashStrategy(),
-                        rec.getRecipeFunction().apply(recipeGroping.getGrouping(), rec.getInput())));
+                        rec.getRecipeFunction().apply(rec.getInput(), rec.getInput2())));
             }
         }
 

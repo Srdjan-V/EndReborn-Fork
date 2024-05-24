@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.api.entropy.chamber;
 
 import io.github.srdjanv.endreforked.api.base.crafting.EntropyRecipe;
-import io.github.srdjanv.endreforked.api.base.crafting.TimedRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.timed.TimedRecipe;
 
 import java.util.function.Function;
 

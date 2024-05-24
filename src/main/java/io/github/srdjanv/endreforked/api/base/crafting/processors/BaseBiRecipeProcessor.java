@@ -3,10 +3,10 @@ package io.github.srdjanv.endreforked.api.base.crafting.processors;
 import java.util.Objects;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HandlerGroupingRegistry;
-import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import io.github.srdjanv.endreforked.api.base.crafting.groupings.RecipeGrouping;
 
-public abstract class BiRecipeProcessor<IN1, IN2, OUT,
+public abstract class BaseBiRecipeProcessor<IN1, IN2, OUT,
         RG extends RecipeGrouping<IN1, IN2, R>,
         R extends BiRecipe<IN1, IN2, OUT>> {
 
@@ -14,7 +14,7 @@ public abstract class BiRecipeProcessor<IN1, IN2, OUT,
     protected RG recipeGrouping;
     protected R recipe;
 
-    public BiRecipeProcessor(HandlerGroupingRegistry<IN1, IN2, OUT, RG, R> handlerGroupingRegistry) {
+    public BaseBiRecipeProcessor(HandlerGroupingRegistry<IN1, IN2, OUT, RG, R> handlerGroupingRegistry) {
         this.handlerGroupingRegistry = handlerGroupingRegistry;
     }
 
@@ -35,7 +35,7 @@ public abstract class BiRecipeProcessor<IN1, IN2, OUT,
             recipe = handlerGroupingRegistry.findRecipe(recipeGrouping, input);
             return Objects.nonNull(recipe);
         }
-        if (recipeGrouping.getHashStrategy().equals(input, recipe.getInput())) return true;
+        if (recipeGrouping.getHashStrategy().equals(input, recipe.getInput2())) return true;
         recipe = handlerGroupingRegistry.findRecipe(recipeGrouping, input);
         return Objects.nonNull(recipe);
     }

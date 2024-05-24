@@ -48,8 +48,8 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.google.common.collect.Lists;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.base.crafting.processors.ItemRecipeProcessor;
-import io.github.srdjanv.endreforked.api.base.crafting.processors.BiRecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.ItemBiRecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.BaseBiRecipeProcessor;
 import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
@@ -98,7 +98,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
     ////////////////////
     private TileStatus status = TileStatus.IDLE;
     private double percent;
-    private final BiRecipeProcessor<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> biRecipeProcessor;
+    private final BaseBiRecipeProcessor<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> biRecipeProcessor;
 
     ////////////////////
     private int ticksRun;
@@ -109,7 +109,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
     private boolean failed;
 
     public MaterializerTile() {
-        biRecipeProcessor = new ItemRecipeProcessor<>(MaterializerHandler.getInstance());
+        biRecipeProcessor = new ItemBiRecipeProcessor<>(MaterializerHandler.getInstance());
         inventoriesToDrop.add(inputInventory);
         inventoriesToDrop.add(outInventory);
     }

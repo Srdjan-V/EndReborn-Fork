@@ -5,15 +5,15 @@ import java.util.Objects;
 import net.minecraft.item.ItemStack;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HandlerGroupingRegistry;
-import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import io.github.srdjanv.endreforked.api.base.crafting.groupings.RecipeGrouping;
 
-public class ItemRecipeProcessor<OUT,
+public class ItemBiRecipeProcessor<OUT,
         RG extends RecipeGrouping<ItemStack, ItemStack, R>,
         R extends BiRecipe<ItemStack, ItemStack, OUT>>
-                                extends BiRecipeProcessor<ItemStack, ItemStack, OUT, RG, R> {
+                                extends BaseBiRecipeProcessor<ItemStack, ItemStack, OUT, RG, R> {
 
-    public ItemRecipeProcessor(HandlerGroupingRegistry<ItemStack, ItemStack, OUT, RG, R> handlerGroupingRegistry) {
+    public ItemBiRecipeProcessor(HandlerGroupingRegistry<ItemStack, ItemStack, OUT, RG, R> handlerGroupingRegistry) {
         super(handlerGroupingRegistry);
     }
 

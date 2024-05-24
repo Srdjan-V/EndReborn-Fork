@@ -1,12 +1,13 @@
 package io.github.srdjanv.endreforked.api.base.crafting;
 
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BaseRecipe;
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public abstract class HandlerRegistry<IN, R extends Recipe<IN, ?>> implements HashStrategyTranslator<Hash.Strategy<IN>> {
+public abstract class HandlerRegistry<IN, R extends BaseRecipe<IN, ?>> implements HashStrategyTranslator<Hash.Strategy<IN>> {
     public abstract Hash.Strategy<IN> getHashStrategy();
 
     protected HandlerRegistry() {

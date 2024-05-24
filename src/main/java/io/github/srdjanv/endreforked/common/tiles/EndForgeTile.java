@@ -153,10 +153,10 @@ public class EndForgeTile extends BaseTileEntity implements ITickable, IGuiHolde
             var fluidStackToMatch = recipeProcessor.getRecipeGrouping().getGrouping();
             var drainedFluidStack = inputTank.drain(fluidStackToMatch, false);
 
-            if (!intput.extractItem(0, recipeProcessor.getRecipe().getInput().getCount(), true).isEmpty() &&
+            if (!intput.extractItem(0, recipeProcessor.getRecipe().getInput2().getCount(), true).isEmpty() &&
                     Objects.nonNull(drainedFluidStack) && drainedFluidStack.amount == fluidStackToMatch.amount) {
                 processingInventory.insertItem(0,
-                        intput.extractItem(0, recipeProcessor.getRecipe().getInput().getCount(), false),
+                        intput.extractItem(0, recipeProcessor.getRecipe().getInput2().getCount(), false),
                         false);
 
                 processingFluid.fill(inputTank.drain(fluidStackToMatch, true), true);

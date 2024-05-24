@@ -2,21 +2,23 @@ package io.github.srdjanv.endreforked.api.materializer;
 
 import java.util.function.BiFunction;
 
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.timed.TimedBiRecipe;
 import net.minecraft.item.ItemStack;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.srdjanv.endreforked.api.base.crafting.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
-public final class MaterializerRecipe extends BiRecipe<ItemStack, ItemStack, ItemStack> {
+public final class MaterializerRecipe extends TimedBiRecipe<ItemStack, ItemStack, ItemStack> {
 
     private final Int2ObjectLinkedOpenHashMap<WorldEvent> worldEvents;
 
-    public MaterializerRecipe(ItemStack input, int ticksToComplete,
+    public MaterializerRecipe(ItemStack input,
+                              ItemStack input2, int ticksToComplete,
                               BiFunction<ItemStack, ItemStack, ItemStack> function) {
-        super(input, ticksToComplete, function);
+        super(input, input2, ticksToComplete, function);
         this.worldEvents = new Int2ObjectLinkedOpenHashMap<>();
     }
 

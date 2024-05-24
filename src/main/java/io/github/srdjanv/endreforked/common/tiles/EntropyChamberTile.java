@@ -14,7 +14,7 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.cleanroommc.modularui.widgets.slot.SlotGroup;
 import io.github.srdjanv.endreforked.api.base.crafting.processors.ProcessorExecutor;
 import io.github.srdjanv.endreforked.api.base.crafting.processors.ProcessorValidator;
-import io.github.srdjanv.endreforked.api.base.crafting.processors.RecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.BaseRecipeProcessor;
 import io.github.srdjanv.endreforked.api.base.util.Ticker;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadiusUpgrade;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;
@@ -74,7 +74,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
             return super.insertItem(slot, stack, simulate);
         }
     };
-    private final RecipeProcessor<ItemStack, ItemStack, ItemChamberRecipe> itemProcessor;
+    private final BaseRecipeProcessor<ItemStack, ItemStack, ItemChamberRecipe> itemProcessor;
     private final ProcessorValidator<ItemStack, ItemStack, ItemChamberRecipe> itemProcessorValidator;
     private final ProcessorExecutor<ItemStack, ItemStack, ItemChamberRecipe> itemProcessorExecutor;
 
@@ -92,7 +92,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
             return 0;
         }
     };
-    private final RecipeProcessor<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessor;
+    private final BaseRecipeProcessor<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessor;
     private final ProcessorValidator<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessorValidator;
     private final ProcessorExecutor<FluidStack, FluidStack, FluidChamberRecipe> fluidProcessorExecutor;
 
@@ -103,7 +103,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
                 150,
                 reader::getRadius);
 
-        itemProcessor = new RecipeProcessor<>(EntropyItemChamberHandler.INSTANCE);
+        itemProcessor = new BaseRecipeProcessor<>(EntropyItemChamberHandler.INSTANCE);
         itemProcessorValidator = ProcessorValidator.item2ItemOf(
                 itemProcessor,
                 this::updateItemStatus,
@@ -124,7 +124,7 @@ public class EntropyChamberTile extends BaseTileEntity implements ITickable, Ent
         );
 
 
-        fluidProcessor = new RecipeProcessor<>(EntropyFluidChamberHandler.INSTANCE);
+        fluidProcessor = new BaseRecipeProcessor<>(EntropyFluidChamberHandler.INSTANCE);
         fluidProcessorValidator = ProcessorValidator.fluid2FluidOf(
                 fluidProcessor,
                 this::updateFluidStatus,

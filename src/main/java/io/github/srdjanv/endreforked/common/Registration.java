@@ -186,32 +186,32 @@ final class Registration implements Initializer {
         var lavaGroup = new Fluid2ItemGrouping<EndForgeRecipe>(new FluidStack(FluidRegistry.LAVA, 1000));
         EndForgeHandler.getInstance().registerRecipeGrouping(lavaGroup);
 
-        lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.INGOT_ENDORIUM.get()), 120,
+        lavaGroup.registerRecipe(fluidStack -> new EndForgeRecipe(fluidStack, new ItemStack(ModItems.INGOT_ENDORIUM.get()), 120,
                 (lava, item) -> new ItemStack(ModItems.INFUSED_METALL.get())));
 
-        lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(Items.SLIME_BALL), 200,
+        lavaGroup.registerRecipe(fluidStack -> new EndForgeRecipe(fluidStack, new ItemStack(Items.SLIME_BALL), 200,
                 (lava, item) -> new ItemStack(Items.MAGMA_CREAM)));
 
-        lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.END_ESSENCE.get()), 200,
+        lavaGroup.registerRecipe(fluidStack -> new EndForgeRecipe(fluidStack, new ItemStack(ModItems.END_ESSENCE.get()), 200,
                 (lava, item) -> new ItemStack(Items.BLAZE_POWDER)));
 
-        lavaGroup.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.ENTROPY_END_STONE.get()), 200,
+        lavaGroup.registerRecipe(fluidStack -> new EndForgeRecipe(fluidStack, new ItemStack(ModItems.ENTROPY_END_STONE.get()), 200,
                 (lava, item) -> new ItemStack(ModBlocks.END_MAGMA_BLOCK.get())));
 
 
         var endLava = new Fluid2ItemGrouping<EndForgeRecipe>(new FluidStack(ModFluids.END_MAGMA.get(), 1000));
         EndForgeHandler.getInstance().registerRecipeGrouping(endLava);
 
-        endLava.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.INGOT_ENDORIUM.get()), 100,
+        endLava.registerRecipe(fluidStack -> new EndForgeRecipe(fluidStack, new ItemStack(ModItems.INGOT_ENDORIUM.get()), 100,
                 (lava, item) -> new ItemStack(ModItems.INFUSED_METALL.get(), 4)));
 
-        endLava.registerRecipe(new EndForgeRecipe(new ItemStack(Items.SLIME_BALL), 150,
+        endLava.registerRecipe(fluidStack -> new EndForgeRecipe(fluidStack, new ItemStack(Items.SLIME_BALL), 150,
                 (lava, item) -> new ItemStack(Items.MAGMA_CREAM, 4)));
 
-        endLava.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.END_ESSENCE.get()), 150,
+        endLava.registerRecipe(fluidStack -> new EndForgeRecipe(fluidStack, new ItemStack(ModItems.END_ESSENCE.get()), 150,
                 (lava, item) -> new ItemStack(Items.BLAZE_POWDER, 4)));
 
-        endLava.registerRecipe(new EndForgeRecipe(new ItemStack(ModItems.ENTROPY_END_STONE.get()), 150,
+        endLava.registerRecipe(fluidStack -> new EndForgeRecipe(fluidStack, new ItemStack(ModItems.ENTROPY_END_STONE.get()), 150,
                 (lava, item) -> new ItemStack(ModBlocks.END_MAGMA_BLOCK.get(), 4)));
 
     }
@@ -221,11 +221,11 @@ final class Registration implements Initializer {
         MaterializerHandler.getInstance().registerRecipeGrouping(itemCatalyst);
 
         {
-            var ironToIronRecipe = new MaterializerRecipe(
+            var ironToIronRecipe = itemCatalyst.registerRecipe(itemStack -> new MaterializerRecipe(
+                    itemStack,
                     new ItemStack(Items.IRON_INGOT), 200,
-                    (stack, catalyst) -> new ItemStack(Items.IRON_INGOT, 2));
+                    (stack, catalyst) -> new ItemStack(Items.IRON_INGOT, 2)));
 
-            itemCatalyst.registerRecipe(ironToIronRecipe);
             ironToIronRecipe.registerWorldEvent(30, WorldEvent.create(15,
                     Structure.builder().aisle("S").where('S', Blocks.STONE).build(),
                     WorldEvent.replaceEachPosWithDefaultBlockState(Blocks.IRON_BLOCK)));
@@ -239,10 +239,11 @@ final class Registration implements Initializer {
                     WorldEvent.replaceEachPosWithDefaultBlockState(Blocks.STONE)));
         }
 
-        var diaToDiaRecipe = new MaterializerRecipe(
-                new ItemStack(Items.DIAMOND), 600,
-                (stack, catalyst) -> new ItemStack(Items.DIAMOND, 1));
-        itemCatalyst.registerRecipe(diaToDiaRecipe);
+        var diaToDiaRecipe = itemCatalyst.registerRecipe(itemStack ->
+                new MaterializerRecipe(
+                        itemStack,
+                        new ItemStack(Items.DIAMOND), 600,
+                        (stack, catalyst) -> new ItemStack(Items.DIAMOND, 1)));
 
         diaToDiaRecipe.registerWorldEvent(30, WorldEvent.create(2,
                 Structure.builder()

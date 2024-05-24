@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.api.base.crafting.processors;
 
 import io.github.srdjanv.endreforked.api.base.crafting.EntropyRecipe;
-import io.github.srdjanv.endreforked.api.base.crafting.TimedRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.timed.TimedRecipe;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,7 @@ public class ProcessorValidator<IN, OUT, R extends TimedRecipe<IN, OUT>> {
     public static final Predicate<ItemStack> ITEM_INPUT_EXIST_VALIDATOR = stack -> !stack.isEmpty();
     public static final Predicate<FluidStack> FLUID_INPUT_EXIST_VALIDATOR = Objects::nonNull;
 
-    protected final RecipeProcessor<IN, OUT, R> processor;
+    protected final BaseRecipeProcessor<IN, OUT, R> processor;
 
     protected final Supplier<IN> inputSupplier;
     protected final Predicate<IN> inputExistValidator;
@@ -24,7 +24,7 @@ public class ProcessorValidator<IN, OUT, R extends TimedRecipe<IN, OUT>> {
     protected final Consumer<TileStatus> statusUpdater;
 
     public static <R extends TimedRecipe<ItemStack, ItemStack>> ProcessorValidator<ItemStack, ItemStack, R> item2ItemOf(
-            RecipeProcessor<ItemStack, ItemStack, R> processor,
+            BaseRecipeProcessor<ItemStack, ItemStack, R> processor,
             Consumer<TileStatus> statusUpdater,
             Supplier<EntropyChunkReader> readerSupplier,
             Supplier<ItemStack> inputSupplier) {
@@ -37,7 +37,7 @@ public class ProcessorValidator<IN, OUT, R extends TimedRecipe<IN, OUT>> {
     }
 
     public static <R extends TimedRecipe<FluidStack, FluidStack>> ProcessorValidator<FluidStack, FluidStack, R> fluid2FluidOf(
-            RecipeProcessor<FluidStack, FluidStack, R> processor,
+            BaseRecipeProcessor<FluidStack, FluidStack, R> processor,
             Consumer<TileStatus> statusUpdater,
             Supplier<EntropyChunkReader> readerSupplier,
             Supplier<FluidStack> inputSupplier) {
@@ -50,7 +50,7 @@ public class ProcessorValidator<IN, OUT, R extends TimedRecipe<IN, OUT>> {
     }
 
     public ProcessorValidator(
-            RecipeProcessor<IN, OUT, R> processor,
+            BaseRecipeProcessor<IN, OUT, R> processor,
             Consumer<TileStatus> statusUpdater,
             Supplier<EntropyChunkReader> readerSupplier,
             Supplier<IN> inputSupplier,

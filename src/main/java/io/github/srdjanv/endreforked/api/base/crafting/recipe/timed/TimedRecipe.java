@@ -1,4 +1,7 @@
-package io.github.srdjanv.endreforked.api.base.crafting;
+package io.github.srdjanv.endreforked.api.base.crafting.recipe.timed;
+
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BaseRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.Recipe;
 
 import java.util.function.Function;
 

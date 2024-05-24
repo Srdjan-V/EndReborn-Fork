@@ -2,7 +2,9 @@ package io.github.srdjanv.endreforked.api.base.crafting;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Function;
 
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.api.base.crafting.groupings.RecipeGrouping;
@@ -41,8 +43,8 @@ public abstract class HandlerGroupingRegistry<IN1, IN2, OUT,
         return registry.get(input);
     }
 
-    public boolean registerRecipeToGrouping(RG grouping, R recipe) {
-        grouping.registerRecipe(recipe);
+    public boolean registerRecipeToGrouping(RG grouping, Function<IN1, R> recipeFunction) {
+        grouping.registerRecipe(recipeFunction);
         return true;
     }
 
