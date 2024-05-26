@@ -130,7 +130,10 @@ public final class WorldGenHandler implements IWorldGenerator {
                          IChunkProvider chunkProvider) {
         mutate();
 
-        final var biome = world.getBiome(new BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8));
+        final var biome = world.getBiome(new BlockPos(
+                (chunkX << 4) + 8,
+                world.getActualHeight(),
+                (chunkZ << 4) + 8));
         getApplicableGenerators(oreGenerators, world, biome).forEach(gen -> {
             runChunkGenerator(gen, biome, world, random, chunkX, chunkZ);
         });
