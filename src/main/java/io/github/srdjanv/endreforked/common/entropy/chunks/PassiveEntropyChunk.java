@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.common.entropy.chunks;
 
-import io.github.srdjanv.endreforked.api.base.util.Ticker;
+import io.github.srdjanv.endreforked.api.util.Ticker;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
 
 import java.util.function.IntSupplier;

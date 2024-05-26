@@ -46,20 +46,20 @@ public interface IFluidInteractable {
     default void interactWithEntity(WorldServer world, BlockPos fluidPos, IBlockState fluidState, Entity entityIn, Random random) {
         var reg = getEntityFluidCollisionRegistry();
         if (reg == null) return;
-        var recipe = reg.findRecipe(entityIn);
-        if (recipe == null) return;
-        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()).intValue()
-                != fluidState.getBlock().getDefaultState().getValue(getFluidLevel())) return;
-        if (random.nextInt(recipe.getChance()) != 0) return;
+        for (EntityFluidRecipe<Entity> recipe : reg.getFluidRecipe(entityIn)) {
+            if (random.nextInt(recipe.getChance()) != 0) continue;
+            if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()) == 0) return;
 
-        var result = recipe.getRecipeFunction().apply(world, entityIn);
-        if (result == null) return;
-        world.removeEntity(entityIn);
-        result.setPosition(entityIn.posX, entityIn.posY, entityIn.posZ);
-        world.spawnEntity(result);
-        if (recipe.isConsumeSource()) world.setBlockToAir(fluidPos);
-        recipe.getInteractionCallback().accept(world, fluidPos);
-        recipe.getFluidInteractionCallback().accept(world, fluidPos);
+            var result = recipe.getRecipeFunction().apply(world, entityIn);
+            if (result == null) continue;
+            if (recipe.isRemoveEntity()) world.removeEntity(entityIn);
+            result.setPosition(entityIn.posX, entityIn.posY, entityIn.posZ);
+            world.spawnEntity(result);
+            if (recipe.isConsumeSource() && random.nextInt(recipe.getChanceConsumeSource()) == 0) world.setBlockToAir(fluidPos);
+            recipe.getInteractionCallback().accept(world, fluidPos);
+            recipe.getFluidInteractionCallback().accept(world, fluidPos);
+            break;
+        }
     }
 
     void randomTick(World world, BlockPos pos, IBlockState state, Random random);
@@ -85,9 +85,8 @@ public interface IFluidInteractable {
         if (reg == null) return;
         var recipe = reg.findRecipe(posState);
         if (recipe == null) return;
-        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()).intValue()
-                != fluidState.getBlock().getDefaultState().getValue(getFluidLevel())) return;
         if (random.nextInt(recipe.getChance()) != 0) return;
+        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()) == 0) return;
 
         IBlockState result = recipe.getRecipeFunction().apply(posState);
         world.setBlockState(pos, result, 3);
@@ -101,9 +100,8 @@ public interface IFluidInteractable {
         if (reg == null) return;
         var recipe = reg.findRecipe(posState.getBlock());
         if (recipe == null) return;
-        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()).intValue()
-                != fluidState.getBlock().getDefaultState().getValue(getFluidLevel())) return;
         if (random.nextInt(recipe.getChance()) != 0) return;
+        if (recipe.isConsumeSource() && fluidState.getValue(getFluidLevel()) == 0) return;
 
         IBlockState result = recipe.getRecipeFunction().apply(posState.getBlock());
         world.setBlockState(pos, result, 3);

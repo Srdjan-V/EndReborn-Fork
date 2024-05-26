@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.common.tiles.base;
 
-import io.github.srdjanv.endreforked.api.base.util.Ticker;
+import io.github.srdjanv.endreforked.api.util.Ticker;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
 import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;

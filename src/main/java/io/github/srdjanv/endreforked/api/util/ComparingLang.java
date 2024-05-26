@@ -17,13 +17,7 @@ public final class ComparingLang {
         }
 
         public static String translate(FluidStackHashStrategy hashStrategy, String customLang) {
-            var builder = new Builder() {
-
-                @Override
-                public String matchingLangKey() {
-                    return "status.fluid.matching";
-                }
-            };
+            var builder = new Builder("status.fluid.matching");
 
             if (hashStrategy.comparingCustom()) builder.addEntry(LangUtil.translateToLocal(customLang));
             if (hashStrategy.comparingFluid()) builder.addEntry(LangUtil.translateToLocal(FLUID.langKey));
@@ -48,13 +42,7 @@ public final class ComparingLang {
         }
 
         public static String translate(ItemStackHashStrategy hashStrategy, String customLang) {
-            var builder = new Builder() {
-
-                @Override
-                public String matchingLangKey() {
-                    return "status.item.matching";
-                }
-            };
+            var builder = new Builder("status.item.matching");
 
             if (hashStrategy.comparingCustom()) builder.addEntry(LangUtil.translateToLocal(customLang));
             if (hashStrategy.comparingItem()) builder.addEntry(LangUtil.translateToLocal(ITEM.langKey));
@@ -65,12 +53,32 @@ public final class ComparingLang {
         }
     }
 
-    private static abstract class Builder {
+    public enum EntityLang {
+        TYPE("status.entity.type");
 
+        private final String langKey;
+
+        EntityLang(String langKey) {
+            this.langKey = langKey;
+        }
+
+        public static String translate(EntityMatchStrategy<?> matchStrategy, String customLang) {
+            var builder = new Builder("status.entity.matching");
+
+            if (matchStrategy.comparingCustom()) builder.addEntry(LangUtil.translateToLocal(customLang));
+            if (matchStrategy.comparingType()) builder.addEntry(LangUtil.translateToLocal(TYPE.langKey));
+            return builder.getBuilderString();
+        }
+    }
+
+    private static class Builder {
+        private final String matchingLangKey;
         private StringBuilder builder;
 
+        private Builder(String matchingLangKey) {this.matchingLangKey = matchingLangKey;}
+
         private StringBuilder getBuilder() {
-            if (builder == null) builder = new StringBuilder(LangUtil.translateToLocal(matchingLangKey())).append(" ");
+            if (builder == null) builder = new StringBuilder(LangUtil.translateToLocal(matchingLangKey)).append(" ");
             return builder;
         }
 
@@ -83,8 +91,6 @@ public final class ComparingLang {
             if (index != -1) return builder.substring(0, index);
             return builder.toString();
         }
-
-        public abstract String matchingLangKey();
     }
 
     private ComparingLang() {}

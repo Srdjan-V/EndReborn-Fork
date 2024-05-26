@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.api.capabilities.entropy;
 
-import io.github.srdjanv.endreforked.api.base.util.DimPos;
+import io.github.srdjanv.endreforked.api.util.DimPos;
 import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
 import io.github.srdjanv.endreforked.api.entropy.storage.EntropyStorageReference;
 import net.minecraft.nbt.NBTTagCompound;

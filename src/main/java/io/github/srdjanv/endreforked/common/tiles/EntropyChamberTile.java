@@ -15,7 +15,7 @@ import com.cleanroommc.modularui.widgets.slot.SlotGroup;
 import io.github.srdjanv.endreforked.api.base.crafting.processors.ProcessorExecutor;
 import io.github.srdjanv.endreforked.api.base.crafting.processors.ProcessorValidator;
 import io.github.srdjanv.endreforked.api.base.crafting.processors.BaseRecipeProcessor;
-import io.github.srdjanv.endreforked.api.base.util.Ticker;
+import io.github.srdjanv.endreforked.api.util.Ticker;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadiusUpgrade;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;
 import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;

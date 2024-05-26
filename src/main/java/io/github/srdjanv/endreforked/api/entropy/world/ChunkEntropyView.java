@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.api.entropy.world;
 
-import io.github.srdjanv.endreforked.api.base.util.DimPos;
+import io.github.srdjanv.endreforked.api.util.DimPos;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.WeakEntropyStorage;
 import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;

@@ -30,16 +30,17 @@ public class HashStrategies {
         }
     };
 
-    public static final Hash.Strategy<Class<? extends Entity>> ENTITY_FLUID_HASH_STRATEGY = new Hash.Strategy<>() {
+    public static final Hash.Strategy<Class<Entity>> ENTITY_FLUID_HASH_STRATEGY = new Hash.Strategy<>() {
 
-        @Override public int hashCode(Class<? extends Entity> o) {
+        @Override public int hashCode(Class<Entity> o) {
             return o.getName().hashCode();
         }
 
-        @Override public boolean equals(Class<? extends Entity> a, Class<? extends Entity> b) {
+        @Override public boolean equals(Class<Entity> a, Class<Entity> b) {
             if (a == null && b == null) return true;
             if (a == null || b == null) return false;
             return Objects.equals(a.getName(), b.getName());
         }
     };
+
 }

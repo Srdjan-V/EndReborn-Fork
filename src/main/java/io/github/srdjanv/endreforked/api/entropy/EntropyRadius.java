@@ -1,6 +1,6 @@
 package io.github.srdjanv.endreforked.api.entropy;
 
-import io.github.srdjanv.endreforked.api.base.util.DimPos;
+import io.github.srdjanv.endreforked.api.util.DimPos;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.List;

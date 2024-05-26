@@ -1,4 +1,4 @@
-package io.github.srdjanv.endreforked.api.base.util;
+package io.github.srdjanv.endreforked.api.util;
 
 import com.github.bsideup.jabel.Desugar;
 import net.minecraft.util.math.BlockPos;

@@ -1,7 +1,7 @@
 package io.github.srdjanv.endreforked.api.entropy.world;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.base.util.DimPos;
+import io.github.srdjanv.endreforked.api.util.DimPos;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;

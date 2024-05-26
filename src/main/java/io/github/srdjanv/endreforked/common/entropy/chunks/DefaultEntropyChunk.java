@@ -1,14 +1,12 @@
 package io.github.srdjanv.endreforked.common.entropy.chunks;
 
-import io.github.srdjanv.endreforked.api.base.util.DimPos;
+import io.github.srdjanv.endreforked.api.util.DimPos;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorageReference;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultWeakEntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
