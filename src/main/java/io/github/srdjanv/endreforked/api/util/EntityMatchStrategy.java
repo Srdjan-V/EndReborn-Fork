@@ -44,7 +44,7 @@ public interface EntityMatchStrategy<E extends Entity> {
     Supplier<EntityMatchStrategy<EntityItem>> memorizedComparingEntityItemAllButCount = Suppliers.memoize(EntityMatchStrategy::comparingEntityItemAllButCount);
 
     static EntityMatchStrategy<EntityItem> memorizedComparingEntityItemAllButCount() {
-        return memorizedComparingEntityItemAll.get();
+        return memorizedComparingEntityItemAllButCount.get();
     }
 
     static EntityMatchStrategy<EntityItem> comparingEntityItemAllButCount() {

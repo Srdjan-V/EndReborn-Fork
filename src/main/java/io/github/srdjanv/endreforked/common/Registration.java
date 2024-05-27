@@ -3,7 +3,6 @@ package io.github.srdjanv.endreforked.common;
 import com.google.common.collect.Lists;
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.api.base.crafting.groupings.Fluid2ItemGrouping;
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BaseRecipe;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeHandler;
 import io.github.srdjanv.endreforked.api.endforge.EndForgeRecipe;
 import io.github.srdjanv.endreforked.api.entropy.chamber.*;
@@ -11,6 +10,7 @@ import io.github.srdjanv.endreforked.api.fluids.base.CollisionRecipe;
 import io.github.srdjanv.endreforked.api.entropy.wand.EntropyWandHandler;
 import io.github.srdjanv.endreforked.api.entropy.wand.WorldConversion;
 import io.github.srdjanv.endreforked.api.fluids.base.EntityFluidRecipe;
+import io.github.srdjanv.endreforked.api.fluids.base.EntityFluidRecipeResult;
 import io.github.srdjanv.endreforked.api.fluids.base.EntityMather;
 import io.github.srdjanv.endreforked.api.fluids.entropy.EntropyFluidAnyStateCollisionHandler;
 import io.github.srdjanv.endreforked.api.fluids.entropy.EntropyFluidEntityCollisionHandler;
@@ -33,7 +33,6 @@ import io.github.srdjanv.endreforked.common.village.EndVillagerHandler;
 import io.github.srdjanv.endreforked.utils.Initializer;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -45,7 +44,6 @@ import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -56,8 +54,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
-
-import java.util.function.BiFunction;
 
 final class Registration implements Initializer {
 
@@ -114,16 +110,17 @@ final class Registration implements Initializer {
         );
 
         EntropyFluidEntityCollisionHandler.INSTANCE.register(EntityFluidRecipe.<EntityItem>builder()
+                .withRegistryName("organa_flower")
                 .withClazz(EntityItem.class)
                 .withChance(10)
                 .withConsumeSource(true)
                 .withEntityMather(EntityMather.<EntityItem>builder()
                         .withEntityBuilder(world -> {
                             var entity = new EntityItem(world);
-                            entity.setItem(new ItemStack(Blocks.CHORUS_FLOWER));
+                            entity.setItem(new ItemStack(Blocks.CHORUS_FLOWER, 4));
                             return entity;
                         })
-                        .withPredicate(EntityMatchStrategy.comparingEntityItemAllButCount())
+                        .withMatchStrategy(EntityMatchStrategy.memorizedComparingEntityItemAllButCount())
                         .build())
                 .withRemoveEntity(false)
                 .withEntityFunction((world, entity) -> {
@@ -133,7 +130,30 @@ final class Registration implements Initializer {
                     itemStack.setCount(itemStack.getCount() - 4);
                     var item = new EntityItem(world);
                     item.setItem(new ItemStack(ModBlocks.ORGANA_FLOWER_BLOCK.get(), 4));
-                    return item;
+                    return EntityFluidRecipeResult.ofEntity(item);
+                })
+                .build());
+
+        EntropyFluidEntityCollisionHandler.INSTANCE.register(EntityFluidRecipe.<EntityItem>builder()
+                .withRegistryName("fluid_organa")
+                .withClazz(EntityItem.class)
+                .withChance(20)
+                .withConsumeSource(true)
+                .withEntityMather(EntityMather.<EntityItem>builder()
+                        .withEntityBuilder(world -> {
+                            var entity = new EntityItem(world);
+                            entity.setItem(new ItemStack(ModItems.ORGANA_FRUIT.get()));
+                            return entity;
+                        })
+                        .withMatchStrategy(EntityMatchStrategy.memorizedComparingEntityItemAllButCount())
+                        .build())
+                .withRemoveEntity(false)
+                .withEntityFunction((world, entity) -> {
+                    var itemStack = entity.getItem();
+                    if (itemStack.getItem() != ModItems.ORGANA_FRUIT.get()) return null;
+                    if (itemStack.getCount() < 1) return null;
+                    itemStack.setCount(itemStack.getCount() - 1);
+                    return EntityFluidRecipeResult.ofState(ModBlocks.FLUID_ORGANA_BLOCK.get().getDefaultState());
                 })
                 .build());
     }

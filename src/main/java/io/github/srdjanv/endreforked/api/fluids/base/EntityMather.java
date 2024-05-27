@@ -40,7 +40,7 @@ public class EntityMather<E extends Entity> implements Predicate<E> {
             return this;
         }
 
-        public EntityMatherBuilder<E> withPredicate(EntityMatchStrategy<E> matchStrategy) {
+        public EntityMatherBuilder<E> withMatchStrategy(EntityMatchStrategy<E> matchStrategy) {
             this.matchStrategy = matchStrategy;
             return this;
         }

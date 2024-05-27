@@ -3,6 +3,7 @@ package io.github.srdjanv.endreforked.api.fluids.base;
 import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BaseRecipe;
 import io.github.srdjanv.endreforked.api.fluids.IWorldRecipe;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -12,30 +13,32 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
-public class EntityFluidRecipe<T extends Entity>
-        extends BaseRecipe<Class<T>, BiFunction<WorldServer, T, ? extends Entity>>
-        implements IWorldRecipe, Comparable<EntityFluidRecipe<?>> {
-
+public class EntityFluidRecipe<E extends Entity>
+        extends BaseRecipe<Class<E>, BiFunction<WorldServer, E, EntityFluidRecipeResult<E>>>
+        implements IWorldRecipe {
+    protected final ResourceLocation registryName;
     protected final int chance;
     protected final boolean consumeSource;
     protected final int consumeChance;
     protected final boolean removeEntity;
     protected final EventPriority priority;
-    protected final EntityMather<T> entityMather;
+    protected final EntityMather<E> entityMather;
     protected final BiConsumer<WorldServer, BlockPos> interactionCallback;
     protected final BiConsumer<WorldServer, BlockPos> fluidInteractionCallback;
 
-    EntityFluidRecipe(Class<T> input,
-                      BiFunction<WorldServer, T, ? extends Entity> entityFunction,
+    EntityFluidRecipe(Class<E> input,
+                      BiFunction<WorldServer, E, EntityFluidRecipeResult<E>> entityFunction,
+                      ResourceLocation registryName,
                       int chance,
                       boolean consumeSource,
                       int consumeChance,
                       boolean removeEntity,
                       EventPriority priority,
-                      EntityMather<T> entityMather,
+                      EntityMather<E> entityMather,
                       BiConsumer<WorldServer, BlockPos> interactionCallback,
                       BiConsumer<WorldServer, BlockPos> fluidInteractionCallback) {
         super(input, entityFunction);
+        this.registryName = registryName;
         this.chance = chance;
         this.consumeSource = consumeSource;
         this.consumeChance = consumeChance;
@@ -46,11 +49,16 @@ public class EntityFluidRecipe<T extends Entity>
         this.fluidInteractionCallback = fluidInteractionCallback;
     }
 
-    public EventPriority getPriority() {
+    @Override
+    public EventPriority priority() {
         return priority;
     }
 
-    public EntityMather<T> getEntityMather() {
+    @Override public ResourceLocation registryName() {
+        return registryName;
+    }
+
+    public EntityMather<E> getEntityMather() {
         return entityMather;
     }
 
@@ -82,26 +90,12 @@ public class EntityFluidRecipe<T extends Entity>
         return interactionCallback;
     }
 
-    //todo fix sorting
-    @Override public int compareTo(@NotNull EntityFluidRecipe<?> o) {
-        return priorityToInt(priority) - priorityToInt(o.priority);
-    }
-
-    private int priorityToInt(EventPriority priority) {
-        return switch (priority) {
-            case LOWEST -> -2;
-            case LOW -> -1;
-            case NORMAL -> 0;
-            case HIGH -> 1;
-            case HIGHEST -> 2;
-        };
-    }
-
     public static <T extends Entity> Builder<T> builder() {
         return new Builder<>();
     }
 
     public static final class Builder<E extends Entity> {
+        private ResourceLocation registryName;
         private int chance;
         private boolean consumeSource;
         private int consumeChance;
@@ -111,9 +105,19 @@ public class EntityFluidRecipe<T extends Entity>
         private BiConsumer<WorldServer, BlockPos> interactionCallback = CollisionRecipe.EMPTY_INTERACTION_CALLBACK;
         private BiConsumer<WorldServer, BlockPos> fluidInteractionCallback = CollisionRecipe.EMPTY_FLUID_INTERACTION_CALLBACK;
         private Class<E> clazz;
-        private BiFunction<WorldServer, E, ? extends Entity> entityFunction;
+        private BiFunction<WorldServer, E, EntityFluidRecipeResult<E>> entityFunction;
 
         private Builder() {}
+
+        public Builder<E> withRegistryName(ResourceLocation location) {
+            this.registryName = location;
+            return this;
+        }
+
+        public Builder<E> withRegistryName(String location) {
+            this.registryName = new ResourceLocation(location);
+            return this;
+        }
 
         public Builder<E> withChance(int chance) {
             this.chance = chance;
@@ -160,7 +164,7 @@ public class EntityFluidRecipe<T extends Entity>
             return this;
         }
 
-        public Builder<E> withEntityFunction(BiFunction<WorldServer, E, ? extends Entity> entityFunction) {
+        public Builder<E> withEntityFunction(BiFunction<WorldServer, E, EntityFluidRecipeResult<E>> entityFunction) {
             this.entityFunction = entityFunction;
             return this;
         }
@@ -169,14 +173,14 @@ public class EntityFluidRecipe<T extends Entity>
             return new EntityFluidRecipe<>(
                     Objects.requireNonNull(clazz),
                     Objects.requireNonNull(entityFunction),
+                    Objects.requireNonNull(registryName),
                     chance,
                     consumeSource,
                     consumeChance,
                     removeEntity,
                     priority,
                     Objects.requireNonNull(entityMather),
-                    Objects.requireNonNull(interactionCallback),
-                    Objects.requireNonNull(fluidInteractionCallback));
+                    Objects.requireNonNull(interactionCallback), Objects.requireNonNull(fluidInteractionCallback));
         }
     }
 
