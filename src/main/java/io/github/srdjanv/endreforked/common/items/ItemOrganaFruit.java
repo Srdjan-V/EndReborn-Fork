@@ -1,27 +1,24 @@
 package io.github.srdjanv.endreforked.common.items;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
-import io.github.srdjanv.endreforked.common.items.base.ItemFoodBase;
-import io.github.srdjanv.endreforked.common.network.servertoclient.TpParticlePacket;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-import java.util.Random;
-import java.util.function.BooleanSupplier;
+import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
+import io.github.srdjanv.endreforked.common.items.base.ItemFoodBase;
+import io.github.srdjanv.endreforked.common.network.servertoclient.TpParticlePacket;
 
 public class ItemOrganaFruit extends ItemFoodBase {
+
     public ItemOrganaFruit() {
         super("organa_fruit", 4, 0.3F, false);
         setAlwaysEdible();
@@ -42,7 +39,8 @@ public class ItemOrganaFruit extends ItemFoodBase {
 
         for (int i = 0; i < 16; ++i) {
             double randX = entityLiving.posX + (entityLiving.getRNG().nextDouble() - 0.5D) * 16.0D;
-            double randY = MathHelper.clamp(entityLiving.posY + (double) (entityLiving.getRNG().nextInt(16) - 8), 0.0D, worldIn.getActualHeight() - 1);
+            double randY = MathHelper.clamp(entityLiving.posY + (double) (entityLiving.getRNG().nextInt(16) - 8), 0.0D,
+                    worldIn.getActualHeight() - 1);
             double randZ = entityLiving.posZ + (entityLiving.getRNG().nextDouble() - 0.5D) * 16.0D;
             if (entityLiving.isRiding()) entityLiving.dismountRidingEntity();
 
@@ -51,7 +49,8 @@ public class ItemOrganaFruit extends ItemFoodBase {
             } else didTP = entityLiving.attemptTeleport(randX, randY, randZ);
 
             if (didTP) {
-                worldIn.playSound(null, x, y, z, SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                worldIn.playSound(null, x, y, z, SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.PLAYERS, 1.0F,
+                        1.0F);
                 entityLiving.playSound(SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT, 1.0F, 1.0F);
                 break;
             }
@@ -95,8 +94,8 @@ public class ItemOrganaFruit extends ItemFoodBase {
 
             if (validPos) {
                 player.setPositionAndUpdate(tpPos.getX(), tpPos.getY(), tpPos.getZ());
-                if (world.getCollisionBoxes(player, player.getEntityBoundingBox()).isEmpty()
-                        && !world.containsAnyLiquid(player.getEntityBoundingBox())) {
+                if (world.getCollisionBoxes(player, player.getEntityBoundingBox()).isEmpty() &&
+                        !world.containsAnyLiquid(player.getEntityBoundingBox())) {
                     validSpace = true;
                 }
             }

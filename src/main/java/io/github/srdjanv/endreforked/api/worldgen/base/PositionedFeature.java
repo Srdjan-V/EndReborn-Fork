@@ -2,7 +2,6 @@ package io.github.srdjanv.endreforked.api.worldgen.base;
 
 import java.util.*;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -12,8 +11,10 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public abstract class PositionedFeature extends WorldGenerator implements SpacedGen {
+
     protected final GenConfig config;
     protected final PositionValidator validator;
     protected final List<Locator> locators;
@@ -37,11 +38,13 @@ public abstract class PositionedFeature extends WorldGenerator implements Spaced
         this.locators = locator;
     }
 
-    @Override public void setSpacedGenState(boolean disabled) {
+    @Override
+    public void setSpacedGenState(boolean disabled) {
         isSpacedGenDisabled = disabled;
     }
 
-    @Override public boolean isSpacedGenDisabled() {
+    @Override
+    public boolean isSpacedGenDisabled() {
         return isSpacedGenDisabled;
     }
 

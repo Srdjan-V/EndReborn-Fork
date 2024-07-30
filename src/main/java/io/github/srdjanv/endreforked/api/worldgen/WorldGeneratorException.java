@@ -5,5 +5,4 @@ public class WorldGeneratorException extends RuntimeException {
     public WorldGeneratorException(String message, Throwable cause) {
         super(message, cause);
     }
-
 }

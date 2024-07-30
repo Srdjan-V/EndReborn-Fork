@@ -2,13 +2,13 @@ package io.github.srdjanv.endreforked.api.worldgen.features;
 
 import java.util.Random;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 
 public class BushSurfaceGenerator extends PositionedFeature {

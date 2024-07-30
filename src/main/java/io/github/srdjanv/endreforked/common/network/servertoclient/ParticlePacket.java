@@ -1,19 +1,21 @@
 package io.github.srdjanv.endreforked.common.network.servertoclient;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+
 import org.jetbrains.annotations.Nullable;
 
+import io.netty.buffer.ByteBuf;
+
 public class ParticlePacket implements IMessage {
+
     private boolean remove;
     private String id;
     private int renderIterations;
     private EnumParticleTypes particleType;
 
-    public ParticlePacket() {
-    }
+    public ParticlePacket() {}
 
     public ParticlePacket(boolean remove, String id, int renderIterations, @Nullable EnumParticleTypes particleType) {
         this.remove = remove;
@@ -30,7 +32,6 @@ public class ParticlePacket implements IMessage {
         this(true, id, 0, null);
     }
 
-
     public boolean remove() {
         return remove;
     }
@@ -43,11 +44,13 @@ public class ParticlePacket implements IMessage {
         return renderIterations;
     }
 
-    @Nullable public EnumParticleTypes particleType() {
+    @Nullable
+    public EnumParticleTypes particleType() {
         return particleType;
     }
 
-    @Override public void fromBytes(ByteBuf buf) {
+    @Override
+    public void fromBytes(ByteBuf buf) {
         remove = buf.readBoolean();
         id = ByteBufUtils.readUTF8String(buf);
         if (remove) return;
@@ -55,7 +58,8 @@ public class ParticlePacket implements IMessage {
         particleType = EnumParticleTypes.getParticleFromId(buf.readInt());
     }
 
-    @Override public void toBytes(ByteBuf buf) {
+    @Override
+    public void toBytes(ByteBuf buf) {
         buf.writeBoolean(remove);
         ByteBufUtils.writeUTF8String(buf, id);
         if (remove) return;

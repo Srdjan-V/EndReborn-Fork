@@ -1,7 +1,5 @@
 package io.github.srdjanv.endreforked.common.network.servertoclient;
 
-import io.github.srdjanv.endreforked.client.ParticleHandler;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
@@ -9,7 +7,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import io.github.srdjanv.endreforked.client.ParticleHandler;
+import io.netty.buffer.ByteBuf;
+
 public class TpParticlePacket implements IMessage {
+
     private double posX;
     private double posY;
     private double posZ;
@@ -21,7 +23,7 @@ public class TpParticlePacket implements IMessage {
     private double width;
     private double height;
 
-    public TpParticlePacket(boolean livingOldPos, EntityLivingBase livingBase,  double posX, double posY, double posZ) {
+    public TpParticlePacket(boolean livingOldPos, EntityLivingBase livingBase, double posX, double posY, double posZ) {
         if (livingOldPos) {
             this.posX = livingBase.posX;
             this.posY = livingBase.posY;
@@ -44,7 +46,8 @@ public class TpParticlePacket implements IMessage {
         this.height = livingBase.height;
     }
 
-    public TpParticlePacket(double posX, double posY, double posZ, double newPosX, double newPosY, double newPosZ, double width, double height) {
+    public TpParticlePacket(double posX, double posY, double posZ, double newPosX, double newPosY, double newPosZ,
+                            double width, double height) {
         this.posX = posX;
         this.posY = posY;
         this.posZ = posZ;
@@ -55,11 +58,10 @@ public class TpParticlePacket implements IMessage {
         this.height = height;
     }
 
-    public TpParticlePacket() {
-    }
+    public TpParticlePacket() {}
 
-
-    @Override public void fromBytes(ByteBuf buf) {
+    @Override
+    public void fromBytes(ByteBuf buf) {
         posX = buf.readDouble();
         posY = buf.readDouble();
         posZ = buf.readDouble();
@@ -72,7 +74,8 @@ public class TpParticlePacket implements IMessage {
         height = buf.readDouble();
     }
 
-    @Override public void toBytes(ByteBuf buf) {
+    @Override
+    public void toBytes(ByteBuf buf) {
         buf.writeDouble(posX);
         buf.writeDouble(posY);
         buf.writeDouble(posZ);
@@ -86,13 +89,17 @@ public class TpParticlePacket implements IMessage {
     }
 
     public enum Handler implements IMessageHandler<TpParticlePacket, IMessage> {
+
         INSTANCE;
 
-        @Override public IMessage onMessage(TpParticlePacket message, MessageContext ctx) {
+        @Override
+        public IMessage onMessage(TpParticlePacket message, MessageContext ctx) {
             if (ctx.side.isServer()) return null;
             ParticleHandler.addToRender(
                     new ParticleHandler.RenderInfo("TPParticlePacket" + Minecraft.getSystemTime(), 1) {
-                        @Override public void render() {
+
+                        @Override
+                        public void render() {
                             var mc = Minecraft.getMinecraft();
                             var random = mc.world.rand;
                             for (int j = 0; j < 128; ++j) {
@@ -100,9 +107,12 @@ public class TpParticlePacket implements IMessage {
                                 float f = (random.nextFloat() - 0.5F) * 0.2F;
                                 float f1 = (random.nextFloat() - 0.5F) * 0.2F;
                                 float f2 = (random.nextFloat() - 0.5F) * 0.2F;
-                                double d3 = message.posX + (message.newPosX - message.posX) * d6 + (random.nextDouble() - 0.5D) * message.width * 2.0D;
-                                double d4 = message.posY + (message.newPosY - message.posY) * d6 + random.nextDouble() * message.height;
-                                double d5 = message.posZ + (message.newPosZ - message.posZ) * d6 + (random.nextDouble() - 0.5D) * message.width * 2.0D;
+                                double d3 = message.posX + (message.newPosX - message.posX) * d6 +
+                                        (random.nextDouble() - 0.5D) * message.width * 2.0D;
+                                double d4 = message.posY + (message.newPosY - message.posY) * d6 +
+                                        random.nextDouble() * message.height;
+                                double d5 = message.posZ + (message.newPosZ - message.posZ) * d6 +
+                                        (random.nextDouble() - 0.5D) * message.width * 2.0D;
                                 mc.world.spawnParticle(EnumParticleTypes.PORTAL, d3, d4, d5, f, f1, f2);
                             }
                         }

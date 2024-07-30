@@ -1,14 +1,15 @@
 package io.github.srdjanv.endreforked.core.devmixin;
 
-import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.common.comands.dev.DevConfigs;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import io.github.srdjanv.endreforked.Tags;
 
 @Mixin(AnvilChunkLoader.class)
 public abstract class AnvilChunkLoaderMixin {

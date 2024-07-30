@@ -1,15 +1,16 @@
 package io.github.srdjanv.endreforked.common.entropy.storage;
 
-import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
 
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
+
 public class DefaultEntropyStorage implements EntropyStorage, INBTSerializable<NBTTagCompound> {
+
     private int capacity;
     private int entropy;
 
-    public DefaultEntropyStorage() {
-    }
+    public DefaultEntropyStorage() {}
 
     public DefaultEntropyStorage(int capacity) {
         this(capacity, 0);
@@ -20,15 +21,18 @@ public class DefaultEntropyStorage implements EntropyStorage, INBTSerializable<N
         this.entropy = entropy;
     }
 
-    @Override public int getMaxEntropy() {
+    @Override
+    public int getMaxEntropy() {
         return capacity;
     }
 
-    @Override public int getCurrentEntropy() {
+    @Override
+    public int getCurrentEntropy() {
         return entropy;
     }
 
-    @Override public int induceEntropy(int entropy, boolean simulate) {
+    @Override
+    public int induceEntropy(int entropy, boolean simulate) {
         if (!canInduceEntropy()) return 0;
         int availableSpace = getMaxEntropy() - getCurrentEntropy();
         if (this.entropy > availableSpace) {
@@ -47,11 +51,13 @@ public class DefaultEntropyStorage implements EntropyStorage, INBTSerializable<N
         this.entropy = entropy;
     }
 
-    @Override public boolean canInduceEntropy() {
+    @Override
+    public boolean canInduceEntropy() {
         return true;
     }
 
-    @Override public int drainEntropy(int entropy, boolean simulate) {
+    @Override
+    public int drainEntropy(int entropy, boolean simulate) {
         if (!canDrainEntropy()) return 0;
 
         if (entropy > this.entropy) {
@@ -63,18 +69,21 @@ public class DefaultEntropyStorage implements EntropyStorage, INBTSerializable<N
         return entropy;
     }
 
-    @Override public boolean canDrainEntropy() {
+    @Override
+    public boolean canDrainEntropy() {
         return true;
     }
 
-    @Override public NBTTagCompound serializeNBT() {
+    @Override
+    public NBTTagCompound serializeNBT() {
         var tag = new NBTTagCompound();
         tag.setInteger("capacity", capacity);
         tag.setInteger("entropy", entropy);
         return tag;
     }
 
-    @Override public void deserializeNBT(NBTTagCompound nbt) {
+    @Override
+    public void deserializeNBT(NBTTagCompound nbt) {
         capacity = nbt.getInteger("capacity");
         entropy = nbt.getInteger("entropy");
     }

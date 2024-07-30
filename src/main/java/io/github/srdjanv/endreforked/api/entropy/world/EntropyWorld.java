@@ -1,21 +1,23 @@
 package io.github.srdjanv.endreforked.api.entropy.world;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
-import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
+import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
+import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 
 public final class EntropyWorld {
+
     private static final Map<Long, EntropyChunk> chunks = new ConcurrentHashMap<>();
     private final World world;
+
     public EntropyWorld(World world) {
         this.world = world;
     }

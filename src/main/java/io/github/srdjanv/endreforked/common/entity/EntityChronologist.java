@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.common.entity;
 
-import io.github.srdjanv.endreforked.common.ModPotions;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityEndermite;
@@ -16,7 +17,7 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
+import io.github.srdjanv.endreforked.common.ModPotions;
 
 public class EntityChronologist extends EndEntity {
 

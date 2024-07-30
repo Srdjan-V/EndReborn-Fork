@@ -1,18 +1,19 @@
 package io.github.srdjanv.endreforked.api.fluids.base;
 
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.Recipe;
-import io.github.srdjanv.endreforked.api.fluids.IWorldRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.Recipe;
+import io.github.srdjanv.endreforked.api.fluids.IWorldRecipe;
+
 public class CollisionRecipe<IN, OUT> extends Recipe<IN, OUT> implements IWorldRecipe {
+
     protected final ResourceLocation registryName;
     protected final int chance;
     protected final boolean consumeSource;
@@ -40,11 +41,13 @@ public class CollisionRecipe<IN, OUT> extends Recipe<IN, OUT> implements IWorldR
         this.fluidInteractionCallback = fluidInteractionCallback;
     }
 
-    @Override public EventPriority priority() {
+    @Override
+    public EventPriority priority() {
         return priority;
     }
 
-    @Override public ResourceLocation registryName() {
+    @Override
+    public ResourceLocation registryName() {
         return registryName;
     }
 
@@ -53,7 +56,8 @@ public class CollisionRecipe<IN, OUT> extends Recipe<IN, OUT> implements IWorldR
         return chance;
     }
 
-    @Override public int getChanceConsumeSource() {
+    @Override
+    public int getChanceConsumeSource() {
         return consumeChance;
     }
 
@@ -72,12 +76,12 @@ public class CollisionRecipe<IN, OUT> extends Recipe<IN, OUT> implements IWorldR
         return interactionCallback;
     }
 
-
     public static <IN, OUT> Builder<IN, OUT> builder() {
         return new Builder<>();
     }
 
     public static final class Builder<IN, OUT> {
+
         private ResourceLocation registryName;
         private int chance;
         private boolean consumeSource;
@@ -153,5 +157,4 @@ public class CollisionRecipe<IN, OUT> extends Recipe<IN, OUT> implements IWorldR
                     Objects.requireNonNull(fluidInteractionCallback));
         }
     }
-
 }

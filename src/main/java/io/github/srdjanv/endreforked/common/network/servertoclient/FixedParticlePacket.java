@@ -1,9 +1,11 @@
 package io.github.srdjanv.endreforked.common.network.servertoclient;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.util.EnumParticleTypes;
 
+import io.netty.buffer.ByteBuf;
+
 public class FixedParticlePacket extends ParticlePacket {
+
     private double xCoord;
     private double yCoord;
     private double zCoord;
@@ -12,8 +14,7 @@ public class FixedParticlePacket extends ParticlePacket {
     private double zSpeed;
     private int[] parameters;
 
-    public FixedParticlePacket() {
-    }
+    public FixedParticlePacket() {}
 
     public FixedParticlePacket(boolean remove, String id, int renderIterations, EnumParticleTypes particleType,
                                double xCoord, double yCoord, double zCoord,
@@ -29,7 +30,8 @@ public class FixedParticlePacket extends ParticlePacket {
         this.parameters = parameters;
     }
 
-    @Override public void fromBytes(ByteBuf buf) {
+    @Override
+    public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
         xCoord = buf.readDouble();
         yCoord = buf.readDouble();
@@ -41,7 +43,8 @@ public class FixedParticlePacket extends ParticlePacket {
         for (int i = 0; i < parameters.length; i++) parameters[i] = buf.readInt();
     }
 
-    @Override public void toBytes(ByteBuf buf) {
+    @Override
+    public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
         buf.writeDouble(xCoord);
         buf.writeDouble(yCoord);

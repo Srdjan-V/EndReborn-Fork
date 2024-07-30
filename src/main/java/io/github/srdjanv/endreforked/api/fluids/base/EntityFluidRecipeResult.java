@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 
 public class EntityFluidRecipeResult<E extends Entity> {
+
     private final Object result;
     private final Type type;
 
@@ -33,7 +34,8 @@ public class EntityFluidRecipeResult<E extends Entity> {
         return (IBlockState) result;
     }
 
-    @SuppressWarnings("unchecked") public E getEntityResult() {
+    @SuppressWarnings("unchecked")
+    public E getEntityResult() {
         return (E) result;
     }
 

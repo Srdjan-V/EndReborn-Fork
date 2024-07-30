@@ -8,7 +8,6 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
-import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
 
 import org.apache.commons.io.FileUtils;
@@ -19,6 +18,7 @@ import com.google.gson.stream.JsonReader;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
+import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
 import io.github.srdjanv.endreforked.utils.Initializer;
 
 public abstract class BaseServerSideConfig<D> implements Initializer {

@@ -1,5 +1,17 @@
 package io.github.srdjanv.endreforked.common;
 
+import java.util.Iterator;
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.relauncher.Side;
+
+import org.jetbrains.annotations.Nullable;
+
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyWorldHandler;
 import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
@@ -11,23 +23,14 @@ import io.github.srdjanv.endreforked.common.configs.worldgen.GenericGenConfig;
 import io.github.srdjanv.endreforked.common.configs.worldgen.OreGenConfig;
 import io.github.srdjanv.endreforked.common.configs.worldgen.StructureGenConfig;
 import io.github.srdjanv.endreforked.common.datafixers.Fixer;
-import io.github.srdjanv.endreforked.common.handlers.TimedFlightHandler;
 import io.github.srdjanv.endreforked.common.handlers.EventHandler;
+import io.github.srdjanv.endreforked.common.handlers.TimedFlightHandler;
 import io.github.srdjanv.endreforked.compat.CompatManger;
 import io.github.srdjanv.endreforked.utils.Initializer;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.relauncher.Side;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Iterator;
-import java.util.List;
 
 public class CommonProxy {
+
     public final Side SIDE;
     protected final List<Initializer> components = new ObjectArrayList<>();
 
@@ -89,7 +92,7 @@ public class CommonProxy {
     }
 
     private void dispose() {
-        for (Iterator<Initializer> iterator = components.iterator(); iterator.hasNext(); ) {
+        for (Iterator<Initializer> iterator = components.iterator(); iterator.hasNext();) {
             Initializer component = iterator.next();
             if (component.dispose()) {
                 component.onDispose();
@@ -99,14 +102,18 @@ public class CommonProxy {
     }
 
     public void registerItemRenderer(Item item, int meta, String id) {}
+
     public void registerItemRenderer(Item item, int meta, String postfix, String id) {}
+
     public void registerToTextureAtlas(ResourceLocation location) {}
+
     public void registerFileStateMapper(Block block, String file, String variantName) {
         registerFileStateMapper(block, Item.getItemFromBlock(block), file, variantName);
     }
+
     public void registerFileStateMapper(Item item, String file, String variantName) {
         registerFileStateMapper(Block.getBlockFromItem(item), file, variantName);
     }
-    public void registerFileStateMapper(@Nullable Block block, @Nullable Item item, String file, String variantName) {}
 
+    public void registerFileStateMapper(@Nullable Block block, @Nullable Item item, String file, String variantName) {}
 }

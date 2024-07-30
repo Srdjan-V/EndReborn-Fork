@@ -1,15 +1,17 @@
 package io.github.srdjanv.endreforked.client;
 
-import it.unimi.dsi.fastutil.objects.*;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+
+import it.unimi.dsi.fastutil.objects.*;
+
 public class ParticleHandler {
+
     private final static Lock lock = new ReentrantLock();
     private final static Object2ObjectOpenHashMap<String, RenderInfo> PARTICLES = new Object2ObjectOpenHashMap<>();
 
@@ -60,6 +62,7 @@ public class ParticleHandler {
     }
 
     public static abstract class RenderInfo {
+
         private final String id;
         protected int remakingTicks;
 
@@ -78,64 +81,66 @@ public class ParticleHandler {
             return remakingTicks;
         }
 
-        @Override public boolean equals(Object object) {
+        @Override
+        public boolean equals(Object object) {
             if (this == object) return true;
             if (object == null || getClass() != object.getClass()) return false;
             RenderInfo renderInfo = (RenderInfo) object;
             return id.equals(renderInfo.id);
         }
 
-        @Override public int hashCode() {
+        @Override
+        public int hashCode() {
             return Objects.hashCode(id);
         }
     }
 
-/*
-    public static class StaticInfo extends Info {
-        private final EnumParticleTypes particleType;
-        private final double xCoord;
-        private final double yCoord;
-        private final double zCoord;
-        private final double xSpeed;
-        private final double ySpeed;
-        private final double zSpeed;
-        private final int[] parameters;
-
-
-        public StaticInfo(int remakingTicks,
-                          EnumParticleTypes particleType,
-                          double xCoord, double yCoord, double zCoord,
-                          double xSpeed, double ySpeed, double zSpeed,
-                          int[] parameters) {
-
-            this.particleType = particleType;
-            this.xCoord = xCoord;
-            this.yCoord = yCoord;
-            this.zCoord = zCoord;
-            this.xSpeed = xSpeed;
-            this.ySpeed = ySpeed;
-            this.zSpeed = zSpeed;
-            this.parameters = parameters;
-        }
-
-        public StaticInfo() {super();}
-
-
-        public void render() {
-            Minecraft.getMinecraft().world.spawnParticle(particleType, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, parameters);
-        }
-
-        @Override public boolean equals(Object object) {
-            if (this == object) return true;
-            if (object == null || getClass() != object.getClass()) return false;
-            Info info = (Info) object;
-            return particleType == info.particleType;
-        }
-
-        @Override public int hashCode() {
-            return Objects.hashCode(particleType);
-        }
-    }
-*/
-
+    /*
+     * public static class StaticInfo extends Info {
+     * private final EnumParticleTypes particleType;
+     * private final double xCoord;
+     * private final double yCoord;
+     * private final double zCoord;
+     * private final double xSpeed;
+     * private final double ySpeed;
+     * private final double zSpeed;
+     * private final int[] parameters;
+     * 
+     * 
+     * public StaticInfo(int remakingTicks,
+     * EnumParticleTypes particleType,
+     * double xCoord, double yCoord, double zCoord,
+     * double xSpeed, double ySpeed, double zSpeed,
+     * int[] parameters) {
+     * 
+     * this.particleType = particleType;
+     * this.xCoord = xCoord;
+     * this.yCoord = yCoord;
+     * this.zCoord = zCoord;
+     * this.xSpeed = xSpeed;
+     * this.ySpeed = ySpeed;
+     * this.zSpeed = zSpeed;
+     * this.parameters = parameters;
+     * }
+     * 
+     * public StaticInfo() {super();}
+     * 
+     * 
+     * public void render() {
+     * Minecraft.getMinecraft().world.spawnParticle(particleType, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed,
+     * parameters);
+     * }
+     * 
+     * @Override public boolean equals(Object object) {
+     * if (this == object) return true;
+     * if (object == null || getClass() != object.getClass()) return false;
+     * Info info = (Info) object;
+     * return particleType == info.particleType;
+     * }
+     * 
+     * @Override public int hashCode() {
+     * return Objects.hashCode(particleType);
+     * }
+     * }
+     */
 }

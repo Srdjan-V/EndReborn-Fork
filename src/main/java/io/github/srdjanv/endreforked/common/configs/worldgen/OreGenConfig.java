@@ -2,16 +2,16 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 
 import java.util.Objects;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
-import io.github.srdjanv.endreforked.api.worldgen.Generator;
-import io.github.srdjanv.endreforked.common.ModBioms;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
+import io.github.srdjanv.endreforked.common.ModBioms;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import io.github.srdjanv.endreforked.common.configs.worldgen.base.WorldGenBaseConfigReloadable;
@@ -38,14 +38,16 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(80)
                                     .setAmount(20)
                                     .setMaxHeight(256)
-                                    .setMinHeight(0).build(), 0);
+                                    .setMinHeight(0).build(),
+                            0);
 
                     builder.whiteListDim(
                             GenConfig.builder()
                                     .setRarity(60)
                                     .setAmount(40)
                                     .setMaxHeight(256)
-                                    .setMinHeight(0).build(), 1);
+                                    .setMinHeight(0).build(),
+                            1);
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.OBSIDIAN_ESSENCE_ORE.get().getDefaultState(),
@@ -58,7 +60,8 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(25)
                                     .setAmount(20)
                                     .setMaxHeight(60)
-                                    .setMinHeight(0).build(), 1);
+                                    .setMinHeight(0).build(),
+                            1);
 
                     builder.whiteListBiome(
                             GenConfig.builder()
@@ -79,15 +82,16 @@ public class OreGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(15)
                                     .setAmount(10)
                                     .setMaxHeight(48)
-                                    .setMinHeight(0).build(), 0);
+                                    .setMinHeight(0).build(),
+                            0);
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(ModBlocks.TUNGSTEN_ORE.get().getDefaultState(),
                         config.amount(), input -> {
-                    if (input != null && input.getBlock() == Blocks.STONE) {
-                        return input.getValue(BlockStone.VARIANT).equals(BlockStone.EnumType.DIORITE);
-                    } else return false;
-                }));
+                            if (input != null && input.getBlock() == Blocks.STONE) {
+                                return input.getValue(BlockStone.VARIANT).equals(BlockStone.EnumType.DIORITE);
+                            } else return false;
+                        }));
 
         registerGen("tungsten_end",
                 builder -> {

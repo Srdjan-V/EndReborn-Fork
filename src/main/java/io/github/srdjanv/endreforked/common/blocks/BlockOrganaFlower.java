@@ -1,10 +1,9 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.ModItems;
-import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
-import io.github.srdjanv.endreforked.common.tiles.passiveinducers.OrganaFlowerTile;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -27,10 +26,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.Random;
+import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.ModItems;
+import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
+import io.github.srdjanv.endreforked.common.tiles.passiveinducers.OrganaFlowerTile;
 
 public class BlockOrganaFlower extends BlockBase {
+
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 10);
 
     public BlockOrganaFlower() {
@@ -43,12 +46,14 @@ public class BlockOrganaFlower extends BlockBase {
         setHardness(1.25f);
     }
 
-    @Override public void handleAssets() {
+    @Override
+    public void handleAssets() {
         EndReforked.getProxy().registerItemRenderer(ModItems.ORGANA_FLOWER.get(), 0, "inventory");
         EndReforked.getProxy().registerItemRenderer(ModItems.ORGANA_FLOWER.get(), 10, "inventory");
     }
 
-    @Override public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+    @Override
+    public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
         items.add(new ItemStack(this, 1, 0));
         items.add(new ItemStack(this, 1, 8));
         items.add(new ItemStack(this, 1, 10));
@@ -120,7 +125,8 @@ public class BlockOrganaFlower extends BlockBase {
                 EnumFacing facing = EnumFacing.Plane.HORIZONTAL.random(rand);
                 BlockPos facingPos = pos.offset(facing);
 
-                if (worldIn.isAirBlock(facingPos) && worldIn.isAirBlock(facingPos.down()) && areAllNeighborsEmpty(worldIn, facingPos, facing.getOpposite())) {
+                if (worldIn.isAirBlock(facingPos) && worldIn.isAirBlock(facingPos.down()) &&
+                        areAllNeighborsEmpty(worldIn, facingPos, facing.getOpposite())) {
                     placeGrownFlower(worldIn, facingPos, age + 1);
                     flag2 = true;
                 }
@@ -206,7 +212,8 @@ public class BlockOrganaFlower extends BlockBase {
     }
 
     @Override
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack) {
+    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
+                             @Nullable TileEntity te, ItemStack stack) {
         super.harvestBlock(worldIn, player, pos, state, te, stack);
         spawnAsEntity(worldIn, pos, new ItemStack(Item.getItemFromBlock(this)));
     }
@@ -242,7 +249,8 @@ public class BlockOrganaFlower extends BlockBase {
         growPlantRecursive(worldIn, pos, rand, pos, plantSpace, 0);
     }
 
-    private static void growPlantRecursive(World worldIn, BlockPos pos, Random rand, BlockPos pos2, int plantSpace, int iteration) {
+    private static void growPlantRecursive(World worldIn, BlockPos pos, Random rand, BlockPos pos2, int plantSpace,
+                                           int iteration) {
         int hight = rand.nextInt(3) + 1;
         if (iteration == 0) ++hight;
 
@@ -267,11 +275,10 @@ public class BlockOrganaFlower extends BlockBase {
                 EnumFacing enumfacing = EnumFacing.Plane.HORIZONTAL.random(rand);
                 BlockPos genPos = pos.up(hight).offset(enumfacing);
 
-                if (Math.abs(genPos.getX() - pos2.getX()) < plantSpace
-                        && Math.abs(genPos.getZ() - pos2.getZ()) < plantSpace
-                        && worldIn.isAirBlock(genPos)
-                        && worldIn.isAirBlock(genPos.down())
-                        && areAllNeighborsEmpty(worldIn, genPos, enumfacing.getOpposite())) {
+                if (Math.abs(genPos.getX() - pos2.getX()) < plantSpace &&
+                        Math.abs(genPos.getZ() - pos2.getZ()) < plantSpace && worldIn.isAirBlock(genPos) &&
+                        worldIn.isAirBlock(genPos.down()) &&
+                        areAllNeighborsEmpty(worldIn, genPos, enumfacing.getOpposite())) {
                     grown = true;
                     worldIn.setBlockState(genPos, ModBlocks.ORGANA_PLANT_BLOCK.get().getDefaultState(), 2);
                     growPlantRecursive(worldIn, genPos, rand, pos2, plantSpace, iteration + 1);
@@ -280,7 +287,8 @@ public class BlockOrganaFlower extends BlockBase {
         }
 
         if (!grown)
-            worldIn.setBlockState(pos.up(hight), ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(AGE, 10), 2);
+            worldIn.setBlockState(pos.up(hight),
+                    ModBlocks.ORGANA_FLOWER_BLOCK.get().getDefaultState().withProperty(AGE, 10), 2);
     }
 
     @Override
@@ -288,20 +296,25 @@ public class BlockOrganaFlower extends BlockBase {
         return BlockFaceShape.UNDEFINED;
     }
 
-
-    @Override public boolean hasTileEntity(IBlockState state) {
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
         return state.getValue(AGE) == 10;
     }
 
-    @org.jetbrains.annotations.Nullable @Override public TileEntity createTileEntity(World world, IBlockState state) {
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
         if (state.getValue(AGE) == 10) return new OrganaFlowerTile();
         return null;
     }
 
-/*    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        //updateTick(worldIn, pos, state, worldIn.rand);
-        if (!worldIn.isRemote) generatePlant(worldIn, pos, worldIn.rand, 8);
-
-        return true;
-    }*/
+    /*
+     * public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand
+     * hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+     * //updateTick(worldIn, pos, state, worldIn.rand);
+     * if (!worldIn.isRemote) generatePlant(worldIn, pos, worldIn.rand, 8);
+     * 
+     * return true;
+     * }
+     */
 }

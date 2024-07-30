@@ -1,30 +1,33 @@
 package io.github.srdjanv.endreforked.api.entropy.world;
 
-import io.github.srdjanv.endreforked.api.util.DimPos;
-import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
-import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
-import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
+import io.github.srdjanv.endreforked.api.util.DimPos;
+
 public final class EntropyChunkReader {
+
     private ChunkEntropyView entropyView;
 
     public EntropyChunkReader(
-            Supplier<DimPos> centerPosSup,
-            Function<DimPos, Optional<EntropyChunk>> resolver) {
+                              Supplier<DimPos> centerPosSup,
+                              Function<DimPos, Optional<EntropyChunk>> resolver) {
         this(centerPosSup, resolver, EntropyRadius.ONE);
     }
 
     public EntropyChunkReader(
-            Supplier<DimPos> centerPosSup,
-            Function<DimPos, Optional<EntropyChunk>> resolver,
-            EntropyRadius radius) {
+                              Supplier<DimPos> centerPosSup,
+                              Function<DimPos, Optional<EntropyChunk>> resolver,
+                              EntropyRadius radius) {
         entropyView = new ChunkEntropyView(centerPosSup, resolver, radius);
     }
 

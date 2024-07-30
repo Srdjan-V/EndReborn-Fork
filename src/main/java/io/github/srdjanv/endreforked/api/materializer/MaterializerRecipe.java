@@ -2,12 +2,11 @@ package io.github.srdjanv.endreforked.api.materializer;
 
 import java.util.function.BiFunction;
 
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.timed.TimedBiRecipe;
 import net.minecraft.item.ItemStack;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.timed.TimedBiRecipe;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 

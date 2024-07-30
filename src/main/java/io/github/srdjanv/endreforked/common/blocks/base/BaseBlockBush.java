@@ -1,17 +1,18 @@
 package io.github.srdjanv.endreforked.common.blocks.base;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.utils.models.InventoryBlockModel;
-import net.minecraft.block.state.IBlockState;
-
-import java.util.List;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class BaseBlockBush extends BlockBush implements InventoryBlockModel {
+
     protected final List<Block> sustainableBlocks = new ObjectArrayList<>();
 
     public BaseBlockBush(String name, Material material) {
@@ -24,6 +25,7 @@ public class BaseBlockBush extends BlockBush implements InventoryBlockModel {
     public List<Block> getSustainableBlocks() {
         return sustainableBlocks;
     }
+
     @Override
     protected boolean canSustainBush(IBlockState state) {
         return sustainableBlocks.contains(state.getBlock());

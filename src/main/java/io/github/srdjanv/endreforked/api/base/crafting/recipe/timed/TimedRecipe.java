@@ -1,11 +1,11 @@
 package io.github.srdjanv.endreforked.api.base.crafting.recipe.timed;
 
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BaseRecipe;
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.Recipe;
-
 import java.util.function.Function;
 
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.Recipe;
+
 public class TimedRecipe<IN, OUT> extends Recipe<IN, OUT> {
+
     protected final int ticksToComplete;
 
     public TimedRecipe(IN input, int ticksToComplete, Function<IN, OUT> recipeFunction) {

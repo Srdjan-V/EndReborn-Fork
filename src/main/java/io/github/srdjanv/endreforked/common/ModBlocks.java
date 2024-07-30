@@ -1,6 +1,18 @@
 package io.github.srdjanv.endreforked.common;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
 import com.google.common.base.Suppliers;
+
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.blocks.*;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
@@ -12,16 +24,6 @@ import io.github.srdjanv.endreforked.common.fluids.blocks.BlockFluidEndMagma;
 import io.github.srdjanv.endreforked.common.fluids.blocks.BlockFluidEntropy;
 import io.github.srdjanv.endreforked.common.fluids.blocks.BlockFluidOrgana;
 import io.github.srdjanv.endreforked.utils.models.IAsset;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public final class ModBlocks {
@@ -81,7 +83,8 @@ public final class ModBlocks {
             () -> new BlockEndForge("end_forge_block"));
     public static final Supplier<Block> MATERIALIZER_BLOCK = maybeRegister(
             () -> new BlockMaterializer("materializer_block"));
-    public static final Supplier<BlockSmallEntropyBattery> SMALL_ENTROPY_BATTERY_BLOCK = register(BlockSmallEntropyBattery::new);
+    public static final Supplier<BlockSmallEntropyBattery> SMALL_ENTROPY_BATTERY_BLOCK = register(
+            BlockSmallEntropyBattery::new);
 
     public static final Supplier<BlockEntropyChamber> ENTROPY_CHAMBER = register(BlockEntropyChamber::new);
 
@@ -89,17 +92,16 @@ public final class ModBlocks {
             () -> new BlockRune("rune_block", Material.ROCK));
 
     public static final Supplier<BlockDragoniteCrop> DRAGONITE_CROP = maybeRegister(BlockDragoniteCrop::new);
-    //todo data fix old:xorcite_block
+    // todo data fix old:xorcite_block
     public static final Supplier<Block> ENTROPY_CROP_BLOCK = register(BlockEntropyCrop::new);
 
     public static final Supplier<BlockEnderCrop> ENDER_FLOWER_CROP = register(BlockEnderCrop::new);
     public static final Supplier<BlockEnderCropDead> ENDER_FLOWER_CROP_DEAD = register(BlockEnderCropDead::new);
 
-
     // todo fixup
     public static final Supplier<BlockOrganaWeed> ORGANA_WEED_BLOCK = register(BlockOrganaWeed::new);
 
-    //fluids
+    // fluids
     public static final Supplier<BlockFluidEndMagma> FLUID_END_MAGMA_BLOCK = register(BlockFluidEndMagma::new);
     public static final Supplier<BlockFluidEntropy> FLUID_ENTROPY_BLOCK = register(BlockFluidEntropy::new);
     public static final Supplier<BlockFluidOrgana> FLUID_ORGANA_BLOCK = register(BlockFluidOrgana::new);
@@ -111,7 +113,8 @@ public final class ModBlocks {
     public static final Supplier<BlockOrganaPlant> ORGANA_PLANT_BLOCK = register(BlockOrganaPlant::new);
 
     public static final Supplier<BlockOrganaFlowerStem> ORGANA_FLOWER_STEM_BLOCK = register(BlockOrganaFlowerStem::new);
-    public static final Supplier<BlockOrganaFlowerStemDead> ORGANA_FLOWER_STEM_DEAD_BLOCK = register(BlockOrganaFlowerStemDead::new);
+    public static final Supplier<BlockOrganaFlowerStemDead> ORGANA_FLOWER_STEM_DEAD_BLOCK = register(
+            BlockOrganaFlowerStemDead::new);
 
     public static <B extends Block> Supplier<B> register(com.google.common.base.Supplier<B> supplier) {
         Supplier<B> memorized = Suppliers.memoize(supplier);

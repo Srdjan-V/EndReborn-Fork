@@ -8,7 +8,7 @@ import io.github.srdjanv.endreforked.api.base.crafting.groupings.Fluid2ItemGroup
 import io.github.srdjanv.endreforked.api.util.FluidStackHashStrategy;
 
 public class EndForgeHandler extends
-        HandlerGroupingRegistry<FluidStack, ItemStack, ItemStack, Fluid2ItemGrouping<EndForgeRecipe>, EndForgeRecipe> {
+                             HandlerGroupingRegistry<FluidStack, ItemStack, ItemStack, Fluid2ItemGrouping<EndForgeRecipe>, EndForgeRecipe> {
 
     private static final EndForgeHandler instance = new EndForgeHandler();
 

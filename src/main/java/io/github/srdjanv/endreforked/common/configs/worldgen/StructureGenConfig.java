@@ -3,11 +3,6 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 import java.util.Objects;
 import java.util.Random;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
-import io.github.srdjanv.endreforked.api.worldgen.base.*;
-import io.github.srdjanv.endreforked.api.worldgen.features.TemplateGenerator;
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
@@ -15,8 +10,13 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import io.github.srdjanv.endreforked.Tags;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
+import io.github.srdjanv.endreforked.api.worldgen.base.*;
+import io.github.srdjanv.endreforked.api.worldgen.features.TemplateGenerator;
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
 import io.github.srdjanv.endreforked.common.configs.worldgen.base.WorldGenBaseConfigReloadable;
 
 public class StructureGenConfig extends WorldGenBaseConfigReloadable {
@@ -47,8 +47,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                                     .setMinHeight(85).build());
                     return builder.build();
                 },
-                (world, biome, config) -> new TemplateGenerator(config, "end_ruins")
-        );
+                (world, biome, config) -> new TemplateGenerator(config, "end_ruins"));
         registerGen("end_endermite_island",
                 builder -> {
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
@@ -63,8 +62,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
                     return builder.build();
                 },
-                (world, biome, config) -> new TemplateGenerator(config, "end_endermite_island")
-        );
+                (world, biome, config) -> new TemplateGenerator(config, "end_endermite_island"));
         registerGen("end_entropy_island",
                 builder -> {
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
@@ -75,8 +73,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                             .build());
                     return builder.build();
                 },
-                (world, biome, config) -> new TemplateGenerator(config, "end_entropy_island")
-        );
+                (world, biome, config) -> new TemplateGenerator(config, "end_entropy_island"));
         registerGen("end_moss_island",
                 builder -> {
                     builder.whiteListBiomeType(
@@ -85,8 +82,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                                     .setMaxHeight(115)
                                     .setMinHeight(90)
                                     .build(),
-                            "ORGANA"
-                    );
+                            "ORGANA");
 
                     builder.whiteListBiome("sky", "plains", "desert", "ocean", "deep_ocean", "savanna");
                     builder.dimConfigFallback(
@@ -102,6 +98,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> {
                     class OrganaFlowerFeature extends PositionedFeature {
+
                         OrganaFlowerFeature(GenConfig config, Locator... locators) {
                             super(config, locators);
                         }
@@ -110,13 +107,16 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                             super(config, Locators.offsetOf(offset).andThenLocate(Locators.SURFACE_BLOCK));
                         }
 
-                        @Override protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
+                        @Override
+                        protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
                             BlockOrganaFlower.generatePlant(server, startPos.up(), rand, 8 + rand.nextInt(3));
                             return true;
                         }
 
-                        @Override protected PositionValidator getStartPosValidator() {
-                            return (server, config, rand, pos) -> server.getBlockState(pos).getBlock() == ModBlocks.END_MOSS_GRASS_BLOCK.get();
+                        @Override
+                        protected PositionValidator getStartPosValidator() {
+                            return (server, config, rand, pos) -> server.getBlockState(pos).getBlock() ==
+                                    ModBlocks.END_MOSS_GRASS_BLOCK.get();
                         }
                     }
                     return new GeneratorWrapper(new TemplateGenerator(config, "end_moss_island"))
@@ -133,8 +133,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                                 loc = loc.andThenLocate(Locators.SURFACE_BLOCK);
                                 return new OrganaFlowerFeature(config, loc);
                             });
-                }
-        );
+                });
         registerGen("observatory",
                 builder -> {
                     builder.whiteListBiome("desert", "ocean", "deep_ocean", "forest", "birch_forest", "swampland");
@@ -148,8 +147,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
 
                     return builder.build();
                 },
-                (world, biome, config) -> new TemplateGenerator(config, "observ")
-        );
+                (world, biome, config) -> new TemplateGenerator(config, "observ"));
         registerGen("ship_wreck",
                 builder -> {
                     builder.whiteListBiome("sky");
@@ -167,8 +165,7 @@ public class StructureGenConfig extends WorldGenBaseConfigReloadable {
                 },
                 (world, biome, config) -> new TemplateGenerator(
                         Locators.OFFSET_10.andThenLocate(Locators.SURFACE_BLOCK).andThenMove(pos -> pos.add(0, -2, 2)),
-                        config, new ResourceLocation(Tags.MODID, "end_shipwreck"), TemplateGenerator.DEFAULT_SETTINGS)
-        );
+                        config, new ResourceLocation(Tags.MODID, "end_shipwreck"), TemplateGenerator.DEFAULT_SETTINGS));
     }
 
     @Override

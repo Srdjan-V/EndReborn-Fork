@@ -1,12 +1,7 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.ModItems;
-import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
-import io.github.srdjanv.endreforked.common.tiles.EntropyChamberTile;
-import io.github.srdjanv.endreforked.common.tiles.MaterializerTile;
-import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
+import java.util.Random;
+
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -21,11 +16,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
+import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
+
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.ModItems;
+import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
+import io.github.srdjanv.endreforked.common.tiles.EntropyChamberTile;
+import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
 
 public class BlockEntropyChamber extends BlockBase {
+
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool WORKING_ITEM = PropertyBool.create("working_item");
     public static final PropertyBool WORKING_FLUID = PropertyBool.create("working_fluid");
@@ -40,7 +43,8 @@ public class BlockEntropyChamber extends BlockBase {
                 .withProperty(WORKING_FLUID, false));
     }
 
-    @Override protected BlockStateContainer createBlockState() {
+    @Override
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, FACING, WORKING_ITEM, WORKING_FLUID);
     }
 
@@ -54,7 +58,9 @@ public class BlockEntropyChamber extends BlockBase {
         return true;
     }
 
-    @Nullable @Override public TileEntity createTileEntity(World world, IBlockState state) {
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new EntropyChamberTile();
     }
 

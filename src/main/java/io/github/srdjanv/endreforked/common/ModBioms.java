@@ -1,20 +1,22 @@
 package io.github.srdjanv.endreforked.common;
 
-import com.google.common.base.Suppliers;
-import io.github.srdjanv.endreforked.common.bioms.EntropyBiome;
-import io.github.srdjanv.endreforked.common.bioms.OrganaBiome;
-import io.github.srdjanv.endreforked.common.bioms.base.BiomeDictionaryHandler;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import com.google.common.base.Suppliers;
+
+import io.github.srdjanv.endreforked.common.bioms.EntropyBiome;
+import io.github.srdjanv.endreforked.common.bioms.OrganaBiome;
+import io.github.srdjanv.endreforked.common.bioms.base.BiomeDictionaryHandler;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 public final class ModBioms {
+
     public static final List<Supplier<? extends Biome>> END_BIOMES = new ObjectArrayList<>();
 
     public static final Supplier<OrganaBiome> ORGANA_BIOME = regEnd(OrganaBiome::new);
@@ -37,7 +39,5 @@ public final class ModBioms {
                     if (biome instanceof BiomeDictionaryHandler handler)
                         handler.registerToBiomeDictionary();
                 });
-
     }
-
 }

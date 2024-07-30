@@ -1,15 +1,16 @@
 package io.github.srdjanv.endreforked.api.entropy;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
+
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import io.github.srdjanv.endreforked.utils.LangUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
-
 public interface EntropyDataProvider {
+
     default Optional<EntropyRadius> getEntropyRadius() {
         return Optional.empty();
     }
@@ -36,11 +37,13 @@ public interface EntropyDataProvider {
 
     default Optional<List<String>> getFormatedEntropyData() {
         final ObjectList<String> list = new ObjectArrayList<>();
-        getEntropyRadius().ifPresent(entropyRange -> list.add(LangUtil.translateToLocal("entropy.radius") + " " + (entropyRange.getRadius() + 1)));
+        getEntropyRadius().ifPresent(entropyRange -> list
+                .add(LangUtil.translateToLocal("entropy.radius") + " " + (entropyRange.getRadius() + 1)));
 
         getEntropyStorage().ifPresent(entropyStorage -> {
             list.add(LangUtil.translateToLocal("entropy.storage.max_entropy") + " " + entropyStorage.getMaxEntropy());
-            list.add(LangUtil.translateToLocal("entropy.storage.current_entropy") + " " + entropyStorage.getCurrentEntropy());
+            list.add(LangUtil.translateToLocal("entropy.storage.current_entropy") + " " +
+                    entropyStorage.getCurrentEntropy());
         });
 
         getActiveInducer().ifPresent(activeInducer -> {
@@ -53,32 +56,37 @@ public interface EntropyDataProvider {
         getPassiveInducer().ifPresent(passiveInducer -> {
             list.add(LangUtil.translateToLocal("entropy.inducer.passive") + " " + passiveInducer.getInduced());
             passiveInducer.getFrequency()
-                    .ifPresent(value -> list.add(LangUtil.translateToLocal("entropy.inducer.passive.frequency") + " " + value));
+                    .ifPresent(value -> list
+                            .add(LangUtil.translateToLocal("entropy.inducer.passive.frequency") + " " + value));
         });
 
         getPassiveDrainer().ifPresent(passiveInducer -> {
             list.add(LangUtil.translateToLocal("entropy.drainer.passive") + " " + passiveInducer.getDrained());
             passiveInducer.getFrequency()
-                    .ifPresent(value -> list.add(LangUtil.translateToLocal("entropy.drainer.passive.frequency") + " " + value));
+                    .ifPresent(value -> list
+                            .add(LangUtil.translateToLocal("entropy.drainer.passive.frequency") + " " + value));
         });
 
         return list.isEmpty() ? Optional.empty() : Optional.of(list);
     }
 
-
     interface ActiveInducer {
+
         int getInduced();
     }
 
     interface ActiveDrainer {
+
         int getDrained();
     }
 
     interface PassiveInducer extends ActiveInducer {
+
         OptionalInt getFrequency();
     }
 
     interface PassiveDrainer extends ActiveDrainer {
+
         OptionalInt getFrequency();
     }
 }

@@ -3,7 +3,6 @@ package io.github.srdjanv.endreforked.api.base.crafting.groupings;
 import java.util.Map;
 import java.util.function.Function;
 
-
 import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HashStrategyTranslator;

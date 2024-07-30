@@ -1,8 +1,5 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
-import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
-import io.github.srdjanv.endreforked.common.tiles.SmallEntropyBatteryTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,9 +10,16 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.Nullable;
 
+import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
+
+import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
+import io.github.srdjanv.endreforked.common.tiles.SmallEntropyBatteryTile;
+
 public class BlockSmallEntropyBattery extends BlockBase {
+
     public BlockSmallEntropyBattery() {
         super("small_entropy_battery", Material.IRON);
     }
@@ -37,7 +41,8 @@ public class BlockSmallEntropyBattery extends BlockBase {
         return new SmallEntropyBatteryTile();
     }
 
-    @Override public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
+    @Override
+    public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
         return true;
     }
 

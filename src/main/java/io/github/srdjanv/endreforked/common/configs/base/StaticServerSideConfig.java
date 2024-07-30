@@ -21,5 +21,4 @@ public abstract class StaticServerSideConfig<D> extends BaseServerSideConfig<D> 
     }
 
     protected abstract void dataLoaded(D data);
-
 }

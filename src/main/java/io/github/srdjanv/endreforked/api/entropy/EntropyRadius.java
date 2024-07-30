@@ -1,11 +1,12 @@
 package io.github.srdjanv.endreforked.api.entropy;
 
+import java.util.List;
+
 import io.github.srdjanv.endreforked.api.util.DimPos;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
-import java.util.List;
-
 public enum EntropyRadius {
+
     ONE(0),
     TWO(1),
     THREE(2),
@@ -13,6 +14,7 @@ public enum EntropyRadius {
 
     private final int radius;
     private final int chunks;
+
     EntropyRadius(int radius) {
         this.radius = radius;
         this.chunks = chunksInRadius(radius);

@@ -20,7 +20,8 @@ public class RenderColdFireball extends Render<EntityEntropyFireball> {
         super(renderManagerIn);
     }
 
-    public void doRender(EntityEntropyFireball entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(EntityEntropyFireball entity, double x, double y, double z, float entityYaw,
+                         float partialTicks) {
         GlStateManager.pushMatrix();
         bindEntityTexture(entity);
         GlStateManager.translate((float) x, (float) y, (float) z);

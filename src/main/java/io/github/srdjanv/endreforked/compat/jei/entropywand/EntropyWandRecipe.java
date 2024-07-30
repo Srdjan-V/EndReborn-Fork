@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import io.github.srdjanv.endreforked.api.entropy.wand.WorldConversion;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -12,6 +11,7 @@ import net.minecraft.item.ItemStack;
 
 import com.cleanroommc.modularui.utils.Color;
 
+import io.github.srdjanv.endreforked.api.entropy.wand.WorldConversion;
 import io.github.srdjanv.endreforked.common.configs.Configs;
 import io.github.srdjanv.endreforked.utils.LangUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;

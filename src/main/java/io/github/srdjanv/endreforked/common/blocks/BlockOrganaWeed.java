@@ -1,9 +1,11 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.ModItems;
-import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
-import io.github.srdjanv.endreforked.common.tiles.passiveinducers.OrganaWeedTile;
+import static io.github.srdjanv.endreforked.common.blocks.BlockEndCoral.END_BUSH_AABB;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -21,11 +23,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
-import static io.github.srdjanv.endreforked.common.blocks.BlockEndCoral.END_BUSH_AABB;
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.ModItems;
+import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockBush;
+import io.github.srdjanv.endreforked.common.tiles.passiveinducers.OrganaWeedTile;
 
 public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
 
@@ -34,15 +35,19 @@ public class BlockOrganaWeed extends BaseBlockBush implements IShearable {
         sustainableBlocks.add(ModBlocks.END_MOSS_GRASS_BLOCK.get());
     }
 
-    @Override public boolean hasTileEntity(IBlockState state) {
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
         return true;
     }
 
-    @org.jetbrains.annotations.Nullable @Override public TileEntity createTileEntity(World world, IBlockState state) {
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new OrganaWeedTile();
     }
 
-    @Override public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+    @Override
+    public void onEntityCollision(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
         if (worldIn.isRemote) return;
         entityIn.fallDistance = 0;
         if (entityIn instanceof EntityPlayer player) {

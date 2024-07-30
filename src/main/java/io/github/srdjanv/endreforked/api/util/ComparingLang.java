@@ -54,6 +54,7 @@ public final class ComparingLang {
     }
 
     public enum EntityLang {
+
         TYPE("status.entity.type");
 
         private final String langKey;
@@ -72,10 +73,13 @@ public final class ComparingLang {
     }
 
     private static class Builder {
+
         private final String matchingLangKey;
         private StringBuilder builder;
 
-        private Builder(String matchingLangKey) {this.matchingLangKey = matchingLangKey;}
+        private Builder(String matchingLangKey) {
+            this.matchingLangKey = matchingLangKey;
+        }
 
         private StringBuilder getBuilder() {
             if (builder == null) builder = new StringBuilder(LangUtil.translateToLocal(matchingLangKey)).append(" ");

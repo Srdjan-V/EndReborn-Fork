@@ -1,11 +1,7 @@
 package io.github.srdjanv.endreforked;
 
-import io.github.srdjanv.endreforked.client.ClientProxy;
-import io.github.srdjanv.endreforked.common.CommonProxy;
-import io.github.srdjanv.endreforked.common.comands.EndRebornCommands;
-import io.github.srdjanv.endreforked.common.network.servertoclient.PlayerParticlePacket;
-import io.github.srdjanv.endreforked.common.network.servertoclient.TpParticlePacket;
-import io.github.srdjanv.endreforked.compat.CompatManger;
+import java.util.Objects;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -22,11 +18,17 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+import io.github.srdjanv.endreforked.client.ClientProxy;
+import io.github.srdjanv.endreforked.common.CommonProxy;
+import io.github.srdjanv.endreforked.common.comands.EndRebornCommands;
+import io.github.srdjanv.endreforked.common.network.servertoclient.PlayerParticlePacket;
+import io.github.srdjanv.endreforked.common.network.servertoclient.TpParticlePacket;
+import io.github.srdjanv.endreforked.compat.CompatManger;
 
 @Mod(modid = Tags.MODID, name = Tags.MODNAME, version = Tags.VERSION, dependencies = Tags.MOD_DEPS)
 public class EndReforked {
@@ -57,7 +59,8 @@ public class EndReforked {
 
     public EndReforked() {
         instance = this;
-        proxy = FMLCommonHandler.instance().getSide().isClient() ? new ClientProxy(Side.CLIENT) : new CommonProxy(Side.SERVER);
+        proxy = FMLCommonHandler.instance().getSide().isClient() ? new ClientProxy(Side.CLIENT) :
+                new CommonProxy(Side.SERVER);
         proxy.registerEventBus();
         MinecraftForge.EVENT_BUS.register(EndReforked.class);
     }

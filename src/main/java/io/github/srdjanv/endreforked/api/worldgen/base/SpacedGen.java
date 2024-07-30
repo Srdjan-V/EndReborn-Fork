@@ -1,14 +1,17 @@
 package io.github.srdjanv.endreforked.api.worldgen.base;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
-import io.github.srdjanv.endreforked.api.worldgen.Modifier;
+import java.util.Random;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 
-import java.util.Random;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Modifier;
 
 public interface SpacedGen {
+
     void setSpacedGenState(boolean disabled);
+
     boolean isSpacedGenDisabled();
 
     default boolean shouldGenSpaced(GenConfig config) {

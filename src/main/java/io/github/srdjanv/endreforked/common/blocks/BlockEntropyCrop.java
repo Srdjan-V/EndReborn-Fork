@@ -7,7 +7,6 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import io.github.srdjanv.endreforked.common.tiles.passiveinducers.EntropyCropTile;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
@@ -40,6 +39,7 @@ import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockCrops;
+import io.github.srdjanv.endreforked.common.tiles.passiveinducers.EntropyCropTile;
 
 public class BlockEntropyCrop extends BaseBlockCrops {
 
@@ -54,7 +54,8 @@ public class BlockEntropyCrop extends BaseBlockCrops {
         setHarvestLevel("pickaxe", 2);
     }
 
-    @Override public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+    @Override
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
         return switch (state.getValue(AGE)) {
             default -> 0;
             case 2 -> 1;
@@ -62,11 +63,14 @@ public class BlockEntropyCrop extends BaseBlockCrops {
         };
     }
 
-    @Override public boolean hasTileEntity(IBlockState state) {
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
         return state.equals(this.getDefaultState().withProperty(AGE, 3));
     }
 
-    @org.jetbrains.annotations.Nullable @Override public TileEntity createTileEntity(World world, IBlockState state) {
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return state.equals(this.getDefaultState().withProperty(AGE, 3)) ? new EntropyCropTile() : null;
     }
 

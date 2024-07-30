@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import com.cleanroommc.modularui.factory.PosGuiData;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.SoundEvents;
@@ -36,6 +35,7 @@ import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.drawable.keys.DynamicKey;
 import com.cleanroommc.modularui.drawable.keys.LangKey;
+import com.cleanroommc.modularui.factory.PosGuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.value.sync.GuiSyncManager;
 import com.cleanroommc.modularui.value.sync.SyncHandler;
@@ -48,8 +48,9 @@ import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.google.common.collect.Lists;
 
 import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.base.crafting.processors.ItemBiRecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
 import io.github.srdjanv.endreforked.api.base.crafting.processors.BaseBiRecipeProcessor;
+import io.github.srdjanv.endreforked.api.base.crafting.processors.ItemBiRecipeProcessor;
 import io.github.srdjanv.endreforked.api.materializer.ItemCatalyst;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerHandler;
 import io.github.srdjanv.endreforked.api.materializer.MaterializerRecipe;
@@ -57,7 +58,6 @@ import io.github.srdjanv.endreforked.api.materializer.WorldEvent;
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.blocks.BlockMaterializer;
 import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
-import io.github.srdjanv.endreforked.api.base.crafting.TileStatus;
 import io.github.srdjanv.endreforked.common.widgets.BasicTextWidget;
 import io.github.srdjanv.endreforked.common.widgets.BlockStateRendereWidget;
 
@@ -243,7 +243,7 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                 if (event == null) return null;
 
                 return Pair.of("tile.materializer.render.info",
-                        new Object[]{event.getValue().getChance(), event.getIntKey()});
+                        new Object[] { event.getValue().getChance(), event.getIntKey() });
             });
 
             render.child(renderText);
@@ -252,7 +252,8 @@ public class MaterializerTile extends BaseTileEntity implements ITickable, IGuiH
                     .right(8).height(25);
             render.child(renderControls);
 
-            final var followCurrentStructureButton = new ButtonWidget<>().background(GuiTextures.MC_BACKGROUND).right(20)
+            final var followCurrentStructureButton = new ButtonWidget<>().background(GuiTextures.MC_BACKGROUND)
+                    .right(20)
                     .top(3);
             followCurrentStructureButton.tooltip().addLine(new LangKey("tile.materializer.render.followStruct"));
             followCurrentStructureButton.onMousePressed(mouseButton -> {

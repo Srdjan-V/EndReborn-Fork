@@ -5,8 +5,8 @@ import java.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenerator;
-
 import net.minecraftforge.common.BiomeDictionary;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -34,7 +34,8 @@ public class Generator implements Comparable<Generator> {
 
     public Generator(String name, int weight, WorldGeneratorBuilder builder,
                      Map<Biome, GenConfig> biomeConfigs, List<Biome> biomeBlackList,
-                     Map<BiomeDictionary.Type, GenConfig> biomeTypeConfigs, List<BiomeDictionary.Type> biomeTypeBlackList,
+                     Map<BiomeDictionary.Type, GenConfig> biomeTypeConfigs,
+                     List<BiomeDictionary.Type> biomeTypeBlackList,
                      Int2ObjectMap<GenConfig> dimConfigs, IntList dimBlackList, GenConfig defaultGenConfig) {
         this.name = name;
         this.weight = weight;
@@ -56,7 +57,7 @@ public class Generator implements Comparable<Generator> {
         return weight;
     }
 
-    //Search config from most specific to least
+    // Search config from most specific to least
     public @Nullable GenConfig getDimConfig(@Nullable Integer dim, @Nullable Biome biome) {
         final var biomeGenConfig = Objects.isNull(biome) ? null : biomeConfigs.get(biome);
         if (Objects.nonNull(biomeGenConfig)) return biomeGenConfig;
@@ -67,7 +68,7 @@ public class Generator implements Comparable<Generator> {
         final var dimGenConfig = Objects.isNull(dim) ? null : dimConfigs.get(dim);
         if (Objects.nonNull(dimGenConfig)) return dimGenConfig;
 
-        //Use default if no specific gen is available
+        // Use default if no specific gen is available
         return defaultGenConfig;
     }
 
@@ -168,7 +169,8 @@ public class Generator implements Comparable<Generator> {
         return new Builder();
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "Generator{" +
                 "name='" + getName() + '\'' +
                 ", weight=" + getWeight() +

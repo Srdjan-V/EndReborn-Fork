@@ -1,5 +1,17 @@
 package io.github.srdjanv.endreforked.common.tiles;
 
+import java.util.Optional;
+
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.Nullable;
+
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.drawable.keys.LangKey;
@@ -9,24 +21,17 @@ import com.cleanroommc.modularui.value.sync.BooleanSyncValue;
 import com.cleanroommc.modularui.value.sync.GuiSyncManager;
 import com.cleanroommc.modularui.value.sync.IntSyncValue;
 import com.cleanroommc.modularui.widgets.ButtonWidget;
+
 import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyStorage;
 import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
-import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
+import io.github.srdjanv.endreforked.common.capabilities.entropy.CapabilityEntropyHandler;
 import io.github.srdjanv.endreforked.common.entropy.storage.DefaultEntropyStorage;
 import io.github.srdjanv.endreforked.common.widgets.BasicTextWidget;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
+public class SmallEntropyBatteryTile extends TileEntity
+                                     implements IGuiHolder<PosGuiData>, ITickable, EntropyDataProvider {
 
-public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<PosGuiData>, ITickable, EntropyDataProvider {
     private final EntropyChunkReader wrapper;
     private final DefaultEntropyStorage storage;
     private boolean linkDirty = true;
@@ -44,18 +49,21 @@ public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<Po
         storage = new DefaultEntropyStorage(250);
     }
 
-    @Override public Optional<EntropyStorage> getEntropyStorage() {
+    @Override
+    public Optional<EntropyStorage> getEntropyStorage() {
         return Optional.of(storage);
     }
 
-    @Override public void update() {
+    @Override
+    public void update() {
         if (!world.isRemote && linkDirty) {
             linkToChunk(forcedLink);
             linkDirty = false;
         }
     }
 
-    @Override public ModularPanel buildUI(PosGuiData data, GuiSyncManager syncManager) {
+    @Override
+    public ModularPanel buildUI(PosGuiData data, GuiSyncManager syncManager) {
         ModularPanel panel = ModularPanel.defaultPanel("small_entropy_battery_gui", 130, 96);
         syncManager.syncValue("link_dirty", 0, new BooleanSyncValue(
                 () -> linkDirty, linkDirty -> this.linkDirty = linkDirty));
@@ -91,7 +99,8 @@ public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<Po
 
             var linkedTextBox = new BasicTextWidget().leftRel(0.5f).top(57).size(120, 16)
                     .background(GuiTextures.MC_BACKGROUND);
-            linkedTextBox.setKey(() -> linked ? "entropy.storage_reference.linked.true" : "entropy.storage_reference.linked.false");
+            linkedTextBox.setKey(
+                    () -> linked ? "entropy.storage_reference.linked.true" : "entropy.storage_reference.linked.false");
             panel.child(linkedTextBox);
 
             var linkButton = new ButtonWidget<>().leftRel(0.5f).top(75).size(120, 16)
@@ -128,24 +137,29 @@ public class SmallEntropyBatteryTile extends TileEntity implements IGuiHolder<Po
         return data.getEntropyStorageReference().map(storageRef -> storageRef == storage).orElse(false);
     }
 
-    @Override public void readFromNBT(NBTTagCompound compound) {
+    @Override
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         storage.deserializeNBT(compound.getCompoundTag("storage"));
         forcedLink = compound.getBoolean("forced_link");
     }
 
-    @Override public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setTag("storage", storage.serializeNBT());
         compound.setBoolean("forced_link", forcedLink);
         return super.writeToNBT(compound);
     }
 
-    @Override public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+    @Override
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityEntropyHandler.STORAGE) return true;
         return super.hasCapability(capability, facing);
     }
 
-    @Nullable @Override public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+    @Nullable
+    @Override
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityEntropyHandler.STORAGE) return CapabilityEntropyHandler.STORAGE.cast(storage);
         return super.getCapability(capability, facing);
     }

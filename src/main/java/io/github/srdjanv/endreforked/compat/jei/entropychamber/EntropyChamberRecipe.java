@@ -1,20 +1,23 @@
 package io.github.srdjanv.endreforked.compat.jei.entropychamber;
 
+import java.util.Collections;
+import java.util.List;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+
 import com.cleanroommc.modularui.utils.Color;
+
 import io.github.srdjanv.endreforked.api.entropy.chamber.FluidChamberRecipe;
 import io.github.srdjanv.endreforked.api.entropy.chamber.ItemChamberRecipe;
 import io.github.srdjanv.endreforked.utils.LangUtil;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.Collections;
-import java.util.List;
 
 public class EntropyChamberRecipe implements IRecipeWrapper {
+
     private final Type type;
     private final ItemStack itemIn;
     private final ItemStack itemOut;
@@ -62,7 +65,6 @@ public class EntropyChamberRecipe implements IRecipeWrapper {
 
         return IRecipeWrapper.super.getTooltipStrings(mouseX, mouseY);
     }
-
 
     @Override
     public void getIngredients(IIngredients ingredients) {

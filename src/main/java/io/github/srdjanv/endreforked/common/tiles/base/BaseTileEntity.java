@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.common.tiles.base;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.util.List;
+
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -9,12 +10,13 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.items.ItemStackHandler;
+
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.List;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class BaseTileEntity extends TileEntity {
+
     protected final List<ItemStackHandler> inventoriesToDrop = new ObjectArrayList<>();
 
     public BaseTileEntity() {}

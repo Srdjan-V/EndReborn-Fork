@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HandlerGroupingRegistry;
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import io.github.srdjanv.endreforked.api.base.crafting.groupings.RecipeGrouping;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 
 public class FluidItemRecipeProcessor<OUT,
         RG extends RecipeGrouping<FluidStack, ItemStack, R>,

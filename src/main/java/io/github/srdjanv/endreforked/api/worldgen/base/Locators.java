@@ -10,7 +10,9 @@ import org.jetbrains.annotations.Nullable;
 import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 
 public enum Locators implements Locator {
+
     EMPTY {
+
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
@@ -19,6 +21,7 @@ public enum Locators implements Locator {
         }
     },
     VALIDATOR {
+
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
@@ -33,6 +36,7 @@ public enum Locators implements Locator {
         }
     },
     SURFACE_BLOCK {
+
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
@@ -47,6 +51,7 @@ public enum Locators implements Locator {
         }
     },
     SURFACE_AIR {
+
         @Override
         public @Nullable BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                           PositionValidator validator) {
@@ -61,6 +66,7 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_16 {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -68,6 +74,7 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_14 {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -75,6 +82,7 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_12 {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -82,6 +90,7 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_10 {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -89,6 +98,7 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_8 {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -96,6 +106,7 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_4 {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -103,6 +114,7 @@ public enum Locators implements Locator {
         }
     },
     OFFSET_2 {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -110,6 +122,7 @@ public enum Locators implements Locator {
         }
     },
     GEN_CONFIG_MIN_MAX {
+
         @Override
         public BlockPos compute(WorldServer server, Random rand, GenConfig config, BlockPos pos,
                                 PositionValidator validator) {
@@ -122,6 +135,7 @@ public enum Locators implements Locator {
     };
 
     public static Locator offsetOf(final int offset) {
-        return (server, rand, config, pos, validator) -> new BlockPos(pos.getX() + offset, pos.getY(), pos.getZ() + offset);
+        return (server, rand, config, pos, validator) -> new BlockPos(pos.getX() + offset, pos.getY(),
+                pos.getZ() + offset);
     }
 }

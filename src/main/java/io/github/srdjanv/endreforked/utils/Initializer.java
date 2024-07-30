@@ -18,6 +18,7 @@ public interface Initializer {
     default void postInit(FMLPostInitializationEvent event) {}
 
     default void onServerStarted(FMLServerStartedEvent event) {}
+
     default void onServerStopped(FMLServerStoppedEvent event) {}
 
     default boolean dispose() {

@@ -1,13 +1,14 @@
 package io.github.srdjanv.endreforked.common.widgets;
 
+import java.util.Objects;
+import java.util.function.Supplier;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.cleanroommc.modularui.drawable.keys.LangKey;
 import com.cleanroommc.modularui.screen.viewport.GuiContext;
 import com.cleanroommc.modularui.theme.WidgetTheme;
 import com.cleanroommc.modularui.widget.Widget;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.Objects;
-import java.util.function.Supplier;
 
 public class BasicTextWidget extends Widget<BasicTextWidget> {
 

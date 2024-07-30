@@ -5,9 +5,6 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import io.github.srdjanv.endreforked.common.ModBioms;
-import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
-import io.github.srdjanv.endreforked.common.entity.*;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -16,7 +13,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.gson.reflect.TypeToken;
 
 import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.common.ModBioms;
+import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import io.github.srdjanv.endreforked.common.configs.base.StaticServerSideConfig;
+import io.github.srdjanv.endreforked.common.entity.*;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchema>> {
@@ -74,8 +74,12 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
         registerMob("watcher", builder -> {
             builder.registerSpawn(true);
             var endConf = new MobConfigSchema.SpawnConfig(10, 3, 1);
-            builder.biomeSpawn(ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ORGANA_BIOME.get().getRegistryName())), endConf);
-            builder.biomeSpawn(ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ENTROPY_BIOME.get().getRegistryName())), endConf);
+            builder.biomeSpawn(
+                    ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ORGANA_BIOME.get().getRegistryName())),
+                    endConf);
+            builder.biomeSpawn(
+                    ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ENTROPY_BIOME.get().getRegistryName())),
+                    endConf);
             builder.biomeSpawn("sky", endConf);
             builder.biomeSpawn("plains", 4, 1, 1);
 
@@ -93,8 +97,12 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
         registerMob("chronologist", builder -> {
             builder.registerSpawn(true);
             var endConf = new MobConfigSchema.SpawnConfig(5, 4, 1);
-            builder.biomeSpawn(ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ORGANA_BIOME.get().getRegistryName())), endConf);
-            builder.biomeSpawn(ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ENTROPY_BIOME.get().getRegistryName())), endConf);
+            builder.biomeSpawn(
+                    ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ORGANA_BIOME.get().getRegistryName())),
+                    endConf);
+            builder.biomeSpawn(
+                    ResourceLocationWrapper.of(Objects.requireNonNull(ModBioms.ENTROPY_BIOME.get().getRegistryName())),
+                    endConf);
             builder.biomeSpawn("sky").fallbackSpawnConfig(4, 3, 1);
             return builder.build();
         }, builder -> {
@@ -130,8 +138,8 @@ public class MobConfig extends StaticServerSideConfig<Map<String, MobConfigSchem
     @Override
     protected Map<String, MobConfigSchema> getDefaultData() {
         return defaultData.entrySet().stream().map(
-                        stringFunctionEntry -> Pair.of(stringFunctionEntry.getKey(),
-                                stringFunctionEntry.getValue().apply(MobConfigSchema.builder().register(true))))
+                stringFunctionEntry -> Pair.of(stringFunctionEntry.getKey(),
+                        stringFunctionEntry.getValue().apply(MobConfigSchema.builder().register(true))))
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 

@@ -1,7 +1,6 @@
 package io.github.srdjanv.endreforked.core;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +18,8 @@ public class EndReForgedPlugin implements IFMLLoadingPlugin, IEarlyMixinLoader {
         return Arrays.asList("mixins.endreborn.json", "mixins.endreborn_dev.json");
     }
 
-    @Override public boolean shouldMixinConfigQueue(String mixinConfig) {
+    @Override
+    public boolean shouldMixinConfigQueue(String mixinConfig) {
         return switch (mixinConfig) {
             case "mixins.endreborn_dev.json" -> FMLLaunchHandler.isDeobfuscatedEnvironment();
             default -> true;

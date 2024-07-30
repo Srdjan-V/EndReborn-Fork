@@ -1,8 +1,10 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.ModItems;
-import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -22,11 +24,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.ModItems;
+import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 
 public class BlockOrganaPlant extends BlockBase {
+
     public static final PropertyBool NORTH = PropertyBool.create("north");
     public static final PropertyBool EAST = PropertyBool.create("east");
     public static final PropertyBool SOUTH = PropertyBool.create("south");
@@ -59,7 +62,8 @@ public class BlockOrganaPlant extends BlockBase {
         Block west = worldIn.getBlockState(pos.west()).getBlock();
         var organaFlower = ModBlocks.ORGANA_FLOWER_BLOCK.get();
         return state
-                .withProperty(DOWN, down == this || down == organaFlower || down == ModBlocks.END_MOSS_GRASS_BLOCK.get())
+                .withProperty(DOWN,
+                        down == this || down == organaFlower || down == ModBlocks.END_MOSS_GRASS_BLOCK.get())
                 .withProperty(UP, up == this || up == organaFlower)
                 .withProperty(NORTH, north == this || north == organaFlower)
                 .withProperty(EAST, east == this || east == organaFlower)
@@ -80,37 +84,46 @@ public class BlockOrganaPlant extends BlockBase {
     }
 
     @Override
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState) {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox,
+                                      List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn,
+                                      boolean isActualState) {
         if (!isActualState) {
             state = state.getActualState(worldIn, pos);
         }
 
         float f = 0.1875F;
         float f1 = 0.8125F;
-        addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.1875D, 0.1875D, 0.1875D, 0.8125D, 0.8125D, 0.8125D));
+        addCollisionBoxToList(pos, entityBox, collidingBoxes,
+                new AxisAlignedBB(0.1875D, 0.1875D, 0.1875D, 0.8125D, 0.8125D, 0.8125D));
 
         if (state.getValue(WEST)) {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.0D, 0.1875D, 0.1875D, 0.1875D, 0.8125D, 0.8125D));
+            addCollisionBoxToList(pos, entityBox, collidingBoxes,
+                    new AxisAlignedBB(0.0D, 0.1875D, 0.1875D, 0.1875D, 0.8125D, 0.8125D));
         }
 
         if (state.getValue(EAST)) {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.8125D, 0.1875D, 0.1875D, 1.0D, 0.8125D, 0.8125D));
+            addCollisionBoxToList(pos, entityBox, collidingBoxes,
+                    new AxisAlignedBB(0.8125D, 0.1875D, 0.1875D, 1.0D, 0.8125D, 0.8125D));
         }
 
         if (state.getValue(UP)) {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.1875D, 0.8125D, 0.1875D, 0.8125D, 1.0D, 0.8125D));
+            addCollisionBoxToList(pos, entityBox, collidingBoxes,
+                    new AxisAlignedBB(0.1875D, 0.8125D, 0.1875D, 0.8125D, 1.0D, 0.8125D));
         }
 
         if (state.getValue(DOWN)) {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 0.1875D, 0.8125D));
+            addCollisionBoxToList(pos, entityBox, collidingBoxes,
+                    new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 0.1875D, 0.8125D));
         }
 
         if (state.getValue(NORTH)) {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.1875D, 0.1875D, 0.0D, 0.8125D, 0.8125D, 0.1875D));
+            addCollisionBoxToList(pos, entityBox, collidingBoxes,
+                    new AxisAlignedBB(0.1875D, 0.1875D, 0.0D, 0.8125D, 0.8125D, 0.1875D));
         }
 
         if (state.getValue(SOUTH)) {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, new AxisAlignedBB(0.1875D, 0.1875D, 0.8125D, 0.8125D, 0.8125D, 1.0D));
+            addCollisionBoxToList(pos, entityBox, collidingBoxes,
+                    new AxisAlignedBB(0.1875D, 0.1875D, 0.8125D, 0.8125D, 0.8125D, 1.0D));
         }
     }
 
@@ -194,10 +207,10 @@ public class BlockOrganaPlant extends BlockBase {
         return BlockRenderLayer.CUTOUT;
     }
 
-
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos,
+                                        EnumFacing side) {
         Block block = blockAccess.getBlockState(pos.offset(side)).getBlock();
         return block != this && block != Blocks.CHORUS_FLOWER && (side != EnumFacing.DOWN || block != Blocks.END_STONE);
     }
@@ -206,9 +219,11 @@ public class BlockOrganaPlant extends BlockBase {
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
     }
-/*
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        neighborChanged(state, worldIn, pos, null, null);
-        return true;
-    }*/
+    /*
+     * public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand
+     * hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+     * neighborChanged(state, worldIn, pos, null, null);
+     * return true;
+     * }
+     */
 }

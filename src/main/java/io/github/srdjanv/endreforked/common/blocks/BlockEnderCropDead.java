@@ -1,7 +1,9 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import io.github.srdjanv.endreforked.common.ModItems;
-import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
@@ -16,11 +18,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.Random;
+import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 
 public class BlockEnderCropDead extends BlockBase {
-    private static final AxisAlignedBB CROPS_AABB =  new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
+
+    private static final AxisAlignedBB CROPS_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
 
     public BlockEnderCropDead() {
         super("ender_flower_crop_dead", Material.PLANTS);
@@ -55,7 +57,8 @@ public class BlockEnderCropDead extends BlockBase {
         return false;
     }
 
-    @Override @SideOnly(Side.CLIENT)
+    @Override
+    @SideOnly(Side.CLIENT)
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT;
     }

@@ -3,6 +3,7 @@ package io.github.srdjanv.endreforked.common.configs.bioms;
 import java.util.Objects;
 
 public class BiomeSchema {
+
     private final boolean enabled;
     private final int weight;
 
@@ -29,11 +30,11 @@ public class BiomeSchema {
     }
 
     public static class Builder {
+
         private Boolean enabled;
         private Integer weight;
 
-        private Builder() {
-        }
+        private Builder() {}
 
         public Builder enabled(boolean enabled) {
             this.enabled = enabled;

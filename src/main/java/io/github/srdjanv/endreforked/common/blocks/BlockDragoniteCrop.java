@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import io.github.srdjanv.endreforked.common.ModBlocks;
+import java.util.Random;
+
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -15,19 +16,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockCrops;
 
-import java.util.Random;
-
 public class BlockDragoniteCrop extends BaseBlockCrops {
+
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 4);
-    public static final AxisAlignedBB[] CROP_AABB = new AxisAlignedBB[]{
+    public static final AxisAlignedBB[] CROP_AABB = new AxisAlignedBB[] {
             new AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 0.55, 0.8),
             new AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 0.70, 0.8),
             new AxisAlignedBB(0.2, 0.0, 0.2, 0.8, 0.85, 0.8),
             new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 0.90, 0.9),
-            new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 0.95, 0.9)};
+            new AxisAlignedBB(0.1, 0.0, 0.1, 0.9, 0.95, 0.9) };
 
     public BlockDragoniteCrop() {
         super("dragonite_crop");
@@ -37,31 +38,37 @@ public class BlockDragoniteCrop extends BaseBlockCrops {
         sustainableBlocks.add(ModBlocks.ENTROPY_CROP_BLOCK.get());
     }
 
-    @Override public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    @Override
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         checkAndDropBlock(worldIn, pos, state);
         int i = this.getAge(state);
         if (i >= this.getMaxAge()) return;
 
         float f = getGrowthChance(this, worldIn, pos);
-        if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0)) {
+        if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state,
+                rand.nextInt((int) (25.0F / f) + 1) == 0)) {
             worldIn.setBlockState(pos, this.withAge(i + 1), 2);
             net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos));
         }
     }
 
-    @Override protected BlockStateContainer createBlockState() {
+    @Override
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, AGE);
     }
 
-    @Override public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return CROP_AABB[state.getValue(getAgeProperty())];
     }
 
-    @Override protected PropertyInteger getAgeProperty() {
+    @Override
+    protected PropertyInteger getAgeProperty() {
         return AGE;
     }
 
-    @Override public int getMaxAge() {
+    @Override
+    public int getMaxAge() {
         return 4;
     }
 

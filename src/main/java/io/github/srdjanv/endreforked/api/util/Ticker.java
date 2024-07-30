@@ -3,6 +3,7 @@ package io.github.srdjanv.endreforked.api.util;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Ticker {
+
     protected final int frequency;
     protected int tick;
 

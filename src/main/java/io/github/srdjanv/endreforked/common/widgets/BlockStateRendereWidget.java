@@ -219,7 +219,8 @@ public class BlockStateRendereWidget extends ParentWidget<BlockStateRendereWidge
             EndReforked.LOGGER.error(exception);
         }
 
-        for (structureLength = GL11.glGetInteger(GL11.GL_MODELVIEW_STACK_DEPTH); structureLength > stackDepth; --structureLength) {
+        for (structureLength = GL11.glGetInteger(GL11.GL_MODELVIEW_STACK_DEPTH); structureLength >
+                stackDepth; --structureLength) {
             GlStateManager.popMatrix();
         }
     }

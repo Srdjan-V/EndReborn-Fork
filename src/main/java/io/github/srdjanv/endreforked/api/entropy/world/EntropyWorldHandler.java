@@ -1,8 +1,9 @@
 package io.github.srdjanv.endreforked.api.entropy.world;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import io.github.srdjanv.endreforked.api.util.DimPos;
-import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.DimensionManager;
@@ -10,15 +11,17 @@ import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
+import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.api.capabilities.entropy.EntropyChunk;
+import io.github.srdjanv.endreforked.api.util.DimPos;
 
 public final class EntropyWorldHandler {
+
     private static final Map<Integer, EntropyWorld> worlds = new ConcurrentHashMap<>();
 
     public static Optional<EntropyChunk> getEntropyChunkWorld(DimPos pos) {
-        return getEntropyWorld(pos.dim()).flatMap(entropyWorld -> entropyWorld.getEntropyChunk(pos.chunkPosX(), pos.chunkPosZ()));
+        return getEntropyWorld(pos.dim())
+                .flatMap(entropyWorld -> entropyWorld.getEntropyChunk(pos.chunkPosX(), pos.chunkPosZ()));
     }
 
     public static Optional<EntropyChunk> getEntropyChunkWorld(int dim, ChunkPos pos) {
@@ -42,7 +45,6 @@ public final class EntropyWorldHandler {
         }
         return Optional.empty();
     }
-
 
     @SubscribeEvent
     static void onWorldLoad(WorldEvent.Load event) {
@@ -95,5 +97,4 @@ public final class EntropyWorldHandler {
             } else EndReforked.LOGGER.error("Cant unload chunk data {}", event.getChunk().getPos());
         }
     }
-
 }

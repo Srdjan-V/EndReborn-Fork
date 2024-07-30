@@ -15,6 +15,7 @@ import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.EndReforked;
 import io.github.srdjanv.endreforked.Tags;
@@ -22,7 +23,6 @@ import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.Locator;
 import io.github.srdjanv.endreforked.api.worldgen.base.Locators;
 import io.github.srdjanv.endreforked.api.worldgen.base.PositionedFeature;
-import org.jetbrains.annotations.Nullable;
 
 public class TemplateGenerator extends PositionedFeature {
 
@@ -44,8 +44,8 @@ public class TemplateGenerator extends PositionedFeature {
     }
 
     public TemplateGenerator(
-            Locator locator, GenConfig genConfig,
-            ResourceLocation location, PlacementSettings settings) {
+                             Locator locator, GenConfig genConfig,
+                             ResourceLocation location, PlacementSettings settings) {
         super(genConfig, locator);
         this.location = location;
         this.settings = settings;
@@ -89,7 +89,6 @@ public class TemplateGenerator extends PositionedFeature {
                 maxX, maxY, maxZ);
     }
 
-
     @Override
     public boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
         Template template = resolveTemplate(server);
@@ -130,26 +129,26 @@ public class TemplateGenerator extends PositionedFeature {
         if (Objects.nonNull(conf)) conf.accept(settings);
         var rot = settings.getRotation();
         final var posY = startPos.getY();
-        //using an offest of 1 to not trigger block updates if placed on chunk border
+        // using an offest of 1 to not trigger block updates if placed on chunk border
         startPos = switch (settings.getMirror()) {
             case NONE -> switch (rot) {
-                case NONE -> chunkStart.getBlock(1, posY, 1);
-                case CLOCKWISE_90 -> chunkEast.getBlock(15, posY, 1);
-                case CLOCKWISE_180 -> chunkSouth.getBlock(15, posY, 15);
-                case COUNTERCLOCKWISE_90 -> chunkSouth.getBlock(1, posY, 15);
-            };
+                    case NONE -> chunkStart.getBlock(1, posY, 1);
+                    case CLOCKWISE_90 -> chunkEast.getBlock(15, posY, 1);
+                    case CLOCKWISE_180 -> chunkSouth.getBlock(15, posY, 15);
+                    case COUNTERCLOCKWISE_90 -> chunkSouth.getBlock(1, posY, 15);
+                };
             case LEFT_RIGHT -> switch (rot) {
-                case CLOCKWISE_90 -> chunkStart.getBlock(1, posY, 1);
-                case CLOCKWISE_180 -> chunkEast.getBlock(15, posY, 1);
-                case COUNTERCLOCKWISE_90 -> chunkSouth.getBlock(15, posY, 15);
-                case NONE -> chunkSouth.getBlock(1, posY, 15);
-            };
+                    case CLOCKWISE_90 -> chunkStart.getBlock(1, posY, 1);
+                    case CLOCKWISE_180 -> chunkEast.getBlock(15, posY, 1);
+                    case COUNTERCLOCKWISE_90 -> chunkSouth.getBlock(15, posY, 15);
+                    case NONE -> chunkSouth.getBlock(1, posY, 15);
+                };
             case FRONT_BACK -> switch (rot) {
-                case COUNTERCLOCKWISE_90 -> chunkStart.getBlock(1, posY, 1);
-                case NONE -> chunkEast.getBlock(15, posY, 1);
-                case CLOCKWISE_90 -> chunkSouth.getBlock(15, posY, 15);
-                case CLOCKWISE_180 -> chunkSouth.getBlock(1, posY, 15);
-            };
+                    case COUNTERCLOCKWISE_90 -> chunkStart.getBlock(1, posY, 1);
+                    case NONE -> chunkEast.getBlock(15, posY, 1);
+                    case CLOCKWISE_90 -> chunkSouth.getBlock(15, posY, 15);
+                    case CLOCKWISE_180 -> chunkSouth.getBlock(1, posY, 15);
+                };
         };
 
         template.addBlocksToWorld(server, startPos, settings);

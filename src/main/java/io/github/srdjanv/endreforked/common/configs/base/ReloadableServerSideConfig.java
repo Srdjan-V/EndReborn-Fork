@@ -2,7 +2,6 @@ package io.github.srdjanv.endreforked.common.configs.base;
 
 import java.lang.reflect.Type;
 
-import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 public abstract class ReloadableServerSideConfig<D> extends BaseServerSideConfig<D> {

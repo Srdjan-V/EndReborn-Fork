@@ -2,11 +2,12 @@ package io.github.srdjanv.endreforked.api.worldgen.base;
 
 import java.util.Random;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
+
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 
 public enum PositionValidators implements PositionValidator {
 
@@ -32,11 +33,14 @@ public enum PositionValidators implements PositionValidator {
         }
     },
     DIM_CONFIG_MIN_MAX {
-        @Override public boolean validate(WorldServer server, GenConfig config, Random rand, BlockPos pos) {
+
+        @Override
+        public boolean validate(WorldServer server, GenConfig config, Random rand, BlockPos pos) {
             final int heightDiff = config.maxHeight() - config.minHeight();
             return pos.getY() >= heightDiff && pos.getY() < heightDiff + config.maxHeight();
         }
-    };;
+    };
+    ;
 
     public static PositionValidator blockBushValidator(BlockBush blockBush) {
         return blockBushValidator(blockBush, blockBush.getDefaultState());

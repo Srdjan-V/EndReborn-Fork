@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
-import io.github.srdjanv.endreforked.common.configs.Configs;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -25,11 +24,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import io.github.srdjanv.endreforked.common.LootHandler;
+import io.github.srdjanv.endreforked.common.configs.Configs;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class EntityWatcher extends EndEntity {
-    protected static final DataParameter<Integer> TIMES_ESCAPED = EntityDataManager.createKey(EntityWatcher.class, DataSerializers.VARINT);
-    protected static final DataParameter<Boolean> HUNT_PLAYER = EntityDataManager.createKey(EntityWatcher.class, DataSerializers.BOOLEAN);
+
+    protected static final DataParameter<Integer> TIMES_ESCAPED = EntityDataManager.createKey(EntityWatcher.class,
+            DataSerializers.VARINT);
+    protected static final DataParameter<Boolean> HUNT_PLAYER = EntityDataManager.createKey(EntityWatcher.class,
+            DataSerializers.BOOLEAN);
     protected final int huntCooldown;
     protected final int maxEscapes;
 
@@ -69,15 +72,15 @@ public class EntityWatcher extends EndEntity {
         getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.0D);
     }
 
-    @Override protected void updateAITasks() {
+    @Override
+    protected void updateAITasks() {
         if (ticksExisted >= targetChangeTime + huntCooldown) {
             dataManager.set(TIMES_ESCAPED, 0);
             dataManager.set(HUNT_PLAYER, false);
         }
 
         if (isWet()) attackEntityFrom(DamageSource.DROWN, 1.0F);
-        if (!dataManager.get(HUNT_PLAYER)
-                && world.isDaytime() && ticksExisted >= targetChangeTime + 60 * 20) {
+        if (!dataManager.get(HUNT_PLAYER) && world.isDaytime() && ticksExisted >= targetChangeTime + 60 * 20) {
             float brightness = getBrightness();
             if (brightness > 0.5F && world.canSeeSky(new BlockPos(this)) &&
                     rand.nextFloat() * 30.0F < (brightness - 0.4F) * 2.0F) {
@@ -138,7 +141,7 @@ public class EntityWatcher extends EndEntity {
             AxisAlignedBB searchArea = (new AxisAlignedBB(
                     taskOwner.posX, taskOwner.posY, taskOwner.posZ,
                     taskOwner.posX + 1.0D, taskOwner.posY + 1.0D, taskOwner.posZ + 1.0D))
-                    .grow(d0, 10.0D, d0);
+                            .grow(d0, 10.0D, d0);
             List<EntityMob> entityMobs = new ObjectArrayList<>();
             entityMobs.addAll(taskOwner.world.getEntitiesWithinAABB(EntityEnderman.class, searchArea));
             entityMobs.addAll(taskOwner.world.getEntitiesWithinAABB(EntityWatcher.class, searchArea));
@@ -152,6 +155,7 @@ public class EntityWatcher extends EndEntity {
     }
 
     protected static class EntityAIKeepDistanceAndWatch extends EntityAIBase {
+
         private final EntityWatcher watcher;
         private EntityPlayer followingPlayer;
         private final PathNavigate navigation;
@@ -208,7 +212,7 @@ public class EntityWatcher extends EndEntity {
                 return true;
             }
 
-            //try to escape player
+            // try to escape player
             var newPos = new BlockPos.MutableBlockPos();
             for (int i = 0; i < maxTPPosSearch; i++) {
                 double x = followingPlayer.posX + (watcher.rand.nextDouble() - 0.5D) * watcherRange;
@@ -216,7 +220,8 @@ public class EntityWatcher extends EndEntity {
                 double z = followingPlayer.posZ + (watcher.rand.nextDouble() - 0.5D) * watcherRange;
                 newPos.setPos(x, y, z);
 
-                var newDistance = followingPlayer.getPosition().getDistance(newPos.getX(), newPos.getY(), newPos.getZ());
+                var newDistance = followingPlayer.getPosition().getDistance(newPos.getX(), newPos.getY(),
+                        newPos.getZ());
 
                 if (newDistance > watcherRange) continue;
                 if (newDistance < minPlayerDis) continue;
@@ -230,7 +235,6 @@ public class EntityWatcher extends EndEntity {
                 watcher.posZ = z;
                 navigation.clearPath();
                 var posNav = navigation.getPathToPos(followingPlayer.getPosition());
-
 
                 if (posNav == null) {
                     watcher.posX = orgX;
@@ -274,7 +278,7 @@ public class EntityWatcher extends EndEntity {
             watcher.getLookHelper().setLookPositionWithEntity(followingPlayer, 10.0F,
                     (float) watcher.getVerticalFaceSpeed());
 
-            //var watcherRange = getWatcherFollowRange();
+            // var watcherRange = getWatcherFollowRange();
             if (!follow) {
                 navigation.clearPath();
                 return;

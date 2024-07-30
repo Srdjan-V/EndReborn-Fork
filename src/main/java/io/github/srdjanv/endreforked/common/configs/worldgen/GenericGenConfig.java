@@ -3,12 +3,6 @@ package io.github.srdjanv.endreforked.common.configs.worldgen;
 import java.util.Objects;
 import java.util.Random;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
-import io.github.srdjanv.endreforked.api.worldgen.Generator;
-import io.github.srdjanv.endreforked.api.worldgen.features.FilledSphereGenerator;
-import io.github.srdjanv.endreforked.common.ModBioms;
-import io.github.srdjanv.endreforked.common.blocks.BlockDragoniteCrop;
-import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
@@ -17,11 +11,17 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGenHandler;
 import io.github.srdjanv.endreforked.api.worldgen.features.BushSurfaceGenerator;
+import io.github.srdjanv.endreforked.api.worldgen.features.FilledSphereGenerator;
 import io.github.srdjanv.endreforked.api.worldgen.features.RadiusSurfaceGenerator;
 import io.github.srdjanv.endreforked.api.worldgen.features.SphereGenerator;
+import io.github.srdjanv.endreforked.common.ModBioms;
 import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.blocks.BlockDragoniteCrop;
+import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
 import io.github.srdjanv.endreforked.common.configs.worldgen.base.WorldGenBaseConfigReloadable;
 
 public class GenericGenConfig extends WorldGenBaseConfigReloadable {
@@ -46,7 +46,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(80)
                                     .setRadius(12)
                                     .setMaxHeight(45)
-                                    .setMinHeight(20).build(), 1);
+                                    .setMinHeight(20).build(),
+                            1);
 
                     return builder.build();
                 },
@@ -68,7 +69,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(95)
                                     .setRadius(12)
                                     .setMaxHeight(25)
-                                    .setMinHeight(10).build(), 1);
+                                    .setMinHeight(10).build(),
+                            1);
                     return builder.build();
                 },
                 (world, biome, config) -> {
@@ -118,7 +120,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(25)
                                     .setAmount(30)
                                     .setMaxHeight(30)
-                                    .setMinHeight(10).build(), 1);
+                                    .setMinHeight(10).build(),
+                            1);
                     return builder.build();
                 },
                 (world, biome, config) -> new WorldGenMinable(
@@ -132,7 +135,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(25)
                                     .setRadius(4)
                                     .setMaxHeight(90)
-                                    .setMinHeight(50).build(), 1);
+                                    .setMinHeight(50).build(),
+                            1);
 
                     return builder.build();
                 },
@@ -157,7 +161,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(0)
                                     .setAmount(20)
                                     .setMaxHeight(90)
-                                    .setMinHeight(50).build(), 1);
+                                    .setMinHeight(50).build(),
+                            1);
                     return builder.build();
                 },
                 (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.END_CORAL.get()));
@@ -169,7 +174,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(5)
                                     .setAmount(6)
                                     .setMaxHeight(90)
-                                    .setMinHeight(50).build(), 1);
+                                    .setMinHeight(50).build(),
+                            1);
                     return builder.build();
                 },
                 (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.END_CORAL.get()));
@@ -181,7 +187,8 @@ public class GenericGenConfig extends WorldGenBaseConfigReloadable {
                                     .setRarity(5)
                                     .setAmount(6)
                                     .setMaxHeight(90)
-                                    .setMinHeight(50).build(), 1);
+                                    .setMinHeight(50).build(),
+                            1);
                     return builder.build();
                 },
                 (world, biome, config) -> new BushSurfaceGenerator(config, ModBlocks.DRAGONITE_CROP.get()) {

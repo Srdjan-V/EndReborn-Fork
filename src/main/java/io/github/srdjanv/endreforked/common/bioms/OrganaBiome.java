@@ -1,12 +1,9 @@
 package io.github.srdjanv.endreforked.common.bioms;
 
-import git.jbredwards.nether_api.api.biome.IEndBiome;
-import git.jbredwards.nether_api.api.biome.INoSpawnBiome;
-import git.jbredwards.nether_api.api.world.INetherAPIChunkGenerator;
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.bioms.base.BiomeDictionaryHandler;
-import io.github.srdjanv.endreforked.common.blocks.BlockEndMossGrass;
-import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -17,12 +14,19 @@ import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeEnd;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraftforge.common.BiomeDictionary;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import java.util.Random;
+import git.jbredwards.nether_api.api.biome.IEndBiome;
+import git.jbredwards.nether_api.api.biome.INoSpawnBiome;
+import git.jbredwards.nether_api.api.world.INetherAPIChunkGenerator;
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.bioms.base.BiomeDictionaryHandler;
+import io.github.srdjanv.endreforked.common.blocks.BlockEndMossGrass;
+import io.github.srdjanv.endreforked.common.blocks.BlockOrganaFlower;
 
 public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome, BiomeDictionaryHandler {
+
     public OrganaBiome() {
         super(new BiomeProperties("Organa").setRainDisabled());
         setRegistryName("organa");
@@ -33,16 +37,17 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome, B
         decorator = createBiomeDecorator();
     }
 
-    @Override public @NotNull BiomeDecorator createBiomeDecorator() {
+    @Override
+    public @NotNull BiomeDecorator createBiomeDecorator() {
         return new Decorator();
     }
 
     public void buildSurface(
-            @Nonnull final INetherAPIChunkGenerator chunkGenerator,
-            final int chunkX, final int chunkZ,
-            @Nonnull final ChunkPrimer primer,
-            final int x, final int z,
-            final double terrainNoise) {
+                             @Nonnull final INetherAPIChunkGenerator chunkGenerator,
+                             final int chunkX, final int chunkZ,
+                             @Nonnull final ChunkPrimer primer,
+                             final int x, final int z,
+                             final double terrainNoise) {
         boolean needTop = true;
         for (int y = chunkGenerator.getWorld().getActualHeight() - 1; y >= 0; --y) {
             final IBlockState here = primer.getBlockState(x, y, z);
@@ -60,15 +65,20 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome, B
         }
     }
 
-    @Override public boolean generateChorusPlants(@NotNull INetherAPIChunkGenerator chunkGenerator, int chunkX, int chunkZ, float islandHeight) {
+    @Override
+    public boolean generateChorusPlants(@NotNull INetherAPIChunkGenerator chunkGenerator, int chunkX, int chunkZ,
+                                        float islandHeight) {
         return false;
     }
 
-    @Override public boolean generateIslands(@NotNull INetherAPIChunkGenerator chunkGenerator, int chunkX, int chunkZ, float islandHeight) {
+    @Override
+    public boolean generateIslands(@NotNull INetherAPIChunkGenerator chunkGenerator, int chunkX, int chunkZ,
+                                   float islandHeight) {
         return false;
     }
 
-    @Override public void registerToBiomeDictionary() {
+    @Override
+    public void registerToBiomeDictionary() {
         BiomeDictionary.addTypes(
                 this,
                 BiomeDictionary.Type.DENSE,
@@ -80,16 +90,18 @@ public class OrganaBiome extends BiomeEnd implements IEndBiome, INoSpawnBiome, B
     }
 
     public static class Decorator extends BiomeDecorator {
-        public Decorator() {
-        }
 
-        //todo gen mushrooms
-        @Override protected void genDecorations(Biome biomeIn, World world, Random rand) {
+        public Decorator() {}
+
+        // todo gen mushrooms
+        @Override
+        protected void genDecorations(Biome biomeIn, World world, Random rand) {
             super.generateOres(world, rand);
 
-            //chunkPos is player pos
+            // chunkPos is player pos
             var realChunkPos = new BlockPos(chunkPos.getX() >> 4, 0, chunkPos.getY() >> 4);
-            if ((long) realChunkPos.getX() * (long) realChunkPos.getX() + (long) realChunkPos.getZ() * (long) realChunkPos.getZ() > 4096L) {
+            if ((long) realChunkPos.getX() * (long) realChunkPos.getX() +
+                    (long) realChunkPos.getZ() * (long) realChunkPos.getZ() > 4096L) {
                 final BlockPos pos = chunkPos;
                 final int amountInChunk = rand.nextInt(5);
                 for (int i = 0; i < amountInChunk; i++) {

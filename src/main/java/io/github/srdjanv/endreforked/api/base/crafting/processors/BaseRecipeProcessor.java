@@ -1,11 +1,12 @@
 package io.github.srdjanv.endreforked.api.base.crafting.processors;
 
+import java.util.Objects;
+
 import io.github.srdjanv.endreforked.api.base.crafting.HandlerRegistry;
 import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.Recipe;
 
-import java.util.Objects;
-
 public class BaseRecipeProcessor<IN, OUT, R extends Recipe<IN, OUT>> {
+
     protected final HandlerRegistry<IN, R> handlerRegistry;
     protected R recipe;
 

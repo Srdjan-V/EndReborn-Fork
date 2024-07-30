@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
 import net.minecraft.command.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
+import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
 import io.github.srdjanv.endreforked.common.configs.base.ReloadableServerSideConfig;
 
 public class ReloadConfigCommand extends CommandBase {

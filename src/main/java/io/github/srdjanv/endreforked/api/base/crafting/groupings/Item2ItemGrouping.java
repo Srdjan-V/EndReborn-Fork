@@ -6,7 +6,8 @@ import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import io.github.srdjanv.endreforked.api.util.ItemStackHashStrategy;
 
 public class Item2ItemGrouping<R extends BiRecipe<ItemStack, ItemStack, ?>>
-                               extends RecipeGrouping<ItemStack, ItemStack, R> {
+                              extends RecipeGrouping<ItemStack, ItemStack, R> {
+
     public Item2ItemGrouping(ItemStack catalyst, ItemStackHashStrategy strategy) {
         super(catalyst, strategy);
     }

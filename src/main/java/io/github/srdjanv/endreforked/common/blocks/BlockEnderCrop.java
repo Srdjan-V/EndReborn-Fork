@@ -1,8 +1,9 @@
 package io.github.srdjanv.endreforked.common.blocks;
 
-import io.github.srdjanv.endreforked.common.ModBlocks;
-import io.github.srdjanv.endreforked.common.ModItems;
-import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockCrops;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -20,10 +21,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-import java.util.Random;
+import io.github.srdjanv.endreforked.common.ModBlocks;
+import io.github.srdjanv.endreforked.common.ModItems;
+import io.github.srdjanv.endreforked.common.blocks.base.BaseBlockCrops;
 
 public class BlockEnderCrop extends BaseBlockCrops {
+
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 3);
 
     public BlockEnderCrop() {
@@ -83,21 +86,26 @@ public class BlockEnderCrop extends BaseBlockCrops {
                         new ItemStack(Items.ENDER_PEARL, worldIn.rand.nextInt(3))));
     }
 
-    @Override public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+    @Override
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
+                         int fortune) {
         if (getAge(state) >= getMaxAge()) drops.add(new ItemStack(getCrop()));
     }
 
-    @Override public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return isMaxAge(state) ? getCrop() : Items.AIR;
     }
 
-    @Override public int quantityDropped(Random random) {
+    @Override
+    public int quantityDropped(Random random) {
         return 1;
     }
 
     @Override
     public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
-        if (state.getBlock() == this) //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
+        if (state.getBlock() == this) // Forge: This function is called during world gen and placement, before this
+                                      // block is set, so if we are not 'here' then assume it's the pre-check.
         {
             IBlockState soil = world.getBlockState(pos.down());
             return soil.getBlock().canSustainPlant(soil, world, pos.down(), net.minecraft.util.EnumFacing.UP, this);

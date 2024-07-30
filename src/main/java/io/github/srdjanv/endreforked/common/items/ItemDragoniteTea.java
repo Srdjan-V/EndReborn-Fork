@@ -1,8 +1,7 @@
 package io.github.srdjanv.endreforked.common.items;
 
-import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
-import io.github.srdjanv.endreforked.common.items.base.ItemFoodBase;
-import io.github.srdjanv.endreforked.utils.models.InventoryItemModel;
+import java.util.List;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,14 +15,17 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import io.github.srdjanv.endreforked.common.capabilities.timedflight.CapabilityTimedFlightHandler;
+import io.github.srdjanv.endreforked.common.items.base.ItemFoodBase;
+import io.github.srdjanv.endreforked.utils.models.InventoryItemModel;
 
 public class ItemDragoniteTea extends ItemFoodBase implements InventoryItemModel {
 
     public ItemDragoniteTea() {
-        super("dragonite_tea",2, 1, false);
+        super("dragonite_tea", 2, 1, false);
         setAlwaysEdible();
         setMaxStackSize(16);
     }

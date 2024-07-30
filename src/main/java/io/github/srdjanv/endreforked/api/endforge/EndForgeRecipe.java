@@ -2,11 +2,10 @@ package io.github.srdjanv.endreforked.api.endforge;
 
 import java.util.function.BiFunction;
 
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.timed.TimedBiRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.timed.TimedBiRecipe;
 
 public class EndForgeRecipe extends TimedBiRecipe<FluidStack, ItemStack, ItemStack> {
 

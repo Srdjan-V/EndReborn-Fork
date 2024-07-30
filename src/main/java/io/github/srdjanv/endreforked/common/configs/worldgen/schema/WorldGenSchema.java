@@ -2,17 +2,17 @@ package io.github.srdjanv.endreforked.common.configs.worldgen.schema;
 
 import java.util.*;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
-import io.github.srdjanv.endreforked.api.worldgen.Generator;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.world.biome.Biome;
-
 import net.minecraftforge.common.BiomeDictionary;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.EndReforked;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.Generator;
 import io.github.srdjanv.endreforked.api.worldgen.WorldGeneratorBuilder;
 import io.github.srdjanv.endreforked.common.configs.base.ResourceLocationWrapper;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
@@ -154,7 +154,6 @@ public class WorldGenSchema {
             return this;
         }
 
-
         public Builder blackListBiome(String... biomes) {
             return blackListBiome(Arrays.stream(biomes)
                     .map(ResourceLocationWrapper::of)
@@ -180,7 +179,6 @@ public class WorldGenSchema {
                     .toArray(String[]::new));
         }
 
-
         public Builder whiteListBiomeType(String... types) {
             return whiteListBiomeType(null, types);
         }
@@ -191,7 +189,6 @@ public class WorldGenSchema {
             } else for (var wrap : types) biomeTypes.whiteListMap.put(wrap, genConfig);
             return this;
         }
-
 
         public Builder blackListBiomeType(BiomeDictionary.Type... types) {
             return blackListBiomeType(Arrays.stream(types)

@@ -1,27 +1,32 @@
 package io.github.srdjanv.endreforked.common.capabilities.timedflight;
 
-import io.github.srdjanv.endreforked.api.capabilities.timedflight.ITimedFlight;
-import io.github.srdjanv.endreforked.common.ModPotions;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.PotionEffect;
 
+import io.github.srdjanv.endreforked.api.capabilities.timedflight.ITimedFlight;
+import io.github.srdjanv.endreforked.common.ModPotions;
+
 public class TimedFlight implements ITimedFlight {
+
     private boolean sendStartUpdate;
     private boolean sendStopUpdate;
     private int flightDuration;
 
-    @Override public int getFlightDuration() {
+    @Override
+    public int getFlightDuration() {
         return flightDuration;
     }
 
-    @Override public void setFlightDuration(int flightDuration) {
+    @Override
+    public void setFlightDuration(int flightDuration) {
         if (flightDuration <= 0) return;
         this.flightDuration = flightDuration;
         sendStopUpdate = true;
         sendStartUpdate = true;
     }
 
-    @Override public void tickPlayer(EntityPlayerMP playerMP) {
+    @Override
+    public void tickPlayer(EntityPlayerMP playerMP) {
         if (flightDuration > 0) {
             if (sendStartUpdate) {
                 sendStartUpdate = false;
@@ -52,14 +57,16 @@ public class TimedFlight implements ITimedFlight {
         } else playerMP.removePotionEffect(ModPotions.TIMED_FLIGHT.get());
     }
 
-/*    public void handleParticle(EntityPlayerMP playerMP, boolean flight) {
-        final String id = "TimedFlight";
-
-        if (flight) {
-            EndReforked.NET.sendTo(PlayerParticlePacket.newParticle(id, flightDuration, EnumParticleTypes.SPELL_MOB),
-                    playerMP);
-        } else {
-            EndReforked.NET.sendTo(PlayerParticlePacket.remove(id), playerMP);
-        }
-    }*/
+    /*
+     * public void handleParticle(EntityPlayerMP playerMP, boolean flight) {
+     * final String id = "TimedFlight";
+     * 
+     * if (flight) {
+     * EndReforked.NET.sendTo(PlayerParticlePacket.newParticle(id, flightDuration, EnumParticleTypes.SPELL_MOB),
+     * playerMP);
+     * } else {
+     * EndReforked.NET.sendTo(PlayerParticlePacket.remove(id), playerMP);
+     * }
+     * }
+     */
 }

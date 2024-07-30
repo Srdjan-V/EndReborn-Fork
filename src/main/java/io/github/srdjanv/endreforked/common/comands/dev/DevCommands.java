@@ -4,15 +4,18 @@ import net.minecraft.command.ICommandSender;
 import net.minecraftforge.server.command.CommandTreeBase;
 
 public class DevCommands extends CommandTreeBase {
+
     public DevCommands() {
-        //addSubcommand(new DisableRegionLoading());
+        // addSubcommand(new DisableRegionLoading());
     }
 
-    @Override public String getName() {
+    @Override
+    public String getName() {
         return "dev";
     }
 
-    @Override public String getUsage(ICommandSender sender) {
+    @Override
+    public String getUsage(ICommandSender sender) {
         return "";
     }
 

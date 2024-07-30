@@ -11,10 +11,10 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-//Copied cofh core
+// Copied cofh core
 public class WorldUtils {
-    private WorldUtils() {
-    }
+
+    private WorldUtils() {}
 
     public static boolean isClientWorld(World world) {
         return world.isRemote;
@@ -40,9 +40,11 @@ public class WorldUtils {
         return FMLCommonHandler.instance().getMinecraftServerInstance() == null;
     }
 
-    public static void sendItemUsePacket(World world, BlockPos pos, EnumFacing hitSide, EnumHand hand, float hitX, float hitY, float hitZ) {
+    public static void sendItemUsePacket(World world, BlockPos pos, EnumFacing hitSide, EnumHand hand, float hitX,
+                                         float hitY, float hitZ) {
         if (!isServerWorld(world)) {
-            NetHandlerPlayClient netClientHandler = (NetHandlerPlayClient) FMLClientHandler.instance().getClientPlayHandler();
+            NetHandlerPlayClient netClientHandler = (NetHandlerPlayClient) FMLClientHandler.instance()
+                    .getClientPlayHandler();
             netClientHandler.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, hitSide, hand, hitX, hitY, hitZ));
         }
     }

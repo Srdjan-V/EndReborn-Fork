@@ -2,22 +2,25 @@ package io.github.srdjanv.endreforked.api.worldgen.features;
 
 import java.util.Random;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import io.github.srdjanv.endreforked.api.worldgen.base.*;
 
 public class SphereGenerator extends PositionedFeature {
+
     protected final PositionGenerator positionGenerator;
     protected final PositionValidator startPosValidator;
     protected final PositionValidator positionValidator;
 
-    public SphereGenerator(GenConfig genConfig, PositionValidator positionValidator, PositionGenerator positionGenerator) {
+    public SphereGenerator(GenConfig genConfig, PositionValidator positionValidator,
+                           PositionGenerator positionGenerator) {
         this(genConfig, PositionValidators.ALWAYS_TRUE, positionValidator, positionGenerator);
     }
 
-    public SphereGenerator(GenConfig genConfig, PositionValidator startPosValidator, PositionValidator positionValidator,
+    public SphereGenerator(GenConfig genConfig, PositionValidator startPosValidator,
+                           PositionValidator positionValidator,
                            PositionGenerator positionGenerator) {
         super(genConfig, Locators.OFFSET_16.andThenLocate(Locators.GEN_CONFIG_MIN_MAX));
         this.startPosValidator = startPosValidator;

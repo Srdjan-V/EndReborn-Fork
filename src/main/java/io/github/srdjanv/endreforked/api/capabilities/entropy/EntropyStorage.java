@@ -1,6 +1,7 @@
 package io.github.srdjanv.endreforked.api.capabilities.entropy;
 
 public interface EntropyStorage {
+
     int getMaxEntropy();
 
     int getCurrentEntropy();
@@ -9,9 +10,9 @@ public interface EntropyStorage {
      * Used to determine if this storage can receive entropy.
      * If this is false, then any calls to induceEntropy will return 0.
      */
-   default boolean canInduceEntropy() {
-       return getCurrentEntropy() < getMaxEntropy();
-   }
+    default boolean canInduceEntropy() {
+        return getCurrentEntropy() < getMaxEntropy();
+    }
 
     /**
      * @param entropy  Entropy amount to induce.
@@ -34,7 +35,7 @@ public interface EntropyStorage {
      * @param entropy  Maximum amount of entropy to drain.
      * @param simulate If false, drain will only be simulated.
      * @return The amount that was (or would have been, if
-     * simulated) drained.
+     *         simulated) drained.
      */
     int drainEntropy(int entropy, boolean simulate);
 }

@@ -1,17 +1,19 @@
 package io.github.srdjanv.endreforked.api.worldgen.base;
 
-import io.github.srdjanv.endreforked.EndReforked;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import io.github.srdjanv.endreforked.EndReforked;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class GeneratorWrapper extends WorldGenerator {
+
     private final WorldGenerator feature;
     private final List<WorldGeneratorBuilder> builders = new ObjectArrayList<>();
 
@@ -29,7 +31,8 @@ public class GeneratorWrapper extends WorldGenerator {
         return this;
     }
 
-    @Override public boolean generate(World worldIn, Random rand, BlockPos position) {
+    @Override
+    public boolean generate(World worldIn, Random rand, BlockPos position) {
         if (!(worldIn instanceof WorldServer server)) {
             EndReforked.LOGGER.error("Unable to run world generator on ClientWorld");
             return false;

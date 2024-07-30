@@ -3,7 +3,8 @@ package io.github.srdjanv.endreforked.api.worldgen;
 import java.util.*;
 
 public class GenConfig {
-    //Cant use EnumMap, gson type
+
+    // Cant use EnumMap, gson type
     private final Map<Modifier, Integer> modifiers;
 
     @SuppressWarnings("unused")
@@ -36,11 +37,13 @@ public class GenConfig {
     }
 
     public int sphereFillRatio() {
-        return modifier(Modifier.SPHERE_FILL_RATIO).orElseThrow(() -> new MissingModifierException(Modifier.SPHERE_FILL_RATIO));
+        return modifier(Modifier.SPHERE_FILL_RATIO)
+                .orElseThrow(() -> new MissingModifierException(Modifier.SPHERE_FILL_RATIO));
     }
 
     public int uniqueGeneratorId() {
-        return modifier(Modifier.UNIQUE_GENERATOR_ID).orElseThrow(() -> new MissingModifierException(Modifier.UNIQUE_GENERATOR_ID));
+        return modifier(Modifier.UNIQUE_GENERATOR_ID)
+                .orElseThrow(() -> new MissingModifierException(Modifier.UNIQUE_GENERATOR_ID));
     }
 
     public int spacing() {
@@ -75,6 +78,7 @@ public class GenConfig {
     }
 
     public static class Builder {
+
         private final EnumMap<Modifier, Integer> modifiers = new EnumMap<>(Modifier.class);
 
         private Builder() {}
@@ -124,5 +128,4 @@ public class GenConfig {
             return new GenConfig(modifiers);
         }
     }
-
 }

@@ -3,9 +3,10 @@ package io.github.srdjanv.endreforked.api.worldgen.base;
 import java.util.Objects;
 import java.util.Random;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
+
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
 
 @FunctionalInterface
 public interface PositionValidator {

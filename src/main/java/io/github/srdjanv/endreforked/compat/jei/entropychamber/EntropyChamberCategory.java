@@ -1,5 +1,7 @@
 package io.github.srdjanv.endreforked.compat.jei.entropychamber;
 
+import java.util.List;
+
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.api.entropy.chamber.EntropyFluidChamberHandler;
 import io.github.srdjanv.endreforked.api.entropy.chamber.EntropyItemChamberHandler;
@@ -12,9 +14,8 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 
-import java.util.List;
-
 public class EntropyChamberCategory implements IRecipeCategory<EntropyChamberRecipe> {
+
     public static final String UID = Tags.MODID + ".entropy_chamber";
 
     private final IDrawable background;
@@ -25,24 +26,28 @@ public class EntropyChamberCategory implements IRecipeCategory<EntropyChamberRec
         slot = helper.getSlotDrawable();
     }
 
-
-    @Override public String getUid() {
+    @Override
+    public String getUid() {
         return UID;
     }
 
-    @Override public String getTitle() {
+    @Override
+    public String getTitle() {
         return LangUtil.translateToLocal("tile.entropy_chamber.name");
     }
 
-    @Override public String getModName() {
+    @Override
+    public String getModName() {
         return Tags.MODNAME;
     }
 
-    @Override public IDrawable getBackground() {
+    @Override
+    public IDrawable getBackground() {
         return background;
     }
 
-    @Override public void setRecipe(IRecipeLayout recipeLayout, EntropyChamberRecipe recipeWrapper, IIngredients ingredients) {
+    @Override
+    public void setRecipe(IRecipeLayout recipeLayout, EntropyChamberRecipe recipeWrapper, IIngredients ingredients) {
         IGuiIngredientGroup<?> group;
         switch (recipeWrapper.getType()) {
             case FLUID -> group = recipeLayout.getFluidStacks();

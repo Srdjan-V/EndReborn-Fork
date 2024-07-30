@@ -1,7 +1,5 @@
 package io.github.srdjanv.endreforked.common.comands;
 
-import io.github.srdjanv.endreforked.common.comands.dev.DevCommands;
-import net.minecraft.command.CommandHelp;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -10,6 +8,7 @@ import net.minecraftforge.server.command.CommandTreeBase;
 
 import io.github.srdjanv.endreforked.Tags;
 import io.github.srdjanv.endreforked.common.comands.configs.ConfigCommands;
+import io.github.srdjanv.endreforked.common.comands.dev.DevCommands;
 
 public class EndRebornCommands extends CommandTreeBase {
 

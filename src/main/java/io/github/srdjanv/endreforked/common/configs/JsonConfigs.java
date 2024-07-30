@@ -1,16 +1,17 @@
 package io.github.srdjanv.endreforked.common.configs;
 
-import io.github.srdjanv.endreforked.common.configs.base.BaseServerSideConfig;
-import io.github.srdjanv.endreforked.common.configs.base.ReloadableServerSideConfig;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import io.github.srdjanv.endreforked.common.configs.base.BaseServerSideConfig;
+import io.github.srdjanv.endreforked.common.configs.base.ReloadableServerSideConfig;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 public final class JsonConfigs {
+
     private static final List<BaseServerSideConfig<?>> configs = new ObjectArrayList<>();
 
     public static void addConfig(BaseServerSideConfig<?> config) {

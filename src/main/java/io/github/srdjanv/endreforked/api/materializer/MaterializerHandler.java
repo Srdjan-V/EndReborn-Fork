@@ -7,7 +7,7 @@ import io.github.srdjanv.endreforked.api.util.ItemStackHashStrategy;
 import it.unimi.dsi.fastutil.Hash;
 
 public final class MaterializerHandler extends
-        HandlerGroupingRegistry<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> {
+                                       HandlerGroupingRegistry<ItemStack, ItemStack, ItemStack, ItemCatalyst, MaterializerRecipe> {
 
     private static final MaterializerHandler instance = new MaterializerHandler();
 

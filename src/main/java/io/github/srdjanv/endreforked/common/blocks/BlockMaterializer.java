@@ -5,8 +5,6 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
-import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -26,10 +24,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
+
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 import io.github.srdjanv.endreforked.common.tiles.MaterializerTile;
+import io.github.srdjanv.endreforked.common.tiles.base.BaseTileEntity;
 
 public class BlockMaterializer extends BlockBase {
 

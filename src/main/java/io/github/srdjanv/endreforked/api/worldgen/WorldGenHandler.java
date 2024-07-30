@@ -181,9 +181,9 @@ public final class WorldGenHandler implements IWorldGenerator {
     }
 
     public static Stream<Generator> getApplicableGenerators(
-            final Set<Generator> generatorMap,
-            final World world,
-            final Biome biome) {
+                                                            final Set<Generator> generatorMap,
+                                                            final World world,
+                                                            final Biome biome) {
         final var dim = world.provider.getDimension();
         return generatorMap.stream()
                 .filter(entry -> entry.isValidDimension(dim))

@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -13,6 +12,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
+import io.github.srdjanv.endreforked.common.configs.JsonConfigs;
 import io.github.srdjanv.endreforked.common.configs.base.ReloadableServerSideConfig;
 
 public class LoadDefaultConfigCommand extends CommandBase {

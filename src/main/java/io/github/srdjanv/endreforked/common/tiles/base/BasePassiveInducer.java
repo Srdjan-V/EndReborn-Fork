@@ -1,16 +1,18 @@
 package io.github.srdjanv.endreforked.common.tiles.base;
 
-import io.github.srdjanv.endreforked.api.util.Ticker;
-import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
-import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
-import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
-import io.github.srdjanv.endreforked.common.entropy.chunks.PassiveEntropyChunkInducer;
+import java.util.Optional;
+
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 
-import java.util.Optional;
+import io.github.srdjanv.endreforked.api.entropy.EntropyDataProvider;
+import io.github.srdjanv.endreforked.api.entropy.EntropyRadius;
+import io.github.srdjanv.endreforked.api.entropy.world.EntropyChunkReader;
+import io.github.srdjanv.endreforked.api.util.Ticker;
+import io.github.srdjanv.endreforked.common.entropy.chunks.PassiveEntropyChunkInducer;
 
 public abstract class BasePassiveInducer extends BaseTileEntity implements ITickable, EntropyDataProvider {
+
     private final EntropyRadius range;
     private final EntropyChunkReader tileWrapper;
     private final PassiveEntropyChunkInducer inducer;
@@ -27,18 +29,20 @@ public abstract class BasePassiveInducer extends BaseTileEntity implements ITick
         particleTicker = new Ticker(particleFrequency);
     }
 
-    @Override public Optional<EntropyRadius> getEntropyRadius() {
+    @Override
+    public Optional<EntropyRadius> getEntropyRadius() {
         return Optional.of(range);
     }
 
-    @Override public Optional<PassiveInducer> getPassiveInducer() {
+    @Override
+    public Optional<PassiveInducer> getPassiveInducer() {
         return Optional.of(inducer.getPassiveInducer());
     }
 
-    @Override public void update() {
+    @Override
+    public void update() {
         inducer.induce();
-        if(world.isRemote && particleTicker.tick()) particles();
-
+        if (world.isRemote && particleTicker.tick()) particles();
     }
 
     protected abstract void particles();

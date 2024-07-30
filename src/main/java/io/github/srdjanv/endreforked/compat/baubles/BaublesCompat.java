@@ -1,14 +1,10 @@
 package io.github.srdjanv.endreforked.compat.baubles;
 
-import baubles.api.BaublesApi;
-import baubles.api.cap.IBaublesItemHandler;
-import com.google.common.base.Suppliers;
-import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.common.ModItems;
-import io.github.srdjanv.endreforked.compat.CompatManger;
-import io.github.srdjanv.endreforked.utils.PlayerUtils;
-import io.github.srdjanv.endreforked.utils.models.IAsset;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -20,12 +16,19 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import com.google.common.base.Suppliers;
+
+import baubles.api.BaublesApi;
+import baubles.api.cap.IBaublesItemHandler;
+import io.github.srdjanv.endreforked.Tags;
+import io.github.srdjanv.endreforked.common.ModItems;
+import io.github.srdjanv.endreforked.compat.CompatManger;
+import io.github.srdjanv.endreforked.utils.PlayerUtils;
+import io.github.srdjanv.endreforked.utils.models.IAsset;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class BaublesCompat implements CompatManger.ModCompat {
+
     public static final Supplier<EntropyWingsRing> ENTROPY_WINGS_RING = Suppliers.memoize(EntropyWingsRing::new);
 
     public BaublesCompat() {
@@ -74,11 +77,13 @@ public class BaublesCompat implements CompatManger.ModCompat {
                 .forEach(IAsset::handleAssets);
     }
 
-    @Override public void registerEventBus() {
+    @Override
+    public void registerEventBus() {
         registerThisToEventBus();
     }
 
-    @Override public String modID() {
+    @Override
+    public String modID() {
         return "baubles";
     }
 }

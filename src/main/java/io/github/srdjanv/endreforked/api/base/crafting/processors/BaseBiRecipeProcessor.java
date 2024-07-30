@@ -3,8 +3,8 @@ package io.github.srdjanv.endreforked.api.base.crafting.processors;
 import java.util.Objects;
 
 import io.github.srdjanv.endreforked.api.base.crafting.HandlerGroupingRegistry;
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import io.github.srdjanv.endreforked.api.base.crafting.groupings.RecipeGrouping;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 
 public abstract class BaseBiRecipeProcessor<IN1, IN2, OUT,
         RG extends RecipeGrouping<IN1, IN2, R>,

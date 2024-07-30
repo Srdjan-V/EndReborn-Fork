@@ -4,17 +4,17 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.function.Function;
 
-import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.srdjanv.endreforked.api.base.crafting.groupings.RecipeGrouping;
+import io.github.srdjanv.endreforked.api.base.crafting.recipe.base.BiRecipe;
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
 
 public abstract class HandlerGroupingRegistry<IN1, IN2, OUT,
         RG extends RecipeGrouping<IN1, IN2, R>,
         R extends BiRecipe<IN1, IN2, OUT>>
-                                     implements HashStrategyTranslator<Hash.Strategy<IN1>> {
+                                             implements HashStrategyTranslator<Hash.Strategy<IN1>> {
 
     public abstract Hash.Strategy<IN1> getHashStrategy();
 

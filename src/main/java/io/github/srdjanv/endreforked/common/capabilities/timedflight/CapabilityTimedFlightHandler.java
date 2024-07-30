@@ -1,7 +1,5 @@
 package io.github.srdjanv.endreforked.common.capabilities.timedflight;
 
-import io.github.srdjanv.endreforked.Tags;
-import io.github.srdjanv.endreforked.api.capabilities.timedflight.ITimedFlight;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
@@ -13,7 +11,11 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
 import org.jetbrains.annotations.NotNull;
+
+import io.github.srdjanv.endreforked.Tags;
+import io.github.srdjanv.endreforked.api.capabilities.timedflight.ITimedFlight;
 
 public class CapabilityTimedFlightHandler {
 

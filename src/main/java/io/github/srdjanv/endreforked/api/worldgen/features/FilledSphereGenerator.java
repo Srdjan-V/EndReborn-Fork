@@ -1,13 +1,15 @@
 package io.github.srdjanv.endreforked.api.worldgen.features;
 
-import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
-import io.github.srdjanv.endreforked.api.worldgen.base.*;
+import java.util.Random;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 
-import java.util.Random;
+import io.github.srdjanv.endreforked.api.worldgen.GenConfig;
+import io.github.srdjanv.endreforked.api.worldgen.base.*;
 
 public class FilledSphereGenerator extends PositionedFeature {
+
     protected final PositionGenerator innerPosGenerator;
     protected final PositionValidator innerPositionValidator;
 
@@ -51,8 +53,8 @@ public class FilledSphereGenerator extends PositionedFeature {
         this.outerPosGenerator = outerPosGenerator;
     }
 
-
-    @Override protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
+    @Override
+    protected boolean doGenerate(WorldServer server, Random rand, BlockPos startPos) {
         int radius = config.radius();
         double fillRatio = config.sphereFillRatio();
         int startX = startPos.getX();

@@ -3,9 +3,6 @@ package io.github.srdjanv.endreforked.common.blocks;
 import java.util.List;
 import java.util.Random;
 
-import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
-import com.cleanroommc.modularui.screen.ModularPanel;
-import jeresources.gui.ModGuiFactory;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -29,6 +26,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.jetbrains.annotations.Nullable;
+
+import com.cleanroommc.modularui.factory.TileEntityGuiFactory;
 
 import io.github.srdjanv.endreforked.common.blocks.base.BlockBase;
 import io.github.srdjanv.endreforked.common.tiles.EndForgeTile;
