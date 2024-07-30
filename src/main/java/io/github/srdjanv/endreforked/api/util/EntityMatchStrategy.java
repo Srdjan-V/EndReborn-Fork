@@ -1,32 +1,36 @@
 package io.github.srdjanv.endreforked.api.util;
 
-import com.google.common.base.Suppliers;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+
+import org.jetbrains.annotations.Nullable;
+
+import com.google.common.base.Suppliers;
+
 public interface EntityMatchStrategy<E extends Entity> {
+
     static <E extends Entity> Builder<E> builder() {
         return new Builder<>();
     }
 
-    Supplier<EntityMatchStrategy<Entity>> memorizedComparingBaseType = Suppliers.memoize(EntityMatchStrategy::comparingBaseType);
+    Supplier<EntityMatchStrategy<? extends Entity>> memorizedComparingBaseType = Suppliers
+            .memoize(EntityMatchStrategy::comparingBaseType);
 
-    static EntityMatchStrategy<Entity> memorizedComparingBaseType() {
-        return memorizedComparingBaseType.get();
+    static <T extends Entity> EntityMatchStrategy<T> memorizedComparingBaseType() {
+        return (EntityMatchStrategy<T>) memorizedComparingBaseType.get();
     }
 
-    static EntityMatchStrategy<Entity> comparingBaseType() {
-        return builder().
-                compareType(true)
+    static <T extends Entity> EntityMatchStrategy<T> comparingBaseType() {
+        return (EntityMatchStrategy<T>) builder().compareType(true)
                 .build();
     }
 
-    Supplier<EntityMatchStrategy<EntityItem>> memorizedComparingEntityItemAll = Suppliers.memoize(EntityMatchStrategy::comparingEntityItemAll);
+    Supplier<EntityMatchStrategy<EntityItem>> memorizedComparingEntityItemAll = Suppliers
+            .memoize(EntityMatchStrategy::comparingEntityItemAll);
 
     static EntityMatchStrategy<EntityItem> memorizedComparingEntityItemAll() {
         return memorizedComparingEntityItemAll.get();
@@ -36,12 +40,14 @@ public interface EntityMatchStrategy<E extends Entity> {
         return new Builder<EntityItem>()
                 .compareType(true)
                 .setCustomCheck((entityItem, entityItem2) -> {
-                    return ItemStackHashStrategy.memorizedComparingAll().equals(entityItem.getItem(), entityItem2.getItem());
+                    return ItemStackHashStrategy.memorizedComparingAll().equals(entityItem.getItem(),
+                            entityItem2.getItem());
                 }, ComparingLang.ItemLang.translate(ItemStackHashStrategy.memorizedComparingAll(), null))
                 .build();
     }
 
-    Supplier<EntityMatchStrategy<EntityItem>> memorizedComparingEntityItemAllButCount = Suppliers.memoize(EntityMatchStrategy::comparingEntityItemAllButCount);
+    Supplier<EntityMatchStrategy<EntityItem>> memorizedComparingEntityItemAllButCount = Suppliers
+            .memoize(EntityMatchStrategy::comparingEntityItemAllButCount);
 
     static EntityMatchStrategy<EntityItem> memorizedComparingEntityItemAllButCount() {
         return memorizedComparingEntityItemAllButCount.get();
@@ -51,11 +57,11 @@ public interface EntityMatchStrategy<E extends Entity> {
         return new Builder<EntityItem>()
                 .compareType(true)
                 .setCustomCheck((entityItem, entityItem2) -> {
-                    return ItemStackHashStrategy.memorizedComparingAllButCount().equals(entityItem.getItem(), entityItem2.getItem());
+                    return ItemStackHashStrategy.memorizedComparingAllButCount().equals(entityItem.getItem(),
+                            entityItem2.getItem());
                 }, ComparingLang.ItemLang.translate(ItemStackHashStrategy.memorizedComparingAllButCount(), null))
                 .build();
     }
-
 
     boolean comparingType();
 
@@ -67,6 +73,7 @@ public interface EntityMatchStrategy<E extends Entity> {
     boolean match(@Nullable E e1, E e2);
 
     class Builder<E extends Entity> {
+
         private boolean type;
         private BiPredicate<E, E> customCheck;
         private String customCheckLangKey;
@@ -86,15 +93,19 @@ public interface EntityMatchStrategy<E extends Entity> {
 
         public EntityMatchStrategy<E> build() {
             return new EntityMatchStrategy<>() {
-                @Override public boolean comparingType() {
+
+                @Override
+                public boolean comparingType() {
                     return type;
                 }
 
-                @Override public boolean comparingCustom() {
+                @Override
+                public boolean comparingCustom() {
                     return customCheck != null;
                 }
 
-                @Override public @Nullable String customCheckLangKey() {
+                @Override
+                public @Nullable String customCheckLangKey() {
                     return customCheckLangKey;
                 }
 

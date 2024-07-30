@@ -1,49 +1,61 @@
 package io.github.srdjanv.endreforked.api.fluids.base;
 
-import it.unimi.dsi.fastutil.objects.*;
-import net.minecraft.entity.Entity;
-
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import net.minecraft.entity.Entity;
+
+import io.github.srdjanv.endreforked.api.fluids.IFluidInteractable;
+import it.unimi.dsi.fastutil.objects.*;
 
 public class FluidEntityCollisionHandler {
-    private final Object2ObjectOpenHashMap<Class<? extends Entity>, ObjectList<EntityFluidRecipe<Entity>>> registry;
-    private boolean sortNeeded = true;
 
-    protected FluidEntityCollisionHandler() {
-        registry = new Object2ObjectOpenHashMap<>();
+    private static final List<FluidEntityCollisionHandler> HANDLERS = new ObjectArrayList<>();
+
+    public static List<FluidEntityCollisionHandler> getHandlers() {
+        return HANDLERS;
     }
 
-    public Object2ObjectOpenHashMap<Class<? extends Entity>, ObjectList<EntityFluidRecipe<Entity>>> getRegistry() {
+    private final Object2ObjectOpenHashMap<Class<? extends Entity>, ObjectList<EntityFluidRecipe<Entity, Entity>>> registry;
+    private final IFluidInteractable interactable;
+    private boolean sortNeeded = true;
+
+    protected FluidEntityCollisionHandler(IFluidInteractable interactable) {
+        registry = new Object2ObjectOpenHashMap<>();
+        HANDLERS.add(this);
+        this.interactable = interactable;
+    }
+
+    public IFluidInteractable getInteractable() {
+        return interactable;
+    }
+
+    public Object2ObjectOpenHashMap<Class<? extends Entity>, ObjectList<EntityFluidRecipe<Entity, Entity>>> getRegistry() {
         return registry;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Entity> void unRegister(Predicate<EntityFluidRecipe<T>> remove) {
+    public void unRegister(Predicate<? super EntityFluidRecipe<?, ?>> remove) {
         registry.values().forEach(list -> {
-            if (list.removeIf((Predicate<? super EntityFluidRecipe<Entity>>) remove)) {
+            if (list.removeIf(remove)) {
                 sortNeeded = true;
             }
         });
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Entity> void unRegister(EntityFluidRecipe<T> recipe) {
+    public void unRegister(EntityFluidRecipe<?, ?> recipe) {
         var list = registry.computeIfAbsent(recipe.getInput(), k -> new ObjectArrayList<>());
-        if (list.remove((EntityFluidRecipe<Entity>) recipe)) sortNeeded = true;
+        if (list.remove(recipe)) sortNeeded = true;
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Entity> void register(EntityFluidRecipe<T> recipe) {
+    public void register(EntityFluidRecipe<?, ?> recipe) {
         var list = registry.computeIfAbsent(recipe.getInput(), k -> new ObjectArrayList<>());
-        if (list.add((EntityFluidRecipe<Entity>) recipe)) sortNeeded = true;
+        if (list.add((EntityFluidRecipe<Entity, Entity>) recipe)) sortNeeded = true;
     }
 
-    public <T extends Entity> Iterator<EntityFluidRecipe<Entity>> getFluidRecipe(final T entity) {
+    public <E extends Entity> Iterator<EntityFluidRecipe<Entity, Entity>> getFluidRecipe(final E entity) {
         if (sortNeeded) {
-            for (ObjectList<EntityFluidRecipe<Entity>> value : registry.values()) Collections.sort(value);
+            for (var value : registry.values()) Collections.sort(value);
             sortNeeded = false;
         }
         var list = registry.get(entity.getClass());
@@ -52,5 +64,4 @@ public class FluidEntityCollisionHandler {
                 .filter(rec -> rec.getEntityMather().test(entity))
                 .iterator();
     }
-
 }

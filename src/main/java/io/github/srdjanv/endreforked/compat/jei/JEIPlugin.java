@@ -1,12 +1,14 @@
 package io.github.srdjanv.endreforked.compat.jei;
 
-import io.github.srdjanv.endreforked.compat.jei.entropychamber.EntropyChamberCategory;
 import net.minecraft.item.ItemStack;
 
 import io.github.srdjanv.endreforked.common.ModBlocks;
 import io.github.srdjanv.endreforked.common.ModItems;
 import io.github.srdjanv.endreforked.compat.jei.endforge.EndForgeCategory;
+import io.github.srdjanv.endreforked.compat.jei.entropychamber.EntropyChamberCategory;
 import io.github.srdjanv.endreforked.compat.jei.entropywand.EntropyWandCategory;
+import io.github.srdjanv.endreforked.compat.jei.fluids.FluidInteractionEntityCategory;
+import io.github.srdjanv.endreforked.compat.jei.fluids.FluidInteractionStateCategory;
 import io.github.srdjanv.endreforked.compat.jei.materializer.MaterializerCategory;
 import mezz.jei.api.*;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
@@ -22,7 +24,8 @@ public class JEIPlugin implements IModPlugin {
         registry.addRecipeCategories(new EndForgeCategory(gui));
         registry.addRecipeCategories(new MaterializerCategory(gui));
         registry.addRecipeCategories(new EntropyWandCategory(gui));
-        registry.addRecipeCategories(new EntropyChamberCategory(gui));
+        registry.addRecipeCategories(new FluidInteractionEntityCategory(gui));
+        registry.addRecipeCategories(new FluidInteractionStateCategory(gui));
     }
 
     @Override
@@ -38,5 +41,8 @@ public class JEIPlugin implements IModPlugin {
 
         registry.addRecipes(EntropyChamberCategory.getRecipes(), EntropyChamberCategory.UID);
         registry.addRecipeCatalyst(new ItemStack(ModBlocks.ENTROPY_CHAMBER.get()), EntropyChamberCategory.UID);
+
+        registry.addRecipes(FluidInteractionEntityCategory.getRecipes(), FluidInteractionEntityCategory.UID);
+        registry.addRecipes(FluidInteractionStateCategory.getRecipes(), FluidInteractionStateCategory.UID);
     }
 }

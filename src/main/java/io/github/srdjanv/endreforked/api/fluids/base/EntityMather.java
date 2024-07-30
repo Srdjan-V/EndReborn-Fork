@@ -1,26 +1,40 @@
 package io.github.srdjanv.endreforked.api.fluids.base;
 
-import io.github.srdjanv.endreforked.api.util.EntityMatchStrategy;
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
-
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
+
+import org.jetbrains.annotations.Nullable;
+
+import io.github.srdjanv.endreforked.api.util.EntityMatchStrategy;
+
 public class EntityMather<E extends Entity> implements Predicate<E> {
-    //todo cache this?
-    protected final Function<World, E> entityBuilder;
+
+    protected final EntityBuilder<E> entityBuilder;
     protected final EntityMatchStrategy<E> matchStrategy;
     protected final String translation;
 
-    public EntityMather(Function<World, E> entityBuilder, EntityMatchStrategy<E> matchStrategy, String translation) {
+    public EntityMather(EntityBuilder<E> entityBuilder, EntityMatchStrategy<E> matchStrategy, String translation) {
         this.entityBuilder = entityBuilder;
         this.matchStrategy = matchStrategy;
         this.translation = translation;
     }
 
-    @Override public boolean test(E e) {
+    public EntityBuilder<E> getEntityBuilder() {
+        return entityBuilder;
+    }
+
+    public interface EntityBuilder<E extends Entity> extends Function<World, E> {
+
+        @Override
+        E apply(@Nullable World world);
+    }
+
+    @Override
+    public boolean test(E e) {
         return matchStrategy.match(entityBuilder.apply(e.getEntityWorld()), e);
     }
 
@@ -29,13 +43,14 @@ public class EntityMather<E extends Entity> implements Predicate<E> {
     }
 
     public static final class EntityMatherBuilder<E extends Entity> {
-        private Function<World, E> entityBuilder;
+
+        private EntityBuilder<E> entityBuilder;
         private EntityMatchStrategy<E> matchStrategy;
         private String translation;
 
         private EntityMatherBuilder() {}
 
-        public EntityMatherBuilder<E> withEntityBuilder(Function<World, E> entityBuilder) {
+        public EntityMatherBuilder<E> withEntityBuilder(EntityBuilder<E> entityBuilder) {
             this.entityBuilder = entityBuilder;
             return this;
         }
@@ -50,10 +65,11 @@ public class EntityMather<E extends Entity> implements Predicate<E> {
             return this;
         }
 
-        public EntityMather<E> build() {return new EntityMather<>(
-                Objects.requireNonNull(entityBuilder),
-                Objects.requireNonNull(matchStrategy),
-                translation);
+        public EntityMather<E> build() {
+            return new EntityMather<>(
+                    Objects.requireNonNull(entityBuilder),
+                    Objects.requireNonNull(matchStrategy),
+                    translation);
         }
     }
 }
